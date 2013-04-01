@@ -1,12 +1,16 @@
 package com.omnipaste.droidomni.core.communication.impl.pubnub;
 
+import java.util.Hashtable;
+
 import com.omnipaste.droidomni.core.communication.CloudClipboard;
 import com.omnipaste.droidomni.core.communication.CloudMessageListener;
 import com.omnipaste.droidomni.services.ConfigurationService;
 import com.omnipaste.droidomni.services.PropertiesConfigurationService;
+import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubException;
 
-public class PubNubService implements CloudClipboard {
+public class PubNubService extends Callback implements CloudClipboard {
 
 	private String _channel;
 	private CloudMessageListener _cloudMessageListener;
@@ -18,12 +22,24 @@ public class PubNubService implements CloudClipboard {
 		_pubNubMessageBuilder = new PubNubMessageBuilder();
 
 		InitConnection();
+		Subscribe();
 	}
 
 	public void InitConnection() {
 		ConfigurationService config = new PropertiesConfigurationService();
 		_pubNub = new Pubnub(config.read("publishkey"),
 				config.read("subscribekey"), config.read("securitykey"));
+	}
+	
+	public void Subscribe(){
+		Hashtable<String, String> table = new Hashtable<String,String>();
+		table.put("channel", _channel);
+		
+		try {
+			_pubNub.subscribe(table, this);
+		} catch (PubnubException e) {
+			// TODO Log exception
+		}
 	}
 
 	@Override
@@ -42,6 +58,11 @@ public class PubNubService implements CloudClipboard {
 	@Override
 	public CloudMessageListener getMessageListener() {
 		return _cloudMessageListener;
+	}
+	
+	@Override
+	public void successCallback(String channel, Object message) {
+		onReceived(message.toString());
 	}
 
 	public void onReceived(String message) {
