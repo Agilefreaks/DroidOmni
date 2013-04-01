@@ -5,6 +5,7 @@
 *.war
 *.ear
 bin/*
+!libs/*
 
 # Ignore all Eclipse files
 .settings
@@ -17,3 +18,4 @@ build.xml
 # Ignore all RubyMine files
 .idea/
 *.iml
+out/

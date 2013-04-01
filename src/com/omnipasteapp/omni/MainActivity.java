@@ -1,8 +1,6 @@
-package com.omnipaste.droidomni;
+package com.omnipasteapp.omni;
 
-import com.droidomni.R;
-import com.omnipaste.droidomni.core.ClipboardService;
-
+import com.omnipasteapp.omni.core.ClipboardService;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.core.communication.impl.pubnub;
+package com.omnipasteapp.omni.core.communication.impl.pubnub;
 
 import java.util.Hashtable;
 

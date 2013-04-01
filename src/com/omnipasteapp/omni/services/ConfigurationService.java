@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipasteapp.omni.services;
 
 public interface ConfigurationService {
 

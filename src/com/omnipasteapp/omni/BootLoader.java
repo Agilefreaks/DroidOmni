@@ -1,6 +1,6 @@
-package com.omnipaste.droidomni;
+package com.omnipasteapp.omni;
 
-import com.omnipaste.droidomni.core.ClipboardService;
+import com.omnipasteapp.omni.core.ClipboardService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

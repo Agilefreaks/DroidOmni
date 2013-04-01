@@ -1,10 +1,9 @@
-package com.omnipaste.droidomni.core;
-
-import com.droidomni.R;
+package com.omnipasteapp.omni.core;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import com.omnipasteapp.omni.R;
 
 public class ClipboardService extends Service {
 

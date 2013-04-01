@@ -1,11 +1,11 @@
-package com.omnipaste.droidomni.core.communication.impl.pubnub;
+package com.omnipasteapp.omni.core.communication.impl.pubnub;
 
 import java.util.Hashtable;
 
-import com.omnipaste.droidomni.core.communication.CloudClipboard;
-import com.omnipaste.droidomni.core.communication.CloudMessageListener;
-import com.omnipaste.droidomni.services.ConfigurationService;
-import com.omnipaste.droidomni.services.PropertiesConfigurationService;
+import com.omnipasteapp.omni.core.communication.CloudClipboard;
+import com.omnipasteapp.omni.core.communication.CloudMessageListener;
+import com.omnipasteapp.omni.services.ConfigurationService;
+import com.omnipasteapp.omni.services.PropertiesConfigurationService;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubException;

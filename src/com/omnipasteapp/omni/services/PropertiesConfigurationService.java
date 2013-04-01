@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipasteapp.omni.services;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

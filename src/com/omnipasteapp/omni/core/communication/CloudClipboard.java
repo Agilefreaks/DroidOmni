@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.core.communication;
+package com.omnipasteapp.omni.core.communication;
 
 public interface CloudClipboard {
 	
