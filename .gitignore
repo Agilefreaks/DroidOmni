@@ -5,3 +5,15 @@
 *.war
 *.ear
 bin/*
+
+# Ignore all Eclipse files
+.settings
+.classpath
+.classpath
+ic_launcher-web.png
+lint.xml
+build.xml
+
+# Ignore all RubyMine files
+.idea/
+*.iml
