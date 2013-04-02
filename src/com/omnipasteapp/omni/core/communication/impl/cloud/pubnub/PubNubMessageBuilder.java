@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni.core.communication.impl.pubnub;
+package com.omnipasteapp.omni.core.communication.impl.cloud.pubnub;
 
 import java.util.Hashtable;
 

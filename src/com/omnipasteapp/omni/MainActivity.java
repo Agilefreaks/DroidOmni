@@ -1,24 +1,39 @@
 package com.omnipasteapp.omni;
 
-import com.omnipasteapp.omni.core.ClipboardService;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.TextView;
+import com.omnipasteapp.omni.core.ClipboardService;
 
 public class MainActivity extends Activity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		startService(new Intent(this, ClipboardService.class));
-	}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+        // get email from intent
+        Intent intent = getIntent();
+        String email = intent.getStringExtra(ClipboardService.CHANNEL_NAME);
+
+        setContentView(R.layout.activity_main);
+
+        TextView textView = (TextView) findViewById(R.id.status_text_view);
+        textView.setText(String.format("Welcome %s", email));
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            Intent intent = new Intent(this, ClipboardServiceCommandReceiver.class);
+            intent.setAction(ClipboardService.STOP);
+
+            sendBroadcast(intent);
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

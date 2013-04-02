@@ -1,0 +1,23 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
+
+    <TextView
+            style="@style/CallToAction"
+            android:text="@string/login_call_to_action"/>
+
+    <EditText
+            style="@style/LoginEmail"
+            android:id="@+id/login_email"
+            android:hint="@string/login_email"/>
+
+    <Button
+            style="@style/LoginButton"
+            android:text="@string/login_button"
+            android:id="@+id/button"
+            android:onClick="loginClicked" />
+</LinearLayout>
