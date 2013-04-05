@@ -2,7 +2,6 @@ package com.omnipasteapp.omni.core.communication.impl.local;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.os.Parcel;
 import com.omnipasteapp.omni.core.communication.Clipboard;
 import com.omnipasteapp.omni.core.communication.ClipboardListener;
 
@@ -18,9 +17,7 @@ public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryCli
 
     @Override
     public void put(String str) {
-        Parcel parcel = Parcel.obtain();
-        parcel.writeString(str);
-        ClipData clipData = ClipData.CREATOR.createFromParcel(parcel);
+        ClipData clipData = ClipData.newPlainText("", str);
 
         _clipboardManager.setPrimaryClip(clipData);
     }
@@ -42,7 +39,7 @@ public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryCli
 
     private void onReceived(){
         if(_clipboardListener != null){
-            _clipboardListener.handle(this, _clipboardManager.getPrimaryClip().toString());
+            _clipboardListener.handle(this, _clipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
         }
     }
 }
