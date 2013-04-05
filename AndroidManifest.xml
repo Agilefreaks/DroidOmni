@@ -27,7 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity android:name=".ConnectedActivity"/>
+
         <service android:name="com.omnipasteapp.omni.core.ClipboardService">
         </service>
 

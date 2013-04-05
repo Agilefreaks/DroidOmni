@@ -27,6 +27,8 @@ public class MainActivity extends Activity {
         String message = editText.getText().toString();
 
         startClipboardService(message);
+
+        startActivity(new Intent(this, ConnectedActivity.class));
     }
 
     public void startClipboardService(String channelName){
