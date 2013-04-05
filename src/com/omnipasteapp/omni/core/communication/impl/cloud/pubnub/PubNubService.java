@@ -16,6 +16,7 @@ public class PubNubService extends Callback implements Clipboard {
 	private ClipboardListener _cloudMessageListener;
 	private PubNubMessageBuilder _pubNubMessageBuilder;
 	private Pubnub _pubNub;
+    private String _previouslySentMessage;
 
 	public PubNubService(String channel) {
 		_channel = channel;
@@ -44,6 +45,7 @@ public class PubNubService extends Callback implements Clipboard {
 
 	@Override
 	public void put(String str) {
+        _previouslySentMessage = str;
 		_pubNub.publish(_pubNubMessageBuilder
 				.setChannel(_channel)
 				.addValue(str)
@@ -66,7 +68,7 @@ public class PubNubService extends Callback implements Clipboard {
 	}
 
 	public void onReceived(String message) {
-		if (_cloudMessageListener != null) {
+        if (_cloudMessageListener != null && _previouslySentMessage != message) {
 			_cloudMessageListener.handle(this, message);
 		}
 	}
