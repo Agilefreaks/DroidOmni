@@ -49,7 +49,7 @@ public class PubNubService extends Callback implements RemoteClipboard {
 		_pubNub.publish(_pubNubMessageBuilder
 				.setChannel(_channel)
 				.addValue(str)
-				.build());
+				.build(), new MessageSentCallback());
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class PubNubService extends Callback implements RemoteClipboard {
 	}
 
 	public void onReceived(String message) {
-        if (_cloudMessageListener != null && _previouslySentMessage != message) {
+        if (_cloudMessageListener != null && _previouslySentMessage != null && !_previouslySentMessage.equals(message)) {
 			_cloudMessageListener.handle(this, message);
 		}
 	}
