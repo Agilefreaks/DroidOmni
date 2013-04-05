@@ -36,9 +36,4 @@ public class MainActivity extends Activity {
         intent.putExtra(ClipboardService.CHANNEL_NAME, channelName);
         startService(intent);
     }
-
-    public void stopClipboardService(){
-        Intent intent = new Intent(this, ClipboardService.class);
-        stopService(intent);
-    }
 }
