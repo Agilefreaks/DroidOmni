@@ -2,21 +2,24 @@ package com.omnipasteapp.omni.core.communication;
 
 public class DefaultClipboardMediator implements ClipboardMediator, ClipboardListener {
 
-    private Clipboard _cloudClipboard;
+    private Clipboard _remoteClipboard;
     private Clipboard _localClipboard;
 
     @Override
-    public void setCloudClipboard(Clipboard cloudClipboard) {
-        if(_cloudClipboard != null){
-            _cloudClipboard.setClipboardListener(null);
+    public void setRemoteClipboard(Clipboard remoteClipboard) {
+        if(_remoteClipboard != null){
+            _remoteClipboard.setClipboardListener(null);
         }
-        _cloudClipboard = cloudClipboard;
-        _cloudClipboard.setClipboardListener(this);
+        _remoteClipboard = remoteClipboard;
+
+        if(_remoteClipboard != null){
+            _remoteClipboard.setClipboardListener(this);
+        }
     }
 
     @Override
-    public Clipboard getCloudClipboard() {
-        return _cloudClipboard;
+    public Clipboard getRemoteClipboard() {
+        return _remoteClipboard;
     }
 
     @Override
@@ -26,7 +29,10 @@ public class DefaultClipboardMediator implements ClipboardMediator, ClipboardLis
         }
 
         _localClipboard = localClipboard;
-        _localClipboard.setClipboardListener(this);
+
+        if(_localClipboard != null){
+            _localClipboard.setClipboardListener(this);
+        }
     }
 
     @Override
@@ -36,10 +42,10 @@ public class DefaultClipboardMediator implements ClipboardMediator, ClipboardLis
 
     @Override
     public void handle(Clipboard sender, String message) {
-        if(sender == _localClipboard && _cloudClipboard != null){
-            _cloudClipboard.put(message);
+        if(sender == _localClipboard && _remoteClipboard != null){
+            _remoteClipboard.put(message);
         }
-        if(sender == _cloudClipboard && _localClipboard != null){
+        if(sender == _remoteClipboard && _localClipboard != null){
             _localClipboard.put(message);
         }
     }

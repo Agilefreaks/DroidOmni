@@ -2,9 +2,9 @@ package com.omnipasteapp.omni.core.communication;
 
 public interface ClipboardMediator {
 
-    void setCloudClipboard(Clipboard cloudClipboard);
+    void setRemoteClipboard(Clipboard remoteClipboard);
 
-    Clipboard getCloudClipboard();
+    Clipboard getRemoteClipboard();
 
     void setLocalClipboard(Clipboard localClipboard);
 

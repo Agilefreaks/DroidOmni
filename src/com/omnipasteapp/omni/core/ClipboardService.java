@@ -9,44 +9,60 @@ import com.omnipasteapp.omni.R;
 import com.omnipasteapp.omni.core.communication.Clipboard;
 import com.omnipasteapp.omni.core.communication.ClipboardMediator;
 import com.omnipasteapp.omni.core.communication.DefaultClipboardMediator;
+import com.omnipasteapp.omni.core.communication.RemoteClipboard;
 import com.omnipasteapp.omni.core.communication.impl.cloud.pubnub.PubNubService;
 import com.omnipasteapp.omni.core.communication.impl.local.SystemClipboard;
 
 public class ClipboardService extends Service {
 
-    private ClipboardMediator _defaultClipboardMediator;
+    public static String CHANNEL_NAME = "CHANNEL";
 
-	@Override
+    private Clipboard _localClipboard;
+    private RemoteClipboard _remoteClipboard;
+    private ClipboardMediator _clipboardMediator;
+
+    @Override
 	public IBinder onBind(Intent arg0) {
 		return null;
 	}
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
 
-        init();
-		keepAlive();
-	}
+        init(intent.getStringExtra(CHANNEL_NAME));
+        keepAlive();
 
-    private void init(){
-        Clipboard cloudClipboard = new PubNubService("channel_name");
-        Clipboard localClipboard = new SystemClipboard((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
-
-        _defaultClipboardMediator = new DefaultClipboardMediator();
-        _defaultClipboardMediator.setCloudClipboard(cloudClipboard);
-        _defaultClipboardMediator.setLocalClipboard(localClipboard);
+        return START_STICKY;
     }
 
-	void keepAlive() {
-		Notification notification = new Notification.Builder(this)
-				.setSmallIcon(R.drawable.arrow)
-				.setContentTitle(getText(R.string.app_name))
-				.setContentText(getText(R.string.notification_message))
-				.setWhen(System.currentTimeMillis())
-				.setOngoing(true)
-				.build();
+    private void init(String channelName){
+        _remoteClipboard = new PubNubService(channelName);
+        _localClipboard = new SystemClipboard((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
 
-		startForeground(R.id.action_settings, notification);
-	}
+        _clipboardMediator = new DefaultClipboardMediator();
+        _clipboardMediator.setLocalClipboard(_localClipboard);
+        _clipboardMediator.setRemoteClipboard(_remoteClipboard);
+    }
+
+    private void keepAlive() {
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.arrow)
+                .setContentTitle(getText(R.string.app_name))
+                .setContentText(getText(R.string.notification_message))
+                .setWhen(System.currentTimeMillis())
+                .setOngoing(true)
+                .build();
+
+        startForeground(R.id.action_settings, notification);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        _clipboardMediator.setLocalClipboard(null);
+        _clipboardMediator.setRemoteClipboard(null);
+        _remoteClipboard.disconnect();
+    }
 }

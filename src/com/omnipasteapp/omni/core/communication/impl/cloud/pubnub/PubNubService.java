@@ -1,7 +1,7 @@
 package com.omnipasteapp.omni.core.communication.impl.cloud.pubnub;
 
-import com.omnipasteapp.omni.core.communication.Clipboard;
 import com.omnipasteapp.omni.core.communication.ClipboardListener;
+import com.omnipasteapp.omni.core.communication.RemoteClipboard;
 import com.omnipasteapp.omni.services.ConfigurationService;
 import com.omnipasteapp.omni.services.PropertiesConfigurationService;
 import com.pubnub.api.Callback;
@@ -10,7 +10,7 @@ import com.pubnub.api.PubnubException;
 
 import java.util.Hashtable;
 
-public class PubNubService extends Callback implements Clipboard {
+public class PubNubService extends Callback implements RemoteClipboard {
 
 	private String _channel;
 	private ClipboardListener _cloudMessageListener;
@@ -61,6 +61,11 @@ public class PubNubService extends Callback implements Clipboard {
 	public ClipboardListener getClipboardListener() {
 		return _cloudMessageListener;
 	}
+
+    @Override
+    public void disconnect() {
+        _pubNub.unsubscribeAll();
+    }
 	
 	@Override
 	public void successCallback(String channel, Object message) {
@@ -72,5 +77,4 @@ public class PubNubService extends Callback implements Clipboard {
 			_cloudMessageListener.handle(this, message);
 		}
 	}
-
 }
