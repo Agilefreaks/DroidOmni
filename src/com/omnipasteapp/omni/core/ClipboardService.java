@@ -15,7 +15,10 @@ import com.omnipasteapp.omni.core.communication.impl.local.SystemClipboard;
 
 public class ClipboardService extends Service {
 
-    public static String CHANNEL_NAME = "CHANNEL";
+    public static final String CHANNEL_NAME = "CHANNEL";
+
+    public static final String START = "START";
+    public static final String STOP = "STOP";
 
     private Clipboard _localClipboard;
     private RemoteClipboard _remoteClipboard;

@@ -26,14 +26,12 @@ public class MainActivity extends Activity {
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
 
-        startClipboardService(message);
+        Intent intent = new Intent(this, CliboardServiceCommandReceiver.class);
+        intent.putExtra(ClipboardService.CHANNEL_NAME, message);
+        intent.setAction(ClipboardService.START);
+
+        sendBroadcast(intent);
 
         startActivity(new Intent(this, ConnectedActivity.class));
-    }
-
-    public void startClipboardService(String channelName){
-        Intent intent = new Intent(this, ClipboardService.class);
-        intent.putExtra(ClipboardService.CHANNEL_NAME, channelName);
-        startService(intent);
     }
 }

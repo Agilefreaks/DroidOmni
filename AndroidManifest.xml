@@ -32,6 +32,7 @@
         <service android:name="com.omnipasteapp.omni.core.ClipboardService">
         </service>
 
+        <receiver android:name=".CliboardServiceCommandReceiver"/>
     </application>
 
 </manifest>

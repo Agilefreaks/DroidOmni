@@ -17,15 +17,13 @@ public class ConnectedActivity extends Activity {
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
-            stopClipboardService();
+            Intent intent = new Intent(this, CliboardServiceCommandReceiver.class);
+            intent.setAction(ClipboardService.STOP);
+
+            sendBroadcast(intent);
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
-
-    public void stopClipboardService(){
-        Intent intent = new Intent(this, ClipboardService.class);
-        stopService(intent);
-    }
 }
