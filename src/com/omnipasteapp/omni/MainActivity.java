@@ -3,35 +3,37 @@ package com.omnipasteapp.omni;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
+import android.view.KeyEvent;
+import android.widget.TextView;
 import com.omnipasteapp.omni.core.ClipboardService;
 
 public class MainActivity extends Activity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-	}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+        // get email from intent
+        Intent intent = getIntent();
+        String email = intent.getStringExtra(ClipboardService.CHANNEL_NAME);
 
-    public void startService(View view){
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String message = editText.getText().toString();
+        setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, CliboardServiceCommandReceiver.class);
-        intent.putExtra(ClipboardService.CHANNEL_NAME, message);
-        intent.setAction(ClipboardService.START);
-
-        sendBroadcast(intent);
-
-        startActivity(new Intent(this, ConnectedActivity.class));
+        TextView textView = (TextView) findViewById(R.id.status_text_view);
+        textView.setText(String.format("Welcome %s", email));
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            Intent intent = new Intent(this, ClipboardServiceCommandReceiver.class);
+            intent.setAction(ClipboardService.STOP);
+
+            sendBroadcast(intent);
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
