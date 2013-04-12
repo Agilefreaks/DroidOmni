@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
             stopClipboardService();
+            logOut();
             startLoginActivity();
         }
 
@@ -43,6 +44,14 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, ClipboardServiceCommandReceiver.class);
         intent.setAction(ClipboardService.STOP);
         sendBroadcast(intent);
+    }
+
+    private void logOut(){
+        SharedPreferences.Editor editor = _clipboardServicePreferences.edit();
+
+        editor.remove(ClipboardService.CHANNEL_NAME);
+
+        editor.commit();
     }
 
     private void startLoginActivity(){
