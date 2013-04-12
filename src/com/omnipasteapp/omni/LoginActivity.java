@@ -3,11 +3,14 @@ package com.omnipasteapp.omni;
 import android.accounts.Account;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import com.omnipasteapp.omni.core.ClipboardService;
 
 public class LoginActivity extends Activity implements GoogleLoginDialogFragment.GoogleLoginDialogListener {
+
+    private SharedPreferences _clipboardServicePreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,16 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
 
     @Override
     public void onAccountSelected(Account account) {
+        saveChannel(account.name);
         startService(account.name);
+    }
+
+    private void saveChannel(String channel){
+        SharedPreferences.Editor editor = _clipboardServicePreferences.edit();
+
+        editor.putString(ClipboardService.CHANNEL_NAME, channel);
+
+        editor.commit();
     }
 
     private void startService(String channel){

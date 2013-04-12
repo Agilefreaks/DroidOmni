@@ -15,6 +15,7 @@ import com.omnipasteapp.omni.core.communication.impl.local.SystemClipboard;
 
 public class ClipboardService extends Service {
 
+    public static final String TAG = "ClipboardService";
     public static final String CHANNEL_NAME = "CHANNEL";
 
     public static final String START = "START";
