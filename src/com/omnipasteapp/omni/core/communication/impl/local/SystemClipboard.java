@@ -9,6 +9,7 @@ public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryCli
 
     private ClipboardManager _clipboardManager;
     private ClipboardListener _clipboardListener;
+    private String _previouslySentMessage;
 
     public SystemClipboard(ClipboardManager clipboardManager){
         _clipboardManager = clipboardManager;
@@ -17,8 +18,8 @@ public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryCli
 
     @Override
     public void put(String str) {
+        _previouslySentMessage = str;
         ClipData clipData = ClipData.newPlainText("", str);
-
         _clipboardManager.setPrimaryClip(clipData);
     }
 
@@ -38,8 +39,10 @@ public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryCli
     }
 
     private void onReceived(){
-        if(_clipboardListener != null){
-            _clipboardListener.handle(this, _clipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
+        String message = _clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
+        if(_clipboardListener != null && !message.equals(_previouslySentMessage)){
+            _clipboardListener.handle(this, message);
+            _previouslySentMessage = message;
         }
     }
 }

@@ -2,8 +2,6 @@ package com.omnipasteapp.omni.core.communication.impl.cloud.pubnub;
 
 import com.omnipasteapp.omni.core.communication.ClipboardListener;
 import com.omnipasteapp.omni.core.communication.RemoteClipboard;
-import com.omnipasteapp.omni.services.ConfigurationService;
-import com.omnipasteapp.omni.services.PropertiesConfigurationService;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubException;
@@ -11,6 +9,10 @@ import com.pubnub.api.PubnubException;
 import java.util.Hashtable;
 
 public class PubNubService extends Callback implements RemoteClipboard {
+
+    public static final String PUBLISH_KEY = "pub-c-f6c56076-b928-407d-8e27-462dbf25e722";
+    public static final String SUBSCRIBE_KEY = "sub-c-9f339926-9855-11e2-ac20-12313f022c90";
+    public static final String SECRET_KEY = "sec-c-Y2FiOTQzYjEtOTE5NC00YTQ0LWI4YzQtYjYzNjhhNTE1ZTYw";
 
 	private String _channel;
 	private ClipboardListener _cloudMessageListener;
@@ -27,9 +29,7 @@ public class PubNubService extends Callback implements RemoteClipboard {
 	}
 
 	public void InitConnection() {
-		ConfigurationService config = new  PropertiesConfigurationService();
-		_pubNub = new Pubnub(config.read("publishkey"),
-				config.read("subscribekey"), config.read("securitykey"));
+		_pubNub = new Pubnub(PUBLISH_KEY, SUBSCRIBE_KEY, SECRET_KEY);
 	}
 	
 	public void Subscribe(){
@@ -73,8 +73,9 @@ public class PubNubService extends Callback implements RemoteClipboard {
 	}
 
 	public void onReceived(String message) {
-        if (_cloudMessageListener != null && _previouslySentMessage != null && !_previouslySentMessage.equals(message)) {
+        if (_cloudMessageListener != null && !message.equals(_previouslySentMessage)) {
 			_cloudMessageListener.handle(this, message);
+            _previouslySentMessage = message;
 		}
 	}
 }
