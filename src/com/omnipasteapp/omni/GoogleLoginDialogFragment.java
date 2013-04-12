@@ -45,10 +45,6 @@ public class GoogleLoginDialogFragment extends DialogFragment implements DialogI
                 .create();
     }
 
-    public void setListener(LoginActivity listener) {
-        _listener = listener;
-    }
-
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         if(_listener != null){

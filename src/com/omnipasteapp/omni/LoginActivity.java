@@ -29,7 +29,6 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
     @SuppressWarnings("UnusedParameters")
     public void loginClicked(View view) {
         GoogleLoginDialogFragment dialog = new GoogleLoginDialogFragment();
-        dialog.setListener(this);
         dialog.show(getFragmentManager(), GoogleLoginDialogFragment.TAG);
     }
 
