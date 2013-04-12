@@ -34,11 +34,11 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
 
     @Override
     public void onAccountSelected(Account account) {
-        saveChannel(account.name);
+        logIn(account.name);
         startService(account.name);
     }
 
-    private void saveChannel(String channel){
+    private void logIn(String channel){
         SharedPreferences.Editor editor = _clipboardServicePreferences.edit();
 
         editor.putString(ClipboardService.CHANNEL_NAME, channel);
