@@ -20,7 +20,7 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
 
         String channel = _clipboardServicePreferences.getString(ClipboardService.CHANNEL_NAME, null);
         if(channel != null){
-            startService(channel);
+            startClipboardService(channel);
         } else {
             setContentView(R.layout.activity_login);
         }
@@ -35,7 +35,8 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
     @Override
     public void onAccountSelected(Account account) {
         logIn(account.name);
-        startService(account.name);
+        startClipboardService(account.name);
+        startMainActivity(account.name);
     }
 
     private void logIn(String channel){
@@ -46,14 +47,14 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
         editor.commit();
     }
 
-    private void startService(String channel){
-        // start the clipboard service
+    private void startClipboardService(String channel){
         Intent intent = new Intent(this, ClipboardServiceCommandReceiver.class);
         intent.putExtra(ClipboardService.CHANNEL_NAME, channel);
         intent.setAction(ClipboardService.START);
         sendBroadcast(intent);
+    }
 
-        // navigate to main activity
+    private void startMainActivity(String channel){
         Intent activity_intent = new Intent(this, MainActivity.class);
         activity_intent.putExtra(ClipboardService.CHANNEL_NAME, channel);
         startActivity(activity_intent);
