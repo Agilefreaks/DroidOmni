@@ -24,10 +24,10 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
 
     @Override
     public void onAccountSelected(Account account) {
-        onSuccess(account.name);
+        startService(account.name);
     }
 
-    private void onSuccess(String channel){
+    private void startService(String channel){
         // start the clipboard service
         Intent intent = new Intent(this, ClipboardServiceCommandReceiver.class);
         intent.putExtra(ClipboardService.CHANNEL_NAME, channel);
