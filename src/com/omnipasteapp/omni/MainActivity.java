@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
             stopClipboardService();
+            startLoginActivity();
         }
 
         return super.onKeyDown(keyCode, event);
@@ -42,5 +43,10 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, ClipboardServiceCommandReceiver.class);
         intent.setAction(ClipboardService.STOP);
         sendBroadcast(intent);
+    }
+
+    private void startLoginActivity(){
+        Intent activity_intent = new Intent(this, LoginActivity.class);
+        startActivity(activity_intent);
     }
 }
