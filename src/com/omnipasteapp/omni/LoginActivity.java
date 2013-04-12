@@ -15,7 +15,15 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+
+        _clipboardServicePreferences = getSharedPreferences(ClipboardService.TAG, MODE_PRIVATE);
+
+        String channel = _clipboardServicePreferences.getString(ClipboardService.CHANNEL_NAME, null);
+        if(channel != null){
+            startService(channel);
+        } else {
+            setContentView(R.layout.activity_login);
+        }
     }
 
     @SuppressWarnings("UnusedParameters")
