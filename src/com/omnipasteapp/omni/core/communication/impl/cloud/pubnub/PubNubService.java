@@ -73,8 +73,9 @@ public class PubNubService extends Callback implements RemoteClipboard {
 	}
 
 	public void onReceived(String message) {
-        if (_cloudMessageListener != null && _previouslySentMessage != null && !_previouslySentMessage.equals(message)) {
+        if (_cloudMessageListener != null && !message.equals(_previouslySentMessage)) {
 			_cloudMessageListener.handle(this, message);
+            _previouslySentMessage = message;
 		}
 	}
 }
