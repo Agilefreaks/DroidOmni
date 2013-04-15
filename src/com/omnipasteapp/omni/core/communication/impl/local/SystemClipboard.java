@@ -4,22 +4,25 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import com.omnipasteapp.omni.core.communication.Clipboard;
 import com.omnipasteapp.omni.core.communication.ClipboardListener;
+import com.omnipasteapp.omni.core.communication.impl.local.services.ClipDataService;
 
 public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryClipChangedListener {
 
+    private ClipDataService _clipDataService;
     private ClipboardManager _clipboardManager;
     private ClipboardListener _clipboardListener;
     private String _previouslySentMessage;
 
     public SystemClipboard(ClipboardManager clipboardManager){
         _clipboardManager = clipboardManager;
+        _clipDataService = new ClipDataService();
         clipboardManager.addPrimaryClipChangedListener(this);
     }
 
     @Override
     public void put(String str) {
         _previouslySentMessage = str;
-        ClipData clipData = ClipData.newPlainText("", str);
+        ClipData clipData = _clipDataService.create(str);
         _clipboardManager.setPrimaryClip(clipData);
     }
 
@@ -31,6 +34,10 @@ public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryCli
     @Override
     public ClipboardListener getClipboardListener() {
         return _clipboardListener;
+    }
+
+    public void setClipDataService(ClipDataService clipDataService){
+        _clipDataService = clipDataService;
     }
 
     @Override
