@@ -1,14 +1,17 @@
 package com.omnipasteapp.omni;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import com.omnipasteapp.omni.core.ClipboardService;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements LogoutDialogFragment.LogoutDialogListener {
 
     private SharedPreferences _clipboardServicePreferences;
 
@@ -28,16 +31,24 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
-            stopClipboardService();
-            logOut();
-            startLoginActivity();
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main, menu);
+        return true;
+    }
 
-        return super.onKeyDown(keyCode, event);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.action_logout:
+                DialogFragment dialog = new LogoutDialogFragment();
+                dialog.show(getFragmentManager(), LogoutDialogFragment.TAG);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void stopClipboardService(){
@@ -54,8 +65,16 @@ public class MainActivity extends Activity {
         editor.commit();
     }
 
-    private void startLoginActivity(){
-        Intent activity_intent = new Intent(this, LoginActivity.class);
-        startActivity(activity_intent);
+    @Override
+    public void onOk(boolean logout) {
+        stopClipboardService();
+        if(logout){
+            logOut();
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    @Override
+    public void onCancel() {
     }
 }

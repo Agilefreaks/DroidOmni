@@ -21,6 +21,7 @@ public class LoginActivity extends Activity implements GoogleLoginDialogFragment
         String channel = _clipboardServicePreferences.getString(ClipboardService.CHANNEL_NAME, null);
         if(channel != null){
             startClipboardService(channel);
+            startMainActivity(channel);
         } else {
             setContentView(R.layout.activity_login);
         }
