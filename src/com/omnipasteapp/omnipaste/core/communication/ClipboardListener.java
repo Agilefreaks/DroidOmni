@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni.core.communication;
+package com.omnipasteapp.omnipaste.core.communication;
 
 public interface ClipboardListener {
 

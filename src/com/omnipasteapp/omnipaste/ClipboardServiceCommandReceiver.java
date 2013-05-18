@@ -1,9 +1,9 @@
-package com.omnipasteapp.omni;
+package com.omnipasteapp.omnipaste;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import com.omnipasteapp.omni.core.ClipboardService;
+import com.omnipasteapp.omnipaste.core.ClipboardService;
 
 public class ClipboardServiceCommandReceiver extends BroadcastReceiver {
 

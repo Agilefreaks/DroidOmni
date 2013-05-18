@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni;
+package com.omnipasteapp.omnipaste;
 
 import android.accounts.Account;
 import android.app.Activity;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import com.omnipasteapp.omni.core.ClipboardService;
+import com.omnipasteapp.omnipaste.core.ClipboardService;
 
 public class LoginActivity extends Activity implements GoogleLoginDialogFragment.GoogleLoginDialogListener {
 

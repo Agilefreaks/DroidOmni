@@ -1,9 +1,9 @@
-package com.omnipasteapp.omni.core.communication.impl.local;
+package com.omnipasteapp.omnipaste.core.communication.impl.local;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import com.omnipasteapp.omni.core.communication.Clipboard;
-import com.omnipasteapp.omni.core.communication.ClipboardListener;
+import com.omnipasteapp.omnipaste.core.communication.Clipboard;
+import com.omnipasteapp.omnipaste.core.communication.ClipboardListener;
 
 public class SystemClipboard implements Clipboard, ClipboardManager.OnPrimaryClipChangedListener {
 

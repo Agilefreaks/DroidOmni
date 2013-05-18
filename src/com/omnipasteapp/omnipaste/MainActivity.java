@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni;
+package com.omnipasteapp.omnipaste;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
-import com.omnipasteapp.omni.core.ClipboardService;
+import com.omnipasteapp.omnipaste.core.ClipboardService;
 
 public class MainActivity extends Activity implements LogoutDialogFragment.LogoutDialogListener {
 

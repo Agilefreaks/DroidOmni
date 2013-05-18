@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Omni</string>
+    <string name="app_name">Omnipaste</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="notification_message">Syncing clipboard</string>
     <string name="login_button">Login</string>
     <string name="login_call_to_action">Hi, Welcome to Omni your <i>Clipboard</i> Manager in the <i>Cloud</i></string>

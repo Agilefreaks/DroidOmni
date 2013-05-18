@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni;
+package com.omnipasteapp.omnipaste;
 
 import android.app.Activity;
 import android.app.AlertDialog;

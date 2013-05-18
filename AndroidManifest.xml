@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.omnipasteapp.omni"
+          package="com.omnipasteapp.omnipaste"
           android:versionCode="1"
           android:versionName="1.0">
 
@@ -38,7 +38,7 @@
                     />
         </activity>
 
-        <service android:name="com.omnipasteapp.omni.core.ClipboardService">
+        <service android:name="com.omnipasteapp.omnipaste.core.ClipboardService">
         </service>
 
         <receiver android:name=".ClipboardServiceCommandReceiver"/>

@@ -1,17 +1,17 @@
-package com.omnipasteapp.omni.core;
+package com.omnipasteapp.omnipaste.core;
 
 import android.app.Notification;
 import android.app.Service;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.IBinder;
-import com.omnipasteapp.omni.R;
-import com.omnipasteapp.omni.core.communication.Clipboard;
-import com.omnipasteapp.omni.core.communication.ClipboardMediator;
-import com.omnipasteapp.omni.core.communication.DefaultClipboardMediator;
-import com.omnipasteapp.omni.core.communication.RemoteClipboard;
-import com.omnipasteapp.omni.core.communication.impl.cloud.pubnub.PubNubService;
-import com.omnipasteapp.omni.core.communication.impl.local.SystemClipboard;
+import com.omnipasteapp.omnipaste.R;
+import com.omnipasteapp.omnipaste.core.communication.Clipboard;
+import com.omnipasteapp.omnipaste.core.communication.ClipboardMediator;
+import com.omnipasteapp.omnipaste.core.communication.DefaultClipboardMediator;
+import com.omnipasteapp.omnipaste.core.communication.RemoteClipboard;
+import com.omnipasteapp.omnipaste.core.communication.impl.cloud.pubnub.PubNubService;
+import com.omnipasteapp.omnipaste.core.communication.impl.local.SystemClipboard;
 
 public class ClipboardService extends Service {
 

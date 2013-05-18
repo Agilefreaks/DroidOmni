@@ -1,7 +1,7 @@
-package com.omnipasteapp.omni.core.communication.impl.cloud.pubnub;
+package com.omnipasteapp.omnipaste.core.communication.impl.cloud.pubnub;
 
-import com.omnipasteapp.omni.core.communication.ClipboardListener;
-import com.omnipasteapp.omni.core.communication.RemoteClipboard;
+import com.omnipasteapp.omnipaste.core.communication.ClipboardListener;
+import com.omnipasteapp.omnipaste.core.communication.RemoteClipboard;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubException;

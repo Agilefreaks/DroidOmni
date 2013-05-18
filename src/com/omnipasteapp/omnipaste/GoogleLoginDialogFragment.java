@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni;
+package com.omnipasteapp.omnipaste;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

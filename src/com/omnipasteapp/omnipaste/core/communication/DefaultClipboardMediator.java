@@ -1,4 +1,4 @@
-package com.omnipasteapp.omni.core.communication;
+package com.omnipasteapp.omnipaste.core.communication;
 
 public class DefaultClipboardMediator implements ClipboardMediator, ClipboardListener {
 
