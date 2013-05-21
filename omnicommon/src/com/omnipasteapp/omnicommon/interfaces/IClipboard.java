@@ -1,7 +1,12 @@
 package com.omnipasteapp.omnicommon.interfaces;
 
 public interface IClipboard {
-  Boolean Initialize();
+  public void addDataReceiver(ICanReceiveData dataReceiver);
 
-  void sendData(String data);
+  public void removeDataReceive(ICanReceiveData dataReceiver);
+
+  public Thread initialize();
+
+  public void putData(String data);
+
 }

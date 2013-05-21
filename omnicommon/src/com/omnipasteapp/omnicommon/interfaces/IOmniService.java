@@ -1,11 +1,11 @@
 package com.omnipasteapp.omnicommon.interfaces;
 
 public interface IOmniService {
-  ILocalClipboard getLocalClipboard();
+  public ILocalClipboard getLocalClipboard();
 
-  IOmniClipboard getOmniClipboard();
+  public IOmniClipboard getOmniClipboard();
 
-  void start();
+  public void start() throws InterruptedException;
 
-  void stop();
+  public void stop();
 }
