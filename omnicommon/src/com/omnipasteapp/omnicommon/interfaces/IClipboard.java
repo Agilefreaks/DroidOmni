@@ -1,7 +1,7 @@
 package com.omnipasteapp.omnicommon.interfaces;
 
 public interface IClipboard {
-    Boolean Initialize();
+  Boolean Initialize();
 
-    void sendData(String data);
+  void sendData(String data);
 }

@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest {
-    @Test
-    public void shouldPass() {
-        assertThat(true, is(true));
-    }
+  @Test
+  public void shouldPass() {
+    assertThat(true, is(true));
+  }
 }

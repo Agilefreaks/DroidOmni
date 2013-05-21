@@ -5,23 +5,31 @@ import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 
 public class OmniService implements IOmniService {
-    @Override
-    public ILocalClipboard getLocalClipboard() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+  private ILocalClipboard localClipboard;
+  private IOmniClipboard omniClipboard;
 
-    @Override
-    public IOmniClipboard getOmniClipboard() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+  public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
+    this.localClipboard = localClipboard;
+    this. omniClipboard = omniClipboard;
+  }
 
-    @Override
-    public void start() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+  @Override
+  public ILocalClipboard getLocalClipboard() {
+    return localClipboard;
+  }
 
-    @Override
-    public void stop() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+  @Override
+  public IOmniClipboard getOmniClipboard() {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  @Override
+  public void start() {
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  @Override
+  public void stop() {
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
 }
