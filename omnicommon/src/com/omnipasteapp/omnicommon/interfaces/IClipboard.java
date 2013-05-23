@@ -7,6 +7,7 @@ public interface IClipboard {
 
   public Thread initialize();
 
-  public void putData(String data);
+  public void dispose();
 
+  public void putData(String data);
 }

@@ -2,5 +2,8 @@
 <resources>
     <string-array name="roboguice_modules">
         <item>com.omnipasteapp.omnipaste.MainModule</item>
+        <item>com.omnipasteapp.omnicommon.OmnicommonModule</item>
+        <item>com.omnipasteapp.pubnubclipboard.PubNubClipboardModule</item>
+        <item>com.omnipasteapp.androidclipboard.AndroidClipboardModule</item>
     </string-array>
 </resources>

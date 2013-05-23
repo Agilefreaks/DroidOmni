@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
@@ -70,4 +69,10 @@ public class OmniServiceTest {
     verify(omniClipboard).removeDataReceive(subject);
   }
 
+  @Test
+  public void stopCallsDisposeOnClipboards() {
+    subject.stop();
+    verify(localClipboard).dispose();
+    verify(omniClipboard).dispose();
+  }
 }
