@@ -1,6 +1,7 @@
 package com.omnipasteapp.omnipaste;
 
 import android.os.Bundle;
+import android.util.Log;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import roboguice.activity.RoboActivity;
@@ -9,7 +10,7 @@ import roboguice.inject.ContentView;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends RoboActivity {
   @Inject
-  IOmniService omniService;
+  private IOmniService omniService;
 
   /**
    * Called when the activity is first created.
@@ -21,15 +22,11 @@ public class MainActivity extends RoboActivity {
     try {
       getOmniService().start();
     } catch (InterruptedException e) {
-      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+      e.printStackTrace();
     }
   }
 
   public IOmniService getOmniService() {
     return omniService;
-  }
-
-  public void setOmniService(IOmniService omniService) {
-    this.omniService = omniService;
   }
 }

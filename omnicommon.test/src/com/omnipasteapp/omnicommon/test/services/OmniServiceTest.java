@@ -4,10 +4,10 @@ import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.services.OmniService;
-import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -27,7 +27,7 @@ public class OmniServiceTest {
   }
 
   @Test
-  public void getLoalClipboardWillReturnTheLocalClipboard() {
+  public void getLocalClipboardWillReturnTheLocalClipboard() {
     assertThat(subject.getLocalClipboard(), is(ILocalClipboard.class));
   }
 
