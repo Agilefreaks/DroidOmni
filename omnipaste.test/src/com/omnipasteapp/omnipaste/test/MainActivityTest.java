@@ -4,9 +4,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.MainActivity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
@@ -18,9 +21,9 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest {
-
   private MainActivity subject;
-  private IOmniService omniService = mock(IOmniService.class);
+  @Mock
+  private IOmniService omniService;
 
   public class TestModule extends AbstractModule {
     @Override
@@ -31,11 +34,18 @@ public class MainActivityTest {
 
   @Before
   public void setUp() {
+    MockitoAnnotations.initMocks(this);
+
     RoboGuice
         .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
             .with(new TestModule()));
 
     subject = Robolectric.buildActivity(MainActivity.class).create().get();
+  }
+
+  @After
+  public void tearDown() {
+    RoboGuice.util.reset();
   }
 
   @Test
