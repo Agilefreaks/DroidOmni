@@ -27,7 +27,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
     }
 
     @Override
-    public void removeDataReceive(ICanReceiveData dataReceiver) {
+    public void removeDataReceiver(ICanReceiveData dataReceiver) {
         dataReceivers.remove(dataReceiver);
     }
 
