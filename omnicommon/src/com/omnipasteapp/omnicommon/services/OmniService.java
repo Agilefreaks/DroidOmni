@@ -51,10 +51,10 @@ public class OmniService implements IOmniService, ICanReceiveData {
       localClipboardInitialize.interrupt();
     }
 
-    omniClipboard.removeDataReceive(this);
+    omniClipboard.removeDataReceiver(this);
     omniClipboard.dispose();
 
-    localClipboard.removeDataReceive(this);
+    localClipboard.removeDataReceiver(this);
     localClipboard.dispose();
   }
 

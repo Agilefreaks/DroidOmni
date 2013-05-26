@@ -65,8 +65,8 @@ public class OmniServiceTest {
   @Test
   public void stopShouldRemoveDataReceiver() {
     subject.stop();
-    verify(localClipboard).removeDataReceive(subject);
-    verify(omniClipboard).removeDataReceive(subject);
+    verify(localClipboard).removeDataReceiver(subject);
+    verify(omniClipboard).removeDataReceiver(subject);
   }
 
   @Test

@@ -15,7 +15,7 @@ import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
   }
 
   @Override
-  public void removeDataReceive(ICanReceiveData dataReceiver) {
+  public void removeDataReceiver(ICanReceiveData dataReceiver) {
     //To change body of implemented methods use File | Settings | File Templates.
   }
 
