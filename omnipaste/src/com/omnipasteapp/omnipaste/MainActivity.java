@@ -22,7 +22,7 @@ public class MainActivity extends RoboActivity {
     try {
       getOmniService().start();
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      e.printStackTrace(); // handle this in a smarter way
     }
   }
 
