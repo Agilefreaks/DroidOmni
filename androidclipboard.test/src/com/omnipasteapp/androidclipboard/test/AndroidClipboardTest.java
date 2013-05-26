@@ -18,13 +18,16 @@ import static org.mockito.Mockito.*;
 @RunWith(RobolectricTestRunner.class)
 public class AndroidClipboardTest {
     private Context mockContext;
+    private ClipboardManager mockClipboardManager;
     private AndroidClipboard subject;
 
     @Before
     public void setUp() {
         mockContext = mock(Context.class);
+        mockClipboardManager = mock(ClipboardManager.class);
         subject = new AndroidClipboard();
         subject.setContext(mockContext);
+        subject.setClipboardManager(mockClipboardManager);
     }
 
     @Test
@@ -36,7 +39,6 @@ public class AndroidClipboardTest {
 
     @Test
     public void runCallsContextGetClibpoardService(){
-        ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
         when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
                 .thenReturn(mockClipboardManager);
 
@@ -58,10 +60,6 @@ public class AndroidClipboardTest {
 
     @Test
     public void disposeCallsRemovePrimaryClipChangedListener(){
-        ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
-        when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-                .thenReturn(mockClipboardManager);
-
         subject.dispose();
 
         verify(mockClipboardManager).removePrimaryClipChangedListener(eq(subject));
@@ -72,11 +70,8 @@ public class AndroidClipboardTest {
         ClipData mockClipData = mock(ClipData.class);
         when(mockClipData.getItemCount()).thenReturn(1);
         when(mockClipData.getItemAt(eq(0))).thenReturn(new ClipData.Item("test"));
-        ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
         when(mockClipboardManager.hasPrimaryClip()).thenReturn(true);
         when(mockClipboardManager.getPrimaryClip()).thenReturn(mockClipData);
-        when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-                .thenReturn(mockClipboardManager);
         ICanReceiveData mockDataReceiver = mock(ICanReceiveData.class);
         subject.addDataReceiver(mockDataReceiver);
 
@@ -87,10 +82,6 @@ public class AndroidClipboardTest {
 
     @Test
     public void putDataAlwaysCallsClipboardManagerSetPrimaryClip(){
-        ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
-        when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-                .thenReturn(mockClipboardManager);
-
         subject.putData("test");
 
         verify(mockClipboardManager).setPrimaryClip(any(ClipData.class));

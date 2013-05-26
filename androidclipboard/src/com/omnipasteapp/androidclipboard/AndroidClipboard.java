@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardManager.OnPrimaryClipChangedListener {
 
+    private ClipboardManager clipboardManager;
     private ArrayList<ICanReceiveData> dataReceivers;
 
     @Inject
@@ -45,15 +46,15 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
     @Override
     public void run() {
-        ClipboardManager manager = getClipboardManager();
+        Context context = getContext();
 
-        manager.addPrimaryClipChangedListener(this);
+        clipboardManager = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager.addPrimaryClipChangedListener(this);
     }
 
     @Override
     public void dispose() {
         ClipboardManager manager = getClipboardManager();
-
         manager.removePrimaryClipChangedListener(this);
 
         dataReceivers.clear();
@@ -68,7 +69,6 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
         String clip = manager.getPrimaryClip().getItemAt(0).getText().toString();
 
         ClipboardData data = new ClipboardData(this, clip);
-
         for(ICanReceiveData receiver : dataReceivers){
             receiver.dataReceived(data);
         }
@@ -82,7 +82,11 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
         return context;
     }
 
-    protected ClipboardManager getClipboardManager(){
-        return (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+    public void setClipboardManager(ClipboardManager clipboardManager){
+        this.clipboardManager = clipboardManager;
+    }
+
+    public ClipboardManager getClipboardManager() {
+        return clipboardManager;
     }
 }
