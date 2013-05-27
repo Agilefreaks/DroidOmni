@@ -3,6 +3,7 @@ package com.omnipasteapp.androidclipboard;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Looper;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
@@ -47,6 +48,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void run() {
+        Looper.prepare();
     clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     clipboardManager.addPrimaryClipChangedListener(this);
   }
