@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
+import roboguice.RoboGuice;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,6 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   private ClipboardManager clipboardManager;
   private ArrayList<ICanReceiveData> dataReceivers;
-
 
   public AndroidClipboard() {
     dataReceivers = new ArrayList<ICanReceiveData>();
@@ -35,7 +35,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void putData(String data) {
-    ClipboardManager manager = getClipboardManager();
+    ClipboardManager manager = clipboardManager;
 
     manager.setPrimaryClip(ClipData.newPlainText("", data));
   }
@@ -47,15 +47,13 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void run() {
-    Context context = getContext();
-
     clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     clipboardManager.addPrimaryClipChangedListener(this);
   }
 
   @Override
   public void dispose() {
-    ClipboardManager manager = getClipboardManager();
+    ClipboardManager manager = clipboardManager;
     manager.removePrimaryClipChangedListener(this);
 
     dataReceivers.clear();
@@ -63,7 +61,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void onPrimaryClipChanged() {
-    ClipboardManager manager = getClipboardManager();
+    ClipboardManager manager = clipboardManager;
 
     if (!manager.hasPrimaryClip() || manager.getPrimaryClip().getItemCount() == 0) return;
 
@@ -73,21 +71,5 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
     for (ICanReceiveData receiver : dataReceivers) {
       receiver.dataReceived(data);
     }
-  }
-
-  public void setContext(Context context) {
-    this.context = context;
-  }
-
-  public Context getContext() {
-    return context;
-  }
-
-  public void setClipboardManager(ClipboardManager clipboardManager) {
-    this.clipboardManager = clipboardManager;
-  }
-
-  public ClipboardManager getClipboardManager() {
-    return clipboardManager;
   }
 }

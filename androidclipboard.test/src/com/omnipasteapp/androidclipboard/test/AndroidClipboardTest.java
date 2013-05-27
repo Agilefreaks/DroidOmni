@@ -3,31 +3,58 @@ package com.omnipasteapp.androidclipboard.test;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import com.google.inject.AbstractModule;
+import com.google.inject.util.Modules;
 import com.omnipasteapp.androidclipboard.AndroidClipboard;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import junit.framework.Assert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class AndroidClipboardTest {
+  @Mock
   private Context mockContext;
+  @Mock
   private ClipboardManager mockClipboardManager;
+
   private AndroidClipboard subject;
+
+  private class TestModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(Context.class).toInstance(mockContext);
+    }
+  }
 
   @Before
   public void setUp() {
-    mockContext = mock(Context.class);
-    mockClipboardManager = mock(ClipboardManager.class);
+    MockitoAnnotations.initMocks(this);
+    RoboGuice
+        .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
+            .with(new TestModule()));
     subject = new AndroidClipboard();
-    subject.setContext(mockContext);
-    subject.setClipboardManager(mockClipboardManager);
+    RoboGuice.getInjector(Robolectric.application).injectMembers(subject);
+
+    when(mockContext.getSystemService(Context.CLIPBOARD_SERVICE)).thenReturn(mockClipboardManager);
+    subject.run();
+  }
+
+  @After
+  public void tearDown() {
+    RoboGuice.util.reset();
   }
 
   @Test
@@ -38,23 +65,12 @@ public class AndroidClipboardTest {
   }
 
   @Test
-  public void runCallsContextGetClibpoardService() {
-    when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-        .thenReturn(mockClipboardManager);
-
-    subject.run();
-
+  public void runCallsContextGetClipboardService() {
     verify(mockContext).getSystemService(eq(Context.CLIPBOARD_SERVICE));
   }
 
   @Test
   public void runCallsAddPrimaryClipChangedListener() {
-    ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
-    when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-        .thenReturn(mockClipboardManager);
-
-    subject.run();
-
     verify(mockClipboardManager).addPrimaryClipChangedListener(eq(subject));
   }
 
