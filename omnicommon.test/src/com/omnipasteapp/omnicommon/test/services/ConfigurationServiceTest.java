@@ -9,8 +9,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class ConfigurationServiceTest {
@@ -20,6 +22,8 @@ public class ConfigurationServiceTest {
   @Before
   public void Setup() {
     configurationProvider = mock(IConfigurationProvider.class);
+    when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn("channel");
+
     subject = new ConfigurationService(configurationProvider);
   }
 
@@ -27,5 +31,12 @@ public class ConfigurationServiceTest {
   public void loadCommunicationSettingsCallsConfigurationProviderGetValueChannelKey(){
     subject.loadCommunicationSettings();
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
+  }
+
+  @Test
+  public void updateCommunicationSettingsAlwaysCallsProviderSetValueForChannel(){
+    subject.updateCommunicationSettings();
+
+    verify(configurationProvider).setValue(eq(CommunicationSettings.ChannelKey), eq("channel"));
   }
 }

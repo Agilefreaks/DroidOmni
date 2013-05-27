@@ -12,11 +12,12 @@ public class ConfigurationService implements IConfigurationService {
   @Inject
   public ConfigurationService(IConfigurationProvider provider) {
     this.provider = provider;
+    loadCommunicationSettings();
   }
 
   @Override
   public CommunicationSettings getCommunicationSettings() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return communicationSettings;
   }
 
   @Override
@@ -27,6 +28,6 @@ public class ConfigurationService implements IConfigurationService {
 
   @Override
   public void updateCommunicationSettings() {
-    //To change body of implemented methods use File | Settings | File Templates.
+    provider.setValue(CommunicationSettings.ChannelKey, communicationSettings.getChannel());
   }
 }
