@@ -17,73 +17,73 @@ import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class AndroidClipboardTest {
-    private Context mockContext;
-    private ClipboardManager mockClipboardManager;
-    private AndroidClipboard subject;
+  private Context mockContext;
+  private ClipboardManager mockClipboardManager;
+  private AndroidClipboard subject;
 
-    @Before
-    public void setUp() {
-        mockContext = mock(Context.class);
-        mockClipboardManager = mock(ClipboardManager.class);
-        subject = new AndroidClipboard();
-        subject.setContext(mockContext);
-        subject.setClipboardManager(mockClipboardManager);
-    }
+  @Before
+  public void setUp() {
+    mockContext = mock(Context.class);
+    mockClipboardManager = mock(ClipboardManager.class);
+    subject = new AndroidClipboard();
+    subject.setContext(mockContext);
+    subject.setClipboardManager(mockClipboardManager);
+  }
 
-    @Test
-    public void initializeReturnsNewThread(){
-        Thread result = subject.initialize();
+  @Test
+  public void initializeReturnsNewThread() {
+    Thread result = subject.initialize();
 
-        Assert.assertNotNull(result);
-    }
+    Assert.assertNotNull(result);
+  }
 
-    @Test
-    public void runCallsContextGetClibpoardService(){
-        when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-                .thenReturn(mockClipboardManager);
+  @Test
+  public void runCallsContextGetClibpoardService() {
+    when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
+        .thenReturn(mockClipboardManager);
 
-        subject.run();
+    subject.run();
 
-        verify(mockContext).getSystemService(eq(Context.CLIPBOARD_SERVICE));
-    }
+    verify(mockContext).getSystemService(eq(Context.CLIPBOARD_SERVICE));
+  }
 
-    @Test
-    public void runCallsAddPrimaryClipChangedListener(){
-        ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
-        when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
-                .thenReturn(mockClipboardManager);
+  @Test
+  public void runCallsAddPrimaryClipChangedListener() {
+    ClipboardManager mockClipboardManager = mock(ClipboardManager.class);
+    when(mockContext.getSystemService(eq(Context.CLIPBOARD_SERVICE)))
+        .thenReturn(mockClipboardManager);
 
-        subject.run();
+    subject.run();
 
-        verify(mockClipboardManager).addPrimaryClipChangedListener(eq(subject));
-    }
+    verify(mockClipboardManager).addPrimaryClipChangedListener(eq(subject));
+  }
 
-    @Test
-    public void disposeCallsRemovePrimaryClipChangedListener(){
-        subject.dispose();
+  @Test
+  public void disposeCallsRemovePrimaryClipChangedListener() {
+    subject.dispose();
 
-        verify(mockClipboardManager).removePrimaryClipChangedListener(eq(subject));
-    }
+    verify(mockClipboardManager).removePrimaryClipChangedListener(eq(subject));
+  }
 
-    @Test
-    public void onPrimaryClipChangedCallsReceiverDataReceived(){
-        ClipData mockClipData = mock(ClipData.class);
-        when(mockClipData.getItemCount()).thenReturn(1);
-        when(mockClipData.getItemAt(eq(0))).thenReturn(new ClipData.Item("test"));
-        when(mockClipboardManager.hasPrimaryClip()).thenReturn(true);
-        when(mockClipboardManager.getPrimaryClip()).thenReturn(mockClipData);
-        ICanReceiveData mockDataReceiver = mock(ICanReceiveData.class);
-        subject.addDataReceiver(mockDataReceiver);
+  @Test
+  public void onPrimaryClipChangedCallsReceiverDataReceived() {
+    ClipData mockClipData = mock(ClipData.class);
+    when(mockClipData.getItemCount()).thenReturn(1);
+    when(mockClipData.getItemAt(eq(0))).thenReturn(new ClipData.Item("test"));
+    when(mockClipboardManager.hasPrimaryClip()).thenReturn(true);
+    when(mockClipboardManager.getPrimaryClip()).thenReturn(mockClipData);
+    ICanReceiveData mockDataReceiver = mock(ICanReceiveData.class);
+    subject.addDataReceiver(mockDataReceiver);
 
-        subject.onPrimaryClipChanged();
+    subject.onPrimaryClipChanged();
 
-        verify(mockDataReceiver).dataReceived(any(IClipboardData.class));
-    }
+    verify(mockDataReceiver).dataReceived(any(IClipboardData.class));
+  }
 
-    @Test
-    public void putDataAlwaysCallsClipboardManagerSetPrimaryClip(){
-        subject.putData("test");
+  @Test
+  public void putDataAlwaysCallsClipboardManagerSetPrimaryClip() {
+    subject.putData("test");
 
-        verify(mockClipboardManager).setPrimaryClip(any(ClipData.class));
-    }
+    verify(mockClipboardManager).setPrimaryClip(any(ClipData.class));
+  }
 }
