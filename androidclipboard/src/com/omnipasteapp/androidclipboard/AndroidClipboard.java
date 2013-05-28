@@ -61,15 +61,18 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void onPrimaryClipChanged() {
-    ClipboardManager manager = clipboardManager;
-
-    if (!manager.hasPrimaryClip() || manager.getPrimaryClip().getItemCount() == 0) return;
-
-    String clip = manager.getPrimaryClip().getItemAt(0).getText().toString();
-
-    ClipboardData data = new ClipboardData(this, clip);
-    for (ICanReceiveData receiver : dataReceivers) {
-      receiver.dataReceived(data);
+    if(!hasClipping()) {
+      return;
     }
+
+    String clip = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
+
+    for (ICanReceiveData receiver : dataReceivers) {
+      receiver.dataReceived(new ClipboardData(this, clip));
+    }
+  }
+
+  private Boolean hasClipping() {
+    return clipboardManager.hasPrimaryClip() && clipboardManager.getPrimaryClip().getItemCount() > 0;
   }
 }
