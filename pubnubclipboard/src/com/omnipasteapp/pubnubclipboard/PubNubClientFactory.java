@@ -8,7 +8,7 @@ public class PubNubClientFactory implements IPubNubClientFactory {
     public static final String SECRET_KEY = "sec-c-Y2FiOTQzYjEtOTE5NC00YTQ0LWI4YzQtYjYzNjhhNTE1ZTYw";
 
     @Override
-    public Pubnub create() {
-        return new Pubnub(PUBLISH_KEY, SUBSCRIBE_KEY, SECRET_KEY);
+    public IPubnub create() {
+        return new PubnubWrapper(new Pubnub(PUBLISH_KEY, SUBSCRIBE_KEY, SECRET_KEY));
     }
 }
