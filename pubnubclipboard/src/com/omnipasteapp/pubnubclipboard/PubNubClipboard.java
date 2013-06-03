@@ -8,7 +8,6 @@ import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.pubnub.api.Callback;
-import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubException;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
   private IPubNubMessageBuilder pubNubMessageBuilder;
   private CommunicationSettings communicationSettings;
 
-  private Pubnub pubnub;
+  private IPubnub pubnub;
   private ArrayList<ICanReceiveData> dataReceivers;
 
   @Inject

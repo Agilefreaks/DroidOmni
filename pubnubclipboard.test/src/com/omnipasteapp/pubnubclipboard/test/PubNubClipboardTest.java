@@ -4,11 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
-import com.omnipasteapp.pubnubclipboard.IPubNubClientFactory;
-import com.omnipasteapp.pubnubclipboard.IPubNubMessageBuilder;
-import com.omnipasteapp.pubnubclipboard.MessageSentCallback;
-import com.omnipasteapp.pubnubclipboard.PubNubClipboard;
-import com.pubnub.api.Pubnub;
+import com.omnipasteapp.pubnubclipboard.*;
 import com.pubnub.api.PubnubException;
 import junit.framework.Assert;
 import org.junit.Before;
@@ -22,6 +18,7 @@ import roboguice.RoboGuice;
 
 import java.util.Hashtable;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -42,7 +39,7 @@ public class PubNubClipboardTest {
   private CommunicationSettings mockCommunicationSettings;
 
   @Mock
-  private Pubnub mockPubnub;
+  private IPubnub mockPubnub;
 
   private PubNubClipboard subject;
 
@@ -52,7 +49,6 @@ public class PubNubClipboardTest {
       bind(IConfigurationService.class).toInstance(mockConfigurationService);
       bind(IPubNubClientFactory.class).toInstance(mockPubNubClientFactory);
       bind(IPubNubMessageBuilder.class).toInstance(mockPubNubMessageBuilder);
-      bind(PubNubClipboard.class).to(PubNubClipboard.class);
     }
   }
 
@@ -67,6 +63,7 @@ public class PubNubClipboardTest {
     when(mockConfigurationService.getCommunicationSettings()).thenReturn(mockCommunicationSettings);
     when(mockPubNubMessageBuilder.setChannel(anyString())).thenReturn(mockPubNubMessageBuilder);
     when(mockPubNubMessageBuilder.addValue(anyString())).thenReturn(mockPubNubMessageBuilder);
+    when(mockPubNubMessageBuilder.build()).thenReturn(new Hashtable<String, String>());
 
     subject = RoboGuice.getInjector(Robolectric.application).getInstance(PubNubClipboard.class);
   }
@@ -80,6 +77,8 @@ public class PubNubClipboardTest {
 
   @Test
   public void putDataAlwaysCallsPubnubPublish(){
+    subject.run();
+
     subject.putData("data");
 
     verify(mockPubnub).publish(any(Hashtable.class), any(MessageSentCallback.class));
@@ -104,7 +103,7 @@ public class PubNubClipboardTest {
     subject.run();
 
     try {
-      verify(mockPubnub).subscribe(any(Hashtable.class));
+      verify(mockPubnub).subscribe(any(Hashtable.class), any(MessageSentCallback.class));
     } catch (PubnubException e) {
       e.printStackTrace();
     }
@@ -112,6 +111,8 @@ public class PubNubClipboardTest {
 
   @Test
   public void disposeAlwaysCallsPubnubShutdown(){
+    subject.run();
+
     subject.dispose();
 
     verify(mockPubnub).shutdown();
@@ -120,9 +121,10 @@ public class PubNubClipboardTest {
   @Test
   public void getChannelAlwaysCallsCommunicationSettingsGetChannel(){
     subject.run();
+    when(mockCommunicationSettings.getChannel()).thenReturn("test-channel");
 
-    subject.getChannel();
+    String channel = subject.getChannel();
 
-    verify(mockCommunicationSettings).getChannel();
+    assertEquals("test-channel", channel);
   }
 }
