@@ -8,7 +8,6 @@ import com.google.inject.util.Modules;
 import com.omnipasteapp.androidclipboard.AndroidClipboard;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
-import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;

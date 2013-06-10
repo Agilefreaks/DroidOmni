@@ -29,7 +29,6 @@ public class ConfigurationServiceTest {
 
   @Test
   public void loadCommunicationSettingsCallsConfigurationProviderGetValueChannelKey(){
-    subject.loadCommunicationSettings();
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
   }
 

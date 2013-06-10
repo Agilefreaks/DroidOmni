@@ -5,7 +5,8 @@
 *.war
 *.ear
 bin/*
-!libs/*
+!libs/*.*
+!libs/test/*.*
 
 # Ignore all Eclipse files
 .settings
