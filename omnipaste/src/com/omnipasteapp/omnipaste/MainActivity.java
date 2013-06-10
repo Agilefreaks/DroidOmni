@@ -20,13 +20,9 @@ public class MainActivity extends RoboActivity {
     super.onCreate(savedInstanceState);
 
     try {
-      getOmniService().start();
+      omniService.start();
     } catch (InterruptedException e) {
       e.printStackTrace(); // handle this in a smarter way
     }
-  }
-
-  public IOmniService getOmniService() {
-    return omniService;
   }
 }

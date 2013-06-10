@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/androidclipboard/androidclipboard.iml" filepath="$PROJECT_DIR$/androidclipboard/androidclipboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidclipboard.test/androidclipboard.test.iml" filepath="$PROJECT_DIR$/androidclipboard.test/androidclipboard.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnicommon/omnicommon.iml" filepath="$PROJECT_DIR$/omnicommon/omnicommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnicommon.test/omnicommon.test.iml" filepath="$PROJECT_DIR$/omnicommon.test/omnicommon.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnipaste/omnipaste.iml" filepath="$PROJECT_DIR$/omnipaste/omnipaste.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnipaste.test/omnipaste.test.iml" filepath="$PROJECT_DIR$/omnipaste.test/omnipaste.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pubnubclipboard/pubnubclipboard.iml" filepath="$PROJECT_DIR$/pubnubclipboard/pubnubclipboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pubnubclipboard.test/pubnubclipboard.test.iml" filepath="$PROJECT_DIR$/pubnubclipboard.test/pubnubclipboard.test.iml" />
+    </modules>
+  </component>
+</project>
+

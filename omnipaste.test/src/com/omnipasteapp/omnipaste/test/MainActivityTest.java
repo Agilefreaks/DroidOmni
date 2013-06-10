@@ -50,11 +50,6 @@ public class MainActivityTest {
   }
 
   @Test
-  public void shouldAssignOmniService() {
-    assertThat(subject.getOmniService(), is(IOmniService.class));
- }
-
-  @Test
   public void onCreateCallsStart() throws InterruptedException {
     verify(omniService).start();
   }

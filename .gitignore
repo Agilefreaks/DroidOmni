@@ -17,5 +17,4 @@ lint.xml
 build.xml
 
 # Ignore all RubyMine files
-.idea/
 out/
