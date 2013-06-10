@@ -12,7 +12,6 @@ public class ConfigurationService implements IConfigurationService {
   @Inject
   public ConfigurationService(IConfigurationProvider provider) {
     this.provider = provider;
-    loadCommunicationSettings();
   }
 
   @Override
