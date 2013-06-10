@@ -4,6 +4,8 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/libs/pubnub-3.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/bcprov-jdk16-1.46.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/log4j-1.2.16.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/json-20090211.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
