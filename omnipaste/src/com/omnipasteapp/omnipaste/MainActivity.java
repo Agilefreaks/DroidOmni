@@ -1,5 +1,6 @@
 package com.omnipasteapp.omnipaste;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -37,6 +38,6 @@ public class MainActivity extends RoboActivity {
   }
 
   public void startConfiguring(){
-
+    startActivity(new Intent(this, LoginActivity.class));
   }
 }
