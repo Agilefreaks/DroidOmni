@@ -15,10 +15,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="org.roboguice:roboguice:2.0" level="project" />
     <orderEntry type="module" module-name="omnicommon" />
     <orderEntry type="module" module-name="androidclipboard" />
     <orderEntry type="module" module-name="pubnubclipboard" />
+    <orderEntry type="library" name="org.roboguice:roboguice:2.0" level="project" />
   </component>
 </module>
 

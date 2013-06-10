@@ -1,6 +1,5 @@
 package com.omnipasteapp.omnicommon.services;
 
-import android.os.Looper;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.*;
 

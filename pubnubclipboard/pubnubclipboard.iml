@@ -17,8 +17,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="omnicommon" />
-    <orderEntry type="library" name="org.roboguice:roboguice:2.0" level="project" />
     <orderEntry type="library" name="com.pubnub:pubnub:3.4" level="project" />
+    <orderEntry type="library" name="org.roboguice:roboguice:2.0" level="project" />
   </component>
 </module>
 
