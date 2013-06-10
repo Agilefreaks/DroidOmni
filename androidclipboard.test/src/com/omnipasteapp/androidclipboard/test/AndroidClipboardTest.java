@@ -2,7 +2,6 @@ package com.omnipasteapp.androidclipboard.test;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Context;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.androidclipboard.AndroidClipboard;
@@ -24,8 +23,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class AndroidClipboardTest {
-  @Mock
-  private Context mockContext;
+
   @Mock
   private ClipboardManager mockClipboardManager;
 
@@ -34,7 +32,7 @@ public class AndroidClipboardTest {
   private class TestModule extends AbstractModule {
     @Override
     protected void configure() {
-      bind(Context.class).toInstance(mockContext);
+      bind(ClipboardManager.class).toInstance(mockClipboardManager);
     }
   }
 
@@ -47,7 +45,6 @@ public class AndroidClipboardTest {
     subject = new AndroidClipboard();
     RoboGuice.getInjector(Robolectric.application).injectMembers(subject);
 
-    when(mockContext.getSystemService(Context.CLIPBOARD_SERVICE)).thenReturn(mockClipboardManager);
     subject.run();
   }
 
@@ -61,11 +58,6 @@ public class AndroidClipboardTest {
     Thread result = subject.initialize();
 
     Assert.assertNotNull(result);
-  }
-
-  @Test
-  public void runCallsContextGetClipboardService() {
-    verify(mockContext).getSystemService(eq(Context.CLIPBOARD_SERVICE));
   }
 
   @Test
