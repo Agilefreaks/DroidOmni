@@ -18,5 +18,4 @@ build.xml
 
 # Ignore all RubyMine files
 .idea/
-*.iml
 out/
