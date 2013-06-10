@@ -11,6 +11,9 @@ public class OmniService implements IOmniService, ICanReceiveData {
   private Thread localClipboardInitialize;
 
   @Inject
+  private IConfigurationService configurationService;
+
+  @Inject
   public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
     this.localClipboard = localClipboard;
     this.omniClipboard = omniClipboard;
@@ -56,6 +59,11 @@ public class OmniService implements IOmniService, ICanReceiveData {
 
     localClipboard.removeDataReceiver(this);
     localClipboard.dispose();
+  }
+
+  @Override
+  public boolean isConfigured() {
+    return configurationService.getCommunicationSettings().hasChannel();
   }
 
   @Override

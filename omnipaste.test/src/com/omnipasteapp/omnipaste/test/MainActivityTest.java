@@ -15,11 +15,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest {
@@ -55,11 +51,21 @@ public class MainActivityTest {
   }
 
   @Test
-  public void onCreateCallsStart() throws InterruptedException {
+  public void onCreateWhenIsConfiguredReturnsTrueCallsStart() throws InterruptedException {
+    when(omniService.isConfigured()).thenReturn(true);
 
     subject.onCreate(null);
 
     verify(omniService).start();
+  }
+
+  @Test
+  public void onCreateWhenIsConfiguredReturnsFalseDoesNotCallStart() throws InterruptedException {
+    when(omniService.isConfigured()).thenReturn(false);
+
+    subject.onCreate(null);
+
+    verify(omniService, never()).start();
   }
 
   @Test
