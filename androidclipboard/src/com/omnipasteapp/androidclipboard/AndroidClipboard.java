@@ -48,6 +48,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void run() {
+        Looper.prepare();
     clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     clipboardManager.addPrimaryClipChangedListener(this);
   }
