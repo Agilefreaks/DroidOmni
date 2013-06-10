@@ -29,11 +29,15 @@ public class ConfigurationServiceTest {
 
   @Test
   public void loadCommunicationSettingsCallsConfigurationProviderGetValueChannelKey(){
+    subject.loadCommunicationSettings();
+
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
   }
 
   @Test
   public void updateCommunicationSettingsAlwaysCallsProviderSetValueForChannel(){
+    subject.loadCommunicationSettings();
+
     subject.updateCommunicationSettings();
 
     verify(configurationProvider).setValue(eq(CommunicationSettings.ChannelKey), eq("channel"));

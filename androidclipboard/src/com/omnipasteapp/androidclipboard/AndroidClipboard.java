@@ -2,22 +2,18 @@ package com.omnipasteapp.androidclipboard;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Context;
-import android.os.Looper;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
-import roboguice.RoboGuice;
 
 import java.util.ArrayList;
 
 public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardManager.OnPrimaryClipChangedListener {
 
   @Inject
-  private Context context;
-
   private ClipboardManager clipboardManager;
+
   private ArrayList<ICanReceiveData> dataReceivers;
 
   public AndroidClipboard() {
@@ -48,14 +44,12 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void run() {
-    clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     clipboardManager.addPrimaryClipChangedListener(this);
   }
 
   @Override
   public void dispose() {
-    ClipboardManager manager = clipboardManager;
-    manager.removePrimaryClipChangedListener(this);
+    clipboardManager.removePrimaryClipChangedListener(this);
 
     dataReceivers.clear();
   }
