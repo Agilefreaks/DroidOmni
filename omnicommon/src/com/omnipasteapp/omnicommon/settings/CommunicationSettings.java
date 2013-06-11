@@ -16,4 +16,8 @@ public class CommunicationSettings {
   public void setChannel(String channel) {
     this.channel = channel;
   }
+
+  public boolean hasChannel() {
+    return channel != null && !channel.isEmpty();
+  }
 }

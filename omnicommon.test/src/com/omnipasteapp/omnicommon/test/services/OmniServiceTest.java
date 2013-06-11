@@ -1,29 +1,67 @@
 package com.omnipasteapp.omnicommon.test.services;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.ClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.services.OmniService;
+import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import roboguice.RoboGuice;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 public class OmniServiceTest {
+
   private OmniService subject;
+
+  @Mock
   private ILocalClipboard localClipboard;
+
+  @Mock
   private IOmniClipboard omniClipboard;
+
+  @Mock
+  private IConfigurationService configurationService;
+
+  @Mock
+  private CommunicationSettings communicationSettings;
+
+  public class TestModule extends AbstractModule {
+
+    @Override
+    protected void configure() {
+      bind(ILocalClipboard.class).toInstance(localClipboard);
+      bind(IOmniClipboard.class).toInstance(omniClipboard);
+      bind(IConfigurationService.class).toInstance(configurationService);
+    }
+  }
 
   @Before
   public void Setup() {
-    localClipboard = mock(ILocalClipboard.class);
-    omniClipboard = mock(IOmniClipboard.class);
-    subject = new OmniService(localClipboard, omniClipboard);
+    MockitoAnnotations.initMocks(this);
+
+    RoboGuice
+            .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
+                    .with(new TestModule()));
+
+    subject = RoboGuice.getInjector(Robolectric.application).getInstance(OmniService.class);
+    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
   }
 
   @Test
@@ -74,5 +112,19 @@ public class OmniServiceTest {
     subject.stop();
     verify(localClipboard).dispose();
     verify(omniClipboard).dispose();
+  }
+
+  @Test
+  public void isConfiguredWhenCommunicationSettingsHasChannelReturnsFalseAlsoReturnsFalse(){
+    when(communicationSettings.hasChannel()).thenReturn(false);
+
+    assertFalse(subject.isConfigured());
+  }
+
+  @Test
+  public void isConfiguredWhenCommunicationSettingsHasChannelReturnsTrueAlsoReturnsTrue(){
+    when(communicationSettings.hasChannel()).thenReturn(true);
+
+    assertTrue(subject.isConfigured());
   }
 }

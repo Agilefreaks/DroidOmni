@@ -8,4 +8,6 @@ public interface IOmniService {
   public void start() throws InterruptedException;
 
   public void stop();
+
+  public boolean isConfigured();
 }
