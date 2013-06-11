@@ -30,5 +30,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" android:label="@string/login"/>
+        <service android:name=".BackgroundService"/>
     </application>
 </manifest>

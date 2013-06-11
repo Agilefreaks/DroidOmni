@@ -51,15 +51,6 @@ public class MainActivityTest {
   }
 
   @Test
-  public void onCreateWhenIsConfiguredReturnsTrueCallsStart() throws InterruptedException {
-    when(omniService.isConfigured()).thenReturn(true);
-
-    subject.onCreate(null);
-
-    verify(omniService).start();
-  }
-
-  @Test
   public void onCreateWhenIsConfiguredReturnsFalseDoesNotCallStart() throws InterruptedException {
     when(omniService.isConfigured()).thenReturn(false);
 

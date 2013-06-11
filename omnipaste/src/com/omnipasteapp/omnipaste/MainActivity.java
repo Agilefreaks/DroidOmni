@@ -29,11 +29,7 @@ public class MainActivity extends BaseActivity {
   }
 
   public void startService(){
-    try {
-      omniService.start();
-    } catch (InterruptedException e) {
-      e.printStackTrace(); // handle this in a smarter way
-    }
+    startService(new Intent(this, BackgroundService.class));
   }
 
   public void startConfiguring(){
