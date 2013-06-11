@@ -12,4 +12,5 @@
     <string name="ok">Ok</string>
     <string name="login">Login</string>
     <string name="exit_message">Clicking Ok will terminate the synchronization with your other devices.</string>
+    <string name="notification_isSyncing_message">Syncing clipboard.</string>
 </resources>

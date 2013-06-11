@@ -2,6 +2,7 @@ package com.omnipasteapp.omnipaste.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
+import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.R;
 
@@ -22,6 +24,9 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
 
   @Inject
   private IConfigurationService configurationService;
+
+  @Inject
+  private Context context;
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstance){
@@ -38,7 +43,8 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
   @Override
   public void onClick(DialogInterface dialog, int i) {
     logout();
-    startActivity(new Intent(getActivity(), MainActivity.class));
+    context.stopService(new Intent(context, BackgroundService.class));
+    startActivity(new Intent(context, MainActivity.class));
   }
 
   public void logout(){
