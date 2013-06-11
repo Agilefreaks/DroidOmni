@@ -42,6 +42,7 @@ public class LoginActivity extends RoboActivity implements View.OnClickListener,
   public void onAccountSelected(Account account) {
     saveConfiguration(account);
 
+    startService(new Intent(this, BackgroundService.class));
     startActivity(new Intent(this, MainActivity.class));
   }
 
