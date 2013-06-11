@@ -1,0 +1,11 @@
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exit_message"
+            android:id="@+id/logout_notice" android:padding="15dp" android:textSize="18dp"/>
+
+</LinearLayout>

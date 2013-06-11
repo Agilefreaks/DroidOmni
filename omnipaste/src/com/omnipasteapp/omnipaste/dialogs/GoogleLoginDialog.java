@@ -35,7 +35,7 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
     Dialog dialog = new AlertDialog.Builder(getActivity())
             .setTitle(R.string.google_login_title)
             .setSingleChoiceItems(createAccountAdapter(_accounts), 1, this)
-            .setNegativeButton(R.string.cancel_button_label, this)
+            .setNegativeButton(R.string.cancel, this)
             .create();
 
     return dialog;
