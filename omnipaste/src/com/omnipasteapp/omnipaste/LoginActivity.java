@@ -22,6 +22,7 @@ public class LoginActivity extends RoboActivity implements View.OnClickListener,
   @Inject
   private IConfigurationService configurationService;
 
+  @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
