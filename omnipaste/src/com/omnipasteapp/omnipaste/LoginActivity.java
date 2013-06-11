@@ -1,7 +1,6 @@
 package com.omnipasteapp.omnipaste;
 
 import android.accounts.Account;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,8 +32,9 @@ public class LoginActivity extends RoboActivity implements View.OnClickListener,
 
   @Override
   public void onClick(View view) {
-    DialogFragment dialog = new GoogleLoginDialog();
-    dialog.show(getFragmentManager(), GoogleLoginDialog.TAG);
+    GoogleLoginDialog.create()
+            .setListener(this)
+            .show(getFragmentManager(), GoogleLoginDialog.TAG);
   }
 
   @Override

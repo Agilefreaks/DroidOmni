@@ -8,6 +8,6 @@ import com.omnipasteapp.omnipaste.providers.SharedPreferencesConfigurationProvid
 public class MainModule extends AbstractModule {
   @Override
   protected void configure() {
-      bind(IConfigurationProvider.class).to(SharedPreferencesConfigurationProvider.class).in(Singleton.class);
+    bind(IConfigurationProvider.class).to(SharedPreferencesConfigurationProvider.class).in(Singleton.class);
   }
 }
