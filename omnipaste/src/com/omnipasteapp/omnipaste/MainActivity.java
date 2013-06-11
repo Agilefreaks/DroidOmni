@@ -1,7 +1,7 @@
 package com.omnipasteapp.omnipaste;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
@@ -22,10 +22,22 @@ public class MainActivity extends RoboActivity {
 
     configurationService.loadCommunicationSettings();
 
+    if(omniService.isConfigured()){
+      startService();
+    } else {
+      startConfiguring();
+    }
+  }
+
+  public void startService(){
     try {
       omniService.start();
     } catch (InterruptedException e) {
       e.printStackTrace(); // handle this in a smarter way
     }
+  }
+
+  public void startConfiguring(){
+    startActivity(new Intent(this, LoginActivity.class));
   }
 }
