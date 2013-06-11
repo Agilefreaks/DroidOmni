@@ -4,10 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
+import com.omnipasteapp.omnipaste.BackgroundService;
+import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.dialogs.GoogleLoginDialog;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +20,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,10 +34,17 @@ public class GoogleLoginDialogTests {
   @Mock
   private IIntentService intentService;
 
+  @Mock
+  private IConfigurationService configurationService;
+
+  @Mock
+  private CommunicationSettings communicationSettings;
+
   public class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(AccountManager.class).toInstance(accountManager);
+      bind(IConfigurationService.class).toInstance(configurationService);
       bind(IIntentService.class).toInstance(intentService);
     }
   }
@@ -48,12 +57,13 @@ public class GoogleLoginDialogTests {
             .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
                     .with(new TestModule()));
 
+    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
+
     subject = RoboGuice.getInjector(Robolectric.application).getInstance(GoogleLoginDialog.class);
   }
 
   @After
   public void tearDown() {
-    subject.setListener(null);
     RoboGuice.util.reset();
   }
 
@@ -66,48 +76,32 @@ public class GoogleLoginDialogTests {
     verify(accountManager).getAccountsByType(eq("com.google"));
   }
 
-  @Test
-  public void onClickWhenIndexIsInTheAccountsRangeAndListenerIsNotNullCallsOnAccountSelected(){
-    final Account account = new Account("user@gmail.com", "com.google");
-    when(accountManager.getAccountsByType(eq("com.google"))).thenReturn(new Account[]{ account });
-    subject.initAccounts();
-    subject.setListener(new GoogleLoginDialog.Listener() {
-      @Override
-      public void onAccountSelected(Account acct) {
-        assertEquals(acct, account);
-      }
-    });
 
-    subject.onClick(null, 0);
+  @Test
+  public void onAccountSelectedCallsSettingsSetChannel(){
+    subject.login(new Account("user", "type"));
+
+    verify(communicationSettings).setChannel(eq("user"));
   }
 
   @Test
-  public void onClickWhenIndexIsNegativeDoesNotCallOnAccountSelected(){
-    final Account account = new Account("user@gmail.com", "com.google");
-    when(accountManager.getAccountsByType(eq("com.google"))).thenReturn(new Account[]{ account });
-    subject.initAccounts();
-    subject.setListener(new GoogleLoginDialog.Listener() {
-      @Override
-      public void onAccountSelected(Account acct) {
-        Assert.fail("Should not be called");
-      }
-    });
+  public void onAccountSelectedConfigurationServiceUpdateCommunicationSettings(){
+    subject.login(new Account("user", "type"));
 
-    subject.onClick(null, -1);
+    verify(configurationService).updateCommunicationSettings();
   }
 
   @Test
-  public void onClickWhenIndexIsBiggerThanTheAccountCountDoesNotCallOnAccountSelected(){
-    final Account account = new Account("user@gmail.com", "com.google");
-    when(accountManager.getAccountsByType(eq("com.google"))).thenReturn(new Account[]{ account });
-    subject.initAccounts();
-    subject.setListener(new GoogleLoginDialog.Listener() {
-      @Override
-      public void onAccountSelected(Account acct) {
-        Assert.fail("Should not be called");
-      }
-    });
+  public void onAccountSelectedCallsStartBackgroundService(){
+    subject.login(new Account("name", "type"));
 
-    subject.onClick(null, 1);
+    verify(intentService).startService(eq(BackgroundService.class));
+  }
+
+  @Test
+  public void onAccountSelectedCallsStartActivityMain(){
+    subject.login(new Account("name", "type"));
+
+    verify(intentService).startActivity(eq(MainActivity.class));
   }
 }

@@ -8,21 +8,23 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import com.google.inject.Inject;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
+import com.omnipasteapp.omnipaste.BackgroundService;
+import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.R;
 
 public class GoogleLoginDialog extends RoboDialogFragment implements DialogInterface.OnClickListener  {
 
-  public interface Listener {
-    public void onAccountSelected(Account account);
-  }
-
   public static final String TAG = "GoogleLoginDialogFragment";
 
   private Account[] _accounts;
-  private Listener _listener;
 
   @Inject
   private AccountManager accountManager;
+
+  @Inject
+  private IConfigurationService configurationService;
 
   public static GoogleLoginDialog create() {
     return new GoogleLoginDialog();
@@ -43,15 +45,9 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
 
   @Override
   public void onClick(DialogInterface dialogInterface, int i) {
-    if(_listener != null && i > -1 && i < _accounts.length){
-      _listener.onAccountSelected(_accounts[i]);
+    if(i > -1 && i < _accounts.length){
+      login(_accounts[i]);
     }
-  }
-
-  public GoogleLoginDialog setListener(Listener listener){
-    _listener = listener;
-
-    return this;
   }
 
   public void initAccounts(){
@@ -70,5 +66,18 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
             names);
 
     return adapter;
+  }
+
+  public void login(Account account){
+    saveConfiguration(account);
+
+    intentService.startService(BackgroundService.class);
+    intentService.startActivity(MainActivity.class);
+  }
+
+  private void saveConfiguration(Account account){
+    CommunicationSettings settings = configurationService.getCommunicationSettings();
+    settings.setChannel(account.name);
+    configurationService.updateCommunicationSettings();
   }
 }
