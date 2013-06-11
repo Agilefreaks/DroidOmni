@@ -6,8 +6,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="login_button_text">Login</string>
     <string name="login_call_to_action">Hi, Welcome to Omni your <i>Clipboard</i> Manager in the <i>Cloud</i></string>
-    <string name="logout_button_label">Exit</string>
+    <string name="logout">Log out</string>
     <string name="google_login_title">Select a Google account</string>
-    <string name="cancel_button_label">Cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
     <string name="login">Login</string>
+    <string name="exit_message">Clicking Ok will terminate the synchronization with your other devices.</string>
 </resources>

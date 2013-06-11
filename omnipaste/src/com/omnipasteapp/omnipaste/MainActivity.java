@@ -5,11 +5,10 @@ import android.os.Bundle;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
-import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends RoboActivity {
+public class MainActivity extends BaseActivity {
   @Inject
   private IOmniService omniService;
 
