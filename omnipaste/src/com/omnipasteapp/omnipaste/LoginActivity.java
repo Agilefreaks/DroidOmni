@@ -1,7 +1,6 @@
 package com.omnipasteapp.omnipaste;
 
 import android.accounts.Account;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +8,7 @@ import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.dialogs.GoogleLoginDialog;
+import com.omnipasteapp.omnipaste.services.IIntentService;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -21,6 +21,9 @@ public class LoginActivity extends RoboActivity implements View.OnClickListener,
 
   @Inject
   private IConfigurationService configurationService;
+
+  @Inject
+  private IIntentService intentService;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,8 @@ public class LoginActivity extends RoboActivity implements View.OnClickListener,
   public void onAccountSelected(Account account) {
     saveConfiguration(account);
 
-    startService(new Intent(this, BackgroundService.class));
-    startActivity(new Intent(this, MainActivity.class));
+    intentService.startService(BackgroundService.class);
+    intentService.startActivity(MainActivity.class);
   }
 
   private void saveConfiguration(Account account){

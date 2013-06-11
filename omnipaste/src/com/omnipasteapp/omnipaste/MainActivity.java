@@ -1,6 +1,5 @@
 package com.omnipasteapp.omnipaste;
 
-import android.content.Intent;
 import android.os.Bundle;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -22,17 +21,9 @@ public class MainActivity extends BaseActivity {
     configurationService.loadCommunicationSettings();
 
     if(omniService.isConfigured()){
-      startService();
+      intentService.startService(BackgroundService.class);
     } else {
-      startConfiguring();
+      intentService.startActivity(LoginActivity.class);
     }
-  }
-
-  public void startService(){
-    startService(new Intent(this, BackgroundService.class));
-  }
-
-  public void startConfiguring(){
-    startActivity(new Intent(this, LoginActivity.class));
   }
 }

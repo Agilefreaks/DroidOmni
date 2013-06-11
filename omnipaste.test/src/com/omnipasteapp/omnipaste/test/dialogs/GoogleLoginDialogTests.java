@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnipaste.dialogs.GoogleLoginDialog;
+import com.omnipasteapp.omnipaste.services.IIntentService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,10 +29,14 @@ public class GoogleLoginDialogTests {
   @Mock
   private AccountManager accountManager;
 
+  @Mock
+  private IIntentService intentService;
+
   public class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(AccountManager.class).toInstance(accountManager);
+      bind(IIntentService.class).toInstance(intentService);
     }
   }
 

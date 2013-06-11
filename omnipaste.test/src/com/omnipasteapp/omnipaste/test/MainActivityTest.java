@@ -5,6 +5,7 @@ import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.MainActivity;
+import com.omnipasteapp.omnipaste.services.IIntentService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +27,15 @@ public class MainActivityTest {
   @Mock
   private IConfigurationService configurationService;
 
+  @Mock
+  private IIntentService intentService;
+
   public class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(IConfigurationService.class).toInstance(configurationService);
       bind(IOmniService.class).toInstance(omniService);
+      bind(IIntentService.class).toInstance(intentService);
     }
   }
 

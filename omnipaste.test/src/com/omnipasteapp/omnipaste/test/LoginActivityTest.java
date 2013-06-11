@@ -5,7 +5,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
+import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.LoginActivity;
+import com.omnipasteapp.omnipaste.MainActivity;
+import com.omnipasteapp.omnipaste.services.IIntentService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,11 +33,15 @@ public class LoginActivityTest {
   @Mock
   private CommunicationSettings communicationSettings;
 
+  @Mock
+  private IIntentService intentService;
+
   public class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(IConfigurationService.class).toInstance(configurationService);
       bind(CommunicationSettings.class).toInstance(communicationSettings);
+      bind(IIntentService.class).toInstance(intentService);
     }
   }
 
@@ -67,5 +74,19 @@ public class LoginActivityTest {
     subject.onAccountSelected(new Account("user", "type"));
 
     verify(configurationService).updateCommunicationSettings();
+  }
+
+  @Test
+  public void onAccountSelectedCallsStartBackgroundService(){
+    subject.onAccountSelected(new Account("name", "type"));
+
+    verify(intentService).startService(eq(BackgroundService.class));
+  }
+
+  @Test
+  public void onAccountSelectedCallsStartActivityMain(){
+    subject.onAccountSelected(new Account("name", "type"));
+
+    verify(intentService).startActivity(eq(MainActivity.class));
   }
 }

@@ -3,10 +3,15 @@ package com.omnipasteapp.omnipaste;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.google.inject.Inject;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
+import com.omnipasteapp.omnipaste.services.IIntentService;
 import roboguice.activity.RoboActivity;
 
 public class BaseActivity extends RoboActivity {
+
+  @Inject
+  protected IIntentService intentService;
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {

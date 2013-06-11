@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.google.inject.Inject;
@@ -43,8 +42,8 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
   @Override
   public void onClick(DialogInterface dialog, int i) {
     logout();
-    context.stopService(new Intent(context, BackgroundService.class));
-    startActivity(new Intent(context, MainActivity.class));
+    intentService.stopService(BackgroundService.class);
+    intentService.startActivity(MainActivity.class);
   }
 
   public void logout(){
