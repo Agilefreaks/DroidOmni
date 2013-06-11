@@ -9,7 +9,7 @@ import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 
 @ContentView(R.layout.activity_main)
-public class MainActivity extends RoboActivity {
+public class MainActivity extends BaseActivity {
   @Inject
   private IOmniService omniService;
 
