@@ -1,7 +1,5 @@
 package com.omnipasteapp.androidclipboard;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
@@ -9,14 +7,14 @@ import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 
 import java.util.ArrayList;
 
-public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardManager.OnPrimaryClipChangedListener {
+public class CompatibilityAndroidClipboard implements ILocalClipboard, Runnable, ClipboardManagerWrapper.OnClipChangedListener {
 
   @Inject
-  private ClipboardManager clipboardManager;
+  private ClipboardManagerWrapper clipboardManager;
 
   private ArrayList<ICanReceiveData> dataReceivers;
 
-  public AndroidClipboard() {
+  public CompatibilityAndroidClipboard() {
     dataReceivers = new ArrayList<ICanReceiveData>();
   }
 
@@ -31,25 +29,25 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
   }
 
   @Override
-  public void putData(String data) {
-    clipboardManager.setPrimaryClip(ClipData.newPlainText("", data));
-  }
-
-  @Override
   public Thread initialize() {
     return new Thread(this);
   }
 
   @Override
-  public void run() {
-    clipboardManager.addPrimaryClipChangedListener(this);
+  public void dispose() {
+    dataReceivers.clear();
+    clipboardManager.dispose();
   }
 
   @Override
-  public void dispose() {
-    clipboardManager.removePrimaryClipChangedListener(this);
+  public void putData(String data) {
+    clipboardManager.setClip(data);
+  }
 
-    dataReceivers.clear();
+  @Override
+  public void run() {
+    clipboardManager.setOnClipChangedListener(this);
+    clipboardManager.start();
   }
 
   @Override
@@ -58,14 +56,14 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
       return;
     }
 
-    String clip = clipboardManager.getPrimaryClip().getItemAt(0).getText().toString();
+    String clip = clipboardManager.getCurrentClip();
 
     for (ICanReceiveData receiver : dataReceivers) {
       receiver.dataReceived(new ClipboardData(this, clip));
     }
   }
 
-  private Boolean hasClipping() {
-    return clipboardManager.hasPrimaryClip() && clipboardManager.getPrimaryClip().getItemCount() > 0;
+  private boolean hasClipping() {
+    return clipboardManager.hasClipping();
   }
 }
