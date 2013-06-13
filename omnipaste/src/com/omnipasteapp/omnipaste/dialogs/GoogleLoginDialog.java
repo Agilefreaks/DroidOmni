@@ -34,13 +34,11 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstance) {
-    Dialog dialog = new AlertDialog.Builder(getActivity())
+    return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.google_login_title)
         .setSingleChoiceItems(createAccountAdapter(accounts()), 1, this)
         .setNegativeButton(R.string.cancel, this)
         .create();
-
-    return dialog;
   }
 
   @Override
@@ -56,18 +54,16 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
       names.add(account.name);
     }
 
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+    return new ArrayAdapter<String>(getActivity(),
         android.R.layout.simple_list_item_1,
         names);
-
-    return adapter;
   }
 
   public void login(Account account) {
     saveConfiguration(account);
 
     intentService.startService(BackgroundService.class);
-    intentService.startActivity(MainActivity.class);
+    intentService.startClearActivity(MainActivity.class);
   }
 
   public Account[] accounts() {

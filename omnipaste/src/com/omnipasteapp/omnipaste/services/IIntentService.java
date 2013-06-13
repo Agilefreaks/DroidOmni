@@ -10,4 +10,6 @@ public interface IIntentService {
   void stopService(Class<? extends Service> cls);
 
   void startActivity(Class<? extends Activity> cls);
+
+  void startClearActivity(Class<? extends Activity> cls);
 }

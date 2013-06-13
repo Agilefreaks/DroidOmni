@@ -29,4 +29,11 @@ public class IntentService implements IIntentService {
   public void startActivity(Class<? extends Activity> cls) {
     context.startActivity(new Intent(context, cls));
   }
+
+  @Override
+  public void startClearActivity(Class<? extends  Activity> cls) {
+    Intent intent = new Intent(context, cls);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    context.startActivity(intent);
+  }
 }

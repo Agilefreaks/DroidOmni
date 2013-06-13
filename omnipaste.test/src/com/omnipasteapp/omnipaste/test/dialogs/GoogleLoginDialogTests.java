@@ -100,9 +100,9 @@ public class GoogleLoginDialogTests {
   }
 
   @Test
-  public void onAccountSelectedCallsStartActivityMain(){
+  public void onAccountSelectedCallsStartClearActivityMain(){
     subject.login(new Account("name", "type"));
 
-    verify(intentService).startActivity(eq(MainActivity.class));
+    verify(intentService).startClearActivity(eq(MainActivity.class));
   }
 }
