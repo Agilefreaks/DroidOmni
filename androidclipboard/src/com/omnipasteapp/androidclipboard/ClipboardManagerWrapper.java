@@ -18,7 +18,7 @@ public class ClipboardManagerWrapper extends Thread {
   private OnClipChangedListener listener;
   private String oldClip;
 
-  public ClipboardManagerWrapper(){
+  public ClipboardManagerWrapper() {
     isCanceled = false;
     oldClip = null;
   }
@@ -32,21 +32,21 @@ public class ClipboardManagerWrapper extends Thread {
       } catch (InterruptedException ignored) {
       }
 
-      if(clippingChanged()){
+      if (clippingChanged()) {
         fireClippingChanged();
       }
     }
   }
 
-  public void setOnClipChangedListener(OnClipChangedListener listener){
+  public void setOnClipChangedListener(OnClipChangedListener listener) {
     this.listener = listener;
   }
 
-  public String getCurrentClip(){
+  public String getCurrentClip() {
     return systemClipboardManager.getText().toString();
   }
 
-  public void setClip(String text){
+  public void setClip(String text) {
     systemClipboardManager.setText(text);
   }
 
@@ -60,19 +60,19 @@ public class ClipboardManagerWrapper extends Thread {
     return false;
   }
 
-  public boolean hasClipping(){
+  public boolean hasClipping() {
     return systemClipboardManager.hasText();
   }
 
-  public void dispose(){
+  public void dispose() {
     isCanceled = true;
     oldClip = null;
     listener = null;
     interrupt();
   }
 
-  private void fireClippingChanged(){
-    if(listener != null){
+  private void fireClippingChanged() {
+    if (listener != null) {
       listener.onPrimaryClipChanged();
     }
   }

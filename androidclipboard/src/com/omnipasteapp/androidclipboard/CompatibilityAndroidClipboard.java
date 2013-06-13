@@ -14,7 +14,7 @@ public class CompatibilityAndroidClipboard implements ILocalClipboard, Runnable,
 
   private ArrayList<ICanReceiveData> dataReceivers;
 
-  public CompatibilityAndroidClipboard(){
+  public CompatibilityAndroidClipboard() {
     dataReceivers = new ArrayList<ICanReceiveData>();
   }
 
