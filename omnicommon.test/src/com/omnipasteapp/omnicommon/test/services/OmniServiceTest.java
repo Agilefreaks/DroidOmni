@@ -61,7 +61,7 @@ public class OmniServiceTest {
                     .with(new TestModule()));
 
     subject = RoboGuice.getInjector(Robolectric.application).getInstance(OmniService.class);
-    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
+    when(configurationService.get_communicationSettings()).thenReturn(communicationSettings);
   }
 
   @Test

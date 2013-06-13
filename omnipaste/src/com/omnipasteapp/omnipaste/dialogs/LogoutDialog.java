@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
-import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.R;
@@ -46,9 +45,6 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
   }
 
   public void logout() {
-    // Reach inside the class change the it's state and then call methods on it, puppet master
-    CommunicationSettings communicationSettings = configurationService.getCommunicationSettings();
-    communicationSettings.setChannel(null);
-    configurationService.updateCommunicationSettings();
+    configurationService.clearChannel();
   }
 }

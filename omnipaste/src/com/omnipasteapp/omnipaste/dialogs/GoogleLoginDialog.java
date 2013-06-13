@@ -75,7 +75,7 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
   }
 
   private void saveConfiguration(Account account) {
-    CommunicationSettings settings = configurationService.getCommunicationSettings();
+    CommunicationSettings settings = configurationService.get_communicationSettings();
     settings.setChannel(account.name);
     configurationService.updateCommunicationSettings();
   }

@@ -60,7 +60,7 @@ public class PubNubClipboardTest {
                     .with(new TestModule()));
 
     when(mockPubNubClientFactory.create()).thenReturn(mockPubnub);
-    when(mockConfigurationService.getCommunicationSettings()).thenReturn(mockCommunicationSettings);
+    when(mockConfigurationService.get_communicationSettings()).thenReturn(mockCommunicationSettings);
     when(mockPubNubMessageBuilder.setChannel(anyString())).thenReturn(mockPubNubMessageBuilder);
     when(mockPubNubMessageBuilder.addValue(anyString())).thenReturn(mockPubNubMessageBuilder);
     when(mockPubNubMessageBuilder.build()).thenReturn(new Hashtable<String, String>());
@@ -88,7 +88,7 @@ public class PubNubClipboardTest {
   public void runAlwaysCallsConfigurationServiceGetCommunicationSettings(){
     subject.run();
 
-    verify(mockConfigurationService).getCommunicationSettings();
+    verify(mockConfigurationService).get_communicationSettings();
   }
 
   @Test

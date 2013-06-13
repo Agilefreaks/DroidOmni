@@ -3,6 +3,8 @@ package com.omnipasteapp.omnipaste.test.dialogs;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
+import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.LoginActivity;
@@ -18,7 +20,6 @@ import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,11 +36,15 @@ public class LogoutDialogTests {
   @Mock
   private CommunicationSettings communicationSettings;
 
+  @Mock
+  private IOmniService omniService;
+
   public class TestModule extends AbstractModule {
     @Override
     protected void configure() {
       bind(IConfigurationService.class).toInstance(configurationService);
       bind(IIntentService.class).toInstance(intentService);
+      bind(IOmniService.class).toInstance(omniService);
     }
   }
 
@@ -48,37 +53,30 @@ public class LogoutDialogTests {
     MockitoAnnotations.initMocks(this);
 
     RoboGuice
-            .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
-                    .with(new TestModule()));
+        .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
+            .with(new TestModule()));
 
-    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
+    when(configurationService.get_communicationSettings()).thenReturn(communicationSettings);
 
     subject = RoboGuice.getInjector(Robolectric.application).getInstance(LogoutDialog.class);
   }
 
   @Test
-  public void logoutSetsChannelToNull(){
+  public void logoutCallsConfigurationServiceClearChannel() {
     subject.logout();
 
-    verify(communicationSettings).setChannel(isNull(String.class));
+    verify(configurationService).clearChannel();
   }
 
   @Test
-  public void logoutCallsConfigurationServiceUpdateCommunicationSettings(){
-    subject.logout();
-
-    verify(configurationService).updateCommunicationSettings();
-  }
-
-  @Test
-  public void onClickAlwaysCallsIntentServiceStopBackgroundService(){
-    subject.onClick(null,0);
+  public void onClickAlwaysCallsIntentServiceStopBackgroundService() {
+    subject.onClick(null, 0);
 
     verify(intentService).stopService(eq(BackgroundService.class));
   }
 
   @Test
-  public void onClickAlwaysNavigatesToMainPage(){
+  public void onClickAlwaysNavigatesToMainPage() {
     subject.onClick(null, 0);
 
     verify(intentService).startClearActivity(eq(LoginActivity.class));

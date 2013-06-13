@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,18 +29,25 @@ public class ConfigurationServiceTest {
   }
 
   @Test
-  public void loadCommunicationSettingsCallsConfigurationProviderGetValueChannelKey(){
+  public void loadCommunicationSettingsCallsConfigurationProviderGetValueChannelKey() {
     subject.loadCommunicationSettings();
 
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
   }
 
   @Test
-  public void updateCommunicationSettingsAlwaysCallsProviderSetValueForChannel(){
+  public void updateCommunicationSettingsAlwaysCallsProviderSetValueForChannel() {
     subject.loadCommunicationSettings();
 
     subject.updateCommunicationSettings();
 
     verify(configurationProvider).setValue(eq(CommunicationSettings.ChannelKey), eq("channel"));
+  }
+
+  @Test
+  public void clearChannelCallSetChannelToNull() {
+    subject.clearChannel();
+
+    verify(configurationProvider).setValue(eq(CommunicationSettings.ChannelKey), null);
   }
 }

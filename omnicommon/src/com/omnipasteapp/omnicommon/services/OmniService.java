@@ -63,7 +63,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
 
   @Override
   public boolean isConfigured() {
-    return configurationService.getCommunicationSettings().hasChannel();
+    return configurationService.get_communicationSettings().hasChannel();
   }
 
   @Override

@@ -64,7 +64,7 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
 
   @Override
   public void run() {
-    communicationSettings = configurationService.getCommunicationSettings();
+    communicationSettings = configurationService.get_communicationSettings();
     pubnub = pubNubClientFactory.create();
 
     try {

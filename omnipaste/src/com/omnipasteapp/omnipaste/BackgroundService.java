@@ -26,7 +26,14 @@ public class BackgroundService extends RoboService {
     return START_STICKY;
   }
 
-  public void init(){
+  @Override
+  public void onDestroy() {
+    omniService.stop();
+
+    super.onDestroy();
+  }
+
+  public void init() {
     try {
       omniService.start();
     } catch (InterruptedException e) {
@@ -34,14 +41,14 @@ public class BackgroundService extends RoboService {
     }
   }
 
-  public void keepAlive(){
+  public void keepAlive() {
     Notification notification = new Notification.Builder(this)
-            .setSmallIcon(R.drawable.ic_launcher)
-            .setContentTitle(getText(R.string.app_name))
-            .setContentText(getText(R.string.notification_isSyncing_message))
-            .setWhen(System.currentTimeMillis())
-            .setOngoing(true)
-            .build();
+        .setSmallIcon(R.drawable.ic_launcher)
+        .setContentTitle(getText(R.string.app_name))
+        .setContentText(getText(R.string.notification_isSyncing_message))
+        .setWhen(System.currentTimeMillis())
+        .setOngoing(true)
+        .build();
 
     startForeground(R.id.action_settings, notification);
   }
