@@ -17,7 +17,7 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
 
   public static final String TAG = "LogoutDialogFragment";
 
-  public static LogoutDialog create(){
+  public static LogoutDialog create() {
     return new LogoutDialog();
   }
 
@@ -28,13 +28,13 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
   private Context context;
 
   @Override
-  public Dialog onCreateDialog(Bundle savedInstance){
+  public Dialog onCreateDialog(Bundle savedInstance) {
     Dialog dialog = new AlertDialog.Builder(getActivity())
-            .setTitle(R.string.logout)
-            .setView(View.inflate(getActivity(), R.layout.dialog_logout, null))
-            .setPositiveButton(R.string.ok, this)
-            .setNegativeButton(R.string.cancel, null)
-            .create();
+        .setTitle(R.string.logout)
+        .setView(View.inflate(getActivity(), R.layout.dialog_logout, null))
+        .setPositiveButton(R.string.ok, this)
+        .setNegativeButton(R.string.cancel, null)
+        .create();
 
     return dialog;
   }
@@ -46,7 +46,7 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
     intentService.startActivity(MainActivity.class);
   }
 
-  public void logout(){
+  public void logout() {
     CommunicationSettings communicationSettings = configurationService.getCommunicationSettings();
     communicationSettings.setChannel(null);
     configurationService.updateCommunicationSettings();

@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
 
     configurationService.loadCommunicationSettings();
 
-    if(omniService.isConfigured()){
+    if (omniService.isConfigured()) {
       intentService.startService(BackgroundService.class);
     } else {
       intentService.startActivity(LoginActivity.class);

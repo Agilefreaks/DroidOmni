@@ -18,7 +18,7 @@ public class LoginActivity extends RoboActivity implements View.OnClickListener 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if(loginButton != null){
+    if (loginButton != null) {
       loginButton.setOnClickListener(this);
     }
   }
