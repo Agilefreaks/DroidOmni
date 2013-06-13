@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import roboguice.inject.SystemServiceProvider;
 
+@SuppressWarnings({"NewApi", "deprecation"})
 public class AndroidClipboardModule extends AbstractModule {
   @Override
   protected void configure() {
