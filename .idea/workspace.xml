@@ -26,11 +26,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="info" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="435bdf6b-bf88-46dc-b1d0-e0465f016360" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/GoogleLoginDialog.java" afterPath="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/GoogleLoginDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/dialogs/GoogleLoginDialogTests.java" afterPath="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/dialogs/GoogleLoginDialogTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IIntentService.java" afterPath="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IIntentService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java" afterPath="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java" />
+    <list default="true" id="435bdf6b-bf88-46dc-b1d0-e0465f016360" name="Default" comment="op-117 fixed navigation from logout">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="DroidOmni.iws" />
@@ -38,9 +34,9 @@
     <file path="/MainActivityTest.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369646518895" ignored="false" />
     <file path="/strings.xml" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369111434550" ignored="false" />
     <file path="/fragment.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371110146588" ignored="false" />
-    <file path="/Dummy.txt" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371112045049" ignored="false" />
+    <file path="/Dummy.txt" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371114023756" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369051325729" ignored="false" />
-    <file path="/MainActivity.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1370851275239" ignored="false" />
+    <file path="/MainActivity.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371112441251" ignored="false" />
     <file path="/MainModule.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369053886763" ignored="false" />
     <file path="/roboguice.xml" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369297520650" ignored="false" />
     <file path="/IClipboard.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369293386219" ignored="false" />
@@ -79,8 +75,10 @@
     <file path="/.gitignore" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371101497238" ignored="false" />
     <file path="/GoogleLoginDialogTests.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371111961060" ignored="false" />
     <file path="/GoogleLoginDialog.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371111906841" ignored="false" />
-    <file path="/IntentService.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371111894906" ignored="false" />
+    <file path="/IntentService.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371112340346" ignored="false" />
     <file path="/IIntentService.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371111804040" ignored="false" />
+    <file path="/LogoutDialog.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371112661199" ignored="false" />
+    <file path="/LogoutDialogTests.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371112500145" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,20 +139,7 @@
     <favorites_list name="DroidOmni" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="GoogleLoginDialog.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/GoogleLoginDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="8" selection-start="1700" selection-end="1700" vertical-scroll-proportion="0.33223686">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1605#1613#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -184,8 +169,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/pubnubclipboard.test/src/com/omnipasteapp/pubnubclipboard/test/PubNubClipboardTest.java" />
-        <option value="$PROJECT_DIR$/pubnubclipboard/src/com/omnipasteapp/pubnubclipboard/PubNubClipboard.java" />
         <option value="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboard.java" />
         <option value="$PROJECT_DIR$/androidclipboard.test/src/com/omnipasteapp/androidclipboard/test/AndroidClipboardTest.java" />
         <option value="$PROJECT_DIR$/omnicommon.test/src/com/omnipasteapp/omnicommon/test/services/ConfigurationServiceTest.java" />
@@ -193,13 +176,15 @@
         <option value="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/MainActivityTest.java" />
         <option value="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/LogoutDialog.java" />
-        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/MainActivity.java" />
         <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/LoginActivity.java" />
         <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IIntentService.java" />
-        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java" />
         <option value="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/dialogs/GoogleLoginDialogTests.java" />
         <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/GoogleLoginDialog.java" />
+        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/MainActivity.java" />
+        <option value="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/dialogs/LogoutDialogTests.java" />
+        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java" />
+        <option value="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/LoginActivityTest.java" />
+        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/LogoutDialog.java" />
       </list>
     </option>
   </component>
@@ -333,66 +318,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="omnipaste" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="omnipaste" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="omnipaste" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="omnipaste" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="omnipaste" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dialogs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Default">
           <PATH>
@@ -403,18 +328,28 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DroidOmni" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit3" />
-    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="recentsLimit" value="5" />
-    <property name="MemberChooser.sorted" value="false" />
     <property name="ExportedApkPath" value="$PROJECT_DIR$/omnipaste/omnipaste.apk" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
     <property name="ExportedModule" value="omnipaste" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/test/robolectric-2.1.1-jar-with-dependencies.jar!/" />
     <property name="GoToClass.includeJavaFiles" value="false" />
@@ -432,8 +367,8 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -617,6 +552,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -643,19 +591,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -842,7 +777,19 @@
       <created>1371111197988</created>
       <updated>1371111197988</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="op-117 fixed navigation for login">
+      <created>1371112083105</created>
+      <updated>1371112083105</updated>
+    </task>
+    <task id="LOCAL-00019" summary="op-117 fixed navigation from logout">
+      <created>1371113819892</created>
+      <updated>1371113819892</updated>
+    </task>
+    <task id="LOCAL-00020" summary="op-117 fixed navigation from logout">
+      <created>1371113930454</created>
+      <updated>1371113930454</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -867,10 +814,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.67129135" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.67129135" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8847385" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.67342585" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -882,7 +827,6 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249309" sideWeight="0.24653149" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32337245" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -890,12 +834,15 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249309" sideWeight="0.6766275" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249309" sideWeight="0.6766275" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32870865" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.67129135" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.67129135" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32337245" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -941,7 +888,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="op-117 fixed navigation for login" />
+    <option name="LAST_COMMIT_MESSAGE" value="op-117 fixed navigation from logout" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -974,6 +921,7 @@
     <MESSAGE value="updates GoogleLoginDialog to use for each and memoization" />
     <MESSAGE value="op-117 refortmat code" />
     <MESSAGE value="op-117 fixed navigation for login" />
+    <MESSAGE value="op-117 fixed navigation from logout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -983,23 +931,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/omnipaste/res/layout/dialog_logout.xml">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Android/adt-bundle-linux-x86_64-20130514/sdk/platforms/android-17/android.jar!/android/R.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="552" column="28" selection-start="37676" selection-end="37676" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -1009,30 +940,7 @@
     </entry>
     <entry file="jar://$USER_HOME$/Android/adt-bundle-linux-x86_64-20130514/sdk/platforms/android-17/android.jar!/android/widget/ArrayAdapter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="13" selection-start="157" selection-end="157" vertical-scroll-proportion="0.1396648">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/omnicommon/src/com/omnipasteapp/omnicommon/interfaces/IConfigurationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="14" selection-start="232" selection-end="232" vertical-scroll-proportion="0.19553073">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/omnicommon/src/com/omnipasteapp/omnicommon/services/ConfigurationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="14" selection-start="702" selection-end="702" vertical-scroll-proportion="0.53072625">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/LogoutDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="2" selection-start="1265" selection-end="1265" vertical-scroll-proportion="0.49720672">
-          <folding />
-        </state>
+        <state line="6" column="13" selection-start="157" selection-end="157" vertical-scroll-proportion="0.1396648" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste/AndroidManifest.xml">
@@ -1049,23 +957,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="14" selection-start="731" selection-end="731" vertical-scroll-proportion="0.52238804">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/RoboDialogFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="24" selection-start="322" selection-end="322" vertical-scroll-proportion="0.17412935">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IIntentService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="50" selection-start="346" selection-end="346" vertical-scroll-proportion="0.29850745">
           <folding />
         </state>
       </provider>
@@ -1086,27 +980,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/GoogleLoginDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="20" selection-start="641" selection-end="641" vertical-scroll-proportion="0.44407895">
+        <state line="2" column="8" selection-start="53" selection-end="53" vertical-scroll-proportion="0.049342107">
+          <folding>
+            <element signature="e#1605#1613#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnicommon/src/com/omnipasteapp/omnicommon/interfaces/IConfigurationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="14" selection-start="276" selection-end="276" vertical-scroll-proportion="0.2238806">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnicommon/src/com/omnipasteapp/omnicommon/services/ConfigurationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="22" selection-start="955" selection-end="955" vertical-scroll-proportion="0.6467662" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IIntentService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="7" selection-start="303" selection-end="303" vertical-scroll-proportion="0.29850745">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/dialogs/LogoutDialogTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="4" selection-start="2515" selection-end="2515" vertical-scroll-proportion="0.7761194">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#TestModule#0;class#LogoutDialogTests#0" expanded="false" />
+            <element signature="method#configure#0;class#TestModule#0;class#LogoutDialogTests#0" expanded="false" />
+            <element signature="method#setUp#0;class#LogoutDialogTests#0" expanded="false" />
+            <element signature="method#logoutSetsChannelToNull#0;class#LogoutDialogTests#0" expanded="false" />
+            <element signature="method#logoutCallsConfigurationServiceUpdateCommunicationSettings#0;class#LogoutDialogTests#0" expanded="false" />
+            <element signature="method#onClickAlwaysCallsIntentServiceStopBackgroundService#0;class#LogoutDialogTests#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="4" selection-start="935" selection-end="935" vertical-scroll-proportion="0.7894737">
+        <state line="35" column="4" selection-start="882" selection-end="882" vertical-scroll-proportion="0.7711443">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/GoogleLoginDialog.java">
+    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="8" selection-start="1700" selection-end="1700" vertical-scroll-proportion="0.33223686">
+        <state line="19" column="6" selection-start="565" selection-end="565" vertical-scroll-proportion="0.37313432">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="26" selection-start="441" selection-end="441" vertical-scroll-proportion="0.32072368">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1605#1613#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/LogoutDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="2" selection-start="889" selection-end="889" vertical-scroll-proportion="0.33223686">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/LoginActivityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="122" selection-end="122" vertical-scroll-proportion="0.098684214">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -10,7 +10,7 @@ import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.BackgroundService;
-import com.omnipasteapp.omnipaste.MainActivity;
+import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.R;
 
 public class LogoutDialog extends RoboDialogFragment implements DialogInterface.OnClickListener {
@@ -29,24 +29,24 @@ public class LogoutDialog extends RoboDialogFragment implements DialogInterface.
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstance) {
-    Dialog dialog = new AlertDialog.Builder(getActivity())
+    return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.logout)
         .setView(View.inflate(getActivity(), R.layout.dialog_logout, null))
         .setPositiveButton(R.string.ok, this)
         .setNegativeButton(R.string.cancel, null)
         .create();
-
-    return dialog;
   }
 
   @Override
   public void onClick(DialogInterface dialog, int i) {
     logout();
+
     intentService.stopService(BackgroundService.class);
-    intentService.startActivity(MainActivity.class);
+    intentService.startClearActivity(LoginActivity.class);
   }
 
   public void logout() {
+    // Reach inside the class change the it's state and then call methods on it, puppet master
     CommunicationSettings communicationSettings = configurationService.getCommunicationSettings();
     communicationSettings.setChannel(null);
     configurationService.updateCommunicationSettings();

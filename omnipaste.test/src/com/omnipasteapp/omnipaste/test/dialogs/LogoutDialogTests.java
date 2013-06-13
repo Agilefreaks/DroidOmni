@@ -5,7 +5,7 @@ import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.BackgroundService;
-import com.omnipasteapp.omnipaste.MainActivity;
+import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 import org.junit.Before;
@@ -81,6 +81,6 @@ public class LogoutDialogTests {
   public void onClickAlwaysNavigatesToMainPage(){
     subject.onClick(null, 0);
 
-    verify(intentService).startActivity(eq(MainActivity.class));
+    verify(intentService).startClearActivity(eq(LoginActivity.class));
   }
 }

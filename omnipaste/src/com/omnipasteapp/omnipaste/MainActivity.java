@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
     if (omniService.isConfigured()) {
       intentService.startService(BackgroundService.class);
     } else {
-      intentService.startActivity(LoginActivity.class);
+      intentService.startClearActivity(LoginActivity.class);
     }
   }
 }

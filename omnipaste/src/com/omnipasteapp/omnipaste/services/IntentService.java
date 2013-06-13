@@ -33,7 +33,7 @@ public class IntentService implements IIntentService {
   @Override
   public void startClearActivity(Class<? extends  Activity> cls) {
     Intent intent = new Intent(context, cls);
-    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     context.startActivity(intent);
   }
 }
