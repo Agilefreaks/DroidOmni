@@ -32,9 +32,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void putData(String data) {
-    ClipboardManager manager = clipboardManager;
-
-    manager.setPrimaryClip(ClipData.newPlainText("", data));
+    clipboardManager.setPrimaryClip(ClipData.newPlainText("", data));
   }
 
   @Override
