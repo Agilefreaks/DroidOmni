@@ -18,3 +18,7 @@ build.xml
 
 # Ignore all RubyMine files
 out/
+
+# Ignore build packages
+*.apk
+key_store
