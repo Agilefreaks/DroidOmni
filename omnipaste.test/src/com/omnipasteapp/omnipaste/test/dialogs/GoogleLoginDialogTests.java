@@ -21,6 +21,7 @@ import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -68,14 +69,14 @@ public class GoogleLoginDialogTests {
   }
 
   @Test
-  public void initAccountsCallsAccountManagerGetGoogleAccounts(){
+  public void accountsCallsAccountManagerGetGoogleAccounts(){
     when(accountManager.getAccountsByType(eq("com.google"))).thenReturn(new Account[]{});
 
-    subject.initAccounts();
+    subject.accounts();
+    subject.accounts();
 
-    verify(accountManager).getAccountsByType(eq("com.google"));
+    verify(accountManager, atMost(1)).getAccountsByType(eq("com.google"));
   }
-
 
   @Test
   public void onAccountSelectedCallsSettingsSetChannel(){

@@ -14,7 +14,9 @@ import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.R;
 
-public class GoogleLoginDialog extends RoboDialogFragment implements DialogInterface.OnClickListener  {
+import java.util.ArrayList;
+
+public class GoogleLoginDialog extends RoboDialogFragment implements DialogInterface.OnClickListener {
 
   public static final String TAG = "GoogleLoginDialogFragment";
 
@@ -31,51 +33,52 @@ public class GoogleLoginDialog extends RoboDialogFragment implements DialogInter
   }
 
   @Override
-  public Dialog onCreateDialog(Bundle savedInstance){
-    initAccounts();
-
+  public Dialog onCreateDialog(Bundle savedInstance) {
     Dialog dialog = new AlertDialog.Builder(getActivity())
-            .setTitle(R.string.google_login_title)
-            .setSingleChoiceItems(createAccountAdapter(_accounts), 1, this)
-            .setNegativeButton(R.string.cancel, this)
-            .create();
+        .setTitle(R.string.google_login_title)
+        .setSingleChoiceItems(createAccountAdapter(accounts()), 1, this)
+        .setNegativeButton(R.string.cancel, this)
+        .create();
 
     return dialog;
   }
 
   @Override
   public void onClick(DialogInterface dialogInterface, int i) {
-    if(i > -1 && i < _accounts.length){
-      login(_accounts[i]);
+    if (i > -1 && i < accounts().length) {
+      login(accounts()[i]);
     }
   }
 
-  public void initAccounts(){
-    _accounts = accountManager.getAccountsByType("com.google");
-  }
-
-  public ArrayAdapter<String> createAccountAdapter(Account[] accounts){
-    final int size = accounts.length;
-    String[] names = new String[size];
-    for (int i = 0; i < size; i++) {
-      names[i] = accounts[i].name;
+  public ArrayAdapter<String> createAccountAdapter(Account[] accounts) {
+    ArrayList<String> names = new ArrayList<String>();
+    for(Account account: accounts) {
+      names.add(account.name);
     }
 
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-            android.R.layout.simple_list_item_1,
-            names);
+        android.R.layout.simple_list_item_1,
+        names);
 
     return adapter;
   }
 
-  public void login(Account account){
+  public void login(Account account) {
     saveConfiguration(account);
 
     intentService.startService(BackgroundService.class);
     intentService.startActivity(MainActivity.class);
   }
 
-  private void saveConfiguration(Account account){
+  public Account[] accounts() {
+    if (_accounts == null) {
+      _accounts = accountManager.getAccountsByType("com.google");
+    }
+
+    return _accounts;
+  }
+
+  private void saveConfiguration(Account account) {
     CommunicationSettings settings = configurationService.getCommunicationSettings();
     settings.setChannel(account.name);
     configurationService.updateCommunicationSettings();
