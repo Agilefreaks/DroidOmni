@@ -3,7 +3,7 @@ package com.omnipasteapp.omnicommon.interfaces;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 public interface IConfigurationService {
-  public CommunicationSettings get_communicationSettings();
+  public CommunicationSettings getCommunicationSettings();
 
   public void loadCommunicationSettings();
 

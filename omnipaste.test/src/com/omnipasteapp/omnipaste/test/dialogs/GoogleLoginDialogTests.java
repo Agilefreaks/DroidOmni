@@ -58,7 +58,7 @@ public class GoogleLoginDialogTests {
             .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
                     .with(new TestModule()));
 
-    when(configurationService.get_communicationSettings()).thenReturn(communicationSettings);
+    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
 
     subject = RoboGuice.getInjector(Robolectric.application).getInstance(GoogleLoginDialog.class);
   }

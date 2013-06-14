@@ -3,7 +3,6 @@ package com.omnipasteapp.omnipaste.test.dialogs;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
-import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.BackgroundService;
@@ -56,7 +55,7 @@ public class LogoutDialogTests {
         .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
             .with(new TestModule()));
 
-    when(configurationService.get_communicationSettings()).thenReturn(communicationSettings);
+    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
 
     subject = RoboGuice.getInjector(Robolectric.application).getInstance(LogoutDialog.class);
   }
