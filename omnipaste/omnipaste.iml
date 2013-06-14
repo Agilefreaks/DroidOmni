@@ -18,6 +18,15 @@
     <orderEntry type="module" module-name="omnicommon" />
     <orderEntry type="module" module-name="androidclipboard" />
     <orderEntry type="module" module-name="pubnubclipboard" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../libs/android-support-v4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="org.roboguice:roboguice:2.0" level="project" />
   </component>
 </module>
