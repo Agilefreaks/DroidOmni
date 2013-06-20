@@ -16,7 +16,7 @@ import com.omnipasteapp.omnipaste.R;
 
 import java.util.ArrayList;
 
-public class GoogleLoginDialog extends RoboDialogFragment implements DialogInterface.OnClickListener {
+public class GoogleLoginDialog extends BaseDialogFragment implements DialogInterface.OnClickListener {
 
   public static final String TAG = "GoogleLoginDialogFragment";
 

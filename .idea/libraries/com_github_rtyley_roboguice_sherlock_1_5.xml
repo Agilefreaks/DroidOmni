@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="com.github.rtyley:roboguice-sherlock:1.5" type="repository">
+    <properties maven-id="com.github.rtyley:roboguice-sherlock:1.5" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/roboguice-sherlock-1.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpcore-4.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/opengl-api-gl1.1-android-2.1_r1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/roboguice-2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/guice-3.0-no_aop.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/javax.inject-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/aopalliance-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/actionbarsherlock-4.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/support-v4-r7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/json-20090211.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
