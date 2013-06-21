@@ -1,0 +1,6 @@
+[submodule "roboguicesherlock"]
+	path = roboguicesherlock
+	url = git@github.com:rtyley/roboguice-sherlock.git
+[submodule "actionbarsherlock"]
+	path = actionbarsherlock
+	url = git@github.com:JakeWharton/ActionBarSherlock.git

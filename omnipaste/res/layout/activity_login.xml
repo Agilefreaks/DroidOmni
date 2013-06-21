@@ -1,21 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" android:gravity="center|center_vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center|center_vertical">
 
     <TextView
             style="@style/CallToAction"
             android:text="@string/login_call_to_action"
-            android:layout_height="wrap_content" android:id="@+id/textView" android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView" android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true" android:padding="20dp"/>
 
-    <Button
-            style="@style/LoginButton"
-            android:text="@string/login_button_text"
-            android:id="@+id/login_button"
-            android:onClick="loginClicked"
-            android:layout_alignLeft="@+id/textView" android:layout_alignParentTop="true"
-            android:layout_marginBottom="40dp" android:layout_width="wrap_content" android:paddingLeft="50dp"
-            android:paddingRight="50dp"/>
+    <TextView
+            android:text="@string/login_message"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:paddingLeft="20dp" android:paddingTop="10dp" android:paddingRight="20dp"
+            android:paddingBottom="10dp"/>
+
+    <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/accounts_listView"
+            android:layout_gravity="top"/>
 
 </LinearLayout>
