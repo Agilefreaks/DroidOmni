@@ -2,7 +2,6 @@ package com.omnipasteapp.omnipaste.test.dialogs;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
@@ -10,14 +9,15 @@ import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.util.ActivityTestModule;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
@@ -28,10 +28,10 @@ public class LoginActivityTests {
   private LoginActivity subject;
 
   @Mock
-  private AccountManager accountManager;
+  private AccountManager _accountManager;
 
   @Mock
-  private IIntentService intentService;
+  private IIntentService _intentService;
 
   @Mock
   private IConfigurationService configurationService;
@@ -39,12 +39,12 @@ public class LoginActivityTests {
   @Mock
   private CommunicationSettings communicationSettings;
 
-  public class TestModule extends AbstractModule {
+  public class TestModule extends ActivityTestModule {
     @Override
     protected void configure() {
-      bind(AccountManager.class).toInstance(accountManager);
+      bind(AccountManager.class).toInstance(_accountManager);
       bind(IConfigurationService.class).toInstance(configurationService);
-      bind(IIntentService.class).toInstance(intentService);
+      bind(IIntentService.class).toInstance(_intentService);
     }
   }
 
@@ -58,7 +58,8 @@ public class LoginActivityTests {
 
     when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
 
-    subject = Robolectric.buildActivity(LoginActivity.class).get();
+    subject = new LoginActivity();
+    RoboGuice.getInjector(Robolectric.application).injectMembersWithoutViews(subject);
   }
 
   @After
@@ -67,40 +68,40 @@ public class LoginActivityTests {
   }
 
   @Test
-  public void accountsCallsAccountManagerGetGoogleAccounts(){
-    when(accountManager.getAccountsByType(eq("com.google"))).thenReturn(new Account[]{});
+  public void accountsCallsAccountManagerGetGoogleAccounts() {
+    when(_accountManager.getAccountsByType(eq("com.google"))).thenReturn(new Account[]{});
 
     subject.accounts();
     subject.accounts();
 
-    verify(accountManager, atMost(1)).getAccountsByType(eq("com.google"));
+    verify(_accountManager, atMost(1)).getAccountsByType(eq("com.google"));
   }
 
   @Test
-  public void onAccountSelectedCallsSettingsSetChannel(){
+  public void onAccountSelectedCallsSettingsSetChannel() {
     subject.login(new Account("user", "type"));
 
     verify(communicationSettings).setChannel(eq("user"));
   }
 
   @Test
-  public void onAccountSelectedConfigurationServiceUpdateCommunicationSettings(){
+  public void onAccountSelectedConfigurationServiceUpdateCommunicationSettings() {
     subject.login(new Account("user", "type"));
 
     verify(configurationService).updateCommunicationSettings();
   }
 
   @Test
-  public void onAccountSelectedCallsStartBackgroundService(){
+  public void onAccountSelectedCallsStartBackgroundService() {
     subject.login(new Account("name", "type"));
 
-    verify(intentService).startService(eq(BackgroundService.class));
+    verify(_intentService).startService(eq(BackgroundService.class));
   }
 
   @Test
-  public void onAccountSelectedCallsStartClearActivityMain(){
+  public void onAccountSelectedCallsStartClearActivityMain() {
     subject.login(new Account("name", "type"));
 
-    verify(intentService).startClearActivity(eq(MainActivity.class));
+    verify(_intentService).startClearActivity(eq(MainActivity.class));
   }
 }

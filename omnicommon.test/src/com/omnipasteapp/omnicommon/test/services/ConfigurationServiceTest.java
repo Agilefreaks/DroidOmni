@@ -4,16 +4,13 @@ import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.services.ConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class ConfigurationServiceTest {
@@ -48,6 +45,6 @@ public class ConfigurationServiceTest {
   public void clearChannelCallSetChannelToNull() {
     subject.clearChannel();
 
-    verify(configurationProvider).setValue(eq(CommunicationSettings.ChannelKey), null);
+    verify(configurationProvider).setValue(eq(CommunicationSettings.ChannelKey), isNull(String.class));
   }
 }

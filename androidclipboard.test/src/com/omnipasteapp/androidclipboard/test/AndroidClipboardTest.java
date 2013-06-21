@@ -7,6 +7,8 @@ import com.google.inject.util.Modules;
 import com.omnipasteapp.androidclipboard.AndroidClipboard;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -14,8 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
@@ -75,8 +75,10 @@ public class AndroidClipboardTest {
   @Test
   public void onPrimaryClipChangedCallsReceiverDataReceived() {
     ClipData mockClipData = mock(ClipData.class);
+    ClipData.Item mockItem = mock(ClipData.Item.class);
+    when(mockItem.getText()).thenReturn("asd");
     when(mockClipData.getItemCount()).thenReturn(1);
-    when(mockClipData.getItemAt(eq(0))).thenReturn(new ClipData.Item("test"));
+    when(mockClipData.getItemAt(anyInt())).thenReturn(mockItem);
     when(mockClipboardManager.hasPrimaryClip()).thenReturn(true);
     when(mockClipboardManager.getPrimaryClip()).thenReturn(mockClipData);
     ICanReceiveData mockDataReceiver = mock(ICanReceiveData.class);

@@ -9,13 +9,13 @@ import com.omnipasteapp.omnipaste.BackgroundServiceCommandReceiver;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.Robolectric;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;

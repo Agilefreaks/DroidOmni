@@ -24,7 +24,7 @@ public class BackgroundServiceCommandReceiver extends RoboBroadcastReceiver {
 
   public void onHandleReceive(Context context, Intent intent) {
     if (intent.getAction() == START_SERVICE) {
-      if (BackgroundService.serviceState == BackgroundServiceStates.Inactive) {
+      if (BackgroundService.serviceState == BackgroundServiceStates.Active) {
         _intentService.stopService(BackgroundService.class);
       }
       _intentService.startService(BackgroundService.class);

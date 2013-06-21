@@ -1,19 +1,19 @@
 package com.omnipasteapp.omnipaste.test;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.util.ActivityTestModule;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Mockito.*;
@@ -31,7 +31,7 @@ public class MainActivityTest {
   @Mock
   private IIntentService intentService;
 
-  public class TestModule extends AbstractModule {
+  public class TestModule extends ActivityTestModule {
     @Override
     protected void configure() {
       bind(IConfigurationService.class).toInstance(configurationService);
@@ -48,7 +48,8 @@ public class MainActivityTest {
         .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
             .with(new TestModule()));
 
-    subject = Robolectric.buildActivity(MainActivity.class).get();
+    subject = new MainActivity();
+    RoboGuice.getInjector(Robolectric.application).injectMembersWithoutViews(subject);
   }
 
   @After

@@ -7,6 +7,8 @@ import com.omnipasteapp.androidclipboard.ClipboardManagerWrapper;
 import com.omnipasteapp.androidclipboard.CompatibilityAndroidClipboard;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -14,8 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static junit.framework.Assert.assertEquals;

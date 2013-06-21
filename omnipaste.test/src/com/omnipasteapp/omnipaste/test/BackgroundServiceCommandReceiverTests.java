@@ -7,14 +7,14 @@ import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.BackgroundServiceCommandReceiver;
 import com.omnipasteapp.omnipaste.enums.BackgroundServiceStates;
 import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
