@@ -6,7 +6,18 @@
       <item index="0" class="java.lang.String" itemvalue="roboguice.inject.InjectView" />
     </list>
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="android" url="file://$PROJECT_DIR$/actionbarsherlock/actionbarsherlock" />
+  </component>
   <component name="IdProvider" IDEtalkID="83F480DC2FAE5C556353C99660927576" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/roboguicesherlock/pom.xml" />
+        <option value="$PROJECT_DIR$/actionbarsherlock/actionbarsherlock/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="Android 4.2.2 Platform" project-jdk-type="Android SDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

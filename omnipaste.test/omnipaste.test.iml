@@ -23,6 +23,7 @@
     </orderEntry>
     <orderEntry type="library" name="org.mockito:mockito-all:1.9.5" level="project" />
     <orderEntry type="library" name="org.roboguice:roboguice:2.0" level="project" />
+    <orderEntry type="library" name="com.github.rtyley:roboguice-sherlock:1.5" level="project" />
   </component>
 </module>
 

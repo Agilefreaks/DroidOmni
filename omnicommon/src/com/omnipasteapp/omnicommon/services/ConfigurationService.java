@@ -15,7 +15,7 @@ public class ConfigurationService implements IConfigurationService {
   }
 
   @Override
-  public CommunicationSettings get_communicationSettings() {
+  public CommunicationSettings getCommunicationSettings() {
     return _communicationSettings;
   }
 

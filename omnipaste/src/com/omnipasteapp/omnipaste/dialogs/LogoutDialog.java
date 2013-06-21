@@ -12,7 +12,7 @@ import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.R;
 
-public class LogoutDialog extends RoboDialogFragment implements DialogInterface.OnClickListener {
+public class LogoutDialog extends BaseDialogFragment implements DialogInterface.OnClickListener {
 
   public static final String TAG = "LogoutDialogFragment";
 

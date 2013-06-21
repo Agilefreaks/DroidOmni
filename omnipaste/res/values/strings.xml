@@ -13,4 +13,5 @@
     <string name="login">Login</string>
     <string name="exit_message">Clicking Ok will terminate the synchronization with your other devices.</string>
     <string name="notification_isSyncing_message">Syncing clipboard.</string>
+    <string name="login_message">To login, please select one of your accounts listed below.</string>
 </resources>

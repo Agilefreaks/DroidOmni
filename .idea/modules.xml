@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/actionbarsherlock/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/actionbarsherlock/actionbarsherlock/actionbarsherlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidclipboard/androidclipboard.iml" filepath="$PROJECT_DIR$/androidclipboard/androidclipboard.iml" />
       <module fileurl="file://$PROJECT_DIR$/androidclipboard.test/androidclipboard.test.iml" filepath="$PROJECT_DIR$/androidclipboard.test/androidclipboard.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/omnicommon/omnicommon.iml" filepath="$PROJECT_DIR$/omnicommon/omnicommon.iml" />
@@ -10,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/omnipaste.test/omnipaste.test.iml" filepath="$PROJECT_DIR$/omnipaste.test/omnipaste.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/pubnubclipboard/pubnubclipboard.iml" filepath="$PROJECT_DIR$/pubnubclipboard/pubnubclipboard.iml" />
       <module fileurl="file://$PROJECT_DIR$/pubnubclipboard.test/pubnubclipboard.test.iml" filepath="$PROJECT_DIR$/pubnubclipboard.test/pubnubclipboard.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/roboguicesherlock/roboguice-sherlock.iml" filepath="$PROJECT_DIR$/roboguicesherlock/roboguice-sherlock.iml" />
     </modules>
   </component>
 </project>
