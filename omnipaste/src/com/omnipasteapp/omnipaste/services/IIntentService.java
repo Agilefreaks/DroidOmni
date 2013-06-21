@@ -12,4 +12,6 @@ public interface IIntentService {
   void startActivity(Class<? extends Activity> cls);
 
   void startClearActivity(Class<? extends Activity> cls);
+
+  void sendBroadcast(String command);
 }

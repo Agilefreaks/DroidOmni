@@ -8,15 +8,17 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+import com.omnipasteapp.omnipaste.enums.BackgroundServiceStates;
 import roboguice.service.RoboService;
 
 public class BackgroundService extends RoboService {
 
-  @Inject
-  private IOmniService omniService;
+  public static BackgroundServiceStates serviceState;
+
+  private IOmniService _omniService;
 
   @Inject
-  private NotificationManager notificationManager;
+  private NotificationManager _notificationManager;
 
   public IBinder onBind(Intent intent) {
     return null;
@@ -34,14 +36,16 @@ public class BackgroundService extends RoboService {
 
   @Override
   public void onDestroy() {
-    omniService.stop();
-
     super.onDestroy();
+
+    _omniService.stop();
+    _omniService = null;
   }
 
   public void init() {
+
     try {
-      omniService.start();
+      _omniService.start();
     } catch (InterruptedException e) {
       e.printStackTrace(); // handle this in a smarter way
     }
@@ -59,6 +63,6 @@ public class BackgroundService extends RoboService {
     notification.setLatestEventInfo(this, getText(R.string.app_name), getText(R.string.app_name), PendingIntent.getActivity(this, 0,
             new Intent(this, MainActivity.class), 0));
 
-    notificationManager.notify(R.id.action_settings, notification);
+    _notificationManager.notify(R.id.action_settings, notification);
   }
 }

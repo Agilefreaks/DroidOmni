@@ -9,21 +9,21 @@ import roboguice.inject.ContentView;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
   @Inject
-  private IOmniService omniService;
+  private IOmniService _omniService;
 
   @Inject
-  private IConfigurationService configurationService;
+  private IConfigurationService _configurationService;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    configurationService.loadCommunicationSettings();
+    _configurationService.loadCommunicationSettings();
 
-    if (omniService.isConfigured()) {
-      intentService.startService(BackgroundService.class);
+    if (_omniService.isConfigured()) {
+      _intentService.sendBroadcast(BackgroundServiceCommandReceiver.START_SERVICE);
     } else {
-      intentService.startClearActivity(LoginActivity.class);
+      _intentService.startClearActivity(LoginActivity.class);
     }
   }
 }

@@ -36,4 +36,12 @@ public class IntentService implements IIntentService {
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     context.startActivity(intent);
   }
+
+  @Override
+  public void sendBroadcast(String command) {
+    Intent intent = new Intent();
+    intent.setAction(command);
+
+    context.sendBroadcast(intent);
+  }
 }
