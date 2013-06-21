@@ -1,6 +1,5 @@
 package com.omnipasteapp.omnipaste;
 
-import android.os.Bundle;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -26,18 +25,11 @@ public class BaseActivity extends RoboSherlockFragmentActivity {
   }
 
   @Override
-  public void onCreate(Bundle savedInstance){
-    super.onCreate(savedInstance);
-
-    setTheme(com.actionbarsherlock.R.style.Sherlock___Theme_DarkActionBar);
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater menuInflater = getSupportMenuInflater();
     menuInflater.inflate(getMenu(), menu);
 
-    return true;
+    return super.onCreateOptionsMenu(menu);
   }
 
   public int getMenu() {

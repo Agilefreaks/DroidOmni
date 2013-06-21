@@ -1,4 +1,4 @@
-package com.omnipasteapp.omnipaste.test.dialogs;
+package com.omnipasteapp.omnipaste.test;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
