@@ -47,7 +47,6 @@ public class CompatibilityAndroidClipboard implements ILocalClipboard, Runnable,
   @Override
   public void run() {
     clipboardManager.setOnClipChangedListener(this);
-    clipboardManager.start();
   }
 
   @Override
