@@ -5,6 +5,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.androidclipboard.ClipboardManagerWrapper;
 import com.omnipasteapp.androidclipboard.CompatibilityAndroidClipboard;
+import com.omnipasteapp.androidclipboard.IClipboardManagerWrapper;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.xtremelabs.robolectric.Robolectric;
@@ -23,6 +24,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("deprecation")
 @RunWith(RobolectricTestRunner.class)
 public class CompatibilityAndroidClipboardTests {
   private CompatibilityAndroidClipboard subject;
@@ -37,8 +39,8 @@ public class CompatibilityAndroidClipboardTests {
 
     @Override
     protected void configure() {
-      bind(ClipboardManagerWrapper.class).toInstance(clipboardManagerWrapper);
       bind(ClipboardManager.class).toInstance(systemClipboardManager);
+      bind(IClipboardManagerWrapper.class).toInstance(clipboardManagerWrapper);
     }
   }
 

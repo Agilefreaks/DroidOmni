@@ -3,30 +3,26 @@ package com.omnipasteapp.androidclipboard;
 import com.google.inject.Inject;
 
 @SuppressWarnings("deprecation")
-public class ClipboardManagerWrapper extends Thread {
+public class ClipboardManagerWrapper extends Thread implements IClipboardManagerWrapper {
 
   public static final int POLLING_INTERVAL = 1000;
 
-  public interface OnClipChangedListener {
-    void onPrimaryClipChanged();
-  }
-
   @Inject
-  private android.text.ClipboardManager systemClipboardManager;
+  private android.text.ClipboardManager _systemClipboardManager;
 
-  private volatile boolean isCanceled;
-  private OnClipChangedListener listener;
-  private String oldClip;
+  private volatile boolean _isCanceled;
+  private OnClipChangedListener _listener;
+  private String _oldClip;
 
   public ClipboardManagerWrapper() {
-    isCanceled = false;
-    oldClip = null;
+    _isCanceled = false;
+    _oldClip = null;
   }
 
   @Override
   public void run() {
-    oldClip = getCurrentClip();
-    while (!isCanceled) {
+    _oldClip = getCurrentClip();
+    while (!_isCanceled) {
       try {
         Thread.sleep(POLLING_INTERVAL);
       } catch (InterruptedException ignored) {
@@ -38,42 +34,56 @@ public class ClipboardManagerWrapper extends Thread {
     }
   }
 
+  @Override
+  public void start() {
+    if (!isAlive()) {
+      super.start();
+
+    }
+  }
+
+  @Override
   public void setOnClipChangedListener(OnClipChangedListener listener) {
-    this.listener = listener;
+    this._listener = listener;
   }
 
+  @Override
   public String getCurrentClip() {
-    return systemClipboardManager.getText().toString();
+    return _systemClipboardManager.getText().toString();
   }
 
+  @Override
   public void setClip(String text) {
-    systemClipboardManager.setText(text);
+    _systemClipboardManager.setText(text);
   }
 
+  @Override
   public boolean clippingChanged() {
     if (hasClipping()) {
       String newClip = getCurrentClip();
 
-      return !newClip.equals(oldClip);
+      return !newClip.equals(_oldClip);
     }
 
     return false;
   }
 
+  @Override
   public boolean hasClipping() {
-    return systemClipboardManager.hasText();
+    return _systemClipboardManager.hasText();
   }
 
+  @Override
   public void dispose() {
-    isCanceled = true;
-    oldClip = null;
-    listener = null;
+    _isCanceled = true;
+    _oldClip = null;
+    _listener = null;
     interrupt();
   }
 
   private void fireClippingChanged() {
-    if (listener != null) {
-      listener.onPrimaryClipChanged();
+    if (_listener != null) {
+      _listener.onPrimaryClipChanged();
     }
   }
 }

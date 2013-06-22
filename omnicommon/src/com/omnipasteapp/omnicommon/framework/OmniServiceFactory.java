@@ -5,13 +5,13 @@ import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import roboguice.RoboGuice;
 
-public class OmniServiceFactory implements IOmniServiceFactory{
+public class OmniServiceFactory implements IOmniServiceFactory {
 
   @Inject
-  private Context context;
+  private Context _context;
 
   @Override
   public IOmniService create() {
-    return RoboGuice.getInjector(context).getInstance(IOmniService.class);
+    return RoboGuice.getInjector(_context).getInstance(IOmniService.class);
   }
 }

@@ -7,10 +7,10 @@ import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 
 import java.util.ArrayList;
 
-public class CompatibilityAndroidClipboard implements ILocalClipboard, Runnable, ClipboardManagerWrapper.OnClipChangedListener {
+public class CompatibilityAndroidClipboard implements ILocalClipboard, Runnable, IClipboardManagerWrapper.OnClipChangedListener {
 
   @Inject
-  private ClipboardManagerWrapper clipboardManager;
+  private IClipboardManagerWrapper clipboardManager;
 
   private ArrayList<ICanReceiveData> dataReceivers;
 
