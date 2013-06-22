@@ -1,7 +1,6 @@
-package com.omnipasteapp.androidclipboard;
+package com.omnipasteapp.androidclipboard.support;
 
 import com.google.inject.Inject;
-
 @SuppressWarnings("deprecation")
 public class ClipboardManagerWrapper extends Thread implements IClipboardManagerWrapper {
 

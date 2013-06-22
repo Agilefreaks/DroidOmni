@@ -1,4 +1,4 @@
-package com.omnipasteapp.androidclipboard;
+package com.omnipasteapp.androidclipboard.support;
 
 public interface IClipboardManagerWrapper extends Runnable {
 

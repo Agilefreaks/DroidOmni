@@ -3,9 +3,9 @@ package com.omnipasteapp.androidclipboard.test;
 import android.text.ClipboardManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.util.Modules;
-import com.omnipasteapp.androidclipboard.ClipboardManagerWrapper;
-import com.omnipasteapp.androidclipboard.CompatibilityAndroidClipboard;
-import com.omnipasteapp.androidclipboard.IClipboardManagerWrapper;
+import com.omnipasteapp.androidclipboard.support.ClipboardManagerWrapper;
+import com.omnipasteapp.androidclipboard.support.CompatibilityAndroidClipboard;
+import com.omnipasteapp.androidclipboard.support.IClipboardManagerWrapper;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.xtremelabs.robolectric.Robolectric;
@@ -27,91 +27,86 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("deprecation")
 @RunWith(RobolectricTestRunner.class)
 public class CompatibilityAndroidClipboardTests {
-  private CompatibilityAndroidClipboard subject;
+  private CompatibilityAndroidClipboard _subject;
 
   @Mock
-  private ClipboardManagerWrapper clipboardManagerWrapper;
+  private ClipboardManagerWrapper _clipboardManagerWrapper;
 
   @Mock
-  private ClipboardManager systemClipboardManager;
+  private ClipboardManager _systemClipboardManager;
 
-  public class TestModule extends AbstractModule{
+  public class TestModule extends AbstractModule {
 
     @Override
     protected void configure() {
-      bind(ClipboardManager.class).toInstance(systemClipboardManager);
-      bind(IClipboardManagerWrapper.class).toInstance(clipboardManagerWrapper);
+      bind(ClipboardManager.class).toInstance(_systemClipboardManager);
+      bind(IClipboardManagerWrapper.class).toInstance(_clipboardManagerWrapper);
     }
   }
 
   @Before
-  public void setUp(){
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
     RoboGuice
             .setBaseApplicationInjector(Robolectric.application, RoboGuice.DEFAULT_STAGE, Modules.override(RoboGuice.newDefaultRoboModule(Robolectric.application))
                     .with(new TestModule()));
 
-    subject = new CompatibilityAndroidClipboard();
-    RoboGuice.getInjector(Robolectric.application).injectMembers(subject);
+    _subject = new CompatibilityAndroidClipboard();
+    RoboGuice.getInjector(Robolectric.application).injectMembers(_subject);
 
-    subject.run();
+    _subject.run();
   }
 
   @After
-  public void destroy(){
-    subject.dispose();
+  public void destroy() {
+    _subject.dispose();
   }
 
   @Test
-  public void runAlwaysCallsClipboardManagerWrapperSetOnClipChangedListener(){
-    verify(clipboardManagerWrapper).setOnClipChangedListener(eq(subject));
+  public void runAlwaysCallsClipboardManagerWrapperSetOnClipChangedListener() {
+    verify(_clipboardManagerWrapper).setOnClipChangedListener(eq(_subject));
   }
 
   @Test
-  public void runAlwaysCallsClipboardManagerWrapperStart(){
-    verify(clipboardManagerWrapper).start();
+  public void putDataAlwaysCallsClip0boardManagerWrapperSetClip() {
+    _subject.putData("test");
+
+    verify(_clipboardManagerWrapper).setClip(eq("test"));
   }
 
   @Test
-  public void putDataAlwaysCallsClip0boardManagerWrapperSetClip(){
-    subject.putData("test");
+  public void disposeCallsClipboardManagerWrapperDispose() {
+    _subject.dispose();
 
-    verify(clipboardManagerWrapper).setClip(eq("test"));
+    verify(_clipboardManagerWrapper).dispose();
   }
 
   @Test
-  public void disposeCallsClipboardManagerWrapperDispose(){
-    subject.dispose();
-
-    verify(clipboardManagerWrapper).dispose();
-  }
-
-  @Test
-  public void onPrimaryClipChangedWhenHasClippingCallsReceiverDataReceived(){
+  public void onPrimaryClipChangedWhenHasClippingCallsReceiverDataReceived() {
     ICanReceiveData receiver = new ICanReceiveData() {
       @Override
       public void dataReceived(IClipboardData clipboardData) {
         assertEquals("test", clipboardData.getData());
       }
     };
-    when(clipboardManagerWrapper.hasClipping()).thenReturn(true);
-    when(clipboardManagerWrapper.getCurrentClip()).thenReturn("test");
-    subject.addDataReceiver(receiver);
+    when(_clipboardManagerWrapper.hasClipping()).thenReturn(true);
+    when(_clipboardManagerWrapper.getCurrentClip()).thenReturn("test");
+    _subject.addDataReceiver(receiver);
 
-    subject.onPrimaryClipChanged();
+    _subject.onPrimaryClipChanged();
   }
 
   @Test
-  public void onPrimaryClipChangedWhenNotHasClippingDoesNotCallReceiverDataReceived(){
+  public void onPrimaryClipChangedWhenNotHasClippingDoesNotCallReceiverDataReceived() {
     ICanReceiveData receiver = new ICanReceiveData() {
       @Override
       public void dataReceived(IClipboardData clipboardData) {
         Assert.fail();
       }
     };
-    when(clipboardManagerWrapper.hasClipping()).thenReturn(false);
-    subject.addDataReceiver(receiver);
+    when(_clipboardManagerWrapper.hasClipping()).thenReturn(false);
+    _subject.addDataReceiver(receiver);
 
-    subject.onPrimaryClipChanged();
+    _subject.onPrimaryClipChanged();
   }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.omnipasteapp.androidclipboard.support.CompatibilityAndroidClipboard;
+import com.omnipasteapp.androidclipboard.support.IClipboardManagerWrapper;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import roboguice.inject.SystemServiceProvider;
 

@@ -1,4 +1,4 @@
-package com.omnipasteapp.androidclipboard;
+package com.omnipasteapp.androidclipboard.support;
 
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.ClipboardData;
