@@ -39,17 +39,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="435bdf6b-bf88-46dc-b1d0-e0465f016360" name="Default" comment="op-117 fixed navigation from logout">
-      <change type="MOVED" beforePath="C:\_Root\Projects\AgileFreaks\OmniPaste\Clients\DroidOmni\androidclipboard\src\com\omnipasteapp\androidclipboard\ClipboardManagerWrapper.java" afterPath="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/support/ClipboardManagerWrapper.java" />
-      <change type="MOVED" beforePath="C:\_Root\Projects\AgileFreaks\OmniPaste\Clients\DroidOmni\androidclipboard\src\com\omnipasteapp\androidclipboard\CompatibilityAndroidClipboard.java" afterPath="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/support/CompatibilityAndroidClipboard.java" />
-      <change type="MOVED" beforePath="C:\_Root\Projects\AgileFreaks\OmniPaste\Clients\DroidOmni\androidclipboard\src\com\omnipasteapp\androidclipboard\IClipboardManagerWrapper.java" afterPath="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/support/IClipboardManagerWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/actionbarsherlock" afterPath="$PROJECT_DIR$/actionbarsherlock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roboguicesherlock" afterPath="$PROJECT_DIR$/roboguicesherlock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java" afterPath="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/androidclipboard/gen/com/omnipasteapp/androidclipboard/BuildConfig.java" afterPath="$PROJECT_DIR$/androidclipboard/gen/com/omnipasteapp/androidclipboard/BuildConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnicommon/gen/com/omnipasteapp/omnicommon/BuildConfig.java" afterPath="$PROJECT_DIR$/omnicommon/gen/com/omnipasteapp/omnicommon/BuildConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnipaste/gen/com/omnipasteapp/omnipaste/BuildConfig.java" afterPath="$PROJECT_DIR$/omnipaste/gen/com/omnipasteapp/omnipaste/BuildConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pubnubclipboard/gen/com/omnipasteapp/pubnubclipboard/BuildConfig.java" afterPath="$PROJECT_DIR$/pubnubclipboard/gen/com/omnipasteapp/pubnubclipboard/BuildConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/androidclipboard.test/src/com/omnipasteapp/androidclipboard/test/CompatibilityAndroidClipboardTests.java" afterPath="$PROJECT_DIR$/androidclipboard.test/src/com/omnipasteapp/androidclipboard/test/CompatibilityAndroidClipboardTests.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/androidclipboard/gen/com/omnipasteapp/androidclipboard/Manifest.java" afterPath="$PROJECT_DIR$/androidclipboard/gen/com/omnipasteapp/androidclipboard/Manifest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnicommon/gen/com/omnipasteapp/omnicommon/Manifest.java" afterPath="$PROJECT_DIR$/omnicommon/gen/com/omnipasteapp/omnicommon/Manifest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/omnipaste/gen/com/omnipasteapp/omnipaste/Manifest.java" afterPath="$PROJECT_DIR$/omnipaste/gen/com/omnipasteapp/omnipaste/Manifest.java" />
@@ -67,8 +62,8 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/MainActivityTest.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371821143260" ignored="false" />
     <file path="/strings.xml" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371763078552" ignored="false" />
-    <file path="/fragment.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371895680563" ignored="false" />
-    <file path="/Dummy.txt" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371896761179" ignored="false" />
+    <file path="/fragment.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371898951382" ignored="false" />
+    <file path="/Dummy.txt" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371898951382" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371827560926" ignored="false" />
     <file path="/MainActivity.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371825178932" ignored="false" />
     <file path="/MainModule.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1369053886763" ignored="false" />
@@ -109,7 +104,7 @@
     <file path="/.gitignore" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371101497238" ignored="false" />
     <file path="/GoogleLoginDialogTests.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371111961060" ignored="false" />
     <file path="/GoogleLoginDialog.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371760075949" ignored="false" />
-    <file path="/IntentService.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371886797888" ignored="false" />
+    <file path="/IntentService.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371898583115" ignored="false" />
     <file path="/IIntentService.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371886826203" ignored="false" />
     <file path="/LogoutDialog.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371825233430" ignored="false" />
     <file path="/LogoutDialogTests.java" changelist="435bdf6b-bf88-46dc-b1d0-e0465f016360" time="1371886924291" ignored="false" />
@@ -215,10 +210,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompatibilityAndroidClipboardTests.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CompatibilityAndroidClipboardTests.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/androidclipboard.test/src/com/omnipasteapp/androidclipboard/test/CompatibilityAndroidClipboardTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="28" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.5252809">
+            <state line="33" column="30" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IntentService.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="4" selection-start="408" selection-end="408" vertical-scroll-proportion="-1.0028735">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Build.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../../Java/adt-bundle-windows-x86_64-20130219/sdk/sources/android-17/android/os/Build.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="265" column="41" selection-start="11164" selection-end="11173" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidClipboardModule.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="32" selection-start="650" selection-end="674" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -254,7 +278,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/MainActivity.java" />
         <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/LoginActivity.java" />
         <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/dialogs/LogoutDialog.java" />
         <option value="$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/LogoutDialogTests.java" />
@@ -270,6 +293,7 @@
         <option value="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/providers/ClipboardManagerWrapperProvider.java" />
         <option value="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java" />
         <option value="$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/support/ClipboardManagerWrapper.java" />
+        <option value="$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java" />
       </list>
     </option>
   </component>
@@ -446,56 +470,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="androidclipboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="androidclipboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="androidclipboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DroidOmni" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="androidclipboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="androidclipboard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="providers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -577,7 +551,7 @@
       <recent name="com.omnipasteapp.pubnubclipboard" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.omnipaste">
+  <component name="RunManager" selected="JUnit.All in omnicommon.test">
     <configuration default="false" name="All in androidclipboard.test" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="androidclipboard.test" />
@@ -587,62 +561,6 @@
       <option name="MAIN_CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/omnipaste" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="BackgroundServiceTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.omnipasteapp.omnipaste.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="omnipaste.test" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="com.omnipasteapp.omnipaste.test" />
-      <option name="MAIN_CLASS_NAME" value="com.omnipasteapp.omnipaste.test.BackgroundServiceTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/omnipaste" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
-    <configuration default="false" name="BackgroundServiceCommandReceiverTests" type="JUnit" factoryName="JUnit" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.omnipasteapp.omnipaste.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="omnipaste.test" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="com.omnipasteapp.omnipaste.test" />
-      <option name="MAIN_CLASS_NAME" value="com.omnipasteapp.omnipaste.test.BackgroundServiceCommandReceiverTests" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/omnipaste" />
@@ -694,6 +612,52 @@
     <configuration default="false" name="All in omnipaste.test" type="JUnit" factoryName="JUnit" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="omnipaste.test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/omnipaste" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in pubnubclipboard.test" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="pubnubclipboard.test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/omnipaste" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in omnicommon.test" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="omnicommon.test" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="PACKAGE_NAME" value="" />
@@ -857,18 +821,18 @@
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Android Application.omnipaste" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.All in androidclipboard.test" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.BackgroundServiceTest" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.BackgroundServiceCommandReceiverTests" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.CompatibilityAndroidClipboardTests" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.All in omnipaste.test" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.CompatibilityAndroidClipboardTests" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.All in omnipaste.test" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.All in pubnubclipboard.test" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.All in omnicommon.test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.CompatibilityAndroidClipboardTests" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in omnicommon.test" />
         <item index="1" class="java.lang.String" itemvalue="JUnit.All in androidclipboard.test" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.All in omnipaste.test" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.BackgroundServiceCommandReceiverTests" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.BackgroundServiceTest" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.All in pubnubclipboard.test" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.CompatibilityAndroidClipboardTests" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -1006,7 +970,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.8835617" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.67342585" order="3" side_tool="false" content_ui="tabs" />
@@ -1119,19 +1083,11 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/LogoutDialogTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="10" selection-start="2158" selection-end="2158" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/omnicommon/src/com/omnipasteapp/omnicommon/services/OmniService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="895" selection-end="895" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IIntentService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="7" selection-start="404" selection-end="404" vertical-scroll-proportion="0.5451505" />
+        <state line="16" column="7" selection-start="404" selection-end="404" vertical-scroll-proportion="0.5451505">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste.test/src/com/omnipasteapp/omnipaste/test/dialogs/LoginActivityTests.java">
@@ -1144,11 +1100,6 @@
         <state line="1036" column="28" selection-start="34643" selection-end="34643" vertical-scroll-proportion="-0.0100334445">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="12" selection-start="549" selection-end="549" vertical-scroll-proportion="-0.6822742" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/BackgroundServiceCommandReceiver.java">
@@ -1188,15 +1139,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="18" selection-start="725" selection-end="725" vertical-scroll-proportion="0.4775281">
-          <folding>
-            <element signature="e#492#536#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/support/CompatibilityAndroidClipboard.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="73" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0">
@@ -1215,8 +1157,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/androidclipboard.test/src/com/omnipasteapp/androidclipboard/test/CompatibilityAndroidClipboardTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="28" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.5252809">
+        <state line="33" column="30" selection-start="1267" selection-end="1267" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="13" selection-start="370" selection-end="370" vertical-scroll-proportion="0.18428184">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/androidclipboard/src/com/omnipasteapp/androidclipboard/AndroidClipboardModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="32" selection-start="650" selection-end="674" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Java/adt-bundle-windows-x86_64-20130219/sdk/sources/android-17/android/os/Build.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="265" column="41" selection-start="11164" selection-end="11173" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/omnipaste/src/com/omnipasteapp/omnipaste/services/IntentService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="4" selection-start="408" selection-end="408" vertical-scroll-proportion="-1.0028735">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1274,7 +1246,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>androidclipboard.test</last-edited>
+          <last-edited>pubnubclipboard.test</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
