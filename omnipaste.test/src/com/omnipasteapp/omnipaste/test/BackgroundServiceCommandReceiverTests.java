@@ -65,17 +65,6 @@ public class BackgroundServiceCommandReceiverTests {
   }
 
   @Test
-  public void onHandleReceivedWhenActionIsStartServiceAndServiceIsActiveCallsIntentServiceStopService() {
-    BackgroundService.serviceState = BackgroundServiceStates.Active;
-    Intent intent = new Intent();
-    intent.setAction(BackgroundServiceCommandReceiver.START_SERVICE);
-
-    _subject.onHandleReceive(null, intent);
-
-    verify(_intentService).stopService(eq(BackgroundService.class));
-  }
-
-  @Test
   public void onHandleReceivedWhenActionIsStopServiceCallsIntentSericeStopService() {
     BackgroundService.serviceState = BackgroundServiceStates.Active;
     Intent intent = new Intent();
