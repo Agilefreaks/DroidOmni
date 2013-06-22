@@ -1,11 +1,14 @@
 package com.omnipasteapp.androidclipboard.support;
 
+import com.google.inject.Inject;
 @SuppressWarnings("deprecation")
 public class ClipboardManagerWrapper extends Thread implements IClipboardManagerWrapper {
 
   public static final int POLLING_INTERVAL = 1000;
 
+  @Inject
   private android.text.ClipboardManager _systemClipboardManager;
+
   private volatile boolean _isCanceled;
   private OnClipChangedListener _listener;
   private String _oldClip;
@@ -13,11 +16,6 @@ public class ClipboardManagerWrapper extends Thread implements IClipboardManager
   public ClipboardManagerWrapper() {
     _isCanceled = false;
     _oldClip = null;
-  }
-
-  public ClipboardManagerWrapper(android.text.ClipboardManager systemClipboardManager) {
-    super();
-    _systemClipboardManager = systemClipboardManager;
   }
 
   @Override
