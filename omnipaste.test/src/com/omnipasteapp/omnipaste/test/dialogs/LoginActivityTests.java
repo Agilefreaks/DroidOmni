@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
-import com.omnipasteapp.omnipaste.BackgroundService;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.MainActivity;
 import com.omnipasteapp.omnipaste.services.IIntentService;
@@ -89,13 +88,6 @@ public class LoginActivityTests {
     subject.login(new Account("user", "type"));
 
     verify(configurationService).updateCommunicationSettings();
-  }
-
-  @Test
-  public void onAccountSelectedCallsStartBackgroundService() {
-    subject.login(new Account("name", "type"));
-
-    verify(_intentService).startService(eq(BackgroundService.class));
   }
 
   @Test

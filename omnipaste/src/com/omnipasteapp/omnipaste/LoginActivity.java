@@ -56,7 +56,6 @@ public class LoginActivity extends BaseActivity implements AdapterView.OnItemCli
   public void login(Account account) {
     saveConfiguration(account);
 
-    _intentService.startService(BackgroundService.class);
     _intentService.startClearActivity(MainActivity.class);
   }
 

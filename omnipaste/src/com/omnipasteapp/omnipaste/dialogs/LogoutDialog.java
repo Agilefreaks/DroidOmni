@@ -40,7 +40,7 @@ public class LogoutDialog extends BaseDialogFragment implements DialogInterface.
   public void onClick(DialogInterface dialog, int i) {
     logout();
 
-    intentService.sendBroadcast(BackgroundServiceCommandReceiver.STOP_SERVICE);
+    intentService.sendBroadcast(BackgroundServiceCommandReceiver.class, BackgroundServiceCommandReceiver.STOP_SERVICE);
     intentService.startClearActivity(LoginActivity.class);
   }
 

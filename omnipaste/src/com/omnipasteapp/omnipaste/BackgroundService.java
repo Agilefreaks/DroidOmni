@@ -7,15 +7,19 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import com.google.inject.Inject;
+import com.omnipasteapp.omnicommon.framework.IOmniServiceFactory;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.enums.BackgroundServiceStates;
 import roboguice.service.RoboService;
 
 public class BackgroundService extends RoboService {
 
-  public static BackgroundServiceStates serviceState;
+  public static BackgroundServiceStates serviceState = BackgroundServiceStates.Inactive;
 
   private IOmniService _omniService;
+
+  @Inject
+  private IOmniServiceFactory _omniServiceFactory;
 
   @Inject
   private NotificationManager _notificationManager;
@@ -28,7 +32,7 @@ public class BackgroundService extends RoboService {
   public int onStartCommand(Intent intent, int flags, int startId) {
     super.onStartCommand(intent, flags, startId);
 
-    init();
+    start();
     keepAlive();
 
     return START_STICKY;
@@ -36,19 +40,28 @@ public class BackgroundService extends RoboService {
 
   @Override
   public void onDestroy() {
-    super.onDestroy();
+    stop();
 
-    _omniService.stop();
-    _omniService = null;
+    super.onDestroy();
   }
 
-  public void init() {
+  public synchronized void start() {
+
+    _omniService = _omniServiceFactory.create();
 
     try {
       _omniService.start();
+      serviceState = BackgroundServiceStates.Active;
     } catch (InterruptedException e) {
       e.printStackTrace(); // handle this in a smarter way
     }
+  }
+
+  public synchronized void stop() {
+    _omniService.stop();
+    _omniService = null;
+    _notificationManager.cancel(R.id.action_settings);
+    serviceState = BackgroundServiceStates.Inactive;
   }
 
   public void keepAlive() {

@@ -2,6 +2,7 @@ package com.omnipasteapp.omnipaste.services;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import com.google.inject.Inject;
@@ -38,8 +39,8 @@ public class IntentService implements IIntentService {
   }
 
   @Override
-  public void sendBroadcast(String command) {
-    Intent intent = new Intent();
+  public void sendBroadcast(Class<? extends BroadcastReceiver> receiverClass, String command) {
+    Intent intent = new Intent(context, receiverClass);
     intent.setAction(command);
 
     context.sendBroadcast(intent);

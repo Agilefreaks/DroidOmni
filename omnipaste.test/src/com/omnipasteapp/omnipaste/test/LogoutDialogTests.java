@@ -71,7 +71,7 @@ public class LogoutDialogTests {
   public void onClickAlwaysCallsIntentServiceSendBroadcastBackgroundServiceStop() {
     subject.onClick(null, 0);
 
-    verify(intentService).sendBroadcast(eq(BackgroundServiceCommandReceiver.STOP_SERVICE));
+    verify(intentService).sendBroadcast(eq(BackgroundServiceCommandReceiver.class), eq(BackgroundServiceCommandReceiver.STOP_SERVICE));
   }
 
   @Test

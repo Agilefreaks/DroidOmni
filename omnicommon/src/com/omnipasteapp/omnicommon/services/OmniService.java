@@ -30,7 +30,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Override
-  public void start() throws InterruptedException {
+  public synchronized void start() throws InterruptedException {
     _omniClipboardInitialize = _omniClipboard.initialize();
     _localClipboardInitialize = _localClipboard.initialize();
 
@@ -45,7 +45,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Override
-  public void stop() {
+  public synchronized void stop() {
     if (_omniClipboardInitialize != null && _omniClipboardInitialize.isAlive()) {
       _omniClipboardInitialize.interrupt();
     }

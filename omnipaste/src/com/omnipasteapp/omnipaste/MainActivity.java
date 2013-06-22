@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity {
     _configurationService.loadCommunicationSettings();
 
     if (_omniService.isConfigured()) {
-      _intentService.sendBroadcast(BackgroundServiceCommandReceiver.START_SERVICE);
+      _intentService.sendBroadcast(BackgroundServiceCommandReceiver.class, BackgroundServiceCommandReceiver.START_SERVICE);
     } else {
       _intentService.startClearActivity(LoginActivity.class);
     }
