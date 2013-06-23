@@ -71,10 +71,9 @@ public class BackgroundService extends RoboService {
             .setContentText(getText(R.string.notification_isSyncing_message))
             .setWhen(System.currentTimeMillis())
             .setOngoing(true)
+            .setContentIntent(PendingIntent.getActivity(this, 0,
+                    new Intent(this, MainActivity.class),0))
             .getNotification();
-
-    notification.setLatestEventInfo(this, getText(R.string.app_name), getText(R.string.app_name), PendingIntent.getActivity(this, 0,
-            new Intent(this, MainActivity.class), 0));
 
     _notificationManager.notify(R.id.action_settings, notification);
   }
