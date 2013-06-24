@@ -9,6 +9,6 @@ public class PubNubClipboardModule extends AbstractModule{
   protected void configure() {
       bind(IPubNubClientFactory.class).to(PubNubClientFactory.class).in(Singleton.class);
       bind(IPubNubMessageBuilder.class).to(PubNubMessageBuilder.class).in(Singleton.class);
-      bind(IOmniClipboard.class).to(PubNubClipboard.class).in(Singleton.class);
+      bind(IOmniClipboard.class).to(PubNubClipboard.class);
   }
 }

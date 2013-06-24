@@ -5,17 +5,17 @@ import com.google.inject.util.Modules;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
-import com.omnipasteapp.omnipaste.BackgroundService;
+import com.omnipasteapp.omnipaste.BackgroundServiceCommandReceiver;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.xtremelabs.robolectric.Robolectric;
+import com.xtremelabs.robolectric.RobolectricTestRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import roboguice.RoboGuice;
 
 import static org.mockito.Matchers.eq;
@@ -68,10 +68,10 @@ public class LogoutDialogTests {
   }
 
   @Test
-  public void onClickAlwaysCallsIntentServiceStopBackgroundService() {
+  public void onClickAlwaysCallsIntentServiceSendBroadcastBackgroundServiceStop() {
     subject.onClick(null, 0);
 
-    verify(intentService).stopService(eq(BackgroundService.class));
+    verify(intentService).sendBroadcast(eq(BackgroundServiceCommandReceiver.class), eq(BackgroundServiceCommandReceiver.STOP_SERVICE));
   }
 
   @Test

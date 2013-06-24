@@ -21,20 +21,20 @@ public class LoginActivity extends BaseActivity implements AdapterView.OnItemCli
   private Account[] _accounts;
 
   @Inject
-  private AccountManager accountManager;
+  private AccountManager _accountManager;
 
   @Inject
-  private IConfigurationService configurationService;
+  private IConfigurationService _configurationService;
 
   @InjectView(R.id.accounts_listView)
-  private ListView accountListView;
+  private ListView _accountListView;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    accountListView.setAdapter(createAccountAdapter(accounts()));
-    accountListView.setOnItemClickListener(this);
+    _accountListView.setAdapter(createAccountAdapter(accounts()));
+    _accountListView.setOnItemClickListener(this);
   }
 
   @Override
@@ -56,22 +56,21 @@ public class LoginActivity extends BaseActivity implements AdapterView.OnItemCli
   public void login(Account account) {
     saveConfiguration(account);
 
-    intentService.startService(BackgroundService.class);
-    intentService.startClearActivity(MainActivity.class);
+    _intentService.startClearActivity(MainActivity.class);
   }
 
   public Account[] accounts() {
     if (_accounts == null) {
-      _accounts = accountManager.getAccountsByType("com.google");
+      _accounts = _accountManager.getAccountsByType("com.google");
     }
 
     return _accounts;
   }
 
   private void saveConfiguration(Account account) {
-    CommunicationSettings settings = configurationService.getCommunicationSettings();
+    CommunicationSettings settings = _configurationService.getCommunicationSettings();
     settings.setChannel(account.name);
-    configurationService.updateCommunicationSettings();
+    _configurationService.updateCommunicationSettings();
   }
 
   @Override

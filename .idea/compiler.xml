@@ -8,6 +8,7 @@
       <directory url="file://$PROJECT_DIR$/omnipaste/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/pubnubclipboard/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/actionbarsherlock/actionbarsherlock/target/generated-sources/r" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/omnipaste.test.common/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>

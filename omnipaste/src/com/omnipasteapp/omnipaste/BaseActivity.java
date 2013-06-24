@@ -11,7 +11,7 @@ import com.omnipasteapp.omnipaste.services.IIntentService;
 public class BaseActivity extends RoboSherlockFragmentActivity {
 
   @Inject
-  protected IIntentService intentService;
+  protected IIntentService _intentService;
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {

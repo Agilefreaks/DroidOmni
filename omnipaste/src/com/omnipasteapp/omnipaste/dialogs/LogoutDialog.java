@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
-import com.omnipasteapp.omnipaste.BackgroundService;
+import com.omnipasteapp.omnipaste.BackgroundServiceCommandReceiver;
 import com.omnipasteapp.omnipaste.LoginActivity;
 import com.omnipasteapp.omnipaste.R;
 
@@ -40,7 +40,7 @@ public class LogoutDialog extends BaseDialogFragment implements DialogInterface.
   public void onClick(DialogInterface dialog, int i) {
     logout();
 
-    intentService.stopService(BackgroundService.class);
+    intentService.sendBroadcast(BackgroundServiceCommandReceiver.class, BackgroundServiceCommandReceiver.STOP_SERVICE);
     intentService.startClearActivity(LoginActivity.class);
   }
 

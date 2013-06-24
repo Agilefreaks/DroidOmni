@@ -4,61 +4,61 @@ import com.google.inject.Inject;
 import com.omnipasteapp.omnicommon.interfaces.*;
 
 public class OmniService implements IOmniService, ICanReceiveData {
-  private ILocalClipboard localClipboard;
-  private IOmniClipboard omniClipboard;
-  private String lastData;
-  private Thread omniClipboardInitialize;
-  private Thread localClipboardInitialize;
+  private ILocalClipboard _localClipboard;
+  private IOmniClipboard _omniClipboard;
+  private String _lastData;
+  private Thread _omniClipboardInitialize;
+  private Thread _localClipboardInitialize;
 
   @Inject
   private IConfigurationService configurationService;
 
   @Inject
   public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
-    this.localClipboard = localClipboard;
-    this.omniClipboard = omniClipboard;
+    _localClipboard = localClipboard;
+    _omniClipboard = omniClipboard;
   }
 
   @Override
   public ILocalClipboard getLocalClipboard() {
-    return localClipboard;
+    return _localClipboard;
   }
 
   @Override
   public IOmniClipboard getOmniClipboard() {
-    return omniClipboard;
+    return _omniClipboard;
   }
 
   @Override
-  public void start() throws InterruptedException {
-    omniClipboardInitialize = omniClipboard.initialize();
-    localClipboardInitialize = localClipboard.initialize();
+  public synchronized void start() throws InterruptedException {
+    _omniClipboardInitialize = _omniClipboard.initialize();
+    _localClipboardInitialize = _localClipboard.initialize();
 
-    omniClipboardInitialize.start();
-    localClipboardInitialize.start();
+    _omniClipboardInitialize.start();
+    _localClipboardInitialize.start();
 
-    omniClipboardInitialize.join();
-    localClipboardInitialize.join();
+    _omniClipboardInitialize.join();
+    _localClipboardInitialize.join();
 
-    omniClipboard.addDataReceiver(OmniService.this);
-    localClipboard.addDataReceiver(OmniService.this);
+    _omniClipboard.addDataReceiver(this);
+    _localClipboard.addDataReceiver(this);
   }
 
   @Override
-  public void stop() {
-    if (omniClipboardInitialize != null && omniClipboardInitialize.isAlive()) {
-      omniClipboardInitialize.interrupt();
+  public synchronized void stop() {
+    if (_omniClipboardInitialize != null && _omniClipboardInitialize.isAlive()) {
+      _omniClipboardInitialize.interrupt();
     }
 
-    if (localClipboardInitialize != null && localClipboardInitialize.isAlive()) {
-      localClipboardInitialize.interrupt();
+    if (_localClipboardInitialize != null && _localClipboardInitialize.isAlive()) {
+      _localClipboardInitialize.interrupt();
     }
 
-    omniClipboard.removeDataReceiver(this);
-    omniClipboard.dispose();
+    _omniClipboard.removeDataReceiver(this);
+    _omniClipboard.dispose();
 
-    localClipboard.removeDataReceiver(this);
-    localClipboard.dispose();
+    _localClipboard.removeDataReceiver(this);
+    _localClipboard.dispose();
   }
 
   @Override
@@ -69,7 +69,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
   @Override
   public void dataReceived(IClipboardData clipboardData) {
     if (shouldPutData(clipboardData.getData())) {
-      lastData = putData(clipboardData);
+      _lastData = putData(clipboardData);
     }
   }
 
@@ -77,15 +77,15 @@ public class OmniService implements IOmniService, ICanReceiveData {
     String data = clipboardData.getData();
 
     if (clipboardData.getSender() instanceof ILocalClipboard) {
-      omniClipboard.putData(data);
+      _omniClipboard.putData(data);
     } else if (clipboardData.getSender() instanceof IOmniClipboard) {
-      localClipboard.putData(data);
+      _localClipboard.putData(data);
     }
 
     return data;
   }
 
   private Boolean shouldPutData(String currentData) {
-    return !currentData.isEmpty() && (lastData == null || !lastData.equals(currentData));
+    return !currentData.isEmpty() && (_lastData == null || !_lastData.equals(currentData));
   }
 }
