@@ -1,10 +1,4 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.4.2'
-    }
 }
 
 apply plugin: 'android-library'
@@ -15,8 +9,6 @@ repositories {
 
 dependencies {
     compile files('/libs/android-support-v4.jar')
-
-    compile 'org.roboguice:roboguice:2.0'
 }
 
 android {
