@@ -9,9 +9,16 @@ buildscript {
 
 apply plugin: 'android'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile files('/libs/android-support-v4.jar')
+
     compile project(':androidclipboard')
+
+    compile 'org.roboguice:roboguice:2.0'
 }
 
 android {
