@@ -1,0 +1,1 @@
+include ':omnipaste', ':androidclipboard', ':omnicommon'

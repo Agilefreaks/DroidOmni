@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.4.2'
+    }
+}
+
+apply plugin: 'android-library'
+
+dependencies {
+    compile files('/libs/android-support-v4.jar')
+    compile project(':omnicommon')
+}
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 16
+    }
+}
