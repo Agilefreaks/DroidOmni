@@ -10,18 +10,17 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module
+@Module(complete = false, library = true)
 public class OmnicommonModule {
-//  @Provides
-//  IOmniService provideOmniService(OmniService omniService)
-//  {
-//    return omniService;
-//  }
-//
-//  @Provides
-//  @Singleton
-//  IConfigurationService provideConfigurationService(ConfigurationService service)
-//  {
-//    return service;
-//  }
+
+  @Provides
+  IOmniService provideOmniService(OmniService omniService) {
+    return omniService;
+  }
+
+  @Provides
+  @Singleton
+  IConfigurationService provideConfigurationService(ConfigurationService service) {
+    return service;
+  }
 }
