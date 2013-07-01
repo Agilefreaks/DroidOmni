@@ -10,3 +10,5 @@ buildscript {
         classpath "com.android.tools.build:gradle:$gradleAndroidPluginVersion"
     }
 }
+
+apply plugin: 'android-reporting'

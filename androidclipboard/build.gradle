@@ -8,7 +8,6 @@ repositories {
 }
 
 dependencies {
-    compile files('/libs/android-support-v4.jar')
     compile project(':omnicommon')
 }
 

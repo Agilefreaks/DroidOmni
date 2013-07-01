@@ -8,8 +8,7 @@ repositories {
 }
 
 dependencies {
-    compile files('/libs/android-support-v4.jar')
-
+    compile files('../libs/android-support-v4.jar')
     compile project(':androidclipboard')
 }
 
