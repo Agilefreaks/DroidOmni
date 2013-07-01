@@ -12,11 +12,12 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(includes = {
-    OmnicommonModule.class,
-    AndroidClipboardModule.class,
-    PubNubClipboardModule.class
-})
+@Module(
+    includes = {
+        OmnicommonModule.class,
+        AndroidClipboardModule.class,
+        PubNubClipboardModule.class
+    })
 public class MainModule {
   private Context context;
 
