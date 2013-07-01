@@ -21,10 +21,10 @@ dependencies {
     compile 'com.squareup:otto:1.3.3'
 
     instrumentTestCompile files('../libs/instrumentTest/hamcrest-all-1.3.jar')
-    instrumentTestCompile files('../libs/objenesis-1.3.jar')
-    instrumentTestCompile files('../libs/dexmaker-mockito-1.0.jar')
-    instrumentTestCompile files('../libs/dexmaker-1.0.jar')
-    instrumentTestCompile files('../libs/mockito-core-1.9.5.jar')
+    instrumentTestCompile files('../libs/instrumentTest/objenesis-1.3.jar')
+    instrumentTestCompile files('../libs/instrumentTest/dexmaker-mockito-1.0.jar')
+    instrumentTestCompile files('../libs/instrumentTest/dexmaker-1.0.jar')
+    instrumentTestCompile files('../libs/instrumentTest/mockito-core-1.9.5.jar')
 }
 
 android {
