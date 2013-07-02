@@ -1,12 +1,4 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.googlecode.androidannotations:androidannotations:2.7.1'
-        classpath 'com.googlecode.androidannotations:androidannotations-api:2.7.1'
-    }
 }
 
 apply plugin: 'android-library'
@@ -15,10 +7,14 @@ repositories {
     mavenCentral()
 }
 
+ext.androidAnnotationsVersion = '2.7.1'
+
 dependencies {
     compile 'com.squareup.dagger:dagger-compiler:1.0.1'
     compile 'com.squareup.dagger:dagger:1.0.1'
     compile 'com.squareup:otto:1.3.3'
+
+    compile "com.googlecode.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
 
     instrumentTestCompile files('../libs/instrumentTest/hamcrest-all-1.3.jar')
     instrumentTestCompile files('../libs/instrumentTest/objenesis-1.3.jar')
@@ -36,21 +32,3 @@ android {
         targetSdkVersion 16
     }
 }
-
-configurations {
-    androidannotations
-    androidannotations.extendsFrom(compile)
-}
-
-dependencies {
-    androidannotations 'com.googlecode.androidannotations:androidannotations:2.7.1'
-    compile 'com.googlecode.androidannotations:androidannotations-api:2.7.1'
-}
-
-//android.applicationVariants.each { variant ->
-//    variant.javaCompile.classpath += configurations.androidannotations
-//    variant.javaCompile.options.compilerArgs += [
-//            '-processor', 'com.googlecode.androidannotations.AndroidAnnotationProcessor',
-//            '-AandroidManifestFile=' + variant.processResources.manifestFile
-//     ]
-//}
