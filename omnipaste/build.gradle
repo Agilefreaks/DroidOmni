@@ -8,10 +8,12 @@ repositories {
 }
 
 dependencies {
-    compile files('../libs/android-support-v4.jar')
+    compile 'com.android.support:support-v4:13.0.0'
+
     compile project(':omnicommon')
     compile project(':androidclipboard')
     compile project(':pubnubclipboard')
+    compile project(':actionbarsherlock')
 }
 
 android {
@@ -20,7 +22,7 @@ android {
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 16
+        targetSdkVersion 17
     }
 }
 
