@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Omnipaste</string>
     <string name="action_settings">Settings</string>
 
     <string name="startOmnipasteService">com.omnipasteapp.intent.action.startOmnipasteService</string>
     <string name="stopOmnipasteService">com.omnipasteapp.intent.action.stopOmnipasteService</string>
+
+    <string name="title_activity_login">Login</string>
+    <string name="login_header">Tap on the account you wish to login with:</string>
+    <string name="login_footer">You need to use the same account for the other clients also.</string>
 </resources>
