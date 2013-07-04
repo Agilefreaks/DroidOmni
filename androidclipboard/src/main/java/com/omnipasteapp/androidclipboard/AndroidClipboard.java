@@ -11,18 +11,16 @@ import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardManager.OnPrimaryClipChangedListener {
 
-  @Inject
-  public ClipboardManager clipboardManager;
+  private ClipboardManager _clipboardManager;
 
   private ArrayList<ICanReceiveData> dataReceivers;
 
-  public AndroidClipboard() {
+  public AndroidClipboard(ClipboardManager clipboardManager) {
     dataReceivers = new ArrayList<ICanReceiveData>();
+    _clipboardManager = clipboardManager;
   }
 
   @Override
@@ -37,7 +35,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void putData(String data) {
-    clipboardManager.setPrimaryClip(ClipData.newPlainText("", data));
+    _clipboardManager.setPrimaryClip(ClipData.newPlainText("", data));
   }
 
   @Override
@@ -47,12 +45,12 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
 
   @Override
   public void run() {
-    clipboardManager.addPrimaryClipChangedListener(this);
+    _clipboardManager.addPrimaryClipChangedListener(this);
   }
 
   @Override
   public void dispose() {
-    clipboardManager.removePrimaryClipChangedListener(this);
+    _clipboardManager.removePrimaryClipChangedListener(this);
 
     dataReceivers.clear();
   }
@@ -71,11 +69,11 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
   }
 
   private Boolean hasClipping() {
-    return clipboardManager.hasPrimaryClip() && getPrimaryClip().getItemCount() > 0;
+    return _clipboardManager.hasPrimaryClip() && getPrimaryClip().getItemCount() > 0;
   }
 
   private ClipData getPrimaryClip() {
-    ClipData result = clipboardManager.getPrimaryClip();
+    ClipData result = _clipboardManager.getPrimaryClip();
 
     if (result == null) {
       result = new ClipData("", new String[] {""}, new ClipData.Item(""));

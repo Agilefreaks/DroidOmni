@@ -41,7 +41,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
     _omniClipboardInitialize.join();
     _localClipboardInitialize.join();
 
-    _omniClipboard.addDataReceiver(this);
+   _omniClipboard.addDataReceiver(this);
     _localClipboard.addDataReceiver(this);
   }
 
@@ -57,9 +57,11 @@ public class OmniService implements IOmniService, ICanReceiveData {
 
     _omniClipboard.removeDataReceiver(this);
     _omniClipboard.dispose();
+    _omniClipboard = null;
 
     _localClipboard.removeDataReceiver(this);
     _localClipboard.dispose();
+    _localClipboard = null;
   }
 
   @Override

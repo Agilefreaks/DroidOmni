@@ -9,6 +9,8 @@ repositories {
 
 dependencies {
     compile project(':omnicommon')
+    compile files('libs/bcprov-jdk16-1.46.jar')
+    compile files('libs/log4j-1.2.16.jar')
     compile files('libs/pubnub-3.4.jar')
 
     instrumentTestCompile files('../libs/instrumentTest/hamcrest-all-1.3.jar')

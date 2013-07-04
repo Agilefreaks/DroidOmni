@@ -1,7 +1,9 @@
 package com.omnipasteapp.androidclipboard;
 
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.os.Build;
 
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
@@ -21,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AndroidClipboardTest extends TestCase {
 
   @Mock
@@ -31,8 +34,7 @@ public class AndroidClipboardTest extends TestCase {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    subject = new AndroidClipboard();
-    subject.clipboardManager = mockClipboardManager;
+    subject = new AndroidClipboard(mockClipboardManager);
   }
 
   public void testInitializeReturnsNewThread() {
