@@ -39,7 +39,12 @@ public class MainActivity extends SherlockActivity {
 
   @AfterViews
   public void startOmnipasteService() {
-    configurationService.loadCommunicationSettings();
+    if(configurationService.loadCommunicationSettings()) {
+      // start omnipaste service
+    }
+    else {
+      intentService.startNewActivity(LoginActivity_.class);
+    }
   }
 
   @Click(R.id.startOmnipasteService)

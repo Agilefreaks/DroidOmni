@@ -11,5 +11,7 @@ public interface IIntentService {
 
   void startActivity(Class<? extends Activity> cls);
 
+  void startNewActivity(Class<? extends Activity> cls);
+
   void sendBroadcast(String action);
 }

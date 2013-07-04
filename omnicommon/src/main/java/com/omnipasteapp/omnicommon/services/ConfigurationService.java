@@ -21,9 +21,11 @@ public class ConfigurationService implements IConfigurationService {
   }
 
   @Override
-  public void loadCommunicationSettings() {
+  public boolean loadCommunicationSettings() {
     String channel = _provider.getValue(CommunicationSettings.ChannelKey);
     _communicationSettings = new CommunicationSettings(channel);
+
+    return channel != null && !channel.isEmpty();
   }
 
   @Override

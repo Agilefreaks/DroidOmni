@@ -6,6 +6,8 @@ import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import junit.framework.TestCase;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
@@ -27,6 +29,22 @@ public class ConfigurationServiceTest extends TestCase {
     subject.loadCommunicationSettings();
 
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
+  }
+
+  public void testLocalCommunicationSettingsReturnsTrueWhenChannelIsNotEmpty() {
+    assertThat(subject.loadCommunicationSettings(), is(true));
+  }
+
+  public void testLocalCommunicationSettingsReturnsFalseWhenChannelIsEmpty() {
+    when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn("");
+
+    assertThat(subject.loadCommunicationSettings(), is(false));
+  }
+
+  public void testLocalCommunicationSettingsReturnsFalseWhenChannelIsNull() {
+    when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn(null);
+
+    assertThat(subject.loadCommunicationSettings(), is(false));
   }
 
   public void testUpdateCommunicationSettingsAlwaysCallsProviderSetValueForChannel() {

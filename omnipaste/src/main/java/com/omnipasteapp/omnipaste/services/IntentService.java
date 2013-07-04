@@ -40,6 +40,14 @@ public class IntentService implements IIntentService {
   }
 
   @Override
+  public void startNewActivity(Class<? extends Activity> cls) {
+    Intent intent = new Intent(_context, cls);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+    _context.startActivity(intent);
+  }
+
+  @Override
   public void sendBroadcast(String action) {
     sendBroadcast(_context, action);
   }
