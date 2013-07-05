@@ -1,4 +1,4 @@
-package com.omnipasteapp.omnipaste.backgroundServices;
+package com.omnipasteapp.omnipaste.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,10 +6,11 @@ import android.content.Intent;
 
 import com.googlecode.androidannotations.annotations.EReceiver;
 import com.googlecode.androidannotations.annotations.res.StringRes;
+import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
 import com.omnipasteapp.omnipaste.services.IntentService;
 
 @EReceiver
-public class OmnipasteServiceCommandReceiver extends BroadcastReceiver {
+public class OmnipasteServiceReceiver extends BroadcastReceiver {
   @StringRes
   public String startOmnipasteService;
 

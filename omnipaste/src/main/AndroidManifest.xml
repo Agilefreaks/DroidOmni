@@ -39,10 +39,16 @@
 
         <service android:name="com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_" />
 
-        <receiver android:name="com.omnipasteapp.omnipaste.backgroundServices.OmnipasteServiceCommandReceiver_" >
+        <receiver android:name=".receivers.OmnipasteServiceReceiver_" >
             <intent-filter>
-                <action android:name="com.omnipasteapp.intent.action.startOmnipasteService" />
-                <action android:name="com.omnipasteapp.intent.action.stopOmnipasteService" />
+                <action android:name="com.omnipasteapp.intent.action.START_OMNIPASTE_SERVICE" />
+                <action android:name="com.omnipasteapp.intent.action.STOP_OMNIPASTE_SERVICE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".receivers.ConnectivityReceiver_">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
     </application>

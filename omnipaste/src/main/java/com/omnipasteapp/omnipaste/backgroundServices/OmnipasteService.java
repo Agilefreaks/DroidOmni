@@ -7,15 +7,22 @@ import android.os.IBinder;
 
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
+import com.omnipasteapp.omnipaste.services.IntentService;
 
 @EService
 public class OmnipasteService extends Service {
+  public static final String EXTRA_STARTED = "started";
+
   public IOmniService omniService;
 
   @SystemService
   public NotificationManager notificationManager;
+
+  @StringRes
+  public String omnipasteServiceStatusChanged;
 
   @Override
   public void onCreate() {
@@ -43,6 +50,8 @@ public class OmnipasteService extends Service {
       e.printStackTrace();
     }
 
+    notifyStarted();
+
     // We want this service to continue running until it is explicitly
     // stopped, so return sticky.
     return START_STICKY;
@@ -53,6 +62,22 @@ public class OmnipasteService extends Service {
     omniService.stop();
     omniService = null;
 
+    notifyStopped();
+
     super.onDestroy();
+  }
+
+  public void notifyStarted() {
+    Intent intent = new Intent();
+    intent.putExtra(EXTRA_STARTED, true);
+
+    IntentService.sendBroadcast(this, omnipasteServiceStatusChanged, intent);
+  }
+
+  public void notifyStopped() {
+    Intent intent = new Intent();
+    intent.putExtra(EXTRA_STARTED, false);
+
+    IntentService.sendBroadcast(this, omnipasteServiceStatusChanged, intent);
   }
 }
