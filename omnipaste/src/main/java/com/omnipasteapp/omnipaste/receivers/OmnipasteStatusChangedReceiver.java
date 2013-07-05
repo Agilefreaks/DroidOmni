@@ -11,9 +11,6 @@ public class OmnipasteStatusChangedReceiver extends BroadcastReceiver {
 
   private IOmnipasteStatusChangedDisplay _display;
 
-  public OmnipasteStatusChangedReceiver() {
-  }
-
   public OmnipasteStatusChangedReceiver(IOmnipasteStatusChangedDisplay display) {
     _display = display;
   }

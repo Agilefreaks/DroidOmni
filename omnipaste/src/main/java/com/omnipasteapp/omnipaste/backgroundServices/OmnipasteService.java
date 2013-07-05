@@ -10,13 +10,17 @@ import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
+import com.omnipasteapp.omnipaste.enums.Sender;
 import com.omnipasteapp.omnipaste.services.IntentService;
 
 @EService
 public class OmnipasteService extends Service implements ICanReceiveData {
   public static final String EXTRA_STARTED = "started";
+  public static final String EXTRA_CLIPBOARD_SENDER = "clipboardSender";
+  public static final String EXTRA_CLIPBOARD_DATA = "clipboardData";
 
   public IOmniService omniService;
 
@@ -25,6 +29,9 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
   @StringRes
   public String omnipasteServiceStatusChanged;
+
+  @StringRes
+  public String omnipasteDataReceived;
 
   @Override
   public void onCreate() {
@@ -86,7 +93,22 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
   //region ICanReceiveData
   @Override
-  public void dataReceived(IClipboardData iClipboardData) {
+  public void dataReceived(IClipboardData clipboardData) {
+    Intent intent = new Intent();
+
+    Sender sender;
+
+    if (clipboardData.getSender() instanceof ILocalClipboard) {
+      sender = Sender.Local;
+    }
+    else {
+      sender = Sender.Omni;
+    }
+
+    intent.putExtra(EXTRA_CLIPBOARD_SENDER, sender);
+    intent.putExtra(EXTRA_CLIPBOARD_DATA, clipboardData.getData());
+
+    IntentService.sendBroadcast(this, omnipasteDataReceived, intent);
   }
   //endregion
 }
