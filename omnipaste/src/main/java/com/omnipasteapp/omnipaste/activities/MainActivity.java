@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -40,21 +39,14 @@ public class MainActivity extends SherlockActivity {
   @AfterViews
   public void startOmnipasteService() {
     if(configurationService.loadCommunicationSettings()) {
-      // start omnipaste service
+      intentService.sendBroadcast(startOmnipasteService);
+
+      getSupportActionBar().setTitle(R.string.app_name);
+      getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
     }
     else {
       intentService.startNewActivity(LoginActivity_.class);
     }
-  }
-
-  @Click(R.id.startOmnipasteService)
-  public void startOmnipasteServiceClicked() {
-    intentService.sendBroadcast(startOmnipasteService);
-  }
-
-  @Click(R.id.stopOmnipasteService)
-  public void stopOmnipasteServiceClicked() {
-    intentService.sendBroadcast(stopOmnipasteService);
   }
 
   @Override

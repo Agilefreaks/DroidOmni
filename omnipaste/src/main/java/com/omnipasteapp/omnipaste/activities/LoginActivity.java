@@ -14,9 +14,14 @@ import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.NoTitle;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
+import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 @NoTitle
 @Fullscreen
@@ -28,11 +33,16 @@ public class LoginActivity extends SherlockActivity {
   @SystemService
   public AccountManager accountManager;
 
+  @Inject
+  public IConfigurationService configurationService;
+
   private Account[] _accounts;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    OmnipasteApplication.inject(this);
   }
 
   @AfterViews
@@ -42,10 +52,12 @@ public class LoginActivity extends SherlockActivity {
 
   @ItemClick
   public void accountsListViewItemClicked(int position) {
-
+    saveConfiguration(_accounts[position]);
   }
 
-  public Account[] accounts() {
+  //region Private Methods
+
+  private Account[] accounts() {
     if (_accounts == null) {
       _accounts = accountManager.getAccountsByType("com.google");
     }
@@ -53,7 +65,7 @@ public class LoginActivity extends SherlockActivity {
     return _accounts;
   }
 
-  public ArrayAdapter<String> createAccountAdapter(Account[] accounts) {
+  private ArrayAdapter<String> createAccountAdapter(Account[] accounts) {
     ArrayList<String> names = new ArrayList<String>();
     for(Account account: accounts) {
       names.add(account.name);
@@ -63,4 +75,12 @@ public class LoginActivity extends SherlockActivity {
         android.R.layout.simple_list_item_1,
         names);
   }
+
+  private void saveConfiguration(Account account) {
+    CommunicationSettings settings = configurationService.getCommunicationSettings();
+    settings.setChannel(account.name);
+    configurationService.updateCommunicationSettings();
+  }
+
+  //endregion
 }

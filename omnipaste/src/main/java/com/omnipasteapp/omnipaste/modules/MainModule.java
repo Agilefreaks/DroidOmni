@@ -6,9 +6,10 @@ import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
-import com.omnipasteapp.omnipaste.ConfigurationProvider;
+import com.omnipasteapp.omnipaste.activities.LoginActivity_;
 import com.omnipasteapp.omnipaste.activities.MainActivity_;
 import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
+import com.omnipasteapp.omnipaste.providers.SharedPreferencesConfigurationProvider;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 import com.omnipasteapp.omnipaste.services.IntentService;
 import com.omnipasteapp.pubnubclipboard.PubNubClipboardModule;
@@ -22,6 +23,7 @@ import dagger.Provides;
     injects = {
         OmnipasteService_.class,
         MainActivity_.class,
+        LoginActivity_.class,
         IOmniService.class
     },
     includes = {
@@ -45,12 +47,12 @@ public class MainModule {
   @Provides
   @Singleton
   IConfigurationProvider providesConfigurationProvider() {
-    return new ConfigurationProvider();
+    return new SharedPreferencesConfigurationProvider();
   }
 
   @Provides
   @Singleton
-  IIntentService providesItentService(IntentService intentService) {
+  IIntentService providesIntentService(IntentService intentService) {
     return intentService;
   }
 }

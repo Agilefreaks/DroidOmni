@@ -17,29 +17,6 @@ public class IntentService implements IIntentService {
   }
 
   @Override
-  public void startService(Class<? extends Service> cls) {
-    startService(_context, cls);
-  }
-
-  public static void startService(Context context, Class<? extends  Service> cls) {
-    context.startService(new Intent(context, cls));
-  }
-
-  @Override
-  public void stopService(Class<? extends Service> cls) {
-    stopService(_context, cls);
-  }
-
-  public static void stopService(Context context, Class<? extends Service> cls) {
-    context.stopService(new Intent(context, cls));
-  }
-
-  @Override
-  public void startActivity(Class<? extends Activity> cls) {
-    _context.startActivity(new Intent(_context, cls));
-  }
-
-  @Override
   public void startNewActivity(Class<? extends Activity> cls) {
     Intent intent = new Intent(_context, cls);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -50,6 +27,14 @@ public class IntentService implements IIntentService {
   @Override
   public void sendBroadcast(String action) {
     sendBroadcast(_context, action);
+  }
+
+  public static void startService(Context context, Class<? extends  Service> cls) {
+    context.startService(new Intent(context, cls));
+  }
+
+  public static void stopService(Context context, Class<? extends Service> cls) {
+    context.stopService(new Intent(context, cls));
   }
 
   public static void sendBroadcast(Context context, String command) {
