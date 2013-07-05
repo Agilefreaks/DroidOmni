@@ -46,8 +46,8 @@ public class MainModule {
 
   @Provides
   @Singleton
-  IConfigurationProvider providesConfigurationProvider() {
-    return new SharedPreferencesConfigurationProvider();
+  IConfigurationProvider providesConfigurationProvider(SharedPreferencesConfigurationProvider sharedPreferencesConfigurationProvider) {
+    return sharedPreferencesConfigurationProvider;
   }
 
   @Provides

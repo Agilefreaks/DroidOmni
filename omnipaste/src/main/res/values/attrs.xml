@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="AppTheme">
+        <attr name="ic_action_logout" format="reference"/>
+    </declare-styleable>
+</resources>

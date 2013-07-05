@@ -9,7 +9,6 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Fullscreen;
 import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.NoTitle;
 import com.googlecode.androidannotations.annotations.SystemService;
@@ -18,13 +17,13 @@ import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
+import com.omnipasteapp.omnipaste.services.IIntentService;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 @NoTitle
-@Fullscreen
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends SherlockActivity {
   @ViewById
@@ -35,6 +34,9 @@ public class LoginActivity extends SherlockActivity {
 
   @Inject
   public IConfigurationService configurationService;
+
+  @Inject
+  public IIntentService intentService;
 
   private Account[] _accounts;
 
@@ -53,6 +55,10 @@ public class LoginActivity extends SherlockActivity {
   @ItemClick
   public void accountsListViewItemClicked(int position) {
     saveConfiguration(_accounts[position]);
+
+    // go to the main activity
+    finish();
+    intentService.startNewActivity(MainActivity_.class);
   }
 
   //region Private Methods

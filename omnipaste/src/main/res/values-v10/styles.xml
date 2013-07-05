@@ -6,6 +6,7 @@
     -->
     <style name="AppBaseTheme" parent="Theme.Sherlock.Light">
         <!-- API 11 theme customizations can go here. -->
+        <item name="ic_action_logout">@drawable/ic_action_logout_light</item>
     </style>
 
 </resources>
