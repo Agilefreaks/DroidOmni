@@ -31,6 +31,10 @@ public class OmnipasteService extends Service {
   public synchronized int onStartCommand(Intent intent, int flags, int startId) {
     super.onStartCommand(intent, flags, startId);
 
+    if (omniService != null) {
+      stopSelf();
+    }
+
     omniService = OmnipasteApplication.get(IOmniService.class);
 
     try {
