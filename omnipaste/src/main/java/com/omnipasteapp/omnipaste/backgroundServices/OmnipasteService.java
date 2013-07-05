@@ -8,12 +8,14 @@ import android.os.IBinder;
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
+import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.services.IntentService;
 
 @EService
-public class OmnipasteService extends Service {
+public class OmnipasteService extends Service implements ICanReceiveData {
   public static final String EXTRA_STARTED = "started";
 
   public IOmniService omniService;
@@ -46,6 +48,7 @@ public class OmnipasteService extends Service {
 
     try {
       omniService.start();
+      omniService.addListener(this);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -80,4 +83,10 @@ public class OmnipasteService extends Service {
 
     IntentService.sendBroadcast(this, omnipasteServiceStatusChanged, intent);
   }
+
+  //region ICanReceiveData
+  @Override
+  public void dataReceived(IClipboardData iClipboardData) {
+  }
+  //endregion
 }

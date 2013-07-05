@@ -10,4 +10,6 @@ public interface IOmniService {
   public void stop();
 
   public boolean isConfigured();
+
+  public void addListener(ICanReceiveData dataReceiver);
 }

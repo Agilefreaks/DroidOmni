@@ -45,12 +45,5 @@
                 <action android:name="com.omnipasteapp.intent.action.STOP_OMNIPASTE_SERVICE" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".receivers.ConnectivityReceiver_">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
     </application>
-
 </manifest>

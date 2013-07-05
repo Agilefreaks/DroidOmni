@@ -14,6 +14,7 @@ import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
+import com.omnipasteapp.omnipaste.receivers.ConnectivityReceiver_;
 import com.omnipasteapp.omnipaste.receivers.OmnipasteStatusChangedReceiver;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 
@@ -22,6 +23,8 @@ import javax.inject.Inject;
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)
 public class MainActivity extends SherlockFragmentActivity implements LogoutDialog.LogoutDialogListener, IOmnipasteStatusChangedDisplay {
+  private OmnipasteStatusChangedReceiver _statusChangedReceiver;
+  private ConnectivityReceiver_ _connectivityReceiver;
 
   //region Public properties
   @Inject
@@ -49,22 +52,16 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   public String textServiceDisconnected;
   //endregion
 
-  private OmnipasteStatusChangedReceiver statusChangedReceiver;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     OmnipasteApplication.inject(this);
-
-    statusChangedReceiver = new OmnipasteStatusChangedReceiver(this);
-    IntentFilter intentFilter = new IntentFilter(omnipasteServiceStatusChanged);
-    registerReceiver(statusChangedReceiver, intentFilter);
   }
 
   @Override
   public void onDestroy() {
-    unregisterReceiver(statusChangedReceiver);
+    unregisterReceivers();
 
     super.onDestroy();
   }
@@ -72,7 +69,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   @AfterViews
   public void startOmnipasteService() {
     if (configurationService.loadCommunicationSettings()) {
-      intentService.sendBroadcast(startOmnipasteService);
+      registerReceivers();
 
       getSupportActionBar().setTitle(R.string.app_name);
       getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
@@ -114,6 +111,23 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
 
   @Override
   public void onDialogNegativeClick(DialogFragment dialog) {
+  }
+  //endregion
+
+  //region private methods
+  private void registerReceivers() {
+    _connectivityReceiver = new ConnectivityReceiver_();
+    IntentFilter connectivityIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    registerReceiver(_connectivityReceiver, connectivityIntentFilter);
+
+    _statusChangedReceiver = new OmnipasteStatusChangedReceiver(this);
+    IntentFilter intentFilter = new IntentFilter(omnipasteServiceStatusChanged);
+    registerReceiver(_statusChangedReceiver, intentFilter);
+  }
+
+  private void unregisterReceivers() {
+    unregisterReceiver(_statusChangedReceiver);
+    unregisterReceiver(_connectivityReceiver);
   }
   //endregion
 }

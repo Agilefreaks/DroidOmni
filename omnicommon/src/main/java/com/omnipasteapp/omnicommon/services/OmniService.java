@@ -1,6 +1,13 @@
 package com.omnipasteapp.omnicommon.services;
 
-import com.omnipasteapp.omnicommon.interfaces.*;
+import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
+import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
+import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -10,12 +17,19 @@ public class OmniService implements IOmniService, ICanReceiveData {
   private String _lastData;
   private Thread _omniClipboardInitialize;
   private Thread _localClipboardInitialize;
+  private ArrayList<ICanReceiveData> _dataReceivers;
 
   @Inject
   public IConfigurationService configurationService;
 
+  public OmniService() {
+    _dataReceivers = new ArrayList<ICanReceiveData>();
+  }
+
   @Inject
   public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
+    this();
+
     _localClipboard = localClipboard;
     _omniClipboard = omniClipboard;
   }
@@ -70,9 +84,19 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Override
+  public void addListener(ICanReceiveData dataReceiver) {
+    _dataReceivers.add(dataReceiver);
+  }
+
+  @Override
   public void dataReceived(IClipboardData clipboardData) {
     if (shouldPutData(clipboardData.getData())) {
       _lastData = putData(clipboardData);
+
+      // notify listeners
+      for (ICanReceiveData receiver : _dataReceivers) {
+        receiver.dataReceived(clipboardData);
+      }
     }
   }
 

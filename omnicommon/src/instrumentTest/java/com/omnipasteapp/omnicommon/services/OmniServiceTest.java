@@ -1,6 +1,8 @@
 package com.omnipasteapp.omnicommon.services;
 
 import com.omnipasteapp.omnicommon.ClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
@@ -80,7 +82,7 @@ public class OmniServiceTest extends TestCase {
     verify(omniClipboard).dispose();
   }
 
-  public void testIsConfiguredReturnsFalseWhenCommunicationSettingsHasChannelReturnsFalse(){
+  public void testIsConfiguredReturnsFalseWhenCommunicationSettingsHasChannelReturnsFalse() {
     CommunicationSettings communicationSettings = mock(CommunicationSettings.class);
 
     when(communicationSettings.hasChannel()).thenReturn(false);
@@ -89,12 +91,20 @@ public class OmniServiceTest extends TestCase {
     assertFalse(subject.isConfigured());
   }
 
-  public void testIsConfiguredReturnsTrueWhenCommunicationSettingsHasChannelReturnsTrue(){
+  public void testIsConfiguredReturnsTrueWhenCommunicationSettingsHasChannelReturnsTrue() {
     CommunicationSettings communicationSettings = mock(CommunicationSettings.class);
 
     when(communicationSettings.hasChannel()).thenReturn(true);
     when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
 
     assertTrue(subject.isConfigured());
+  }
+
+  public void testAddListenerWillNotFail() {
+    subject.addListener(new ICanReceiveData() {
+      @Override
+      public void dataReceived(IClipboardData clipboardData) {
+      }
+    });
   }
 }
