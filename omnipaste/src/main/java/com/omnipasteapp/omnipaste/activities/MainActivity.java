@@ -75,6 +75,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   @Override
   public void onDestroy() {
     unregisterReceivers();
+    intentService.sendBroadcast(stopOmnipasteService);
 
     super.onDestroy();
   }
