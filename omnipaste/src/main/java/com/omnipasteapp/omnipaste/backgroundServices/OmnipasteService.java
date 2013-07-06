@@ -3,6 +3,7 @@ package com.omnipasteapp.omnipaste.backgroundServices;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 
 import com.googlecode.androidannotations.annotations.EService;
@@ -14,6 +15,7 @@ import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.enums.Sender;
+import com.omnipasteapp.omnipaste.receivers.ConnectivityReceiver_;
 import com.omnipasteapp.omnipaste.services.IntentService;
 
 @EService
@@ -21,6 +23,8 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   public static final String EXTRA_STARTED = "started";
   public static final String EXTRA_CLIPBOARD_SENDER = "clipboardSender";
   public static final String EXTRA_CLIPBOARD_DATA = "clipboardData";
+
+  private ConnectivityReceiver_ _connectivityReceiver;
 
   public IOmniService omniService;
 
@@ -47,8 +51,9 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   public synchronized int onStartCommand(Intent intent, int flags, int startId) {
     super.onStartCommand(intent, flags, startId);
 
+    // make sure we are not starting the listener twice
     if (omniService != null) {
-      stopSelf();
+      return START_STICKY;
     }
 
     omniService = OmnipasteApplication.get(IOmniService.class);
@@ -59,6 +64,8 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+
+    registerReceivers();
 
     notifyStarted();
 
@@ -71,6 +78,8 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   public void onDestroy() {
     omniService.stop();
     omniService = null;
+
+    unregisterReceivers();
 
     notifyStopped();
 
@@ -111,4 +120,15 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     IntentService.sendBroadcast(this, omnipasteDataReceived, intent);
   }
   //endregion
+
+  private void registerReceivers() {
+    _connectivityReceiver = new ConnectivityReceiver_();
+    IntentFilter connectivityIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    registerReceiver(_connectivityReceiver, connectivityIntentFilter);
+  }
+
+  private void unregisterReceivers() {
+    unregisterReceiver(_connectivityReceiver);
+    _connectivityReceiver = null;
+  }
 }

@@ -18,7 +18,6 @@ import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.adapters.ArrayAdapter2;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.enums.Sender;
-import com.omnipasteapp.omnipaste.receivers.ConnectivityReceiver_;
 import com.omnipasteapp.omnipaste.receivers.OmnipasteDataReceiver;
 import com.omnipasteapp.omnipaste.receivers.OmnipasteStatusChangedReceiver;
 import com.omnipasteapp.omnipaste.services.IIntentService;
@@ -31,7 +30,6 @@ import javax.inject.Inject;
 @OptionsMenu(R.menu.main)
 public class MainActivity extends SherlockFragmentActivity implements LogoutDialog.LogoutDialogListener, IOmnipasteStatusChangedDisplay, IOmnipasteDataDisplay {
   private OmnipasteStatusChangedReceiver _statusChangedReceiver;
-  private ConnectivityReceiver_ _connectivityReceiver;
   private OmnipasteDataReceiver _omnipasteDataReceiver;
   private ArrayAdapter2 _dataListAdapter;
 
@@ -63,6 +61,9 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   @StringRes
   public String textServiceDisconnected;
 
+  @StringRes
+  public String textServiceConnecting;
+
   @ViewById
   public ListView dataListView;
   //endregion
@@ -85,10 +86,12 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   @AfterViews
   public void startOmnipasteService() {
     if (configurationService.loadCommunicationSettings()) {
+      getSupportActionBar().setTitle(appName + " (" + textServiceConnecting + ")");
+      getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
+
       registerReceivers();
 
-      getSupportActionBar().setTitle(R.string.app_name);
-      getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
+      intentService.sendBroadcast(startOmnipasteService);
 
       setDataListAdapter();
     } else {
@@ -147,10 +150,6 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
 
   //region private methods
   private void registerReceivers() {
-    _connectivityReceiver = new ConnectivityReceiver_();
-    IntentFilter connectivityIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-    registerReceiver(_connectivityReceiver, connectivityIntentFilter);
-
     _statusChangedReceiver = new OmnipasteStatusChangedReceiver(this);
     IntentFilter intentFilter = new IntentFilter(omnipasteServiceStatusChanged);
     registerReceiver(_statusChangedReceiver, intentFilter);
@@ -162,11 +161,9 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
 
   private void unregisterReceivers() {
     unregisterReceiver(_statusChangedReceiver);
-    unregisterReceiver(_connectivityReceiver);
     unregisterReceiver(_omnipasteDataReceiver);
 
     _statusChangedReceiver = null;
-    _connectivityReceiver = null;
     _omnipasteDataReceiver = null;
   }
 
