@@ -3,7 +3,6 @@ package com.omnipasteapp.omnipaste.activities;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -16,12 +15,15 @@ import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
+import com.omnipasteapp.omnipaste.adapters.ArrayAdapter2;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.enums.Sender;
 import com.omnipasteapp.omnipaste.receivers.ConnectivityReceiver_;
 import com.omnipasteapp.omnipaste.receivers.OmnipasteDataReceiver;
 import com.omnipasteapp.omnipaste.receivers.OmnipasteStatusChangedReceiver;
 import com.omnipasteapp.omnipaste.services.IIntentService;
+
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -31,7 +33,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   private OmnipasteStatusChangedReceiver _statusChangedReceiver;
   private ConnectivityReceiver_ _connectivityReceiver;
   private OmnipasteDataReceiver _omnipasteDataReceiver;
-  private ArrayAdapter<String> _dataListAdapter;
+  private ArrayAdapter2 _dataListAdapter;
 
   //region Public properties
   @Inject
@@ -88,8 +90,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
       getSupportActionBar().setTitle(R.string.app_name);
       getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
-      _dataListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-      dataListView.setAdapter(_dataListAdapter);
+      setDataListAdapter();
     } else {
       intentService.startNewActivity(LoginActivity_.class);
     }
@@ -110,7 +111,12 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   //region IOmnipasteDataDisplay
   @Override
   public void omnipasteDataReceived(String data, Sender sender) {
-    _dataListAdapter.insert(sender + ": " + data, 0);
+    HashMap<String, String> dataItem = new HashMap<String, String>();
+    dataItem.put("title", sender.toString());
+    dataItem.put("subtitle", data);
+
+    _dataListAdapter.insert(dataItem, 0);
+
     _dataListAdapter.notifyDataSetChanged();
   }
   //endregion
@@ -162,6 +168,11 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
     _statusChangedReceiver = null;
     _connectivityReceiver = null;
     _omnipasteDataReceiver = null;
+  }
+
+  private void setDataListAdapter() {
+    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
+    dataListView.setAdapter(_dataListAdapter);
   }
   //endregion
 }
