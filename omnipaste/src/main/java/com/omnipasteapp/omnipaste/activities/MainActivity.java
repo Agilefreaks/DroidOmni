@@ -106,7 +106,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   }
   //endregion
 
-  //region
+  //region IOmnipasteDataDisplay
   @Override
   public void omnipasteDataReceived(String data, Sender sender) {
     _dataListAdapter.insert(sender + ": " + data, 0);

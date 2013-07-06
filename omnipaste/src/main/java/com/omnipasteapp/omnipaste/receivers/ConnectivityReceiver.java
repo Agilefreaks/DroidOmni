@@ -6,15 +6,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 
 import com.googlecode.androidannotations.annotations.EReceiver;
-import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnipaste.services.IntentService;
 
 @EReceiver
 public class ConnectivityReceiver extends BroadcastReceiver {
-  @SystemService
-  public ConnectivityManager _connectivityManager;
-
   @StringRes
   public String startOmnipasteService;
 
