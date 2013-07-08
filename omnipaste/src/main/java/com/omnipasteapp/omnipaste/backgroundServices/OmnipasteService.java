@@ -2,29 +2,48 @@ package com.omnipasteapp.omnipaste.backgroundServices;
 
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 
+import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.enums.Sender;
-import com.omnipasteapp.omnipaste.receivers.ConnectivityReceiver_;
-import com.omnipasteapp.omnipaste.services.IntentService;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 @EService
 public class OmnipasteService extends Service implements ICanReceiveData {
-  public static final String EXTRA_STARTED = "started";
   public static final String EXTRA_CLIPBOARD_SENDER = "clipboardSender";
   public static final String EXTRA_CLIPBOARD_DATA = "clipboardData";
 
-  private ConnectivityReceiver_ _connectivityReceiver;
+  private ArrayList<Messenger> _clients = new ArrayList<Messenger>();
+  private OmniServiceReceiver _omniOmniServiceReceiver = new OmniServiceReceiver();
+
+  public final Messenger _messenger = new Messenger(new IncomingHandler());
+
+  public static final int MSG_CLIENT_CONNECTED = 1;
+  public static final int MSG_CLIENT_DISCONNECTED = 2;
+  public static final int MSG_SERVICE_CONNECTED = 3;
+  public static final int MSG_SERVICE_DISCONNECTED = 4;
+  public static final int MSG_DATA_RECEIVED = 5;
 
   public IOmniService omniService;
 
@@ -37,23 +56,85 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   @StringRes
   public String omnipasteDataReceived;
 
+  @StringRes
+  public String startOmniService;
+
+  @StringRes
+  public String stopOmniService;
+
+  @Inject
+  public IConfigurationService configurationService;
+
+  class IncomingHandler extends Handler {
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case MSG_CLIENT_CONNECTED:
+          _clients.add(msg.replyTo);
+          break;
+        case MSG_CLIENT_DISCONNECTED:
+          _clients.remove(msg.replyTo);
+          break;
+        default:
+          super.handleMessage(msg);
+      }
+    }
+
+  }
+
+  class OmniServiceReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      if (startOmniService.equals(intent.getAction())) {
+        OmnipasteService.this.startOmniService();
+      }
+      else {
+        OmnipasteService.this.stopOmniService();
+      }
+    }
+  }
+
   @Override
   public void onCreate() {
     super.onCreate();
+
+    OmnipasteApplication.inject(this);
+
+    IntentFilter filter = new IntentFilter();
+    filter.addAction(startOmniService);
+    filter.addAction(stopOmniService);
+    registerReceiver(_omniOmniServiceReceiver, filter);
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    unregisterReceiver(_omniOmniServiceReceiver);
+    stopOmniService();
   }
 
   @Override
   public IBinder onBind(Intent intent) {
-    return null;
+    return _messenger.getBinder();
   }
 
   @Override
   public synchronized int onStartCommand(Intent intent, int flags, int startId) {
     super.onStartCommand(intent, flags, startId);
 
-    // make sure we are not starting the listener twice
+    startOmniService();
+
+    // We want this service to continue running until it is explicitly
+    // stopped, so return sticky.
+    return START_STICKY;
+  }
+
+  @Background
+  public void startOmniService() {
     if (omniService != null) {
-      return START_STICKY;
+      return;
     }
 
     omniService = OmnipasteApplication.get(IOmniService.class);
@@ -62,48 +143,24 @@ public class OmnipasteService extends Service implements ICanReceiveData {
       omniService.start();
       omniService.addListener(this);
     } catch (InterruptedException e) {
+      // TODO replace with proper error handler
       e.printStackTrace();
     }
 
-    registerReceivers();
-
     notifyStarted();
-
-    // We want this service to continue running until it is explicitly
-    // stopped, so return sticky.
-    return START_STICKY;
   }
 
-  @Override
-  public void onDestroy() {
+  public void stopOmniService() {
     omniService.stop();
     omniService = null;
 
-    unregisterReceivers();
-
     notifyStopped();
-
-    super.onDestroy();
-  }
-
-  public void notifyStarted() {
-    Intent intent = new Intent();
-    intent.putExtra(EXTRA_STARTED, true);
-
-    IntentService.sendBroadcast(this, omnipasteServiceStatusChanged, intent);
-  }
-
-  public void notifyStopped() {
-    Intent intent = new Intent();
-    intent.putExtra(EXTRA_STARTED, false);
-
-    IntentService.sendBroadcast(this, omnipasteServiceStatusChanged, intent);
   }
 
   //region ICanReceiveData
   @Override
   public void dataReceived(IClipboardData clipboardData) {
-    Intent intent = new Intent();
+    Bundle bundle = new Bundle();
 
     Sender sender;
 
@@ -114,21 +171,39 @@ public class OmnipasteService extends Service implements ICanReceiveData {
       sender = Sender.Omni;
     }
 
-    intent.putExtra(EXTRA_CLIPBOARD_SENDER, sender);
-    intent.putExtra(EXTRA_CLIPBOARD_DATA, clipboardData.getData());
+    bundle.putSerializable(EXTRA_CLIPBOARD_SENDER, sender);
+    bundle.putString(EXTRA_CLIPBOARD_DATA, clipboardData.getData());
 
-    IntentService.sendBroadcast(this, omnipasteDataReceived, intent);
+    sendMessage(MSG_DATA_RECEIVED, bundle);
   }
   //endregion
 
-  private void registerReceivers() {
-    _connectivityReceiver = new ConnectivityReceiver_();
-    IntentFilter connectivityIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-    registerReceiver(_connectivityReceiver, connectivityIntentFilter);
+  private void notifyStarted() {
+    sendMessage(MSG_SERVICE_CONNECTED);
   }
 
-  private void unregisterReceivers() {
-    unregisterReceiver(_connectivityReceiver);
-    _connectivityReceiver = null;
+  private void notifyStopped() {
+    sendMessage(MSG_SERVICE_DISCONNECTED);
+  }
+
+  private void sendMessage(int code) {
+    sendMessage(code, null);
+  }
+
+  private void sendMessage(int code, Bundle bundle) {
+    for(Messenger client: _clients) {
+      try {
+        Message message = Message.obtain(null, code);
+
+        if (message != null) {
+          message.setData(bundle);
+          client.send(message);
+        }
+
+      } catch (RemoteException e) {
+        // TODO replace with proper error handler
+        e.printStackTrace();
+      }
+    }
   }
 }

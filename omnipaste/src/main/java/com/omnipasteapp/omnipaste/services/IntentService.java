@@ -45,6 +45,10 @@ public class IntentService implements IIntentService {
     context.startService(new Intent(context, cls));
   }
 
+  public static void startService(Context context, String action) {
+    context.startService(new Intent(action));
+  }
+
   public static void stopService(Context context, Class<? extends Service> cls) {
     context.stopService(new Intent(context, cls));
   }

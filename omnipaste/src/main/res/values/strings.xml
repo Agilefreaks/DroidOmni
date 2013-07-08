@@ -11,6 +11,8 @@
 
     <string name="startOmnipasteService">com.omnipasteapp.intent.action.START_OMNIPASTE_SERVICE</string>
     <string name="stopOmnipasteService">com.omnipasteapp.intent.action.STOP_OMNIPASTE_SERVICE</string>
+    <string name="startOmniService">com.omnipasteapp.intent.action.START_OMNI_SERVICE</string>
+    <string name="stopOmniService">com.omnipasteapp.intent.action.STOP_OMNI_SERVICE</string>
     <string name="omnipasteServiceStatusChanged">com.omnipasteapp.intent.action.OMNIPASTE_SERVICE_STATUS_CHANGED</string>
     <string name="omnipasteDataReceived">com.omnipasteapp.intent.action.OMNIPASTE_DATA_RECEIVED</string>
 

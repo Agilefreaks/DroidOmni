@@ -12,20 +12,20 @@ import com.omnipasteapp.omnipaste.services.IntentService;
 @EReceiver
 public class ConnectivityReceiver extends BroadcastReceiver {
   @StringRes
-  public String startOmnipasteService;
+  public String startOmniService;
 
   @StringRes
-  public String stopOmnipasteService;
+  public String stopOmniService;
 
   @Override
   public void onReceive(Context context, Intent intent) {
     boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
     if (noConnectivity) {
-      IntentService.sendBroadcast(context, stopOmnipasteService);
+      IntentService.sendBroadcast(context, stopOmniService);
     }
     else {
-      IntentService.sendBroadcast(context, startOmnipasteService);
+      IntentService.sendBroadcast(context, startOmniService);
     }
   }
 }
