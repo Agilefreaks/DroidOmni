@@ -31,6 +31,8 @@ import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.enums.Sender;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -38,8 +40,12 @@ import javax.inject.Inject;
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)
 public class MainActivity extends SherlockFragmentActivity implements LogoutDialog.LogoutDialogListener {
+  private static final String STATE_CONNECTION_STATUS = "stateConnectionStatus";
+  private static final String STATE_DATA = "stateData";
+
   private ArrayAdapter2 _dataListAdapter;
   private Messenger _omnipasteServiceMessenger;
+  private String _status;
 
   //region Public properties
 
@@ -78,30 +84,15 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
       _omnipasteServiceMessenger = new Messenger(iBinder);
-      sendMessage(OmnipasteService.MSG_CLIENT_CONNECTED);
+      MainActivity.this.sendMessage(OmnipasteService.MSG_CLIENT_CONNECTED);
 
       MainActivity.this.intentService.sendBroadcast(startOmnipasteService);
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
-      sendMessage(OmnipasteService.MSG_CLIENT_DISCONNECTED);
+      MainActivity.this.sendMessage(OmnipasteService.MSG_CLIENT_DISCONNECTED);
       _omnipasteServiceMessenger = null;
-    }
-
-    private void sendMessage(int code) {
-      try {
-        Message message = Message.obtain(null, code);
-
-        if (message != null) {
-          message.replyTo = messenger;
-          _omnipasteServiceMessenger.send(message);
-        }
-
-      } catch (RemoteException e) {
-        //TODO: replace with proper error handler
-        e.printStackTrace();
-      }
     }
   };
 
@@ -132,19 +123,35 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
     super.onCreate(savedInstanceState);
 
     OmnipasteApplication.inject(this);
+
+    restoreInstanceState(savedInstanceState);
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
 
+    MainActivity.this.sendMessage(OmnipasteService.MSG_CLIENT_DISCONNECTED);
     unbindService(_connection);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    savedInstanceState.putString(STATE_CONNECTION_STATUS, _status);
+
+    ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+    for (int i = 0; i < _dataListAdapter.getCount(); i++) {
+      data.add(_dataListAdapter.getItem(i));
+    }
+    savedInstanceState.putSerializable(STATE_DATA, data);
+
+    super.onSaveInstanceState(savedInstanceState);
   }
 
   @AfterViews
   public void loadConfiguration() {
     if (configurationService.loadCommunicationSettings()) {
-      setActionBarTitle(textServiceConnecting);
+      setActionBarTitle(_status);
       getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
       setDataListAdapter();
@@ -155,8 +162,9 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   }
 
   @UiThread
-  public void setActionBarTitle(String text) {
-    getSupportActionBar().setTitle(appName + " (" + text + ")");
+  public void setActionBarTitle(String status) {
+    _status = status;
+    getSupportActionBar().setTitle(appName + " (" + status + ")");
   }
 
   //region logout
@@ -186,7 +194,6 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   //region private methods
 
   private void setDataListAdapter() {
-    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
     dataListView.setAdapter(_dataListAdapter);
   }
 
@@ -201,6 +208,42 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
 
     _dataListAdapter.insert(dataItem, 0);
     _dataListAdapter.notifyDataSetChanged();
+  }
+
+  @SuppressWarnings("unchecked")
+  private void restoreInstanceState(Bundle savedInstanceState) {
+    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
+    _status = textServiceConnecting;
+
+    if (savedInstanceState != null) {
+      _status = savedInstanceState.getString(STATE_CONNECTION_STATUS);
+
+      Serializable serializable = savedInstanceState.getSerializable(STATE_DATA);
+      if (serializable != null) {
+        ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) serializable;
+
+        for (HashMap<String, String> dataItem : data) {
+          _dataListAdapter.add(dataItem);
+        }
+
+        _dataListAdapter.notifyDataSetChanged();
+      }
+    }
+  }
+
+  private void sendMessage(int code) {
+    try {
+      Message message = Message.obtain(null, code);
+
+      if (message != null) {
+        message.replyTo = messenger;
+        _omnipasteServiceMessenger.send(message);
+      }
+
+    } catch (RemoteException e) {
+      //TODO: replace with proper error handler
+      e.printStackTrace();
+    }
   }
 
   //endregion

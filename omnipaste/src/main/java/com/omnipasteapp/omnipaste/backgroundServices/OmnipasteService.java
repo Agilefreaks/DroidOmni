@@ -68,6 +68,11 @@ public class OmnipasteService extends Service implements ICanReceiveData {
       switch (msg.what) {
         case MSG_CLIENT_CONNECTED:
           _clients.add(msg.replyTo);
+
+          // send state to the new client
+          if (OmnipasteService.this.omniService != null) {
+            OmnipasteService.this.notifyStarted();
+          }
           break;
         case MSG_CLIENT_DISCONNECTED:
           _clients.remove(msg.replyTo);

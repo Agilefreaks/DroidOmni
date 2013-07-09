@@ -25,6 +25,7 @@
 
         <activity
                 android:name="com.omnipasteapp.omnipaste.activities.LoginActivity_"
+                android:alwaysRetainTaskState="true"
                 android:label="@string/title_activity_login">
         </activity>
 
