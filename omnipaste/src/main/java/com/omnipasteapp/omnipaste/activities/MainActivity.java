@@ -40,7 +40,6 @@ import javax.inject.Inject;
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)
 public class MainActivity extends SherlockFragmentActivity implements LogoutDialog.LogoutDialogListener {
-  private static final String STATE_CONNECTION_STATUS = "stateConnectionStatus";
   private static final String STATE_DATA = "stateData";
 
   private ArrayAdapter2 _dataListAdapter;
@@ -85,8 +84,6 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
       _omnipasteServiceMessenger = new Messenger(iBinder);
       MainActivity.this.sendMessage(OmnipasteService.MSG_CLIENT_CONNECTED);
-
-      MainActivity.this.intentService.sendBroadcast(startOmnipasteService);
     }
 
     @Override
@@ -131,14 +128,11 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   public void onDestroy() {
     super.onDestroy();
 
-    MainActivity.this.sendMessage(OmnipasteService.MSG_CLIENT_DISCONNECTED);
-    unbindService(_connection);
+    unbindOmnipasteService();
   }
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    savedInstanceState.putString(STATE_CONNECTION_STATUS, _status);
-
     ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
     for (int i = 0; i < _dataListAdapter.getCount(); i++) {
       data.add(_dataListAdapter.getItem(i));
@@ -155,6 +149,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
       getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
       setDataListAdapter();
+
       bindOmnipasteService();
     } else {
       intentService.startNewActivity(LoginActivity_.class);
@@ -175,6 +170,9 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
 
   @Override
   public void onDialogPositiveClick(DialogFragment dialog) {
+    // unbind
+    unbindOmnipasteService();
+
     // kill service
     intentService.sendBroadcast(stopOmnipasteService);
 
@@ -198,7 +196,8 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   }
 
   private void bindOmnipasteService() {
-    bindService(new Intent(this, OmnipasteService_.class), _connection, Context.BIND_AUTO_CREATE);
+    MainActivity.this.intentService.sendBroadcast(startOmnipasteService);
+    bindService(new Intent(this, OmnipasteService_.class), _connection, Context.BIND_ABOVE_CLIENT);
   }
 
   private void dataReceived(String data, Sender sender) {
@@ -216,8 +215,6 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
     _status = textServiceConnecting;
 
     if (savedInstanceState != null) {
-      _status = savedInstanceState.getString(STATE_CONNECTION_STATUS);
-
       Serializable serializable = savedInstanceState.getSerializable(STATE_DATA);
       if (serializable != null) {
         ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) serializable;
@@ -244,6 +241,17 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
       //TODO: replace with proper error handler
       e.printStackTrace();
     }
+  }
+
+  private void unbindOmnipasteService() {
+    if (_omnipasteServiceMessenger == null) {
+      return;
+    }
+
+    MainActivity.this.sendMessage(OmnipasteService.MSG_CLIENT_DISCONNECTED);
+    unbindService(_connection);
+
+    _omnipasteServiceMessenger = null;
   }
 
   //endregion
