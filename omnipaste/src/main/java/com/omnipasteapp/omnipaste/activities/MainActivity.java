@@ -39,10 +39,10 @@ import javax.inject.Inject;
 @OptionsMenu(R.menu.main)
 public class MainActivity extends SherlockFragmentActivity implements LogoutDialog.LogoutDialogListener {
   private ArrayAdapter2 _dataListAdapter;
-
   private Messenger _omnipasteServiceMessenger;
 
   //region Public properties
+
   @Inject
   public IConfigurationService configurationService;
 
@@ -54,12 +54,6 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
 
   @StringRes
   public String stopOmnipasteService;
-
-  @StringRes
-  public String omnipasteServiceStatusChanged;
-
-  @StringRes
-  public String omnipasteDataReceived;
 
   @StringRes
   public String appName;
@@ -77,6 +71,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   public ListView dataListView;
 
   public Messenger messenger = new Messenger(new IncomingHandler());
+
   //endregion
 
   private ServiceConnection _connection = new ServiceConnection() {
@@ -104,7 +99,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
         }
 
       } catch (RemoteException e) {
-        // TODO replace with proper error handler
+        //TODO: replace with proper error handler
         e.printStackTrace();
       }
     }
@@ -153,7 +148,7 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
       getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
       setDataListAdapter();
-      startOmnipasteService();
+      bindOmnipasteService();
     } else {
       intentService.startNewActivity(LoginActivity_.class);
     }
@@ -189,12 +184,13 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
   //endregion
 
   //region private methods
+
   private void setDataListAdapter() {
     _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
     dataListView.setAdapter(_dataListAdapter);
   }
 
-  private void startOmnipasteService() {
+  private void bindOmnipasteService() {
     bindService(new Intent(this, OmnipasteService_.class), _connection, Context.BIND_AUTO_CREATE);
   }
 
@@ -204,8 +200,8 @@ public class MainActivity extends SherlockFragmentActivity implements LogoutDial
     dataItem.put("subtitle", data);
 
     _dataListAdapter.insert(dataItem, 0);
-
     _dataListAdapter.notifyDataSetChanged();
   }
+
   //endregion
 }

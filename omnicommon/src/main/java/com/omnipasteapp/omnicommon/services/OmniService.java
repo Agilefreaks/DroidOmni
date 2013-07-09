@@ -89,6 +89,11 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Override
+  public void removeListener(ICanReceiveData dataReceiver) {
+    _dataReceivers.remove(dataReceiver);
+  }
+
+  @Override
   public void dataReceived(IClipboardData clipboardData) {
     if (shouldPutData(clipboardData.getData())) {
       _lastData = putData(clipboardData);

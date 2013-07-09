@@ -13,13 +13,11 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
-import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
@@ -27,23 +25,23 @@ import com.omnipasteapp.omnipaste.enums.Sender;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 @EService
 public class OmnipasteService extends Service implements ICanReceiveData {
   public static final String EXTRA_CLIPBOARD_SENDER = "clipboardSender";
   public static final String EXTRA_CLIPBOARD_DATA = "clipboardData";
-
-  private ArrayList<Messenger> _clients = new ArrayList<Messenger>();
-  private OmniServiceReceiver _omniOmniServiceReceiver = new OmniServiceReceiver();
-
-  public final Messenger _messenger = new Messenger(new IncomingHandler());
 
   public static final int MSG_CLIENT_CONNECTED = 1;
   public static final int MSG_CLIENT_DISCONNECTED = 2;
   public static final int MSG_SERVICE_CONNECTED = 3;
   public static final int MSG_SERVICE_DISCONNECTED = 4;
   public static final int MSG_DATA_RECEIVED = 5;
+
+  private ArrayList<Messenger> _clients = new ArrayList<Messenger>();
+  private OmniServiceReceiver _omniOmniServiceReceiver = new OmniServiceReceiver();
+
+  //region public properties
+
+  public final Messenger _messenger = new Messenger(new IncomingHandler());
 
   public IOmniService omniService;
 
@@ -62,8 +60,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   @StringRes
   public String stopOmniService;
 
-  @Inject
-  public IConfigurationService configurationService;
+  //endregion
 
   class IncomingHandler extends Handler {
     @Override
@@ -79,17 +76,14 @@ public class OmnipasteService extends Service implements ICanReceiveData {
           super.handleMessage(msg);
       }
     }
-
   }
 
   class OmniServiceReceiver extends BroadcastReceiver {
-
     @Override
     public void onReceive(Context context, Intent intent) {
       if (startOmniService.equals(intent.getAction())) {
         OmnipasteService.this.startOmniService();
-      }
-      else {
+      } else {
         OmnipasteService.this.stopOmniService();
       }
     }
@@ -98,8 +92,6 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   @Override
   public void onCreate() {
     super.onCreate();
-
-    OmnipasteApplication.inject(this);
 
     IntentFilter filter = new IntentFilter();
     filter.addAction(startOmniService);
@@ -131,7 +123,6 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     return START_STICKY;
   }
 
-  @Background
   public void startOmniService() {
     if (omniService != null) {
       return;
@@ -143,7 +134,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
       omniService.start();
       omniService.addListener(this);
     } catch (InterruptedException e) {
-      // TODO replace with proper error handler
+      //TODO: replace with proper error handler
       e.printStackTrace();
     }
 
@@ -151,6 +142,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   public void stopOmniService() {
+    omniService.removeListener(this);
     omniService.stop();
     omniService = null;
 
@@ -158,16 +150,15 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   //region ICanReceiveData
+
   @Override
   public void dataReceived(IClipboardData clipboardData) {
     Bundle bundle = new Bundle();
-
     Sender sender;
 
     if (clipboardData.getSender() instanceof ILocalClipboard) {
       sender = Sender.Local;
-    }
-    else {
+    } else {
       sender = Sender.Omni;
     }
 
@@ -176,6 +167,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
     sendMessage(MSG_DATA_RECEIVED, bundle);
   }
+
   //endregion
 
   private void notifyStarted() {
@@ -191,7 +183,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   private void sendMessage(int code, Bundle bundle) {
-    for(Messenger client: _clients) {
+    for (Messenger client : _clients) {
       try {
         Message message = Message.obtain(null, code);
 
@@ -199,7 +191,6 @@ public class OmnipasteService extends Service implements ICanReceiveData {
           message.setData(bundle);
           client.send(message);
         }
-
       } catch (RemoteException e) {
         // TODO replace with proper error handler
         e.printStackTrace();

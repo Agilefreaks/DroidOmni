@@ -26,6 +26,10 @@ import javax.inject.Inject;
 @NoTitle
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends SherlockActivity {
+  private Account[] _accounts;
+
+  //region public properties
+
   @ViewById
   public ListView accountsListView;
 
@@ -38,7 +42,7 @@ public class LoginActivity extends SherlockActivity {
   @Inject
   public IIntentService intentService;
 
-  private Account[] _accounts;
+  //endregion
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
