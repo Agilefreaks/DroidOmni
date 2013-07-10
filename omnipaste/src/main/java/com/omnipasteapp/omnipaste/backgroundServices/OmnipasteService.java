@@ -1,6 +1,7 @@
 package com.omnipasteapp.omnipaste.backgroundServices;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,15 +13,20 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
+import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
+import com.omnipasteapp.omnipaste.R;
+import com.omnipasteapp.omnipaste.activities.MainActivity_;
 import com.omnipasteapp.omnipaste.enums.Sender;
 
 import java.util.ArrayList;
@@ -29,6 +35,8 @@ import java.util.ArrayList;
 public class OmnipasteService extends Service implements ICanReceiveData {
   public static final String EXTRA_CLIPBOARD_SENDER = "clipboardSender";
   public static final String EXTRA_CLIPBOARD_DATA = "clipboardData";
+
+  public static final int NOTIFICATION_ID = 42;
 
   public static final int MSG_CLIENT_CONNECTED = 1;
   public static final int MSG_CLIENT_DISCONNECTED = 2;
@@ -59,6 +67,15 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
   @StringRes
   public String stopOmniService;
+
+  @StringRes
+  public String appName;
+
+  @StringRes
+  public String textServiceConnected;
+
+  @StringRes
+  public String textServiceDisconnected;
 
   //endregion
 
@@ -110,6 +127,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
     unregisterReceiver(_omniOmniServiceReceiver);
     stopOmniService();
+    unnotifyUser();
   }
 
   @Override
@@ -175,12 +193,46 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
   //endregion
 
+  //region notifications
+
+  @UiThread
+  public void notifyUser(String text) {
+    Intent resultIntent = new Intent(this, MainActivity_.class);
+
+    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+    stackBuilder.addParentStack(MainActivity_.class);
+    stackBuilder.addNextIntent(resultIntent);
+    PendingIntent resultPendingIntent =
+        stackBuilder.getPendingIntent(
+            0,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        .setSmallIcon(R.drawable.ic_launcher)
+        .setContentTitle(appName)
+        .setContentText(text)
+        .setOngoing(true)
+        .setContentIntent(resultPendingIntent);
+
+    notificationManager.notify(NOTIFICATION_ID, builder.build());
+  }
+
+  @UiThread
+  public void unnotifyUser() {
+    notificationManager.cancel(NOTIFICATION_ID);
+  }
+
+  //endregion
+
   private void notifyStarted() {
     sendMessage(MSG_SERVICE_CONNECTED);
+    notifyUser(textServiceConnected);
   }
 
   private void notifyStopped() {
     sendMessage(MSG_SERVICE_DISCONNECTED);
+    notifyUser(textServiceDisconnected);
   }
 
   private void sendMessage(int code) {
