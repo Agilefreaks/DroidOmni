@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
@@ -31,20 +32,24 @@ public class ConfigurationServiceTest extends TestCase {
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
   }
 
-  public void testLocalCommunicationSettingsReturnsTrueWhenChannelIsNotEmpty() {
+  public void testLoadCommunicationSettingsReturnsTrueWhenChannelIsNotEmpty() {
     assertThat(subject.loadCommunicationSettings(), is(true));
   }
 
-  public void testLocalCommunicationSettingsReturnsFalseWhenChannelIsEmpty() {
+  public void testLoadCommunicationSettingsReturnsFalseWhenChannelIsEmpty() {
     when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn("");
 
     assertThat(subject.loadCommunicationSettings(), is(false));
   }
 
-  public void testLocalCommunicationSettingsReturnsFalseWhenChannelIsNull() {
+  public void testLoadCommunicationSettingsReturnsFalseWhenChannelIsNull() {
     when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn(null);
 
     assertThat(subject.loadCommunicationSettings(), is(false));
+  }
+
+  public void testGetCommunicationSettingsWillNotFailIfNotCalledLoad() {
+    assertThat(subject.getCommunicationSettings(), is(notNullValue()));
   }
 
   public void testUpdateCommunicationSettingsAlwaysCallsProviderSetValueForChannel() {
