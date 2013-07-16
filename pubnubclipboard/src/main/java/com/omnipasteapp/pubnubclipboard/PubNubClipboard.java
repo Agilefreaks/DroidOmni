@@ -1,6 +1,7 @@
 package com.omnipasteapp.pubnubclipboard;
 
-import android.util.Log;
+  import android.util.Log;
+
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -52,8 +53,8 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
   @Override
   public void putData(String data) {
     Hashtable<String, String> message = pubNubMessageBuilder.setChannel(getChannel())
-            .addValue(data)
-            .build();
+        .addValue(data)
+        .build();
 
     pubnub.publish(message, new MessageSentCallback());
   }

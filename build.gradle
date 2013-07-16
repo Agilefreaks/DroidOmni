@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
 
-    ext.gradleAndroidPluginVersion = '0.4.2'
+    ext.gradleAndroidPluginVersion = '0.5.0'
 
     dependencies {
         classpath "com.android.tools.build:gradle:$gradleAndroidPluginVersion"
@@ -23,7 +23,7 @@ configurations {
     apt
 }
 
-ext.androidAnnotationsVersion = '2.7.1'
+ext.androidAnnotationsVersion = '2.7.+'
 
 dependencies {
     apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
@@ -31,9 +31,9 @@ dependencies {
 
 @SuppressWarnings("GroovyUnusedDeclaration")
 def generateGoogleAnnotations(variant, buildDir) {
-    ext.aptOutput = file("${buildDir}/source/r/${variant.dirName}")
-
     variant.javaCompile.doFirst {
+        ext.aptOutput = file("${buildDir}/source/r/${variant.dirName}")
+
         println "*** compile doFirst ${variant.name}"
         println "****************************"
         println "variant: ${variant.name}"

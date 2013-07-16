@@ -19,6 +19,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("unchecked")
 public class PubNubClipboardTest extends TestCase {
   @Mock
   private IConfigurationService mockConfigurationService;
