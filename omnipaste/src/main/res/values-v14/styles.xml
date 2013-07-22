@@ -8,6 +8,9 @@
     <style name="AppBaseTheme" parent="Theme.Sherlock.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
         <item name="ic_action_logout">@drawable/ic_action_logout_dark</item>
+
+        <item name="listPreferredItemPaddingStart">?android:listPreferredItemPaddingStart</item>
+        <item name="listPreferredItemPaddingEnd">?android:listPreferredItemPaddingEnd</item>
     </style>
 
 </resources>

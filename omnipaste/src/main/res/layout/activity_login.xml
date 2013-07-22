@@ -50,6 +50,8 @@
                 android:textColor="#372c24"
                 android:textAllCaps="true"
                 android:textStyle="bold"
+                android:paddingStart="?attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?attr/listPreferredItemPaddingEnd"
                 android:text="@string/login_header"/>
 
         <TextView
@@ -57,6 +59,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
                 android:textStyle="italic"
+                android:paddingStart="?attr/listPreferredItemPaddingStart"
+                android:paddingEnd="?attr/listPreferredItemPaddingEnd"
                 android:text="@string/login_footer"/>
 
         <ListView

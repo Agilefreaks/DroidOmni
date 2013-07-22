@@ -30,6 +30,21 @@ android {
         minSdkVersion 10
         targetSdkVersion 17
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../key.store")
+            storePassword "ArtLine123"
+            keyAlias "omnipaste"
+            keyPassword "ArtLine123"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 android.applicationVariants.each { variant ->
