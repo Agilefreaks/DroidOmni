@@ -3,10 +3,10 @@ package com.omnipasteapp.omnipaste.activities;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ItemClick;
@@ -25,7 +25,7 @@ import javax.inject.Inject;
 
 @NoTitle
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends SherlockActivity {
+public class LoginActivity extends ActionBarActivity {
   private Account[] _accounts;
 
   //region public properties
