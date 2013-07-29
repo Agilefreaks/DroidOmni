@@ -11,9 +11,9 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.OptionsItem;
@@ -39,7 +39,7 @@ import javax.inject.Inject;
 
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)
-public class MainActivity extends SherlockFragmentActivity implements LogoutDialog.LogoutDialogListener {
+public class MainActivity extends ActionBarActivity implements LogoutDialog.LogoutDialogListener {
   private static final String STATE_DATA = "stateData";
 
   private ArrayAdapter2 _dataListAdapter;
