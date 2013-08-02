@@ -85,6 +85,7 @@ public class ClipboardManagerWrapper extends Thread implements IClipboardManager
   private void fireClippingChanged() {
     if (_listener != null) {
       _listener.onPrimaryClipChanged();
+      _oldClip = getCurrentClip();
     }
   }
 }
