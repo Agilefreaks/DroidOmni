@@ -19,7 +19,7 @@ public class AndroidClipboardModule {
   ILocalClipboard provideLocalClipboard(Context context) {
     ILocalClipboard result;
 
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB || Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2) {
       android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
       IClipboardManagerWrapper clipboardManagerWrapper = new ClipboardManagerWrapper(clipboardManager);
       result = new com.omnipasteapp.androidclipboard.v10.AndroidClipboard(clipboardManagerWrapper);
