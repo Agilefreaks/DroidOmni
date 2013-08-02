@@ -1,6 +1,6 @@
 package com.omnipasteapp.pubnubclipboard;
 
-  import android.util.Log;
+import android.util.Log;
 
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
