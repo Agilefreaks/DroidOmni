@@ -96,7 +96,9 @@ public class OmniService implements IOmniService, ICanReceiveData {
   @Override
   public void dataReceived(IClipboardData clipboardData) {
     if (shouldPutData(clipboardData.getData())) {
-      _lastData = putData(clipboardData);
+      _lastData = clipboardData.getData();
+
+      putData(clipboardData);
 
       // notify listeners
       for (ICanReceiveData receiver : _dataReceivers) {
@@ -105,7 +107,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
     }
   }
 
-  private String putData(IClipboardData clipboardData) {
+  private void putData(IClipboardData clipboardData) {
     String data = clipboardData.getData();
 
     if (clipboardData.getSender() instanceof ILocalClipboard) {
@@ -113,8 +115,6 @@ public class OmniService implements IOmniService, ICanReceiveData {
     } else if (clipboardData.getSender() instanceof IOmniClipboard) {
       _localClipboard.putData(data);
     }
-
-    return data;
   }
 
   private Boolean shouldPutData(String currentData) {
