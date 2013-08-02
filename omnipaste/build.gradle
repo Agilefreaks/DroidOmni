@@ -42,6 +42,13 @@ android {
     }
 
     buildTypes {
+        staging {
+            debuggable true
+            jniDebugBuild true
+
+            signingConfig signingConfigs.debug
+        }
+
         release {
             signingConfig signingConfigs.release
         }
