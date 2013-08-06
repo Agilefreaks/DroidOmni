@@ -11,9 +11,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Hashtable;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -53,7 +50,7 @@ public class PubNubClipboardTest extends TestCase {
   public void testInitializeReturnsNewThread() {
     Thread result = subject.initialize();
 
-    assertThat(result, is(notNullValue()));
+    assertNotNull(result);
   }
 
   public void testPutDataAlwaysCallsPubnubPublish() {
