@@ -4,9 +4,6 @@ import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 
 import junit.framework.TestCase;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 public class ClipboardDataTest extends TestCase {
     private IClipboardData subject;
 
@@ -15,7 +12,7 @@ public class ClipboardDataTest extends TestCase {
     }
 
     public void testGetData() {
-        assertThat(subject.getData(), is("42"));
+        assertEquals(subject.getData(), "42");
     }
 
     public void testGetSender() {
