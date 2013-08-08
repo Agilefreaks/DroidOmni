@@ -3,10 +3,10 @@ package com.omnipasteapp.omnipaste;
 import android.app.Application;
 import android.content.res.Resources;
 
-import com.omnipasteapp.droidbugfreak.AgileReporter;
-import com.omnipasteapp.droidbugfreak.GlobalConfig;
 import com.omnipasteapp.omnipaste.modules.MainModule;
 
+import co.bugfreak.BugFreak;
+import co.bugfreak.GlobalConfig;
 import dagger.ObjectGraph;
 
 public class OmnipasteApplication extends Application {
@@ -22,7 +22,7 @@ public class OmnipasteApplication extends Application {
     GlobalConfig.Settings.setToken(resources.getString(R.string.bugFreak_token));
     GlobalConfig.Settings.setServiceEndPoint(resources.getString(R.string.bugFreak_service_endpoint));
 
-    AgileReporter.hook(this);
+    BugFreak.hook(this);
 
     objectGraph = ObjectGraph.create(new MainModule(this));
   }
