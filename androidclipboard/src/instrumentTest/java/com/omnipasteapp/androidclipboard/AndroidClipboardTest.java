@@ -13,9 +13,6 @@ import junit.framework.TestCase;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.core.Is.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
@@ -40,7 +37,7 @@ public class AndroidClipboardTest extends TestCase {
   public void testInitializeReturnsNewThread() {
     Thread result = subject.initialize();
 
-    assertThat(result, is(notNullValue()));
+    assertNotNull(result);
   }
 
   public void testRunCallsAddPrimaryClipChangedListener() {

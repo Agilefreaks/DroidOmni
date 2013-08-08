@@ -15,8 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
@@ -47,11 +45,11 @@ public class OmniServiceTest extends TestCase {
   }
 
   public void testGetLocalClipboardReturnsTheLocalClipboard() {
-    assertThat(subject.getLocalClipboard(), instanceOf(ILocalClipboard.class));
+    assertTrue(subject.getLocalClipboard() instanceof ILocalClipboard);
   }
 
   public void testGetOmniClipboardReturnsTheOmniClipboard() {
-    assertThat(subject.getOmniClipboard(), instanceOf(IOmniClipboard.class));
+    assertTrue(subject.getOmniClipboard() instanceof IOmniClipboard);
   }
 
   public void testDataReceivedCallSendDataOnOmniClipboardWhenSenderIsLocalClipboard() {

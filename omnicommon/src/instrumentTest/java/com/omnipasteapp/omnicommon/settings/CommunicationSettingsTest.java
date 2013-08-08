@@ -2,9 +2,6 @@ package com.omnipasteapp.omnicommon.settings;
 
 import junit.framework.TestCase;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 public class CommunicationSettingsTest extends TestCase {
   private CommunicationSettings subject;
 
@@ -13,7 +10,7 @@ public class CommunicationSettingsTest extends TestCase {
   }
 
   public void testGetChannelReturnsTheChannelName() {
-    assertThat(subject.getChannel(), is("42"));
+    assertEquals("42", subject.getChannel());
   }
 
   public void testHasChannelReturnsFalseWhenChannelIsNull() {
