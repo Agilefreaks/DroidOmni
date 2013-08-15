@@ -1,4 +1,4 @@
-package com.omnipasteapp.pubnubclipboard;
+package com.omnipasteapp.messaging;
 
 import java.util.Hashtable;
 

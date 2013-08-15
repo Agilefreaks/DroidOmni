@@ -1,4 +1,4 @@
-package com.omnipasteapp.pubnubclipboard;
+package com.omnipasteapp.messaging;
 
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
@@ -6,6 +6,7 @@ import com.pubnub.api.PubnubException;
 
 import java.util.Hashtable;
 
+@SuppressWarnings("deprecation")
 public class PubnubWrapper implements IPubnub {
 
   private Pubnub pubnub;
@@ -22,6 +23,11 @@ public class PubnubWrapper implements IPubnub {
   @Override
   public void subscribe(Hashtable<String, String> table, Callback callback) throws PubnubException {
     pubnub.subscribe(table, callback);
+  }
+
+  @Override
+  public void unsubscribe(String channel) {
+    pubnub.unsubscribe(channel);
   }
 
   @Override

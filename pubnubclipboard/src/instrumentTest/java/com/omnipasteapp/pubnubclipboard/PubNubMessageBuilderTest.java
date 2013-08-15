@@ -1,5 +1,7 @@
 package com.omnipasteapp.pubnubclipboard;
 
+import com.omnipasteapp.messaging.PubNubMessageBuilder;
+
 import junit.framework.TestCase;
 
 import java.util.Hashtable;
