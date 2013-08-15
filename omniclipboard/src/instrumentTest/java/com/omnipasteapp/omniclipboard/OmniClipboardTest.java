@@ -1,8 +1,7 @@
 package com.omnipasteapp.omniclipboard;
 
+import com.omnipasteapp.omniclipboard.OmniClipboard;
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
-import com.omnipasteapp.omniclipboard.api.resources.Clippings;
-import com.omnipasteapp.omniclipboard.api.resources.IClippings;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
@@ -43,6 +42,7 @@ public class OmniClipboardTest extends TestCase {
     subject = new OmniClipboard(mockConfigurationService, mockOmniApi, mockMessagingService);
 
     when(mockConfigurationService.getCommunicationSettings()).thenReturn(mockCommunicationSettings);
+
   }
 
   public void testInitializeReturnsNewThread() {
@@ -51,7 +51,7 @@ public class OmniClipboardTest extends TestCase {
     assertNotNull(result);
   }
 
-  public void testSaveClippingSucceeded() {
+  public void testSaveClippingSucceded() {
     subject.run();
 
     subject.saveClippingSucceeded();
@@ -81,12 +81,9 @@ public class OmniClipboardTest extends TestCase {
   }
 
   public void testSuccessCallbackAlwaysCallsOmniApiGetLastClipping() {
-    IClippings mockClippings = mock(Clippings.class);
-    when(mockOmniApi.clippings()).thenReturn(mockClippings);
-
     subject.messageReceived("NewMessage");
 
-    verify(mockClippings).getLastAsync(eq(subject));
+    verify(mockOmniApi).getLastClippingAsync(eq(subject));
   }
 
   public void testHandleClippingCallsDataReceivedOnReceivers() {

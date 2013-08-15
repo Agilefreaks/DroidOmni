@@ -1,4 +1,4 @@
-package com.omnipasteapp.api;
+package com.omnipasteapp.omniclipboard.api;
 
 public class Clipping {
   private String Token;

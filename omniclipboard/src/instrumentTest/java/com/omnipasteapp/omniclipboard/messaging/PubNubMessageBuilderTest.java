@@ -2,7 +2,7 @@ package com.omnipasteapp.omniclipboard.messaging;
 
 import com.omnipasteapp.omniclipboard.messaging.PubNubMessageBuilder;
 
-import com.omnipasteapp.messaging.PubNubMessageBuilder;
+import com.omnipasteapp.omniclipboard.messaging.PubNubMessageBuilder;
 
 import junit.framework.TestCase;
 
