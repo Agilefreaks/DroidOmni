@@ -5,39 +5,33 @@ import android.util.Log;
 import com.omnipasteapp.api.IGetClippingCompleteHandler;
 import com.omnipasteapp.api.IOmniApi;
 import com.omnipasteapp.api.ISaveClippingCompleteHandler;
+import com.omnipasteapp.messaging.IMessageHandler;
+import com.omnipasteapp.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
-import com.pubnub.api.Callback;
-import com.pubnub.api.PubnubException;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import javax.inject.Inject;
 
-public class PubNubClipboard extends Callback implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IGetClippingCompleteHandler {
+public class PubNubClipboard implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IGetClippingCompleteHandler, IMessageHandler {
 
   private final IConfigurationService configurationService;
   private final IOmniApi omniApi;
-  private final IPubNubClientFactory pubNubClientFactory;
-  private IPubNubMessageBuilder pubNubMessageBuilder;
+  private final IMessagingService messagingService;
   private CommunicationSettings communicationSettings;
-
-  private IPubnub pubnub;
   private ArrayList<ICanReceiveData> dataReceivers;
 
   @Inject
   public PubNubClipboard(IConfigurationService configurationService,
                          IOmniApi omniApi,
-                         IPubNubClientFactory pubNubClientFactory,
-                         IPubNubMessageBuilder pubNubMessageBuilder) {
+                         IMessagingService messagingService) {
     this.configurationService = configurationService;
     this.omniApi = omniApi;
-    this.pubNubClientFactory = pubNubClientFactory;
-    this.pubNubMessageBuilder = pubNubMessageBuilder;
+    this.messagingService = messagingService;
     dataReceivers = new ArrayList<ICanReceiveData>();
   }
 
@@ -57,24 +51,6 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
   }
 
   @Override
-  public void putData(String data) {
-    omniApi.saveClippingAsync(data, this);
-  }
-
-  @Override
-  public void saveClippingSucceeded() {
-    Hashtable<String, String> message = pubNubMessageBuilder.setChannel(getChannel())
-        .addValue("NewMessage")
-        .build();
-
-    pubnub.publish(message, new MessageSentCallback());
-  }
-
-  @Override
-  public void saveClippingFailed(String reason) {
-  }
-
-  @Override
   public Thread initialize() {
     return new Thread(this);
   }
@@ -82,25 +58,26 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
   @Override
   public synchronized void run() {
     communicationSettings = configurationService.getCommunicationSettings();
-    pubnub = pubNubClientFactory.create();
-
-    try {
-      Hashtable<String, String> table = pubNubMessageBuilder.setChannel(communicationSettings.getChannel()).build();
-      pubnub.subscribe(table, this);
-    } catch (PubnubException e) {
-      Log.i("PubNub/Subscribe", e.getMessage());
-    }
+    messagingService.connect(getChannel(), this);
   }
 
   @Override
-  public void dispose() {
-    if (pubnub != null) {
-      pubnub.shutdown();
-    }
+  public void putData(String data) {
+    omniApi.saveClippingAsync(data, this);
   }
 
   @Override
-  public void successCallback(String channel, Object message) {
+  public void saveClippingSucceeded() {
+    messagingService.sendAsync(getChannel(), "NewMessage", this);
+  }
+
+  @Override
+  public void saveClippingFailed(String reason) {
+    Log.i("OmniClipboard", reason);
+  }
+
+  @Override
+  public void messageReceived(String message) {
     if (message != null) {
       omniApi.getLastClippingAsync(this);
     }
@@ -115,7 +92,16 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
   }
 
   @Override
-  public void errorCallback(String s, Object o) {
-    Log.e("PubNub/Error", o.toString());
+  public void messageSent(String message) {
+  }
+
+  @Override
+  public void messageSendFailed(String message, String reason) {
+    Log.i("OmniClipboard", message + " " + reason);
+  }
+
+  @Override
+  public void dispose() {
+    messagingService.disconnect(getChannel());
   }
 }

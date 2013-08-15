@@ -1,6 +1,11 @@
 package com.omnipasteapp.pubnubclipboard;
 
 import com.omnipasteapp.api.IOmniApi;
+import com.omnipasteapp.messaging.IMessagingService;
+import com.omnipasteapp.messaging.IPubNubClientFactory;
+import com.omnipasteapp.messaging.IPubNubMessageBuilder;
+import com.omnipasteapp.messaging.IPubnub;
+import com.omnipasteapp.messaging.MessageSentCallback;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -30,29 +35,20 @@ public class PubNubClipboardTest extends TestCase {
   private IOmniApi mockOmniApi;
 
   @Mock
-  private IPubNubClientFactory mockPubNubClientFactory;
-
-  @Mock
-  private IPubNubMessageBuilder mockPubNubMessageBuilder;
-
-  @Mock
   private CommunicationSettings mockCommunicationSettings;
 
   @Mock
-  private IPubnub mockPubnub;
+  private IMessagingService mockMessagingService;
 
   private PubNubClipboard subject;
 
   protected void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    subject = new PubNubClipboard(mockConfigurationService, mockOmniApi, mockPubNubClientFactory, mockPubNubMessageBuilder);
+    subject = new PubNubClipboard(mockConfigurationService, mockOmniApi, mockMessagingService);
 
-    when(mockPubNubClientFactory.create()).thenReturn(mockPubnub);
     when(mockConfigurationService.getCommunicationSettings()).thenReturn(mockCommunicationSettings);
-    when(mockPubNubMessageBuilder.setChannel(anyString())).thenReturn(mockPubNubMessageBuilder);
-    when(mockPubNubMessageBuilder.addValue(anyString())).thenReturn(mockPubNubMessageBuilder);
-    when(mockPubNubMessageBuilder.build()).thenReturn(new Hashtable<String, String>());
+
   }
 
   public void testInitializeReturnsNewThread() {
@@ -66,7 +62,7 @@ public class PubNubClipboardTest extends TestCase {
 
     subject.saveClippingSucceeded();
 
-    verify(mockPubnub).publish(any(Hashtable.class), any(MessageSentCallback.class));
+    verify(mockMessagingService).sendAsync(anyString(), eq("NewMessage"), eq(subject));
   }
 
   public void testRunAlwaysCallsConfigurationServiceGetCommunicationSettings() {
@@ -75,28 +71,10 @@ public class PubNubClipboardTest extends TestCase {
     verify(mockConfigurationService).getCommunicationSettings();
   }
 
-  public void testRunAlwaysCallsPubNubClientFactoryCreate() {
+  public void testRunAlwaysCallsMessagingServiceConnect() {
     subject.run();
 
-    verify(mockPubNubClientFactory).create();
-  }
-
-  public void testRunAlwaysCallsPubnubSubscribe() {
-    subject.run();
-
-    try {
-      verify(mockPubnub).subscribe(any(Hashtable.class), any(MessageSentCallback.class));
-    } catch (PubnubException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public void testDisposeAlwaysCallsPubnubShutdown() {
-    subject.run();
-
-    subject.dispose();
-
-    verify(mockPubnub).shutdown();
+    verify(mockMessagingService).connect(anyString(), eq(subject));
   }
 
   public void testGetChannelAlwaysCallsCommunicationSettingsGetChannel() {
@@ -109,7 +87,7 @@ public class PubNubClipboardTest extends TestCase {
   }
 
   public void testSuccessCallbackAlwaysCallsOmniApiGetLastClipping() {
-    subject.successCallback("channel", "message");
+    subject.messageReceived("NewMessage");
 
     verify(mockOmniApi).getLastClippingAsync(eq(subject));
   }

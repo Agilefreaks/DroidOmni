@@ -2,6 +2,8 @@ package com.omnipasteapp.omniclipboard.messaging;
 
 import com.omnipasteapp.omniclipboard.messaging.PubNubMessageBuilder;
 
+import com.omnipasteapp.messaging.PubNubMessageBuilder;
+
 import junit.framework.TestCase;
 
 import java.util.Hashtable;
