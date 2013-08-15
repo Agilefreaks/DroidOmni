@@ -3,4 +3,7 @@
     <string name="bugFreak_token">51fa9f351017e3e84c00000b</string>
 
     <string name="app_name">Omnipaste - staging</string>
+
+    <string name="apiUrl">http://omnipaste-staging.herokuapp.com/api/v1</string>
+    <string name="clippingResource">clippings</string>
 </resources>

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="bugFreak_token">51fa9eff1017e3e84c000006</string>
+
+    <string name="apiUrl">http://www.omnipasteapp.com/api/v1</string>
+    <string name="clippingResource">clippings</string>
 </resources>
