@@ -144,7 +144,8 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
 
   @AfterViews
   public void loadConfiguration() {
-    if (configurationService.loadCommunicationSettings()) {
+    configurationService.initialize();
+    if (configurationService.getCommunicationSettings().hasChannel()) {
       setActionBarTitle(_status);
       getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 

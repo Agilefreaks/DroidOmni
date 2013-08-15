@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
+import com.omnipasteapp.omnicommon.interfaces.IAppConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.activities.LoginActivity_;
 import com.omnipasteapp.omnipaste.activities.MainActivity_;
 import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
+import com.omnipasteapp.omnipaste.providers.AppConfigurationProvider;
 import com.omnipasteapp.omnipaste.providers.SharedPreferencesConfigurationProvider;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 import com.omnipasteapp.omnipaste.services.IntentService;
@@ -48,6 +50,12 @@ public class MainModule {
   @Singleton
   IConfigurationProvider providesConfigurationProvider(SharedPreferencesConfigurationProvider sharedPreferencesConfigurationProvider) {
     return sharedPreferencesConfigurationProvider;
+  }
+
+  @Provides
+  @Singleton
+  IAppConfigurationProvider providesAppConfigurationProvider(AppConfigurationProvider appConfigurationProvider) {
+    return appConfigurationProvider;
   }
 
   @Provides
