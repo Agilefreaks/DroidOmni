@@ -20,7 +20,6 @@ public class OmnipasteApplication extends Application {
 
     GlobalConfig.Settings.setApiKey(resources.getString(R.string.bugFreak_api_key));
     GlobalConfig.Settings.setToken(resources.getString(R.string.bugFreak_token));
-    GlobalConfig.Settings.setServiceEndPoint(resources.getString(R.string.bugFreak_service_endpoint));
 
     BugFreak.hook(this);
 
