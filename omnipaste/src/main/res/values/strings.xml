@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="bugFreak_api_key" tools:ignore="TypographyDashes">5a4499b9-9095-41e7-b357-0c4574610101</string>
+    <string name="bugFreak_api_key" tools:ignore="TypographyDashes">2537eed2-36fd-4d9c-9ca9-54db031126fd</string>
     <string name="bugFreak_token">520cca3028e18700b0000006</string>
     <string name="bugFreak_service_endpoint">http://errors.omnipasteapp.com/v1/api/errors</string>
 
