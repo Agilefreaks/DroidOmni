@@ -2,6 +2,9 @@ package com.omnipasteapp.pubnubclipboard;
 
 import android.util.Log;
 
+import com.omnipasteapp.api.IGetClippingCompleteHandler;
+import com.omnipasteapp.api.IOmniApi;
+import com.omnipasteapp.api.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -15,9 +18,10 @@ import java.util.Hashtable;
 
 import javax.inject.Inject;
 
-public class PubNubClipboard extends Callback implements IOmniClipboard, Runnable {
+public class PubNubClipboard extends Callback implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IGetClippingCompleteHandler {
 
   private final IConfigurationService configurationService;
+  private final IOmniApi omniApi;
   private final IPubNubClientFactory pubNubClientFactory;
   private IPubNubMessageBuilder pubNubMessageBuilder;
   private CommunicationSettings communicationSettings;
@@ -27,9 +31,11 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
 
   @Inject
   public PubNubClipboard(IConfigurationService configurationService,
+                         IOmniApi omniApi,
                          IPubNubClientFactory pubNubClientFactory,
                          IPubNubMessageBuilder pubNubMessageBuilder) {
     this.configurationService = configurationService;
+    this.omniApi = omniApi;
     this.pubNubClientFactory = pubNubClientFactory;
     this.pubNubMessageBuilder = pubNubMessageBuilder;
     dataReceivers = new ArrayList<ICanReceiveData>();
@@ -52,11 +58,20 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
 
   @Override
   public void putData(String data) {
+    omniApi.saveClippingAsync(data, this);
+  }
+
+  @Override
+  public void saveClippingSucceeded() {
     Hashtable<String, String> message = pubNubMessageBuilder.setChannel(getChannel())
-        .addValue(data)
+        .addValue("NewMessage")
         .build();
 
     pubnub.publish(message, new MessageSentCallback());
+  }
+
+  @Override
+  public void saveClippingFailed(String reason) {
   }
 
   @Override
@@ -87,10 +102,15 @@ public class PubNubClipboard extends Callback implements IOmniClipboard, Runnabl
   @Override
   public void successCallback(String channel, Object message) {
     if (message != null) {
-      ClipboardData data = new ClipboardData(this, message.toString());
-      for (ICanReceiveData receiver : dataReceivers) {
-        receiver.dataReceived(data);
-      }
+      omniApi.getLastClippingAsync(this);
+    }
+  }
+
+  @Override
+  public void handleClipping(String clip) {
+    ClipboardData data = new ClipboardData(this, clip);
+    for (ICanReceiveData receiver : dataReceivers) {
+      receiver.dataReceived(data);
     }
   }
 

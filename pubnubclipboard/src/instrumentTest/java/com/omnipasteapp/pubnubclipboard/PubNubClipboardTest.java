@@ -1,5 +1,8 @@
 package com.omnipasteapp.pubnubclipboard;
 
+import com.omnipasteapp.api.IOmniApi;
+import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.pubnub.api.PubnubException;
@@ -13,6 +16,8 @@ import java.util.Hashtable;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,6 +25,9 @@ import static org.mockito.Mockito.when;
 public class PubNubClipboardTest extends TestCase {
   @Mock
   private IConfigurationService mockConfigurationService;
+
+  @Mock
+  private IOmniApi mockOmniApi;
 
   @Mock
   private IPubNubClientFactory mockPubNubClientFactory;
@@ -38,7 +46,7 @@ public class PubNubClipboardTest extends TestCase {
   protected void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    subject = new PubNubClipboard(mockConfigurationService, mockPubNubClientFactory, mockPubNubMessageBuilder);
+    subject = new PubNubClipboard(mockConfigurationService, mockOmniApi, mockPubNubClientFactory, mockPubNubMessageBuilder);
 
     when(mockPubNubClientFactory.create()).thenReturn(mockPubnub);
     when(mockConfigurationService.getCommunicationSettings()).thenReturn(mockCommunicationSettings);
@@ -53,10 +61,10 @@ public class PubNubClipboardTest extends TestCase {
     assertNotNull(result);
   }
 
-  public void testPutDataAlwaysCallsPubnubPublish() {
+  public void testSaveClippingSucceded() {
     subject.run();
 
-    subject.putData("data");
+    subject.saveClippingSucceeded();
 
     verify(mockPubnub).publish(any(Hashtable.class), any(MessageSentCallback.class));
   }
@@ -98,5 +106,20 @@ public class PubNubClipboardTest extends TestCase {
     String channel = subject.getChannel();
 
     assertEquals("test-channel", channel);
+  }
+
+  public void testSuccessCallbackAlwaysCallsOmniApiGetLastClipping() {
+    subject.successCallback("channel", "message");
+
+    verify(mockOmniApi).getLastClippingAsync(eq(subject));
+  }
+
+  public void testHandleClippingCallsDataReceivedOnReceivers() {
+    ICanReceiveData dataReceiver = mock(ICanReceiveData.class);
+    subject.addDataReceiver(dataReceiver);
+
+    subject.handleClipping("test");
+
+    verify(dataReceiver).dataReceived(any(IClipboardData.class));
   }
 }

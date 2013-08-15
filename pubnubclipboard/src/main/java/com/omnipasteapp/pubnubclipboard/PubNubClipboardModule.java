@@ -1,5 +1,7 @@
 package com.omnipasteapp.pubnubclipboard;
 
+import com.omnipasteapp.api.IOmniApi;
+import com.omnipasteapp.api.OmniApi;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 
 import javax.inject.Singleton;
@@ -24,5 +26,11 @@ public class PubNubClipboardModule {
   @Provides
   IOmniClipboard provideOmniClipboard(PubNubClipboard pubNubClipboard) {
     return pubNubClipboard;
+  }
+
+  @Provides
+  @Singleton
+  IOmniApi provideOmniApi(OmniApi omniApi) {
+    return omniApi;
   }
 }
