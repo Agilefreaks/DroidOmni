@@ -18,8 +18,7 @@ public class OmnipasteServiceReceiver extends BroadcastReceiver {
   public void onReceive(Context context, Intent intent) {
     if(startOmnipasteService.equals(intent.getAction())) {
       IntentService.startService(context, OmnipasteService_.class);
-    }
-    else {
+    } else {
       IntentService.stopService(context, OmnipasteService_.class);
     }
   }

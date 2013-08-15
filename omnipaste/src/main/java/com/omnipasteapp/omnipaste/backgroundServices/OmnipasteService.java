@@ -45,7 +45,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   public static final int MSG_DATA_RECEIVED = 5;
 
   private ArrayList<Messenger> _clients = new ArrayList<Messenger>();
-  private OmniServiceReceiver _omniOmniServiceReceiver = new OmniServiceReceiver();
+  private OmniServiceReceiver omniServiceReceiver = new OmniServiceReceiver();
 
   //region public properties
 
@@ -118,15 +118,17 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     IntentFilter filter = new IntentFilter();
     filter.addAction(startOmniService);
     filter.addAction(stopOmniService);
-    registerReceiver(_omniOmniServiceReceiver, filter);
+    registerReceiver(omniServiceReceiver, filter);
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
 
-    unregisterReceiver(_omniOmniServiceReceiver);
+    unregisterReceiver(omniServiceReceiver);
+    omniServiceReceiver = null;
     stopOmniService();
+
     unnotifyUser();
   }
 
@@ -165,6 +167,10 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   public void stopOmniService() {
+    if (omniService == null) {
+      return;
+    }
+
     omniService.removeListener(this);
     omniService.stop();
     omniService = null;
