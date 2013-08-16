@@ -44,12 +44,12 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   public static final int MSG_SERVICE_DISCONNECTED = 4;
   public static final int MSG_DATA_RECEIVED = 5;
 
-  private ArrayList<Messenger> _clients = new ArrayList<Messenger>();
+  private ArrayList<Messenger> clients = new ArrayList<Messenger>();
   private OmniServiceReceiver omniServiceReceiver = new OmniServiceReceiver();
 
   //region public properties
 
-  public final Messenger _messenger = new Messenger(new IncomingHandler());
+  public final Messenger messenger = new Messenger(new IncomingHandler());
 
   public IOmniService omniService;
 
@@ -84,7 +84,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     public void handleMessage(Message msg) {
       switch (msg.what) {
         case MSG_CLIENT_CONNECTED:
-          _clients.add(msg.replyTo);
+          clients.add(msg.replyTo);
 
           // send state to the new client
           if (OmnipasteService.this.omniService != null) {
@@ -92,7 +92,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
           }
           break;
         case MSG_CLIENT_DISCONNECTED:
-          _clients.remove(msg.replyTo);
+          clients.remove(msg.replyTo);
           break;
         default:
           super.handleMessage(msg);
@@ -134,7 +134,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
   @Override
   public IBinder onBind(Intent intent) {
-    return _messenger.getBinder();
+    return messenger.getBinder();
   }
 
   @Override
@@ -246,7 +246,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   private void sendMessage(int code, Bundle bundle) {
-    for (Messenger client : _clients) {
+    for (Messenger client : clients) {
       try {
         Message message = Message.obtain(null, code);
 
