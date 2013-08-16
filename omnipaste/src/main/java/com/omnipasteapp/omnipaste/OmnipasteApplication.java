@@ -3,6 +3,7 @@ package com.omnipasteapp.omnipaste;
 import android.app.Application;
 import android.content.res.Resources;
 
+import com.omnipasteapp.omniclipboard.api.OmniApi;
 import com.omnipasteapp.omnipaste.modules.MainModule;
 
 import co.bugfreak.BugFreak;
@@ -18,10 +19,10 @@ public class OmnipasteApplication extends Application {
 
     Resources resources = this.getResources();
 
+    // hook
     GlobalConfig.Settings.setApiKey(resources.getString(R.string.bugFreak_api_key));
     GlobalConfig.Settings.setToken(resources.getString(R.string.bugFreak_token));
     GlobalConfig.Settings.setServiceEndPoint(resources.getString(R.string.bugFreak_service_endpoint));
-
     BugFreak.hook(this);
 
     objectGraph = ObjectGraph.create(new MainModule(this));

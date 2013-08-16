@@ -1,24 +1,18 @@
 package com.omnipasteapp.omnicommon.services;
 
-import com.omnipasteapp.omnicommon.interfaces.IAppConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
-import com.omnipasteapp.omnicommon.settings.ApiConfig;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
-import com.omnipasteapp.omnicommon.settings.Resources;
 
 import javax.inject.Inject;
 
 public class ConfigurationService implements IConfigurationService {
   private CommunicationSettings communicationSettings;
-  private ApiConfig apiConfig;
   private final IConfigurationProvider configurationProvider;
-  private final IAppConfigurationProvider appConfigurationProvider;
 
   @Inject
-  public ConfigurationService(IConfigurationProvider configurationProvider, IAppConfigurationProvider appConfigurationProvider) {
+  public ConfigurationService(IConfigurationProvider configurationProvider) {
     this.configurationProvider = configurationProvider;
-    this.appConfigurationProvider = appConfigurationProvider;
   }
 
   @Override
@@ -31,20 +25,9 @@ public class ConfigurationService implements IConfigurationService {
   }
 
   @Override
-  public ApiConfig getApiConfig() {
-    return apiConfig;
-  }
-
-  @Override
   public void initialize() {
     String channel = configurationProvider.getValue(CommunicationSettings.ChannelKey);
     communicationSettings = new CommunicationSettings(channel);
-
-    apiConfig = new ApiConfig();
-    apiConfig.setBaseUrl(appConfigurationProvider.getValue(ApiConfig.BaseUrlKey));
-    Resources resources = new Resources();
-    resources.setClippings(appConfigurationProvider.getValue(Resources.ClippingsKey));
-    apiConfig.setResources(resources);
   }
 
   @Override
