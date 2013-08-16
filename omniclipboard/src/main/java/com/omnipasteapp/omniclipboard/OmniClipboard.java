@@ -5,6 +5,7 @@ import android.util.Log;
 import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
 import com.omnipasteapp.omniclipboard.api.ISaveClippingCompleteHandler;
+import com.omnipasteapp.omniclipboard.api.OmniApi;
 import com.omnipasteapp.omniclipboard.messaging.IMessageHandler;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.ClipboardData;
@@ -30,8 +31,9 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
                        IOmniApi omniApi,
                        IMessagingService messagingService) {
     this.configurationService = configurationService;
-    this.omniApi = omniApi;
     this.messagingService = messagingService;
+    this.omniApi = omniApi;
+
     dataReceivers = new ArrayList<ICanReceiveData>();
   }
 
@@ -59,11 +61,13 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
   public synchronized void run() {
     communicationSettings = configurationService.getCommunicationSettings();
     messagingService.connect(getChannel(), this);
+
+    OmniApi.setApiKey(getChannel());
   }
 
   @Override
   public void putData(String data) {
-    omniApi.saveClippingAsync(data, this);
+    omniApi.clippings().saveAsync(data, this);
   }
 
   @Override
@@ -79,7 +83,7 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
   @Override
   public void messageReceived(String message) {
     if (message != null) {
-      omniApi.getLastClippingAsync(this);
+      omniApi.clippings().getLastAsync(this);
     }
   }
 

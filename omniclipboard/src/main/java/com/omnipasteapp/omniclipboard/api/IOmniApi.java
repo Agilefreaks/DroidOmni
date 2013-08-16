@@ -1,7 +1,7 @@
 package com.omnipasteapp.omniclipboard.api;
 
-public interface IOmniApi {
-  void saveClippingAsync(String data, ISaveClippingCompleteHandler handler);
+import com.omnipasteapp.omniclipboard.api.resources.IClippings;
 
-  void getLastClippingAsync(IGetClippingCompleteHandler handler);
+public interface IOmniApi {
+  IClippings clippings();
 }

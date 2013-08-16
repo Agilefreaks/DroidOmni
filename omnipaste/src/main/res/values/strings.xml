@@ -27,7 +27,4 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="dialog_exit_message">Clicking OK will terminate the synchronization with your other devices.</string>
-
-    <string name="apiUrl">http://10.0.2.2/api/v1</string>
-    <string name="clippingResource">clippings</string>
 </resources>
