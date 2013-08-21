@@ -88,7 +88,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.1" level="project" />
     <orderEntry type="module" module-name="omniclipboard" exported="" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
-    <orderEntry type="library" exported="" name="CoBugfreakBugFreak101.aar" level="project" />
+    <orderEntry type="library" exported="" name="CoBugfreakBugFreak103.aar" level="project" />
   </component>
 </module>
 
