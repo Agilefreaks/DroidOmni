@@ -1,5 +1,7 @@
 package com.omnipasteapp.omnicommon.services;
 
+import com.omnipasteapp.omnicommon.dataaccess.IClippingRepository;
+import com.omnipasteapp.omnicommon.domain.Clipping;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -8,12 +10,14 @@ import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class OmniService implements IOmniService, ICanReceiveData {
   private ILocalClipboard _localClipboard;
   private IOmniClipboard _omniClipboard;
+  private IClippingRepository clippingRepository;
   private String _lastData;
   private Thread _omniClipboardInitialize;
   private Thread _localClipboardInitialize;
@@ -27,11 +31,12 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Inject
-  public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
+  public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard, IClippingRepository clippingRepository) {
     this();
 
     _localClipboard = localClipboard;
     _omniClipboard = omniClipboard;
+    this.clippingRepository = clippingRepository;
   }
 
   @Override
@@ -42,6 +47,10 @@ public class OmniService implements IOmniService, ICanReceiveData {
   @Override
   public IOmniClipboard getOmniClipboard() {
     return _omniClipboard;
+  }
+
+  public List<Clipping> getClippings() {
+    return clippingRepository.getForLast24Hours();
   }
 
   @Override
@@ -99,6 +108,8 @@ public class OmniService implements IOmniService, ICanReceiveData {
       _lastData = clipboardData.getData();
 
       putData(clipboardData);
+
+      clippingRepository.save(new Clipping(clipboardData.getData()));
 
       // notify listeners
       for (ICanReceiveData receiver : _dataReceivers) {
