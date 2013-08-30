@@ -53,6 +53,7 @@ android {
     }
 }
 
-android.applicationVariants.each { variant ->
+android.applicationVariants.all { variant ->
+    println "*** Hello"
     generateGoogleAnnotations(variant, project.buildDir)
 }
