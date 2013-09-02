@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
 
-    ext.gradleAndroidPluginVersion = '0.5.2'
+    ext.gradleAndroidPluginVersion = '0.5.6'
 
     dependencies {
         classpath "com.android.tools.build:gradle:$gradleAndroidPluginVersion"

@@ -7,39 +7,37 @@ import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import javax.inject.Inject;
 
 public class ConfigurationService implements IConfigurationService {
-  private CommunicationSettings _communicationSettings;
-  private IConfigurationProvider _provider;
+  private CommunicationSettings communicationSettings;
+  private final IConfigurationProvider configurationProvider;
 
   @Inject
-  public ConfigurationService(IConfigurationProvider provider) {
-    _provider = provider;
+  public ConfigurationService(IConfigurationProvider configurationProvider) {
+    this.configurationProvider = configurationProvider;
   }
 
   @Override
   public CommunicationSettings getCommunicationSettings() {
-    if (_communicationSettings == null) {
-      loadCommunicationSettings();
+    if (communicationSettings == null) {
+      initialize();
     }
 
-    return _communicationSettings;
+    return communicationSettings;
   }
 
   @Override
-  public boolean loadCommunicationSettings() {
-    String channel = _provider.getValue(CommunicationSettings.ChannelKey);
-    _communicationSettings = new CommunicationSettings(channel);
-
-    return channel != null && !channel.isEmpty();
+  public void initialize() {
+    String channel = configurationProvider.getValue(CommunicationSettings.ChannelKey);
+    communicationSettings = new CommunicationSettings(channel);
   }
 
   @Override
   public void updateCommunicationSettings() {
-    _provider.setValue(CommunicationSettings.ChannelKey, _communicationSettings.getChannel());
+    configurationProvider.setValue(CommunicationSettings.ChannelKey, communicationSettings.getChannel());
   }
 
   @Override
   public void clearChannel() {
-    _provider.setValue(CommunicationSettings.ChannelKey, null);
-    loadCommunicationSettings();
+    configurationProvider.setValue(CommunicationSettings.ChannelKey, null);
+    initialize();
   }
 }

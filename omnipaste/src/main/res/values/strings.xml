@@ -24,7 +24,7 @@
     <string name="login_header">Tap on the account you wish to login with:</string>
     <string name="login_footer">You need to use the same account for the other clients also.</string>
 
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="dialog_exit_message">Clicking Ok will terminate the synchronization with your other devices.</string>
+    <string name="dialog_exit_message">Clicking OK will terminate the synchronization with your other devices.</string>
 </resources>

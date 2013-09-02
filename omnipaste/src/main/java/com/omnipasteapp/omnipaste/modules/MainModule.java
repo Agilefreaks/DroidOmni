@@ -2,6 +2,7 @@ package com.omnipasteapp.omnipaste.modules;
 
 import android.content.Context;
 
+import com.omnipasteapp.omniclipboard.OmniClipboardModule;
 import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
@@ -12,7 +13,6 @@ import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
 import com.omnipasteapp.omnipaste.providers.SharedPreferencesConfigurationProvider;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 import com.omnipasteapp.omnipaste.services.IntentService;
-import com.omnipasteapp.pubnubclipboard.PubNubClipboardModule;
 
 import javax.inject.Singleton;
 
@@ -29,7 +29,7 @@ import dagger.Provides;
     includes = {
         OmnicommonModule.class,
         AndroidClipboardModule.class,
-        PubNubClipboardModule.class
+        OmniClipboardModule.class
     })
 public class MainModule {
   private Context context;

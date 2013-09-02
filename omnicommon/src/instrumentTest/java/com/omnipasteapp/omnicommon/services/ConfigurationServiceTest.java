@@ -24,25 +24,9 @@ public class ConfigurationServiceTest extends TestCase {
   }
 
   public void testLoadCommunicationSettingsCallsConfigurationProviderGetValueChannelKey() {
-    subject.loadCommunicationSettings();
+    subject.initialize();
 
     verify(configurationProvider).getValue(CommunicationSettings.ChannelKey);
-  }
-
-  public void testLoadCommunicationSettingsReturnsTrueWhenChannelIsNotEmpty() {
-    assertTrue(subject.loadCommunicationSettings());
-  }
-
-  public void testLoadCommunicationSettingsReturnsFalseWhenChannelIsEmpty() {
-    when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn("");
-
-    assertFalse(subject.loadCommunicationSettings());
-  }
-
-  public void testLoadCommunicationSettingsReturnsFalseWhenChannelIsNull() {
-    when(configurationProvider.getValue(CommunicationSettings.ChannelKey)).thenReturn(null);
-
-    assertFalse(subject.loadCommunicationSettings());
   }
 
   public void testGetCommunicationSettingsWillNotFailIfNotCalledLoad() {
@@ -50,7 +34,7 @@ public class ConfigurationServiceTest extends TestCase {
   }
 
   public void testUpdateCommunicationSettingsAlwaysCallsProviderSetValueForChannel() {
-    subject.loadCommunicationSettings();
+    subject.initialize();
 
     subject.updateCommunicationSettings();
 
