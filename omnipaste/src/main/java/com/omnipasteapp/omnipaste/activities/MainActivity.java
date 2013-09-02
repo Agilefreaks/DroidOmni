@@ -21,7 +21,9 @@ import com.googlecode.androidannotations.annotations.OptionsMenu;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.res.StringRes;
+import com.omnipasteapp.omnicommon.domain.Clipping;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.adapters.ArrayAdapter2;
@@ -31,17 +33,14 @@ import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.enums.Sender;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)
 public class MainActivity extends ActionBarActivity implements LogoutDialog.LogoutDialogListener {
-  private static final String STATE_DATA = "stateData";
-
   private ArrayAdapter2 _dataListAdapter;
   private Messenger _omnipasteServiceMessenger;
   private String _status;
@@ -53,6 +52,9 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
 
   @Inject
   public IIntentService intentService;
+
+  @Inject
+  public IOmniService omniService;
 
   @StringRes
   public String startOmnipasteService;
@@ -121,7 +123,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
 
     OmnipasteApplication.inject(this);
 
-    restoreInstanceState(savedInstanceState);
+    setClippings();
   }
 
   @Override
@@ -129,17 +131,6 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
     super.onDestroy();
 
     unbindOmnipasteService();
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle savedInstanceState) {
-    ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
-    for (int i = 0; i < _dataListAdapter.getCount(); i++) {
-      data.add(_dataListAdapter.getItem(i));
-    }
-    savedInstanceState.putSerializable(STATE_DATA, data);
-
-    super.onSaveInstanceState(savedInstanceState);
   }
 
   @AfterViews
@@ -202,31 +193,21 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   }
 
   private void dataReceived(String data, Sender sender) {
-    HashMap<String, String> dataItem = new HashMap<String, String>();
-    dataItem.put("title", sender.toString());
-    dataItem.put("subtitle", data);
-
-    _dataListAdapter.insert(dataItem, 0);
+    _dataListAdapter.insert(createListItem(data, sender), 0);
     _dataListAdapter.notifyDataSetChanged();
   }
 
-  @SuppressWarnings("unchecked")
-  private void restoreInstanceState(Bundle savedInstanceState) {
+  private void setClippings() {
     _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
     _status = textServiceConnecting;
 
-    if (savedInstanceState != null) {
-      Serializable serializable = savedInstanceState.getSerializable(STATE_DATA);
-      if (serializable != null) {
-        ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) serializable;
+    List<Clipping> clippings = omniService.getClippings();
 
-        for (HashMap<String, String> dataItem : data) {
-          _dataListAdapter.add(dataItem);
-        }
-
-        _dataListAdapter.notifyDataSetChanged();
-      }
+    for (Clipping clipping : clippings) {
+      _dataListAdapter.add(createListItem(clipping.getContent(), Sender.Omni));
     }
+
+    _dataListAdapter.notifyDataSetChanged();
   }
 
   private void sendMessage(int code) {
@@ -253,6 +234,14 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
     unbindService(_connection);
 
     _omnipasteServiceMessenger = null;
+  }
+
+  private HashMap<String, String> createListItem(String data, Sender sender) {
+    HashMap<String, String> dataItem = new HashMap<String, String>();
+    dataItem.put("title", sender.toString());
+    dataItem.put("subtitle", data);
+
+    return dataItem;
   }
 
   //endregion
