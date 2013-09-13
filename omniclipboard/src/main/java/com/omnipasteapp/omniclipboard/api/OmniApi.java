@@ -19,10 +19,6 @@ public class OmniApi implements IOmniApi {
     BaseUrl = context.getResources().getString(R.string.apiUrl);
   }
 
-  public static void setBaseUrl(String baseUrl) {
-    BaseUrl = baseUrl;
-  }
-
   public static void setApiKey(String apiKey) {
     ApiKey = apiKey;
   }

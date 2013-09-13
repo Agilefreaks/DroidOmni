@@ -1,16 +1,12 @@
 package com.omnipasteapp.omniclipboard.api;
 
-import android.content.Context;
+import android.test.AndroidTestCase;
 
-import junit.framework.TestCase;
-
-import static org.mockito.Mockito.mock;
-
-public class OmniApiTest extends TestCase {
+public class OmniApiTest extends AndroidTestCase {
   private IOmniApi subject;
 
   public void setUp() {
-    subject = new OmniApi(mock(Context.class));
+    subject = new OmniApi(mContext);
   }
 
   public void testClippingsReturnsAInstanceOfIClippings() {
