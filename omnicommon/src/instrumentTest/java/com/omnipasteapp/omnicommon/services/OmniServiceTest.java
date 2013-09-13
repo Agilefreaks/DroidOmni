@@ -1,6 +1,8 @@
 package com.omnipasteapp.omnicommon.services;
 
 import com.omnipasteapp.omnicommon.ClipboardData;
+import com.omnipasteapp.omnicommon.dataaccess.IClippingRepository;
+import com.omnipasteapp.omnicommon.domain.Clipping;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -10,10 +12,14 @@ import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import junit.framework.TestCase;
 
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -27,20 +33,19 @@ import static org.mockito.Mockito.when;
 public class OmniServiceTest extends TestCase {
 
   private OmniService subject;
-
   @Mock
   private ILocalClipboard localClipboard;
-
   @Mock
   private IOmniClipboard omniClipboard;
-
   @Mock
   private IConfigurationService configurationService;
+  @Mock
+  private IClippingRepository clippingRepository;
 
   protected void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    subject = new OmniService(localClipboard, omniClipboard);
+    subject = new OmniService(localClipboard, omniClipboard, clippingRepository);
     subject.configurationService = configurationService;
   }
 
@@ -76,6 +81,14 @@ public class OmniServiceTest extends TestCase {
     subject.dataReceived(new ClipboardData(omniClipboard, ""));
 
     verify(localClipboard, never()).putData("");
+  }
+
+  public void testDataReceivedWhenDataIsNewCallsClippingRepositorySave() {
+    subject.dataReceived(new ClipboardData(omniClipboard, "myData"));
+
+    ArgumentCaptor<Clipping> captor = ArgumentCaptor.forClass(Clipping.class);
+    verify(clippingRepository).save(captor.capture());
+    assertEquals("myData", captor.getValue().getContent());
   }
 
   public void testStopRemovesDataReceiver() {
@@ -132,5 +145,15 @@ public class OmniServiceTest extends TestCase {
     subject.dataReceived(new ClipboardData(omniClipboard, "test"));
 
     verify(dataReceiver, times(1)).dataReceived(any(IClipboardData.class));
+  }
+
+  public void testGetClippingsAlwaysReturnsResultFromRepositoryGetForLast24Hours() {
+    List<Clipping> clippings = new ArrayList<Clipping>();
+    clippings.add(new Clipping("clip1"));
+    when(clippingRepository.getForLast24Hours()).thenReturn(clippings);
+
+    List<Clipping> result = subject.getClippings();
+
+    assertEquals(clippings, result);
   }
 }
