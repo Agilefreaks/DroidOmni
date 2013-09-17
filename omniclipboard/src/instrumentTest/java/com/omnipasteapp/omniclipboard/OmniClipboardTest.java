@@ -19,6 +19,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings("unchecked")
@@ -56,7 +57,7 @@ public class OmniClipboardTest extends TestCase {
 
     subject.saveClippingSucceeded();
 
-    verify(mockMessagingService).sendAsync(anyString(), eq("NewMessage"), eq(subject));
+    verify(mockMessagingService).sendAsync(anyString(), anyString(), eq(subject));
   }
 
   public void testRunAlwaysCallsConfigurationServiceGetCommunicationSettings() {
@@ -80,13 +81,24 @@ public class OmniClipboardTest extends TestCase {
     assertEquals("test-channel", channel);
   }
 
-  public void testSuccessCallbackAlwaysCallsOmniApiGetLastClipping() {
+  public void testMessageReceivedWhenOtherMessageUuidWillCallGetLastAsync() {
     IClippings mockClippings = mock(Clippings.class);
     when(mockOmniApi.clippings()).thenReturn(mockClippings);
 
-    subject.messageReceived("NewMessage");
+    subject.setMessageUuid("same");
+    subject.messageReceived("other");
 
     verify(mockClippings).getLastAsync(eq(subject));
+  }
+
+  public void testMessageReceivedWhenSameMessageUuidWillNotCallGetLastAsync() {
+    IClippings mockClippings = mock(Clippings.class);
+    when(mockOmniApi.clippings()).thenReturn(mockClippings);
+
+    subject.setMessageUuid("same");
+    subject.messageReceived("same");
+
+    verifyZeroInteractions(mockClippings);
   }
 
   public void testHandleClippingCallsDataReceivedOnReceivers() {
