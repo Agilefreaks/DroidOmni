@@ -7,13 +7,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 
-public class AsyncRequestTask<T> extends AsyncTask {
+public class AsyncRequestTask extends AsyncTask {
 
   private final HttpUriRequest request;
   private final HttpClient client;
-  private final ResponseHandler<T> handler;
+  private final ResponseHandler handler;
 
-  public AsyncRequestTask(HttpUriRequest request, ResponseHandler<T> handler) {
+  public AsyncRequestTask(HttpUriRequest request, ResponseHandler handler) {
     this.request = request;
     this.handler = handler;
 

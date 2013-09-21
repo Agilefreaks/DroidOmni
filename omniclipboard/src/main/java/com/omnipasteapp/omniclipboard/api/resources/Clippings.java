@@ -43,7 +43,7 @@ public class Clippings implements IClippings {
       e.printStackTrace();
     }
 
-    new AsyncRequestTask<Object>(postRequest, new PostResponseHandler(handler)).execute();
+    new AsyncRequestTask(postRequest, new PostResponseHandler(handler)).execute();
   }
 
   @Override
@@ -52,7 +52,7 @@ public class Clippings implements IClippings {
     getRequest.addHeader("Accept", "application/json");
     getRequest.addHeader("Channel", ApiKey);
 
-    new AsyncRequestTask<Object>(getRequest, new GetResponseHandler(handler)).execute();
+    new AsyncRequestTask(getRequest, new GetResponseHandler(handler)).execute();
   }
 
   private String getUri() {
