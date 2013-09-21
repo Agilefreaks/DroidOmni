@@ -3,6 +3,7 @@ package com.omnipasteapp.omnicommon.services;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.interfaces.IClipping;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
@@ -45,35 +46,49 @@ public class OmniServiceTest extends TestCase {
   }
 
   public void testGetLocalClipboardReturnsTheLocalClipboard() {
-    assertTrue(subject.getLocalClipboard() instanceof ILocalClipboard);
+    assertTrue(subject.getLocalClipboard() != null);
   }
 
   public void testGetOmniClipboardReturnsTheOmniClipboard() {
-    assertTrue(subject.getOmniClipboard() instanceof IOmniClipboard);
+    assertTrue(subject.getOmniClipboard() != null);
   }
 
   public void testDataReceivedCallSendDataOnOmniClipboardWhenSenderIsLocalClipboard() {
-    subject.dataReceived(new ClipboardData(localClipboard, "42"));
+    IClipping clipping = mock(IClipping.class);
+    when(clipping.getContent()).thenReturn("42");
+
+    subject.dataReceived(new ClipboardData(localClipboard, mock(IClipping.class)));
 
     verify(omniClipboard).putData("42");
   }
 
   public void testDataReceivedCallsSendDataOnLocalClipboardWhenSenderIsOmniClipboard() {
-    subject.dataReceived(new ClipboardData(omniClipboard, "43"));
+    IClipping clipping = mock(IClipping.class);
+    when(clipping.getContent()).thenReturn("43");
+
+    subject.dataReceived(new ClipboardData(omniClipboard, clipping));
 
     verify(localClipboard).putData("43");
   }
 
   public void testDataReceivedDoesNotCallPutDataWhenDataReceivedIsTheSameAsOldDataReceived() {
-    subject.dataReceived(new ClipboardData(omniClipboard, "42"));
-    subject.dataReceived(new ClipboardData(localClipboard, "42"));
+    IClipping clipping1 = mock(IClipping.class);
+    when(clipping1.getContent()).thenReturn("42");
+    IClipping clipping2 = mock(IClipping.class);
+    when(clipping2.getContent()).thenReturn("43");
+
+    subject.dataReceived(new ClipboardData(omniClipboard, clipping1));
+    subject.dataReceived(new ClipboardData(localClipboard, clipping2));
 
     verify(localClipboard).putData("42");
     verify(omniClipboard, never()).putData("42");
   }
 
   public void testDataReceivedDoesNotCallPutDataWhenDataReceivedIsEmpty() {
-    subject.dataReceived(new ClipboardData(omniClipboard, ""));
+    IClipping clipping = mock(IClipping.class);
+    when(clipping.getContent()).thenReturn("");
+
+    subject.dataReceived(new ClipboardData(omniClipboard, clipping));
 
     verify(localClipboard, never()).putData("");
   }
@@ -120,6 +135,7 @@ public class OmniServiceTest extends TestCase {
 
   public void testWhenSenderIsOmniCallsCanReceiveDataOnlyOnce() {
     ICanReceiveData dataReceiver = mock(ICanReceiveData.class);
+    IClipping clipping = mock(IClipping.class);
     subject.addListener(dataReceiver);
     doAnswer(new Answer() {
       @Override
@@ -129,7 +145,7 @@ public class OmniServiceTest extends TestCase {
       }
     }).when(localClipboard).putData(anyString());
 
-    subject.dataReceived(new ClipboardData(omniClipboard, "test"));
+    subject.dataReceived(new ClipboardData(omniClipboard, clipping));
 
     verify(dataReceiver, times(1)).dataReceived(any(IClipboardData.class));
   }

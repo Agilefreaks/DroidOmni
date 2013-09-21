@@ -5,8 +5,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.os.Build;
 
+import com.omnipasteapp.androidclipboard.base.ClippingBuilder;
 import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IClipping;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 
 import java.util.ArrayList;
@@ -61,7 +63,8 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
       return;
     }
 
-    @SuppressWarnings("ConstantConditions") String clip = getPrimaryClip().getItemAt(0).getText().toString();
+    ClippingBuilder  clippingBuilder = new ClippingBuilder(_clipboardManager);
+    IClipping clip = clippingBuilder.build();
 
     for (ICanReceiveData receiver : dataReceivers) {
       receiver.dataReceived(new ClipboardData(this, clip));
@@ -69,16 +72,6 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
   }
 
   private Boolean hasClipping() {
-    return _clipboardManager.hasPrimaryClip() && getPrimaryClip().getItemCount() > 0;
-  }
-
-  private ClipData getPrimaryClip() {
-    ClipData result = _clipboardManager.getPrimaryClip();
-
-    if (result == null) {
-      result = new ClipData("", new String[] {""}, new ClipData.Item(""));
-    }
-
-    return result ;
+    return _clipboardManager.hasPrimaryClip();
   }
 }

@@ -1,6 +1,7 @@
 package com.omnipasteapp.omniclipboard;
 
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
+import com.omnipasteapp.omniclipboard.api.models.Clipping;
 import com.omnipasteapp.omniclipboard.api.resources.Clippings;
 import com.omnipasteapp.omniclipboard.api.resources.IClippings;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
@@ -105,7 +106,7 @@ public class OmniClipboardTest extends TestCase {
     ICanReceiveData dataReceiver = mock(ICanReceiveData.class);
     subject.addDataReceiver(dataReceiver);
 
-    subject.handleClipping("test");
+    subject.handleClipping(new Clipping("token", "content"));
 
     verify(dataReceiver).dataReceived(any(IClipboardData.class));
   }

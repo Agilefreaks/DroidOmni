@@ -1,6 +1,8 @@
 package com.omnipasteapp.omniclipboard.api.models;
 
-public class Clipping {
+import com.omnipasteapp.omnicommon.interfaces.IClipping;
+
+public class Clipping implements IClipping {
   private String token;
   private String content;
   private String type;

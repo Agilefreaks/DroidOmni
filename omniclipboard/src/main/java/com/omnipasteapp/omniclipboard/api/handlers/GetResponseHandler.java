@@ -24,7 +24,7 @@ public class GetResponseHandler implements ResponseHandler<Void> {
       ClippingBuilder clippingBuilder = new ClippingBuilder();
       Clipping clipping = clippingBuilder.build(new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent())));
 
-      getClippingCompleteHandler.handleClipping(clipping.getContent());
+      getClippingCompleteHandler.handleClipping(clipping);
     }
 
     return null;
