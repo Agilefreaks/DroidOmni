@@ -1,7 +1,5 @@
 package com.omnipasteapp.omniclipboard.api.resources;
 
-import android.net.http.AndroidHttpClient;
-
 import com.google.gson.Gson;
 import com.omnipasteapp.omniclipboard.api.AsyncRequestTask;
 import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
@@ -24,8 +22,6 @@ public class Clippings implements IClippings {
   private final String Version;
   private final String ApiKey;
 
-  private final AndroidHttpClient httpClient = AndroidHttpClient.newInstance("DroidOmni");
-
   public Clippings(String baseUrl, String version, String apiKey) {
     BaseUrl = baseUrl;
     Version = version;
@@ -47,7 +43,7 @@ public class Clippings implements IClippings {
       e.printStackTrace();
     }
 
-    new AsyncRequestTask<Object>(postRequest, httpClient, new PostResponseHandler(handler)).execute();
+    new AsyncRequestTask<Object>(postRequest, new PostResponseHandler(handler)).execute();
   }
 
   @Override
@@ -56,7 +52,7 @@ public class Clippings implements IClippings {
     getRequest.addHeader("Accept", "application/json");
     getRequest.addHeader("Channel", ApiKey);
 
-    new AsyncRequestTask<Object>(getRequest, httpClient, new GetResponseHandler(handler)).execute();
+    new AsyncRequestTask<Object>(getRequest, new GetResponseHandler(handler)).execute();
   }
 
   private String getUri() {

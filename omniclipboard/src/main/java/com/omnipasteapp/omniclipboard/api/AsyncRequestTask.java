@@ -1,5 +1,6 @@
 package com.omnipasteapp.omniclipboard.api;
 
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
 import org.apache.http.client.HttpClient;
@@ -12,10 +13,11 @@ public class AsyncRequestTask<T> extends AsyncTask {
   private final HttpClient client;
   private final ResponseHandler<T> handler;
 
-  public AsyncRequestTask(HttpUriRequest request, HttpClient client, ResponseHandler<T> handler) {
+  public AsyncRequestTask(HttpUriRequest request, ResponseHandler<T> handler) {
     this.request = request;
-    this.client = client;
     this.handler = handler;
+
+    this.client = AndroidHttpClient.newInstance("DroidOmni");
   }
 
   @Override
