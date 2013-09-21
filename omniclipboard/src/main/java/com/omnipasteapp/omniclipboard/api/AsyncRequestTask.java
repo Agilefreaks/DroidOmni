@@ -7,7 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 
-public class AsyncRequestTask extends AsyncTask {
+public class AsyncRequestTask extends AsyncTask<Object, Void, Boolean> {
 
   private final HttpUriRequest request;
   private final HttpClient client;
@@ -21,7 +21,7 @@ public class AsyncRequestTask extends AsyncTask {
   }
 
   @Override
-  protected Object doInBackground(Object[] params) {
+  protected Boolean doInBackground(Object[] params) {
     boolean executed;
     try {
       client.execute(request, handler);
