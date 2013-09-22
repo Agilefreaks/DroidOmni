@@ -1,11 +1,9 @@
-package com.omnipasteapp.omniclipboard.api.models;
+package com.omnipasteapp.omnicommon.models;
 
-import com.omnipasteapp.omnicommon.interfaces.IClipping;
-
-public class Clipping implements IClipping {
+public class Clipping {
   private String token;
   private String content;
-  private String type;
+  private ClippingType type;
 
   public Clipping(String token, String content) {
     this.token = token;
@@ -13,7 +11,7 @@ public class Clipping implements IClipping {
   }
 
   @SuppressWarnings("UnusedDeclaration, used in ClippingBuilder")
-  public Clipping(String token, String content, String type) {
+  public Clipping(String token, String content, ClippingType type) {
     this(token, content);
 
     this.type = type;
@@ -27,7 +25,7 @@ public class Clipping implements IClipping {
     return content;
   }
 
-  public String getType() {
+  public ClippingType getType() {
     return type;
   }
 }

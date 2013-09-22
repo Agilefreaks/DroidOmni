@@ -6,7 +6,7 @@ import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.handlers.GetResponseHandler;
 import com.omnipasteapp.omniclipboard.api.handlers.PostResponseHandler;
-import com.omnipasteapp.omniclipboard.api.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Clipping;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;

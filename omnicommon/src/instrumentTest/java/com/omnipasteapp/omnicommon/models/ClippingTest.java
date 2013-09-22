@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.api;
+package com.omnipasteapp.omnicommon.models;
 
 import junit.framework.TestCase;
 

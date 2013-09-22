@@ -1,13 +1,13 @@
 package com.omnipasteapp.omnicommon;
 
 import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
-import com.omnipasteapp.omnicommon.interfaces.IClipping;
+import com.omnipasteapp.omnicommon.models.Clipping;
 
 public class ClipboardData implements IClipboardData {
-  private IClipping clipping;
+  private Clipping clipping;
   private Object sender;
 
-  public ClipboardData(Object sender, IClipping clipping) {
+  public ClipboardData(Object sender, Clipping clipping) {
     this.sender = sender;
     this.clipping = clipping;
   }
@@ -23,7 +23,7 @@ public class ClipboardData implements IClipboardData {
   }
 
   @Override
-  public IClipping getClipping() {
+  public Clipping getClipping() {
     return clipping;
   }
 }

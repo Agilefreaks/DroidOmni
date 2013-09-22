@@ -1,6 +1,6 @@
 package com.omnipasteapp.omniclipboard.api.builders;
 
-import com.omnipasteapp.omniclipboard.api.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Clipping;
 
 public class ClippingBuilder extends JsonBuilder<Clipping> {
   @Override

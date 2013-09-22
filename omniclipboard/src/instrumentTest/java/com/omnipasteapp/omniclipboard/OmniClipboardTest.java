@@ -1,7 +1,7 @@
 package com.omnipasteapp.omniclipboard;
 
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
-import com.omnipasteapp.omniclipboard.api.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omniclipboard.api.resources.Clippings;
 import com.omnipasteapp.omniclipboard.api.resources.IClippings;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;

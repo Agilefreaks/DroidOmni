@@ -6,7 +6,7 @@ import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
 import com.omnipasteapp.omniclipboard.api.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.OmniApi;
-import com.omnipasteapp.omniclipboard.api.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omniclipboard.messaging.IMessageHandler;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.ClipboardData;

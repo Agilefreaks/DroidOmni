@@ -2,7 +2,7 @@ package com.omnipasteapp.omniclipboard.api.handlers;
 
 import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.builders.ClippingBuilder;
-import com.omnipasteapp.omniclipboard.api.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Clipping;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;
