@@ -8,17 +8,19 @@ import com.omnipasteapp.omniclipboard.api.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.OmniApi;
 import com.omnipasteapp.omniclipboard.messaging.IMessageHandler;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
-import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
 public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IGetClippingCompleteHandler, IMessageHandler {
+  private static String messageUuid;
 
   private final IConfigurationService configurationService;
   private final IOmniApi omniApi;
@@ -37,6 +39,13 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
     dataReceivers = new ArrayList<ICanReceiveData>();
   }
 
+  // region IOmniClipboard/IClipboard
+
+  @Override
+  public Thread initialize() {
+    return new Thread(this);
+  }
+
   @Override
   public String getChannel() {
     return communicationSettings.getChannel();
@@ -53,16 +62,8 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
   }
 
   @Override
-  public Thread initialize() {
-    return new Thread(this);
-  }
-
-  @Override
-  public synchronized void run() {
-    communicationSettings = configurationService.getCommunicationSettings();
-    messagingService.connect(getChannel(), this);
-
-    OmniApi.setApiKey(getChannel());
+  public void dispose() {
+    messagingService.disconnect(getChannel());
   }
 
   @Override
@@ -70,9 +71,13 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
     omniApi.clippings().saveAsync(data, this);
   }
 
+  // endregion
+
+  // region ISaveClippingCompleteHandler
+
   @Override
   public void saveClippingSucceeded() {
-    messagingService.sendAsync(getChannel(), "NewMessage", this);
+    messagingService.sendAsync(getChannel(), getMessageUuid(), this);
   }
 
   @Override
@@ -80,18 +85,25 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
     Log.i("OmniClipboard", reason);
   }
 
+  // endregion
+
+  // region IGetClippingCompleteHandler
+
   @Override
-  public void messageReceived(String message) {
-    if (message != null) {
-      omniApi.clippings().getLastAsync(this);
+  public void handleClipping(Clipping clip) {
+    for (ICanReceiveData receiver : dataReceivers) {
+      receiver.dataReceived(clip);
     }
   }
 
+  // endregion
+
+  // region IMessageHandler
+
   @Override
-  public void handleClipping(String clip) {
-    ClipboardData data = new ClipboardData(this, clip);
-    for (ICanReceiveData receiver : dataReceivers) {
-      receiver.dataReceived(data);
+  public void messageReceived(String message) {
+    if (message != null && !message.equals(messageUuid)) {
+      omniApi.clippings().getLastAsync(this);
     }
   }
 
@@ -104,8 +116,23 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
     Log.i("OmniClipboard", message + " " + reason);
   }
 
-  @Override
-  public void dispose() {
-    messagingService.disconnect(getChannel());
+  // endregion
+
+  public String getMessageUuid() {
+    messageUuid = UUID.randomUUID().toString();
+    return messageUuid;
   }
+
+  public void setMessageUuid(String value) {
+    messageUuid = value;
+  }
+
+  @Override
+  public synchronized void run() {
+    communicationSettings = configurationService.getCommunicationSettings();
+    messagingService.connect(getChannel(), this);
+
+    OmniApi.setApiKey(getChannel());
+  }
+
 }

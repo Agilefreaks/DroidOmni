@@ -5,4 +5,7 @@
 
     <!-- Login -->
     <dimen name="login_footer_height">90dp</dimen>
+
+    <!-- clipping list item -->
+    <dimen name="dividerPadding">20dp</dimen>
 </resources>

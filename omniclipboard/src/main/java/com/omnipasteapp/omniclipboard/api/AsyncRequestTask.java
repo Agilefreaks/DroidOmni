@@ -1,34 +1,36 @@
 package com.omnipasteapp.omniclipboard.api;
 
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
-import org.apache.http.client.HttpClient;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 
-public class AsyncRequestTask<T> extends AsyncTask {
-
+public class AsyncRequestTask extends AsyncTask<Object, Void, Boolean> {
   private final HttpUriRequest request;
-  private final HttpClient client;
-  private final ResponseHandler<T> handler;
+  private final ResponseHandler handler;
 
-  public AsyncRequestTask(HttpUriRequest request, HttpClient client, ResponseHandler<T> handler) {
+  public AsyncRequestTask(HttpUriRequest request, ResponseHandler handler) {
     this.request = request;
-    this.client = client;
     this.handler = handler;
   }
 
   @Override
-  protected Object doInBackground(Object[] params) {
-    boolean executed;
+  protected Boolean doInBackground(Object[] params) {
+    HttpResponse response = null;
+    AndroidHttpClient client = AndroidHttpClient.newInstance("DroidOmni");
+
     try {
-      client.execute(request, handler);
-      executed = true;
+      response = client.execute(request);
+      handler.handleResponse(response);
     } catch (Throwable e) {
       e.printStackTrace();
-      executed = false;
+    }
+    finally {
+      client.close();
     }
 
-    return executed;
+    return response != null;
   }
 }

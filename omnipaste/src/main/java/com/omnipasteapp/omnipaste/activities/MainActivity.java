@@ -22,18 +22,17 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.adapters.ArrayAdapter2;
 import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService;
 import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
-import com.omnipasteapp.omnipaste.enums.Sender;
 import com.omnipasteapp.omnipaste.services.IIntentService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -107,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
           Bundle data = msg.getData();
 
           if (data != null) {
-            dataReceived(data.getString(OmnipasteService.EXTRA_CLIPBOARD_DATA), (Sender) data.getSerializable(OmnipasteService.EXTRA_CLIPBOARD_SENDER));
+            dataReceived((Clipping) data.getParcelable(OmnipasteService.EXTRA_CLIPPING));
           }
         default:
           super.handleMessage(msg);
@@ -133,7 +132,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
 
   @Override
   public void onSaveInstanceState(Bundle savedInstanceState) {
-    ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+    ArrayList<Clipping> data = new ArrayList<Clipping>();
     for (int i = 0; i < _dataListAdapter.getCount(); i++) {
       data.add(_dataListAdapter.getItem(i));
     }
@@ -201,12 +200,8 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
     bindService(new Intent(this, OmnipasteService_.class), _connection, Context.BIND_ABOVE_CLIENT);
   }
 
-  private void dataReceived(String data, Sender sender) {
-    HashMap<String, String> dataItem = new HashMap<String, String>();
-    dataItem.put("title", sender.toString());
-    dataItem.put("subtitle", data);
-
-    _dataListAdapter.insert(dataItem, 0);
+  private void dataReceived(Clipping clipping) {
+    _dataListAdapter.insert(clipping, 0);
     _dataListAdapter.notifyDataSetChanged();
   }
 
@@ -218,10 +213,10 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
     if (savedInstanceState != null) {
       Serializable serializable = savedInstanceState.getSerializable(STATE_DATA);
       if (serializable != null) {
-        ArrayList<HashMap<String, String>> data = (ArrayList<HashMap<String, String>>) serializable;
+        ArrayList<Clipping> data = (ArrayList<Clipping>) serializable;
 
-        for (HashMap<String, String> dataItem : data) {
-          _dataListAdapter.add(dataItem);
+        for (Clipping clipping : data) {
+          _dataListAdapter.add(clipping);
         }
 
         _dataListAdapter.notifyDataSetChanged();

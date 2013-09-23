@@ -5,8 +5,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.HashMap;
-
 import javax.inject.Inject;
 
 public class IntentService implements IIntentService {
@@ -43,10 +41,6 @@ public class IntentService implements IIntentService {
 
   public static void startService(Context context, Class<? extends Service> cls) {
     context.startService(new Intent(context, cls));
-  }
-
-  public static void startService(Context context, String action) {
-    context.startService(new Intent(action));
   }
 
   public static void stopService(Context context, Class<? extends Service> cls) {

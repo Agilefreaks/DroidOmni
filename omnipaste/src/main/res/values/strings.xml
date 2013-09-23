@@ -27,4 +27,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="dialog_exit_message">Clicking OK will terminate the synchronization with your other devices.</string>
+
+    <!--Clipping list item-->
+    <string name="senderImageViewDescription">Sender</string>
+    <string name="typeButtonDescription">Action</string>
 </resources>
