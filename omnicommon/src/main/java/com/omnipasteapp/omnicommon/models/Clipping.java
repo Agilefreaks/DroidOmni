@@ -7,7 +7,7 @@ public class Clipping implements Parcelable {
   private Sender sender;
   private String token;
   private String content;
-  private ClippingType type;
+  private ClippingType type = ClippingType.Unknown;
 
   public Clipping(Parcel in) {
     this.sender = (Sender) in.readSerializable();

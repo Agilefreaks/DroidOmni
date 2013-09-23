@@ -6,11 +6,12 @@
               android:descendantFocusability="blocksDescendants">
 
     <ImageView
-            android:id="@+id/senderImageView"
+            android:id="@+id/sender_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="?attr/ic_local"/>
+            android:src="?attr/ic_local"
+            android:contentDescription="@string/senderImageViewDescription"/>
 
     <TextView
             android:id="@+id/content"
@@ -22,11 +23,12 @@
             android:text="@string/app_name"/>
 
     <ImageButton
-            android:id="@+id/typeButton"
+            android:id="@+id/action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@null"
-            android:src="?attr/ic_action_call"/>
+            android:visibility="gone"
+            android:contentDescription="@string/typeButtonDescription"/>
 
 </LinearLayout>
