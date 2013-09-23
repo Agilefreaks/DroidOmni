@@ -1,15 +1,19 @@
 package com.omnipasteapp.omnipaste.adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.HashMap;
+import com.omnipasteapp.omnicommon.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Sender;
+import com.omnipasteapp.omnipaste.R;
 
-public class ArrayAdapter2 extends ArrayAdapter<HashMap<String, String>> {
+public class ArrayAdapter2 extends ArrayAdapter<Clipping> {
   public ArrayAdapter2(Context context, int textViewResourceId) {
     super(context, textViewResourceId);
   }
@@ -21,15 +25,21 @@ public class ArrayAdapter2 extends ArrayAdapter<HashMap<String, String>> {
 
     if (convertView == null) {
       LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      row = inflater.inflate(android.R.layout.simple_list_item_2, null);
+      row = inflater.inflate(R.layout.clipping_list_item, null);
     } else {
       row = convertView;
     }
 
-    HashMap<String, String> data = getItem(position);
+    Clipping clipping = getItem(position);
 
-    ((TextView) row.findViewById(android.R.id.text1)).setText(data.get("title"));
-    ((TextView) row.findViewById(android.R.id.text2)).setText(data.get("subtitle"));
+    TypedArray styleAttributes = getContext().getTheme().obtainStyledAttributes(
+        R.style.AppTheme,
+        new int[]{clipping.getSender() == Sender.Local ? R.attr.ic_local : R.attr.ic_omni});
+    int sourceId = styleAttributes.getResourceId(0, 0);
+
+    ((ImageView) row.findViewById(R.id.senderImageView)).setImageDrawable(getContext().getResources().getDrawable(sourceId));
+    styleAttributes.recycle();
+    ((TextView) row.findViewById(R.id.content)).setText(clipping.getContent());
 
     return row;
   }

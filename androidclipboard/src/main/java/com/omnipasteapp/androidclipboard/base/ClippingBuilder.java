@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.os.Build;
 
 import com.omnipasteapp.omnicommon.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Sender;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ClippingBuilder {
@@ -17,7 +18,7 @@ public class ClippingBuilder {
 
   public Clipping build() {
     //noinspection ConstantConditions
-    return new Clipping("", getPrimaryClip().getItemAt(0).getText().toString());
+    return new Clipping("", getPrimaryClip().getItemAt(0).getText().toString(), Sender.Local);
   }
 
   private ClipData getPrimaryClip() {

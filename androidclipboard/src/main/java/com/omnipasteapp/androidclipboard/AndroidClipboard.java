@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.os.Build;
 
 import com.omnipasteapp.androidclipboard.base.ClippingBuilder;
-import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.models.Clipping;
@@ -67,7 +66,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
     Clipping clip = clippingBuilder.build();
 
     for (ICanReceiveData receiver : dataReceivers) {
-      receiver.dataReceived(new ClipboardData(this, clip));
+      receiver.dataReceived(clip);
     }
   }
 

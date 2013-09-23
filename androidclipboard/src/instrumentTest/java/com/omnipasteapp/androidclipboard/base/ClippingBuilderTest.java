@@ -8,6 +8,7 @@ import android.os.Build;
 import android.test.AndroidTestCase;
 
 import com.omnipasteapp.omnicommon.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Sender;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ClippingBuilderTest extends AndroidTestCase {
@@ -28,5 +29,13 @@ public class ClippingBuilderTest extends AndroidTestCase {
     Clipping clipping = subject.build();
 
     assertEquals("42", clipping.getContent());
+  }
+
+  public void testBuildWillCreateAClippingWithLocalSender() {
+    clipboardManager.setPrimaryClip(new ClipData("", new String[]{""}, new ClipData.Item("42")));
+
+    Clipping clipping = subject.build();
+
+    assertEquals(Sender.Local, clipping.getSender());
   }
 }

@@ -1,11 +1,12 @@
 package com.omnipasteapp.omnicommon.services;
 
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+import com.omnipasteapp.omnicommon.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Sender;
 
 import java.util.ArrayList;
 
@@ -94,26 +95,26 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Override
-  public void dataReceived(IClipboardData clipboardData) {
-    if (shouldPutData(clipboardData.getData())) {
-      _lastData = clipboardData.getData();
+  public void dataReceived(Clipping clipping) {
+    if (shouldPutData(clipping.getContent())) {
+      _lastData = clipping.getContent();
 
-      putData(clipboardData);
+      putData(clipping);
 
       // notify listeners
       for (ICanReceiveData receiver : _dataReceivers) {
-        receiver.dataReceived(clipboardData);
+        receiver.dataReceived(clipping);
       }
     }
   }
 
-  private void putData(IClipboardData clipboardData) {
-    String data = clipboardData.getData();
+  private void putData(Clipping clipping) {
+    String content = clipping.getContent();
 
-    if (clipboardData.getSender() instanceof ILocalClipboard) {
-      _omniClipboard.putData(data);
-    } else if (clipboardData.getSender() instanceof IOmniClipboard) {
-      _localClipboard.putData(data);
+    if (clipping.getSender() == Sender.Local) {
+      _omniClipboard.putData(content);
+    } else if (clipping.getSender() == Sender.Omni) {
+      _localClipboard.putData(content);
     }
   }
 

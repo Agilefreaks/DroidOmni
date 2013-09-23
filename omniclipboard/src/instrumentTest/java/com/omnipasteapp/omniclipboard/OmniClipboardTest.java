@@ -1,13 +1,12 @@
 package com.omnipasteapp.omniclipboard;
 
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
-import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omniclipboard.api.resources.Clippings;
 import com.omnipasteapp.omniclipboard.api.resources.IClippings;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import junit.framework.TestCase;
@@ -108,6 +107,6 @@ public class OmniClipboardTest extends TestCase {
 
     subject.handleClipping(new Clipping("token", "content"));
 
-    verify(dataReceiver).dataReceived(any(IClipboardData.class));
+    verify(dataReceiver).dataReceived(any(Clipping.class));
   }
 }

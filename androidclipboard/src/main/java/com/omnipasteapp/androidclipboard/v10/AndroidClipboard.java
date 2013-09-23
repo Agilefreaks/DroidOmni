@@ -3,10 +3,10 @@ package com.omnipasteapp.androidclipboard.v10;
 import android.annotation.TargetApi;
 import android.os.Build;
 
-import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.models.Clipping;
+import com.omnipasteapp.omnicommon.models.Sender;
 
 import java.util.ArrayList;
 
@@ -60,10 +60,10 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, IClipboardMa
       return;
     }
 
-    Clipping clip = new Clipping("", _clipboardManager.getCurrentClip());
+    Clipping clip = new Clipping("", _clipboardManager.getCurrentClip(), Sender.Local);
 
     for (ICanReceiveData receiver : dataReceivers) {
-      receiver.dataReceived(new ClipboardData(this, clip));
+      receiver.dataReceived(clip);
     }
   }
 

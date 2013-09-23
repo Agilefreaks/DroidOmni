@@ -4,7 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.models.Clipping;
 
 import junit.framework.TestCase;
 
@@ -50,8 +50,8 @@ public class AndroidClipboardTest extends TestCase {
   public void testOnPrimaryClipChangedCallsReceiverDataReceivedWhenHasClipping() {
     ICanReceiveData receiver = new ICanReceiveData() {
       @Override
-      public void dataReceived(IClipboardData clipboardData) {
-        assertEquals("test", clipboardData.getData());
+      public void dataReceived(Clipping clipping) {
+        assertEquals("test", clipping.getContent());
       }
     };
     when(_clipboardManagerWrapper.hasClipping()).thenReturn(true);
@@ -64,7 +64,7 @@ public class AndroidClipboardTest extends TestCase {
   public void testOnPrimaryClipChangedDoesNotCallReceiverDataReceivedWhenNotHasClipping() {
     ICanReceiveData receiver = new ICanReceiveData() {
       @Override
-      public void dataReceived(IClipboardData clipboardData) {
+      public void dataReceived(Clipping clipping) {
         assertFalse(true);
       }
     };

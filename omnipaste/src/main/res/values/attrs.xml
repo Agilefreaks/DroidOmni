@@ -1,8 +1,12 @@
 <resources>
     <declare-styleable name="AppTheme">
         <attr name="ic_action_logout" format="reference"/>
+        <attr name="ic_action_call" format="reference"/>
+        <attr name="ic_local" format="reference"/>
+        <attr name="ic_omni" format="reference"/>
 
         <attr name="listPreferredItemPaddingStart" format="reference"/>
         <attr name="listPreferredItemPaddingEnd" format="reference"/>
+        <attr name="textAppearanceSmall" format="reference"/>
     </declare-styleable>
 </resources>

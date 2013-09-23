@@ -3,6 +3,7 @@ package com.omnipasteapp.omniclipboard.builder;
 import com.omnipasteapp.omniclipboard.api.builders.ClippingBuilder;
 import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.models.ClippingType;
+import com.omnipasteapp.omnicommon.models.Sender;
 
 import junit.framework.TestCase;
 
@@ -24,5 +25,6 @@ public class ClippingBuilderTest extends TestCase {
     assertEquals("0745857479", clipping.getContent());
     assertEquals("calinuswork@gmail.com", clipping.getToken());
     assertEquals(ClippingType.PhoneNumber, clipping.getType());
+    assertEquals(Sender.Omni, clipping.getSender());
   }
 }

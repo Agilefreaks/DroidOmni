@@ -6,13 +6,12 @@ import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
 import com.omnipasteapp.omniclipboard.api.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.api.OmniApi;
-import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omniclipboard.messaging.IMessageHandler;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
-import com.omnipasteapp.omnicommon.ClipboardData;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import java.util.ArrayList;
@@ -92,9 +91,8 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
   @Override
   public void handleClipping(Clipping clip) {
-    ClipboardData data = new ClipboardData(this, clip);
     for (ICanReceiveData receiver : dataReceivers) {
-      receiver.dataReceived(data);
+      receiver.dataReceived(clip);
     }
   }
 
