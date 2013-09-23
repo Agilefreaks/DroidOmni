@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dip"
             android:paddingBottom="5dip"
-            android:background="@layout/activity_login_header_gradient">
+            android:background="@drawable/activity_login_header_gradient">
 
         <ImageView
                 android:src="@drawable/logo"

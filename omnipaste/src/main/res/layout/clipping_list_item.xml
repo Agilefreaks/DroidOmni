@@ -3,6 +3,9 @@
               android:layout_height="wrap_content"
               android:minHeight="?attr/listPreferredItemHeight"
               android:orientation="horizontal"
+              android:divider="@drawable/divider"
+              android:showDividers="middle"
+              android:dividerPadding="@dimen/dividerPadding"
               android:descendantFocusability="blocksDescendants">
 
     <ImageView
@@ -19,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="?attr/listPreferredItemPaddingStart"
             android:ellipsize="end"
             android:text="@string/app_name"/>
 
@@ -27,7 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@null"
+            android:background="@android:color/transparent"
+            android:focusable="true"
             android:visibility="gone"
             android:contentDescription="@string/typeButtonDescription"/>
 

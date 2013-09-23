@@ -11,5 +11,4 @@
         <item name="ic_local">@drawable/ic_local_dark</item>
         <item name="ic_omni">@drawable/ic_omni_dark</item>
     </style>
-
 </resources>

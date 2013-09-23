@@ -1,8 +1,10 @@
 package com.omnipasteapp.omnipaste.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,13 +62,25 @@ public class ArrayAdapter2 extends ArrayAdapter<Clipping> {
 
       imageButton.setImageDrawable(getDrawable(actionActionId));
       imageButton.setVisibility(View.VISIBLE);
-    }
-    else {
+      imageButton.setOnClickListener(actionClickListener);
+      imageButton.setTag(clipping);
+    } else {
       row.findViewById(R.id.action_button).setVisibility(View.GONE);
     }
 
     return row;
   }
+
+  private View.OnClickListener actionClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+      Clipping clipping = (Clipping) view.getTag();
+
+      Intent intent = new Intent(Intent.ACTION_CALL);
+      intent.setData(Uri.parse("tel:" + clipping.getContent()));
+      getContext().startActivity(intent);
+    }
+  };
 
   @SuppressWarnings("ConstantConditions")
   private Drawable getDrawable(int attrId) {
