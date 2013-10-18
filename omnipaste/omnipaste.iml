@@ -87,8 +87,8 @@
     <orderEntry type="module" module-name="androidclipboard" exported="" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.0" level="project" />
     <orderEntry type="library" exported="" name="dagger-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="CoBugfreakBugFreak111.aar" level="project" />
     <orderEntry type="library" exported="" name="javawriter-1.0.5" level="project" />
+    <orderEntry type="library" exported="" name="CoBugfreakBugFreak112.aar" level="project" />
   </component>
 </module>
 
