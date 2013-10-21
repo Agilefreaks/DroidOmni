@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="bugFreak_token">520cca2628e18700b0000004</string>
+    <string name="apiUrl">http://staging.omnipasteapp.com/api</string>
 </resources>

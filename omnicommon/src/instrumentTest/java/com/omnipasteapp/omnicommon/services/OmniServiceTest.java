@@ -52,24 +52,23 @@ public class OmniServiceTest extends TestCase {
     assertTrue(subject.getOmniClipboard() != null);
   }
 
-  public void testDataReceivedCallSendDataOnOmniClipboardWhenSenderIsLocalClipboard() {
+  public void testDataReceivedCallPutDataOnOmniClipboardWhenSenderIsLocalClipboard() {
     subject.dataReceived(new Clipping("", "42", Sender.Local));
 
     verify(omniClipboard).putData("42");
   }
 
-  public void testDataReceivedCallsSendDataOnLocalClipboardWhenSenderIsOmniClipboard() {
-    subject.dataReceived(new Clipping("", "43", Sender.Local));
+  public void testDataReceivedCallsPutDataOnLocalClipboardWhenSenderIsOmniClipboard() {
+    subject.dataReceived(new Clipping("", "43", Sender.Omni));
 
     verify(localClipboard).putData("43");
   }
 
   public void testDataReceivedDoesNotCallPutDataWhenDataReceivedIsTheSameAsOldDataReceived() {
     subject.dataReceived(new Clipping("", "42", Sender.Local));
-    subject.dataReceived(new Clipping("", "43", Sender.Local));
+    subject.dataReceived(new Clipping("", "42", Sender.Local));
 
-    verify(localClipboard).putData("42");
-    verify(omniClipboard, never()).putData("42");
+    verify(omniClipboard, times(1)).putData("42");
   }
 
   public void testDataReceivedDoesNotCallPutDataWhenDataReceivedIsEmpty() {
@@ -118,7 +117,7 @@ public class OmniServiceTest extends TestCase {
     });
   }
 
-  public void testWhenSenderIsOmniCallsCanReceiveDataOnlyOnce() {
+  public void testDataReceivedCallsMethodOnRegisteredDataReceiver() {
     ICanReceiveData dataReceiver = mock(ICanReceiveData.class);
     subject.addListener(dataReceiver);
     doAnswer(new Answer() {
@@ -129,7 +128,7 @@ public class OmniServiceTest extends TestCase {
       }
     }).when(localClipboard).putData(anyString());
 
-    subject.dataReceived(new Clipping("", "", Sender.Local));
+    subject.dataReceived(new Clipping("", "some content", Sender.Omni));
 
     verify(dataReceiver, times(1)).dataReceived(any(Clipping.class));
   }

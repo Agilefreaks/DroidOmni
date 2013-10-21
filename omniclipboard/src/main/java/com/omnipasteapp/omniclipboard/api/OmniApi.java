@@ -1,8 +1,5 @@
 package com.omnipasteapp.omniclipboard.api;
 
-import android.content.Context;
-
-import com.omnipasteapp.omniclipboard.R;
 import com.omnipasteapp.omniclipboard.api.resources.Clippings;
 import com.omnipasteapp.omniclipboard.api.resources.IClippings;
 
@@ -15,8 +12,11 @@ public class OmniApi implements IOmniApi {
   private static final String Version = "v1";
 
   @Inject
-  public OmniApi(Context context) {
-    BaseUrl = context.getResources().getString(R.string.apiUrl);
+  public OmniApi() {
+  }
+
+  public static void setBaseUrl(String baseUrl) {
+    BaseUrl = baseUrl;
   }
 
   public static void setApiKey(String apiKey) {

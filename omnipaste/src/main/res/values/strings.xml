@@ -3,6 +3,7 @@
     <string name="bugFreak_api_key" tools:ignore="TypographyDashes">2537eed2-36fd-4d9c-9ca9-54db031126fd</string>
     <string name="bugFreak_token">520cca3028e18700b0000006</string>
     <string name="bugFreak_service_endpoint">http://errors.omnipasteapp.com/v1/api/errors</string>
+    <string name="apiUrl">http://10.0.2.2:3000/api</string>
 
     <string name="app_name">Omnipaste</string>
 
