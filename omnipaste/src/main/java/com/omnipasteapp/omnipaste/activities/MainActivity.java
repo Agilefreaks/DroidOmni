@@ -128,52 +128,14 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
     unbindOmnipasteService();
   }
 
-  @Override
-  protected void onSaveInstanceState(Bundle savedInstanceState) {
-    Clipping[] data = new Clipping[_dataListAdapter.getCount()];
-    for (int i = 0; i < _dataListAdapter.getCount(); i++) {
-      data[i] = _dataListAdapter.getItem(i);
-    }
-    savedInstanceState.putParcelableArray(STATE_DATA, data);
-
-    super.onSaveInstanceState(savedInstanceState);
-  }
-
-  @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
-    super.onRestoreInstanceState(savedInstanceState);
-
-    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
-    _status = textServiceConnecting;
-
-    if (savedInstanceState != null) {
-      Parcelable[] parcelableArray = savedInstanceState.getParcelableArray(STATE_DATA);
-      if (parcelableArray != null && parcelableArray.length > 0) {
-        Clipping[] data = (Clipping[]) parcelableArray;
-
-        for (Clipping clipping : data) {
-          _dataListAdapter.add(clipping);
-        }
-
-        setDataListAdapter();
-        _dataListAdapter.notifyDataSetChanged();
-      }
-    }
-  }
-
   @AfterViews
   public void loadConfiguration() {
-    configurationService.initialize();
-    if (configurationService.getCommunicationSettings().hasChannel()) {
-      setActionBarTitle(_status);
-      getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
+    setActionBarTitle(_status);
+    getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
-      setDataListAdapter();
+    setDataListAdapter();
 
-      bindOmnipasteService();
-    } else {
-      intentService.startNewActivity(LoginActivity_.class);
-    }
+    bindOmnipasteService();
   }
 
   @UiThread
@@ -207,6 +169,43 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   @Override
   public void onDialogNegativeClick(DialogFragment dialog) {
   }
+  //endregion
+
+  //region state management
+
+  @Override
+  protected void onSaveInstanceState(Bundle savedInstanceState) {
+    Clipping[] data = new Clipping[_dataListAdapter.getCount()];
+    for (int i = 0; i < _dataListAdapter.getCount(); i++) {
+      data[i] = _dataListAdapter.getItem(i);
+    }
+    savedInstanceState.putParcelableArray(STATE_DATA, data);
+
+    super.onSaveInstanceState(savedInstanceState);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
+    _status = textServiceConnecting;
+
+    if (savedInstanceState != null) {
+      Parcelable[] parcelableArray = savedInstanceState.getParcelableArray(STATE_DATA);
+      if (parcelableArray != null && parcelableArray.length > 0) {
+        Clipping[] data = (Clipping[]) parcelableArray;
+
+        for (Clipping clipping : data) {
+          _dataListAdapter.add(clipping);
+        }
+
+        setDataListAdapter();
+        _dataListAdapter.notifyDataSetChanged();
+      }
+    }
+  }
+
   //endregion
 
   //region private methods
