@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Parcelable;
 import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -30,9 +31,6 @@ import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService;
 import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
 import com.omnipasteapp.omnipaste.services.IIntentService;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -120,7 +118,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
 
     OmnipasteApplication.inject(this);
 
-    restoreInstanceState(savedInstanceState);
+    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
   }
 
   @Override
@@ -131,14 +129,36 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   }
 
   @Override
-  public void onSaveInstanceState(Bundle savedInstanceState) {
-    ArrayList<Clipping> data = new ArrayList<Clipping>();
+  protected void onSaveInstanceState(Bundle savedInstanceState) {
+    Clipping[] data = new Clipping[_dataListAdapter.getCount()];
     for (int i = 0; i < _dataListAdapter.getCount(); i++) {
-      data.add(_dataListAdapter.getItem(i));
+      data[i] = _dataListAdapter.getItem(i);
     }
-    savedInstanceState.putSerializable(STATE_DATA, data);
+    savedInstanceState.putParcelableArray(STATE_DATA, data);
 
     super.onSaveInstanceState(savedInstanceState);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+
+    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
+    _status = textServiceConnecting;
+
+    if (savedInstanceState != null) {
+      Parcelable[] parcelableArray = savedInstanceState.getParcelableArray(STATE_DATA);
+      if (parcelableArray != null && parcelableArray.length > 0) {
+        Clipping[] data = (Clipping[]) parcelableArray;
+
+        for (Clipping clipping : data) {
+          _dataListAdapter.add(clipping);
+        }
+
+        setDataListAdapter();
+        _dataListAdapter.notifyDataSetChanged();
+      }
+    }
   }
 
   @AfterViews
@@ -203,25 +223,6 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   private void dataReceived(Clipping clipping) {
     _dataListAdapter.insert(clipping, 0);
     _dataListAdapter.notifyDataSetChanged();
-  }
-
-  @SuppressWarnings("unchecked")
-  private void restoreInstanceState(Bundle savedInstanceState) {
-    _dataListAdapter = new ArrayAdapter2(this, android.R.layout.simple_list_item_2);
-    _status = textServiceConnecting;
-
-    if (savedInstanceState != null) {
-      Serializable serializable = savedInstanceState.getSerializable(STATE_DATA);
-      if (serializable != null) {
-        ArrayList<Clipping> data = (ArrayList<Clipping>) serializable;
-
-        for (Clipping clipping : data) {
-          _dataListAdapter.add(clipping);
-        }
-
-        _dataListAdapter.notifyDataSetChanged();
-      }
-    }
   }
 
   private void sendMessage(int code) {

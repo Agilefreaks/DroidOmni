@@ -9,11 +9,23 @@ public class Clipping implements Parcelable {
   private String content;
   private ClippingType type = ClippingType.Unknown;
 
+  static final Creator<Clipping> CREATOR = new Creator<Clipping>() {
+    @Override
+    public Clipping createFromParcel(Parcel parcel) {
+      return new Clipping(parcel);
+    }
+
+    @Override
+    public Clipping[] newArray(int size) {
+      return new Clipping[size];
+    }
+  };
+
   public Clipping(Parcel in) {
-    this.sender = (Sender) in.readSerializable();
     this.token = in.readString();
     this.content = in.readString();
     this.type = (ClippingType) in.readSerializable();
+    this.sender = (Sender) in.readSerializable();
   }
 
   public Clipping(String token, String content) {
@@ -67,9 +79,9 @@ public class Clipping implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel parcel, int i) {
-    parcel.writeSerializable(sender);
     parcel.writeString(token);
     parcel.writeString(content);
     parcel.writeSerializable(type);
+    parcel.writeSerializable(sender);
   }
 }

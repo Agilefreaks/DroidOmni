@@ -20,6 +20,8 @@ public class OmnipasteApplication extends Application {
 
     // hook bugfreak
     BugFreak.hook(resources.getString(R.string.bugFreak_api_key), resources.getString(R.string.bugFreak_token), this);
+
+    // configure api
     OmniApi.setBaseUrl(resources.getString(R.string.apiUrl));
 
     objectGraph = ObjectGraph.create(new MainModule(this));
