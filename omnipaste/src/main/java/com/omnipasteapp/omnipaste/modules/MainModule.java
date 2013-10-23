@@ -7,6 +7,7 @@ import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+import com.omnipasteapp.omnipaste.activities.LaunchActivity_;
 import com.omnipasteapp.omnipaste.activities.LoginActivity_;
 import com.omnipasteapp.omnipaste.activities.MainActivity_;
 import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
@@ -24,6 +25,7 @@ import dagger.Provides;
         OmnipasteService_.class,
         MainActivity_.class,
         LoginActivity_.class,
+        LaunchActivity_.class,
         IOmniService.class
     },
     includes = {

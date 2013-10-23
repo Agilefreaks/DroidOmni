@@ -14,27 +14,23 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
-import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.activities.MainActivity_;
-import com.omnipasteapp.omnipaste.enums.Sender;
 
 import java.util.ArrayList;
 
 @EService
 public class OmnipasteService extends Service implements ICanReceiveData {
-  public static final String EXTRA_CLIPBOARD_SENDER = "clipboardSender";
-  public static final String EXTRA_CLIPBOARD_DATA = "clipboardData";
+  public static final String EXTRA_CLIPPING = "clipboardData";
 
   public static final int NOTIFICATION_ID = 42;
 
@@ -181,18 +177,9 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   //region ICanReceiveData
 
   @Override
-  public void dataReceived(IClipboardData clipboardData) {
+  public void dataReceived(Clipping clipping) {
     Bundle bundle = new Bundle();
-    Sender sender;
-
-    if (clipboardData.getSender() instanceof ILocalClipboard) {
-      sender = Sender.Local;
-    } else {
-      sender = Sender.Omni;
-    }
-
-    bundle.putSerializable(EXTRA_CLIPBOARD_SENDER, sender);
-    bundle.putString(EXTRA_CLIPBOARD_DATA, clipboardData.getData());
+    bundle.putParcelable(EXTRA_CLIPPING, clipping);
 
     sendMessage(MSG_DATA_RECEIVED, bundle);
   }
@@ -204,22 +191,17 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   @UiThread
   public void notifyUser(String text) {
     Intent resultIntent = new Intent(this, MainActivity_.class);
+    resultIntent.setAction("android.intent.action.MAIN");
+    resultIntent.addCategory("android.intent.category.LAUNCHER");
 
-    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-    stackBuilder.addParentStack(MainActivity_.class);
-    stackBuilder.addNextIntent(resultIntent);
-    PendingIntent resultPendingIntent =
-        stackBuilder.getPendingIntent(
-            0,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        );
+    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
 
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.ic_launcher)
         .setContentTitle(appName)
         .setContentText(text)
         .setOngoing(true)
-        .setContentIntent(resultPendingIntent);
+        .setContentIntent(contentIntent);
 
     notificationManager.notify(NOTIFICATION_ID, builder.build());
   }

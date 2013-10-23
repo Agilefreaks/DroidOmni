@@ -6,7 +6,7 @@ import android.content.ClipboardManager;
 import android.os.Build;
 
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IClipboardData;
+import com.omnipasteapp.omnicommon.models.Clipping;
 
 import junit.framework.TestCase;
 
@@ -65,7 +65,7 @@ public class AndroidClipboardTest extends TestCase {
 
     subject.onPrimaryClipChanged();
 
-    verify(mockDataReceiver).dataReceived(any(IClipboardData.class));
+    verify(mockDataReceiver).dataReceived(any(Clipping.class));
   }
 
   public void testPutDataAlwaysCallsClipboardManagerSetPrimaryClip() {

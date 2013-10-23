@@ -6,7 +6,7 @@ public class OmniApiTest extends AndroidTestCase {
   private IOmniApi subject;
 
   public void setUp() {
-    subject = new OmniApi(mContext);
+    subject = new OmniApi();
   }
 
   public void testClippingsReturnsAInstanceOfIClippings() {

@@ -8,6 +8,9 @@
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
         <item name="ic_action_logout">@drawable/ic_action_logout_dark</item>
+        <item name="ic_action_call">@drawable/ic_action_call_light</item>
+        <item name="ic_local">@drawable/ic_local_light</item>
+        <item name="ic_omni">@drawable/ic_omni_light</item>
 
         <item name="listPreferredItemPaddingStart">?android:listPreferredItemPaddingStart</item>
         <item name="listPreferredItemPaddingEnd">?android:listPreferredItemPaddingEnd</item>

@@ -50,7 +50,8 @@ public class ClipboardManagerWrapper extends Thread implements IClipboardManager
 
   @Override
   public String getCurrentClip() {
-    return _clipboardManager.getText().toString();
+    CharSequence text = _clipboardManager.getText();
+    return text != null ? text.toString() : null;
   }
 
   @Override

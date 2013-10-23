@@ -10,7 +10,7 @@ repositories {
 dependencies {
     compile 'com.android.support:support-v4:13.0.+'
     compile 'com.android.support:appcompat-v7:18.0.+'
-    compile 'co.bugfreak:BugFreak:1.1.+'
+    compile files('libs/BugFreak-1.1.5.jar')
 
     compile project(':omnicommon')
     compile project(':androidclipboard')
