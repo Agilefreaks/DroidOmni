@@ -14,7 +14,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
@@ -192,22 +191,17 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   @UiThread
   public void notifyUser(String text) {
     Intent resultIntent = new Intent(this, MainActivity_.class);
+    resultIntent.setAction("android.intent.action.MAIN");
+    resultIntent.addCategory("android.intent.category.LAUNCHER");
 
-    TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-    stackBuilder.addParentStack(MainActivity_.class);
-    stackBuilder.addNextIntent(resultIntent);
-    PendingIntent resultPendingIntent =
-        stackBuilder.getPendingIntent(
-            0,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        );
+    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
 
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.ic_launcher)
         .setContentTitle(appName)
         .setContentText(text)
         .setOngoing(true)
-        .setContentIntent(resultPendingIntent);
+        .setContentIntent(contentIntent);
 
     notificationManager.notify(NOTIFICATION_ID, builder.build());
   }
