@@ -9,7 +9,7 @@ public class Clipping implements Parcelable {
   private String content;
   private ClippingType type = ClippingType.Unknown;
 
-  static final Creator<Clipping> CREATOR = new Creator<Clipping>() {
+  public static final Creator<Clipping> CREATOR = new Creator<Clipping>() {
     @Override
     public Clipping createFromParcel(Parcel parcel) {
       return new Clipping(parcel);
