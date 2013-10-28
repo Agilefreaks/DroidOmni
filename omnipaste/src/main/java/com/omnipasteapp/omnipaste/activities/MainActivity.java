@@ -194,10 +194,8 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
     if (savedInstanceState != null) {
       Parcelable[] parcelableArray = savedInstanceState.getParcelableArray(STATE_DATA);
       if (parcelableArray != null && parcelableArray.length > 0) {
-        Clipping[] data = (Clipping[]) parcelableArray;
-
-        for (Clipping clipping : data) {
-          _dataListAdapter.add(clipping);
+        for (Parcelable parcelable : parcelableArray) {
+          _dataListAdapter.add((Clipping)parcelable);
         }
 
         setDataListAdapter();
