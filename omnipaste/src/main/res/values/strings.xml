@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- configuration -->
     <string name="bugFreak_api_key" tools:ignore="TypographyDashes">2537eed2-36fd-4d9c-9ca9-54db031126fd</string>
     <string name="bugFreak_token">520cca3028e18700b0000006</string>
     <string name="apiUrl">http://10.0.2.2:3000/api</string>
