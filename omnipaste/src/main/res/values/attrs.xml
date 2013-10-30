@@ -6,7 +6,7 @@
         <attr name="ic_omni" format="reference"/>
 
         <attr name="listPreferredItemPaddingStart" format="reference"/>
+        <attr name="listPreferredItemPaddingLeft" format="reference"/>
         <attr name="listPreferredItemPaddingEnd" format="reference"/>
-        <attr name="textAppearanceSmall" format="reference"/>
     </declare-styleable>
 </resources>

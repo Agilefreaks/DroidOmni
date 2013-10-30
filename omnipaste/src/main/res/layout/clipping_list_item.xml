@@ -23,6 +23,7 @@
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="?attr/listPreferredItemPaddingStart"
+            android:layout_marginLeft="?attr/listPreferredItemPaddingLeft"
             android:ellipsize="end"
             android:text="@string/app_name"/>
 
