@@ -15,6 +15,9 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+
+        <item name="listPreferredItemPaddingStart">?android:listPreferredItemPaddingStart</item>
+        <item name="listPreferredItemPaddingEnd">?android:listPreferredItemPaddingEnd</item>
     </style>
 
 </resources>

@@ -43,7 +43,8 @@ public class Clippings implements IClippings {
       e.printStackTrace();
     }
 
-    new AsyncRequestTask(postRequest, new PostResponseHandler(handler)).execute();
+    AsyncRequestTask asyncRequestTask = new AsyncRequestTask(postRequest, new PostResponseHandler(handler));
+    asyncRequestTask.execute();
   }
 
   @Override
