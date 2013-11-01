@@ -24,6 +24,13 @@ public class OmnipasteApplication extends Application {
     // configure api
     OmniApi.setBaseUrl(resources.getString(R.string.apiUrl));
 
+    // fix for 2.3 -> 4.0
+    try {
+      Class.forName("android.os.AsyncTask");
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+
     objectGraph = ObjectGraph.create(new MainModule(this));
   }
 
