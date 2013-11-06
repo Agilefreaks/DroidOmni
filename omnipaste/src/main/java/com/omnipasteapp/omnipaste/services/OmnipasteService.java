@@ -15,7 +15,6 @@ import android.os.RemoteException;
 
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
-import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
@@ -176,24 +175,31 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     bundle.putParcelable(EXTRA_CLIPPING, clipping);
 
     sendMessage(MSG_DATA_RECEIVED, bundle);
+
+    notifyClipping(clipping);
   }
 
   //endregion
 
   //region Notifications
 
-  @UiThread
-  public void notifyUser(String text) {
+  private void notifyUser(String text) {
     Intent notificationService = new Intent(this, NotificationService_.class);
     notificationService.putExtra(NotificationService.TEXT, text);
     notificationService.putExtra(NotificationService.ACTION, NotificationService.ActionType.Create);
     startService(notificationService);
   }
 
-  @UiThread
-  public void unnotifyUser() {
+  private void unnotifyUser() {
     Intent notificationService = new Intent(this, NotificationService_.class);
     notificationService.putExtra(NotificationService.ACTION, NotificationService.ActionType.Destroy);
+    startService(notificationService);
+  }
+
+  private void notifyClipping(Clipping clipping) {
+    Intent notificationService = new Intent(this, NotificationService_.class);
+    notificationService.putExtra(NotificationService.CLIPPING, clipping);
+    notificationService.putExtra(NotificationService.ACTION, NotificationService.ActionType.Update);
     startService(notificationService);
   }
 
