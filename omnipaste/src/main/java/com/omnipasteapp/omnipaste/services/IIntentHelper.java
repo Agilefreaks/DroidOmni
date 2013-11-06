@@ -2,7 +2,7 @@ package com.omnipasteapp.omnipaste.services;
 
 import android.app.Activity;
 
-public interface IIntentService {
+public interface IIntentHelper {
 
   void startNewActivity(Class<? extends Activity> cls);
 

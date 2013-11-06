@@ -44,7 +44,9 @@
                 android:launchMode="singleTask">
         </activity>
 
-        <service android:name="com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_"/>
+        <service android:name="com.omnipasteapp.omnipaste.services.OmnipasteService_" android:exported="false" />
+
+        <service android:name="com.omnipasteapp.omnipaste.services.NotificationService_" android:exported="false" />
 
         <receiver android:name=".receivers.OmnipasteServiceReceiver_">
             <intent-filter>
