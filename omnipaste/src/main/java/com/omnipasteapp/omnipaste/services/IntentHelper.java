@@ -7,12 +7,12 @@ import android.content.Intent;
 
 import javax.inject.Inject;
 
-public class IntentService implements IIntentService {
+public class IntentHelper implements IIntentHelper {
 
   private Context _context;
 
   @Inject
-  public IntentService(Context context) {
+  public IntentHelper(Context context) {
     _context = context;
   }
 

@@ -7,7 +7,7 @@ import android.net.ConnectivityManager;
 
 import com.googlecode.androidannotations.annotations.EReceiver;
 import com.googlecode.androidannotations.annotations.res.StringRes;
-import com.omnipasteapp.omnipaste.services.IntentService;
+import com.omnipasteapp.omnipaste.services.IntentHelper;
 
 @EReceiver
 public class ConnectivityReceiver extends BroadcastReceiver {
@@ -22,10 +22,10 @@ public class ConnectivityReceiver extends BroadcastReceiver {
     boolean noConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
 
     if (noConnectivity) {
-      IntentService.sendBroadcast(context, stopOmniService);
+      IntentHelper.sendBroadcast(context, stopOmniService);
     }
     else {
-      IntentService.sendBroadcast(context, startOmniService);
+      IntentHelper.sendBroadcast(context, startOmniService);
     }
   }
 }

@@ -1,7 +1,6 @@
-package com.omnipasteapp.omnipaste.backgroundServices;
+package com.omnipasteapp.omnipaste.services;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,26 +12,20 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.v4.app.NotificationCompat;
 
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
-import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
-import com.omnipasteapp.omnipaste.R;
-import com.omnipasteapp.omnipaste.activities.MainActivity_;
 
 import java.util.ArrayList;
 
 @EService
 public class OmnipasteService extends Service implements ICanReceiveData {
   public static final String EXTRA_CLIPPING = "clipboardData";
-
-  public static final int NOTIFICATION_ID = 42;
 
   public static final int MSG_CLIENT_CONNECTED = 1;
   public static final int MSG_CLIENT_DISCONNECTED = 2;
@@ -182,33 +175,32 @@ public class OmnipasteService extends Service implements ICanReceiveData {
     bundle.putParcelable(EXTRA_CLIPPING, clipping);
 
     sendMessage(MSG_DATA_RECEIVED, bundle);
+
+    notifyClipping(clipping);
   }
 
   //endregion
 
-  //region notifications
+  //region Notifications
 
-  @UiThread
-  public void notifyUser(String text) {
-    Intent resultIntent = new Intent(this, MainActivity_.class);
-    resultIntent.setAction("android.intent.action.MAIN");
-    resultIntent.addCategory("android.intent.category.LAUNCHER");
-
-    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
-
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_launcher)
-        .setContentTitle(appName)
-        .setContentText(text)
-        .setOngoing(true)
-        .setContentIntent(contentIntent);
-
-    notificationManager.notify(NOTIFICATION_ID, builder.build());
+  private void notifyUser(String text) {
+    Intent notificationService = new Intent(this, NotificationService_.class);
+    notificationService.putExtra(NotificationService.TEXT, text);
+    notificationService.putExtra(NotificationService.ACTION, NotificationService.ActionType.Create);
+    startService(notificationService);
   }
 
-  @UiThread
-  public void unnotifyUser() {
-    notificationManager.cancel(NOTIFICATION_ID);
+  private void unnotifyUser() {
+    Intent notificationService = new Intent(this, NotificationService_.class);
+    notificationService.putExtra(NotificationService.ACTION, NotificationService.ActionType.Destroy);
+    startService(notificationService);
+  }
+
+  private void notifyClipping(Clipping clipping) {
+    Intent notificationService = new Intent(this, NotificationService_.class);
+    notificationService.putExtra(NotificationService.CLIPPING, clipping);
+    notificationService.putExtra(NotificationService.ACTION, NotificationService.ActionType.Update);
+    startService(notificationService);
   }
 
   //endregion

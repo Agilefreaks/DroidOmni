@@ -27,10 +27,10 @@ import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.adapters.ArrayAdapter2;
-import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService;
-import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
+import com.omnipasteapp.omnipaste.services.OmnipasteService;
+import com.omnipasteapp.omnipaste.services.OmnipasteService_;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
-import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.services.IIntentHelper;
 
 import javax.inject.Inject;
 
@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   public IConfigurationService configurationService;
 
   @Inject
-  public IIntentService intentService;
+  public IIntentHelper intentService;
 
   @StringRes
   public String startOmnipasteService;

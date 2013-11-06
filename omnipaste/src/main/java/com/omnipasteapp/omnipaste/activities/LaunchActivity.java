@@ -8,7 +8,7 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.NoTitle;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
-import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.services.IIntentHelper;
 
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ public class LaunchActivity extends Activity {
   public IConfigurationService configurationService;
 
   @Inject
-  public IIntentService intentService;
+  public IIntentHelper intentService;
 
   //endregion
 
