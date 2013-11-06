@@ -1,4 +1,4 @@
-package com.omnipasteapp.omnipaste.backgroundServices;
+package com.omnipasteapp.omnipaste.services;
 
 import junit.framework.TestCase;
 

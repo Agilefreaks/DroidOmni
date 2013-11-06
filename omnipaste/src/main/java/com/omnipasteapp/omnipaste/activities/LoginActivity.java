@@ -17,7 +17,7 @@ import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
-import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.services.IIntentHelper;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ public class LoginActivity extends ActionBarActivity {
   public IConfigurationService configurationService;
 
   @Inject
-  public IIntentService intentService;
+  public IIntentHelper intentService;
 
   //endregion
 

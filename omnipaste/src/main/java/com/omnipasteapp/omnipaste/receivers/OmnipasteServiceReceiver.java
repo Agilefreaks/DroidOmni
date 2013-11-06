@@ -6,8 +6,8 @@ import android.content.Intent;
 
 import com.googlecode.androidannotations.annotations.EReceiver;
 import com.googlecode.androidannotations.annotations.res.StringRes;
-import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
-import com.omnipasteapp.omnipaste.services.IntentService;
+import com.omnipasteapp.omnipaste.services.IntentHelper;
+import com.omnipasteapp.omnipaste.services.OmnipasteService_;
 
 @EReceiver
 public class OmnipasteServiceReceiver extends BroadcastReceiver {
@@ -17,9 +17,9 @@ public class OmnipasteServiceReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     if(startOmnipasteService.equals(intent.getAction())) {
-      IntentService.startService(context, OmnipasteService_.class);
+      IntentHelper.startService(context, OmnipasteService_.class);
     } else {
-      IntentService.stopService(context, OmnipasteService_.class);
+      IntentHelper.stopService(context, OmnipasteService_.class);
     }
   }
 }
