@@ -2,6 +2,7 @@ package com.omnipasteapp.omnipaste.modules;
 
 import android.content.Context;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
 import com.omnipasteapp.omniclipboard.OmniClipboardModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
@@ -56,5 +57,10 @@ public class MainModule {
   @Singleton
   IIntentHelper providesIntentService(IntentHelper intentService) {
     return intentService;
+  }
+
+  @Provides
+  GoogleCloudMessaging providesGoogleCloudMessaging(Context context) {
+    return GoogleCloudMessaging.getInstance(context);
   }
 }
