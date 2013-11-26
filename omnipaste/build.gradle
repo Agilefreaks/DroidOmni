@@ -7,7 +7,15 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    apt
+}
+
+ext.androidAnnotationsVersion = '2.7.+'
+
 dependencies {
+    apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
+
     compile 'com.android.support:support-v4:13.0.+'
     compile 'com.android.support:appcompat-v7:18.0.+'
     compile files('libs/BugFreak-1.1.5.jar')
@@ -51,5 +59,24 @@ android {
 }
 
 android.applicationVariants.all { variant ->
-    generateGoogleAnnotations(variant, project.buildDir)
+    def aptOutputDir = project.file(new File(project.buildDir, "source/apt"))
+    def aptOutput = new File(aptOutputDir, variant.dirName)
+    def sourceSet = new File(variant.dirName).getName()
+
+    android.sourceSets[sourceSet].java.srcDirs += aptOutput.getPath()
+
+    variant.javaCompile.options.compilerArgs += [
+            '-processorpath', configurations.apt.getAsPath(),
+            '-AandroidManifestFile=' + variant.processResources.manifestFile,
+            '-s', aptOutput
+    ]
+
+    variant.javaCompile.source = variant.javaCompile.source.filter { p ->
+        return !p.getPath().startsWith(aptOutputDir.getPath())
+    }
+
+    variant.javaCompile.doFirst {
+        aptOutput.mkdirs()
+    }
 }
+
