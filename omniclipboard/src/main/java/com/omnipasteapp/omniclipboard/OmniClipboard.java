@@ -15,7 +15,6 @@ import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -77,7 +76,6 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
   @Override
   public void saveClippingSucceeded() {
-    messagingService.sendAsync(getChannel(), getMessageUuid(), this);
   }
 
   @Override
@@ -117,11 +115,6 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
   }
 
   // endregion
-
-  public String getMessageUuid() {
-    messageUuid = UUID.randomUUID().toString();
-    return messageUuid;
-  }
 
   public void setMessageUuid(String value) {
     messageUuid = value;

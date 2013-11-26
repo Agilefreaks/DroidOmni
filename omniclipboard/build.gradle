@@ -9,7 +9,6 @@ repositories {
 
 dependencies {
     compile project(':omnicommon')
-    compile 'com.pubnub:pubnub:3.5.4'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.android.gms:play-services:4.0.30'
 

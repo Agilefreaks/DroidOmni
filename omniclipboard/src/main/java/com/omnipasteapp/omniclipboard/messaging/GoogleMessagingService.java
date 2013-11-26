@@ -36,10 +36,6 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   }
 
   @Override
-  public void sendAsync(String channel, String message, IMessageHandler messageHandler) {
-  }
-
-  @Override
   public void handleRegistrationSuccess(String registrationId, int appVersion) {
     // store configuration locally
     _configurationService.getCommunicationSettings().setRegistrationId(registrationId);
