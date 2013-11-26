@@ -2,12 +2,12 @@ package com.omnipasteapp.omniclipboard;
 
 import com.omnipasteapp.omniclipboard.api.IOmniApi;
 import com.omnipasteapp.omniclipboard.api.OmniApi;
+import com.omnipasteapp.omniclipboard.messaging.GoogleMessagingService;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 import com.omnipasteapp.omniclipboard.messaging.IPubNubClientFactory;
 import com.omnipasteapp.omniclipboard.messaging.IPubNubMessageBuilder;
 import com.omnipasteapp.omniclipboard.messaging.PubNubClientFactory;
 import com.omnipasteapp.omniclipboard.messaging.PubNubMessageBuilder;
-import com.omnipasteapp.omniclipboard.messaging.PubNubMessagingService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 
 import javax.inject.Singleton;
@@ -42,7 +42,13 @@ public class OmniClipboardModule {
 
   @Provides
   @Singleton
-  IMessagingService provideMessagingService(PubNubMessagingService pubNubMessagingService) {
-    return pubNubMessagingService;
+  IMessagingService provideMessagingService(GoogleMessagingService googleMessagingService) {
+    return googleMessagingService;
   }
+
+//  @Provides
+//  @Singleton
+//  IMessagingService provideMessagingService(PubNubMessagingService pubNubMessagingService) {
+//    return pubNubMessagingService;
+//  }
 }

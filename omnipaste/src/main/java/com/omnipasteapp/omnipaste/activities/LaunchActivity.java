@@ -2,7 +2,6 @@ package com.omnipasteapp.omnipaste.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -17,7 +16,6 @@ import javax.inject.Inject;
 @NoTitle
 @EActivity
 public class LaunchActivity extends Activity {
-  private static final String TAG = "MainActivity";
   private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
   //region Public Properties
@@ -38,7 +36,6 @@ public class LaunchActivity extends Activity {
 
     checkPlayServices();
 
-    configurationService.initialize();
     if (configurationService.getCommunicationSettings().hasChannel()) {
       finish();
       intentService.startNewActivity(MainActivity_.class);
@@ -62,7 +59,6 @@ public class LaunchActivity extends Activity {
         GooglePlayServicesUtil.getErrorDialog(resultCode, this,
             PLAY_SERVICES_RESOLUTION_REQUEST).show();
       } else {
-        Log.i(TAG, "This device is not supported.");
         finish();
       }
       return false;

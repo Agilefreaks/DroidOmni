@@ -6,11 +6,15 @@ public class CommunicationSettingsTest extends TestCase {
   private CommunicationSettings subject;
 
   protected void setUp() {
-    subject = new CommunicationSettings("42");
+    subject = new CommunicationSettings("42", "43");
   }
 
   public void testGetChannelReturnsTheChannelName() {
     assertEquals("42", subject.getChannel());
+  }
+
+  public void testGetRegistrationIdReturnTheRegistrationId() {
+    assertEquals("43", subject.getRegistrationId());
   }
 
   public void testHasChannelReturnsFalseWhenChannelIsNull() {
@@ -29,5 +33,11 @@ public class CommunicationSettingsTest extends TestCase {
     subject.setChannel("42");
 
     assertTrue(subject.hasChannel());
+  }
+
+  public void testHasRegistrationIdReturnsTrueWhenRegistrationIdIsNotNull() {
+    subject.setRegistrationId("43");
+
+    assertTrue(subject.hasRegistrationId());
   }
 }
