@@ -1,1 +1,1 @@
-include ':omnipaste', ':omnicommon', ':androidclipboard', ':omniclipboard', ':omniapi'
+include ':omnipaste', ':omnicommon', ':omniclipboard', ':omniapi', ':clipboardprovider'
