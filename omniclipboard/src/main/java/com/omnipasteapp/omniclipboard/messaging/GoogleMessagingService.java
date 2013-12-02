@@ -1,6 +1,7 @@
 package com.omnipasteapp.omniclipboard.messaging;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -11,6 +12,7 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   private IConfigurationService _configurationService;
   private GoogleCloudMessaging _gcm;
   private Context _context;
+  private String _registrationId;
 
   @Inject
   public GoogleMessagingService(IConfigurationService configurationService, Context context, GoogleCloudMessaging gcm) {
@@ -42,6 +44,8 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
     _configurationService.updateCommunicationSettings();
     _configurationService.updateAppVersion(appVersion);
 
+    _registrationId = registrationId;
+
     // post to devices on api
   }
 
@@ -59,5 +63,13 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
 
   @Override
   public void handleUnregisterError(String error) {
+  }
+
+  public String getRegistrationId() {
+    return _registrationId;
+  }
+
+  @Override
+  public void handleMessage(Bundle extras) {
   }
 }

@@ -24,6 +24,7 @@ dependencies {
     compile project(':omnicommon')
     compile project(':androidclipboard')
     compile project(':omniclipboard')
+    compile project(':omniapi')
 
     instrumentTestCompile 'org.objenesis:objenesis:1.3'
     instrumentTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'

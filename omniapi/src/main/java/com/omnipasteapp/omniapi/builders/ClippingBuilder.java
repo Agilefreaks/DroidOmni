@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.api.builders;
+package com.omnipasteapp.omniapi.builders;
 
 import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.models.Sender;

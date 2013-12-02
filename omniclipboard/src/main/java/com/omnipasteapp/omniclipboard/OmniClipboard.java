@@ -2,10 +2,10 @@ package com.omnipasteapp.omniclipboard;
 
 import android.util.Log;
 
-import com.omnipasteapp.omniclipboard.api.IGetClippingCompleteHandler;
-import com.omnipasteapp.omniclipboard.api.IOmniApi;
-import com.omnipasteapp.omniclipboard.api.ISaveClippingCompleteHandler;
-import com.omnipasteapp.omniclipboard.api.OmniApi;
+import com.omnipasteapp.omniapi.IOmniApi;
+import com.omnipasteapp.omniapi.OmniApi;
+import com.omnipasteapp.omniapi.resources.IFetchClippingCompleteHandler;
+import com.omnipasteapp.omniapi.resources.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omniclipboard.messaging.IMessageHandler;
 import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
@@ -18,9 +18,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IGetClippingCompleteHandler, IMessageHandler {
-  private static String messageUuid;
-
+public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IFetchClippingCompleteHandler, IMessageHandler {
   private final IConfigurationService configurationService;
   private final IOmniApi omniApi;
   private final IMessagingService messagingService;
@@ -85,7 +83,7 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
   // endregion
 
-  // region IGetClippingCompleteHandler
+  // region IFetchClippingCompleteHandler
 
   @Override
   public void handleClipping(Clipping clip) {
@@ -100,25 +98,12 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
   @Override
   public void messageReceived(String message) {
-    if (message != null && !message.equals(messageUuid)) {
+    if (message != null && !message.equals(messagingService.getRegistrationId())) {
       omniApi.clippings().getLastAsync(this);
     }
   }
 
-  @Override
-  public void messageSent(String message) {
-  }
-
-  @Override
-  public void messageSendFailed(String message, String reason) {
-    Log.i("OmniClipboard", message + " " + reason);
-  }
-
   // endregion
-
-  public void setMessageUuid(String value) {
-    messageUuid = value;
-  }
 
   @Override
   public synchronized void run() {
@@ -127,5 +112,4 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
     OmniApi.setApiKey(getChannel());
   }
-
 }

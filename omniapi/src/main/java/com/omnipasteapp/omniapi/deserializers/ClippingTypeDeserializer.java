@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.api;
+package com.omnipasteapp.omniapi.deserializers;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

@@ -6,12 +6,22 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.googlecode.androidannotations.annotations.EService;
+import com.omnipasteapp.omniclipboard.messaging.IMessagingService;
 
+import javax.inject.Inject;
+
+@EService
 public class GcmIntentService extends IntentService {
   private static final String TAG = "GCMIntentService";
 
+  @Inject
+  public IMessagingService messagingService;
+
   public GcmIntentService() {
     super(TAG);
+
+    OmnipasteApplication.inject(this);
   }
 
   @Override
@@ -20,13 +30,14 @@ public class GcmIntentService extends IntentService {
     GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
     String messageType = gcm.getMessageType(intent);
 
-    if (!(extras != null && extras.isEmpty())) {
+    if (extras == null || !extras.isEmpty()) {
       if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-        Log.i(TAG, "Send error: " + extras.toString());
+        Log.i(TAG, "Send error: " + (extras == null ? "" : extras.toString()));
       } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-        Log.i(TAG, "Deleted messages on server: " + extras.toString());
+        Log.i(TAG, "Deleted messages on server: " + (extras == null ? "" : extras.toString()));
       } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-        Log.i(TAG, "Received: " + extras.toString());
+        // message received
+        messagingService.handleMessage(extras);
       }
     }
 

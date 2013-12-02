@@ -1,7 +1,8 @@
-package com.omnipasteapp.omniclipboard.api;
+package com.omnipasteapp.omniapi;
 
-import com.omnipasteapp.omniclipboard.api.resources.Clippings;
-import com.omnipasteapp.omniclipboard.api.resources.IClippings;
+import com.omnipasteapp.omniapi.resources.Clippings;
+import com.omnipasteapp.omniapi.resources.IClippings;
+import com.omnipasteapp.omniapi.resources.Resource;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,6 @@ public class OmniApi implements IOmniApi {
 
   @Override
   public IClippings clippings() {
-    return new Clippings(BaseUrl, Version, ApiKey);
+    return Resource.build(Clippings.class, BaseUrl, Version, ApiKey);
   }
 }

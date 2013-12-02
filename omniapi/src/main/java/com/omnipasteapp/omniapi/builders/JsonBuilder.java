@@ -1,7 +1,7 @@
-package com.omnipasteapp.omniclipboard.api.builders;
+package com.omnipasteapp.omniapi.builders;
 
 import com.google.gson.GsonBuilder;
-import com.omnipasteapp.omniclipboard.api.ClippingTypeDeserializer;
+import com.omnipasteapp.omniapi.deserializers.ClippingTypeDeserializer;
 import com.omnipasteapp.omnicommon.models.ClippingType;
 
 import java.io.BufferedReader;

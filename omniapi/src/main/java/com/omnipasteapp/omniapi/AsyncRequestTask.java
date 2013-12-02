@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.api;
+package com.omnipasteapp.omniapi;
 
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
