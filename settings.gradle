@@ -1,1 +1,1 @@
-include ':omnipaste', ':omnicommon', ':omniclipboard', ':omniapi', ':clipboardprovider'
+include ':omnicommon', ':omniapi', ':clipboardprovider', ':omnipaste'

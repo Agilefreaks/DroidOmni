@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.messaging;
+package com.omnipasteapp.omnicommon.messaging;
 
 public interface IHandleUnregister {
   void handleUnregisterSuccess();

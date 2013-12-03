@@ -9,6 +9,7 @@ repositories {
 
 dependencies {
     compile project(':omnicommon')
+    compile project(':omniapi')
     compile 'com.google.code.gson:gson:2.2.4'
 
     instrumentTestCompile 'org.objenesis:objenesis:1.3'

@@ -3,9 +3,8 @@ package com.omnipasteapp.omnipaste.modules;
 import android.content.Context;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
+import com.omnipasteapp.clipboardprovider.ClipboardProviderModule;
 import com.omnipasteapp.omniapi.OmniapiModule;
-import com.omnipasteapp.omniclipboard.OmniClipboardModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnicommon.interfaces.IOmniService;
@@ -34,9 +33,8 @@ import dagger.Provides;
     },
     includes = {
         OmnicommonModule.class,
-        AndroidClipboardModule.class,
-        OmniClipboardModule.class,
-        OmniapiModule.class
+        OmniapiModule.class,
+        ClipboardProviderModule.class
     })
 public class MainModule {
   private Context context;

@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.messaging;
+package com.omnipasteapp.omnicommon.messaging;
 
 import android.os.Bundle;
 

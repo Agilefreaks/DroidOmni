@@ -7,7 +7,9 @@ import android.os.Build;
 import com.omnipasteapp.clipboardprovider.androidclipboard.AndroidClipboard;
 import com.omnipasteapp.clipboardprovider.androidclipboard.v10.ClipboardManagerWrapper;
 import com.omnipasteapp.clipboardprovider.androidclipboard.v10.IClipboardManagerWrapper;
+import com.omnipasteapp.clipboardprovider.omniclipboard.OmniClipboard;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
+import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 
 import dagger.Module;
 import dagger.Provides;
@@ -32,4 +34,8 @@ public class ClipboardProviderModule {
     return result;
   }
 
+  @Provides
+  IOmniClipboard provideOmniClipboard(OmniClipboard pubNubClipboard) {
+    return pubNubClipboard;
+  }
 }

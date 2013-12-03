@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.messaging;
+package com.omnipasteapp.omnicommon.messaging;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,6 +9,8 @@ import com.omnipasteapp.omnicommon.CommonUtilities;
 import java.io.IOException;
 
 public class AsyncRegistrationTask extends AsyncTask<Object, Void, Boolean> {
+  private static final String SENDER_ID = "930634995806";
+
   private Context _context;
   private GoogleCloudMessaging _gcm;
   private IHandleRegistration _handler;
@@ -27,7 +29,6 @@ public class AsyncRegistrationTask extends AsyncTask<Object, Void, Boolean> {
 
     if (registrationId.isEmpty() || registeredVersion != currentVersion) {
       try {
-        String SENDER_ID = "930634995806";
         registrationId = _gcm.register(SENDER_ID);
 
         _handler.handleRegistrationSuccess(registrationId, registeredVersion);

@@ -1,4 +1,4 @@
-package com.omnipasteapp.omniclipboard.messaging;
+package com.omnipasteapp.clipboardprovider.omniclipboard.messaging;
 
 import junit.framework.TestCase;
 
