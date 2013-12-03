@@ -1,1 +1,1 @@
-include ':omnicommon', ':omniapi', ':omnimessaging', ':clipboardprovider', ':omnipaste'
+include ':omnicommon', ':omniapi', ':omnimessaging', ':clipboardprovider', ':phoneprovider', ':omnipaste'

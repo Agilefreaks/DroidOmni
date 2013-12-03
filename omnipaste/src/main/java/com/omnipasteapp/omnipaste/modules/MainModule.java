@@ -16,6 +16,7 @@ import com.omnipasteapp.omnipaste.providers.SharedPreferencesConfigurationProvid
 import com.omnipasteapp.omnipaste.services.IIntentHelper;
 import com.omnipasteapp.omnipaste.services.IntentHelper;
 import com.omnipasteapp.omnipaste.services.OmnipasteService_;
+import com.omnipasteapp.phoneprovider.PhoneProviderModule;
 
 import javax.inject.Singleton;
 
@@ -34,7 +35,8 @@ import dagger.Provides;
         OmnicommonModule.class,
         OmniapiModule.class,
         OmniMessagingModule.class,
-        ClipboardProviderModule.class
+        ClipboardProviderModule.class,
+        PhoneProviderModule.class
     })
 public class MainModule {
   private Context context;

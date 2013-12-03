@@ -9,6 +9,7 @@ import com.omnipasteapp.omniapi.resources.IDeleteDeviceCompleteHandler;
 import com.omnipasteapp.omniapi.resources.ISaveDeviceCompleteHandler;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
+import com.omnipasteapp.omnicommon.interfaces.IPhoneProvider;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,9 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
 
   @Inject
   public IClipboardProvider clipboardProvider;
+
+  @Inject
+  public IPhoneProvider phoneProvider;
 
   @Inject
   public IOmniApi omniApi;
@@ -84,7 +88,15 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   @Override
   public void handleMessage(Bundle extras) {
     String fromRegistrationId = extras.getString("registration_id");
-    clipboardProvider.handle(fromRegistrationId, getRegistrationId());
+    String collapse_key = extras.getString("collapse_key");
+
+    if (collapse_key != null && collapse_key.equals("clipboard")) {
+      clipboardProvider.handle(fromRegistrationId, getRegistrationId());
+    }
+    else if (collapse_key != null && collapse_key.equals("phone")) {
+      String number = extras.getString("phone_number");
+      phoneProvider.call(number);
+    }
   }
 
   @Override
