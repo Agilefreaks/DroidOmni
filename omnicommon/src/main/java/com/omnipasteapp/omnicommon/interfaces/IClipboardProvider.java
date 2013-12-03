@@ -1,7 +1,7 @@
 package com.omnipasteapp.omnicommon.interfaces;
 
 @SuppressWarnings("UnusedDeclaration")
-public interface IClipboardProvider {
+public interface IClipboardProvider extends IProvider {
   public ILocalClipboard getLocalClipboard();
 
   public IOmniClipboard getOmniClipboard();
@@ -13,6 +13,4 @@ public interface IClipboardProvider {
   public void addListener(ICanReceiveData dataReceiver);
 
   public void removeListener(ICanReceiveData dataReceiver);
-
-  public void messageReceived(String fromRegistrationId, String toRegistrationId);
 }

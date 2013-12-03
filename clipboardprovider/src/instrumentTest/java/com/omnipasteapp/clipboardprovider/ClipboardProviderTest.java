@@ -113,14 +113,14 @@ public class ClipboardProviderTest extends TestCase {
     verify(dataReceiver, times(1)).dataReceived(any(Clipping.class));
   }
 
-  public void testMessageReceiveWithFromAndToDifferentWillCallOmniClipboardFetch() {
-    subject.messageReceived("123", "1234s");
+  public void testHandleWithFromAndToDifferentWillCallOmniClipboardFetch() {
+    subject.handle("123", "1234s");
 
     verify(omniClipboard).fetchClipping();
   }
 
-  public void testMessageReceiveWithFromAndToEqualWillNotCallOmniClipboardFetch() {
-    subject.messageReceived("123", "123");
+  public void testHandleWithFromAndToEqualWillNotCallOmniClipboardFetch() {
+    subject.handle("123", "123");
 
     verify(omniClipboard, never()).fetchClipping();
   }

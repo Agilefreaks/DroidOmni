@@ -104,7 +104,7 @@ public class ClipboardProvider implements IClipboardProvider, ICanReceiveData {
   }
 
   @Override
-  public void messageReceived(String fromRegistrationId, String toRegistrationId) {
+  public void handle(String fromRegistrationId, String toRegistrationId) {
     if (fromRegistrationId != null && !fromRegistrationId.equals(toRegistrationId)) {
       _omniClipboard.fetchClipping();
     }

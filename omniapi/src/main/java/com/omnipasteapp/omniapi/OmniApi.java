@@ -1,7 +1,9 @@
 package com.omnipasteapp.omniapi;
 
 import com.omnipasteapp.omniapi.resources.Clippings;
+import com.omnipasteapp.omniapi.resources.Devices;
 import com.omnipasteapp.omniapi.resources.IClippings;
+import com.omnipasteapp.omniapi.resources.IDevices;
 import com.omnipasteapp.omniapi.resources.Resource;
 
 import javax.inject.Inject;
@@ -27,5 +29,10 @@ public class OmniApi implements IOmniApi {
   @Override
   public IClippings clippings() {
     return Resource.build(Clippings.class, BaseUrl, Version, ApiKey);
+  }
+
+  @Override
+  public IDevices devices() {
+    return Resource.build(Devices.class, BaseUrl, Version, ApiKey);
   }
 }

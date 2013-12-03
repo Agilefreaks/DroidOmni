@@ -4,19 +4,25 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.omnipasteapp.omniapi.IOmniApi;
+import com.omnipasteapp.omniapi.resources.IDeleteDeviceCompleteHandler;
+import com.omnipasteapp.omniapi.resources.ISaveDeviceCompleteHandler;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 
 import javax.inject.Inject;
 
-public class GoogleMessagingService implements IMessagingService, IHandleRegistration, IHandleUnregister {
+public class GoogleMessagingService implements IMessagingService, IHandleRegistration, IHandleUnregister, ISaveDeviceCompleteHandler, IDeleteDeviceCompleteHandler {
   private IConfigurationService _configurationService;
   private GoogleCloudMessaging _gcm;
   private Context _context;
   private String _registrationId;
 
   @Inject
-  IClipboardProvider clipboardProvider;
+  public IClipboardProvider clipboardProvider;
+
+  @Inject
+  public IOmniApi omniApi;
 
   @Inject
   public GoogleMessagingService(IConfigurationService configurationService, Context context, GoogleCloudMessaging gcm) {
@@ -51,6 +57,7 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
     _registrationId = registrationId;
 
     // post to devices on api
+    omniApi.devices().saveAsync(_registrationId, this);
   }
 
   @Override
@@ -63,6 +70,7 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
     _configurationService.updateCommunicationSettings();
 
     // post to device on api
+    omniApi.devices().deleteAsync(_registrationId, this);
   }
 
   @Override
@@ -76,6 +84,18 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   @Override
   public void handleMessage(Bundle extras) {
     String fromRegistrationId = extras.getString("registration_id");
-    clipboardProvider.messageReceived(fromRegistrationId, getRegistrationId());
+    clipboardProvider.handle(fromRegistrationId, getRegistrationId());
+  }
+
+  @Override
+  public void saveSuccess() {
+  }
+
+  @Override
+  public void deleteSuccess() {
+  }
+
+  @Override
+  public void callFailed(String reason) {
   }
 }

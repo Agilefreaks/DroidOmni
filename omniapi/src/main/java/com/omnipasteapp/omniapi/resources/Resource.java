@@ -13,9 +13,7 @@ public abstract class Resource {
       result.setBaseUrl(baseUrl);
       result.setVersion(version);
       result.setApiKey(apiKey);
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
+    } catch (InstantiationException | IllegalAccessException e) {
       e.printStackTrace();
     }
 
