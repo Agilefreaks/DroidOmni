@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Clipping extends Tokenable implements Parcelable {
   private Sender sender;
   private String content;
+  private String registrationId;
   private ClippingType type = ClippingType.Unknown;
 
   public static final Creator<Clipping> CREATOR = new Creator<Clipping>() {
@@ -66,6 +67,14 @@ public class Clipping extends Tokenable implements Parcelable {
 
   public void setSender(Sender sender) {
     this.sender = sender;
+  }
+
+  public void setRegistrationId(String registrationId) {
+    this.registrationId = registrationId;
+  }
+
+  public String getRegistrationId() {
+    return this.registrationId;
   }
 
   @Override

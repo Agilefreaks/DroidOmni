@@ -72,11 +72,9 @@ public class ClipboardProvider implements IClipboardProvider, ICanReceiveData {
 
     _omniClipboard.removeDataReceiver(this);
     _omniClipboard.dispose();
-    _omniClipboard = null;
 
     _localClipboard.removeDataReceiver(this);
     _localClipboard.dispose();
-    _localClipboard = null;
   }
 
   @Override

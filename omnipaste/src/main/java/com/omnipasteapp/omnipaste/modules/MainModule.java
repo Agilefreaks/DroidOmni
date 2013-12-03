@@ -6,7 +6,6 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipasteapp.clipboardprovider.ClipboardProviderModule;
 import com.omnipasteapp.omniapi.OmniapiModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
-import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
 import com.omnipasteapp.omnimessaging.OmniMessagingModule;
 import com.omnipasteapp.omnipaste.GcmIntentService_;
@@ -29,8 +28,7 @@ import dagger.Provides;
         MainActivity_.class,
         LoginActivity_.class,
         LaunchActivity_.class,
-        GcmIntentService_.class,
-        IClipboardProvider.class
+        GcmIntentService_.class
     },
     includes = {
         OmnicommonModule.class,

@@ -17,12 +17,14 @@ public class Clippings extends Resource implements IClippings {
   public static final String Url = "clippings";
 
   @Override
-  public void saveAsync(String data, final ISaveClippingCompleteHandler handler) {
+  public void saveAsync(String data, String registrationId, final ISaveClippingCompleteHandler handler) {
     Gson gson = new Gson();
     HttpPost postRequest = new HttpPost(getUri());
     postRequest.setHeader("Content-Type", "application/json");
 
-    String json = gson.toJson(new Clipping(getApiKey(), data));
+    Clipping clipping = new Clipping(getApiKey(), data);
+    clipping.setRegistrationId(registrationId);
+    String json = gson.toJson(clipping);
 
     try {
       StringEntity se = new StringEntity(json, HTTP.UTF_8);

@@ -20,7 +20,7 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
   private ArrayList<ICanReceiveData> dataReceivers;
 
   public AndroidClipboard(ClipboardManager clipboardManager) {
-    dataReceivers = new ArrayList<ICanReceiveData>();
+    dataReceivers = new ArrayList<>();
     _clipboardManager = clipboardManager;
   }
 
@@ -52,7 +52,6 @@ public class AndroidClipboard implements ILocalClipboard, Runnable, ClipboardMan
   @Override
   public void dispose() {
     _clipboardManager.removePrimaryClipChangedListener(this);
-
     dataReceivers.clear();
   }
 

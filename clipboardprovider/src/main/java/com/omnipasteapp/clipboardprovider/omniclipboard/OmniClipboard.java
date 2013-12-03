@@ -6,6 +6,7 @@ import com.omnipasteapp.omniapi.IOmniApi;
 import com.omnipasteapp.omniapi.resources.IFetchClippingCompleteHandler;
 import com.omnipasteapp.omniapi.resources.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.models.Clipping;
 
@@ -15,11 +16,13 @@ import javax.inject.Inject;
 
 public class OmniClipboard implements IOmniClipboard, Runnable, IFetchClippingCompleteHandler, ISaveClippingCompleteHandler {
   private final IOmniApi omniApi;
+  private final IConfigurationService configurationService;
   private ArrayList<ICanReceiveData> dataReceivers;
 
   @Inject
-  public OmniClipboard(IOmniApi omniApi) {
+  public OmniClipboard(IOmniApi omniApi, IConfigurationService configurationService) {
     this.omniApi = omniApi;
+    this.configurationService = configurationService;
 
     dataReceivers = new ArrayList<>();
   }
@@ -43,11 +46,12 @@ public class OmniClipboard implements IOmniClipboard, Runnable, IFetchClippingCo
 
   @Override
   public void dispose() {
+    dataReceivers.clear();
   }
 
   @Override
   public void putData(String data) {
-    omniApi.clippings().saveAsync(data, this);
+    omniApi.clippings().saveAsync(data, getRegistrationId(), this);
   }
 
   // endregion
@@ -84,9 +88,9 @@ public class OmniClipboard implements IOmniClipboard, Runnable, IFetchClippingCo
 
   @Override
   public synchronized void run() {
-//    communicationSettings = configurationService.getCommunicationSettings();
-//    messagingService.connect(getChannel(), this);
+  }
 
-//    OmniApi.setApiKey(getChannel());
+  private String getRegistrationId() {
+    return configurationService.getCommunicationSettings().getRegistrationId();
   }
 }
