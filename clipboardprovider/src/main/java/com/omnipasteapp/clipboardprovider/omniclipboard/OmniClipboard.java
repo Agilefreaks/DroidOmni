@@ -3,36 +3,25 @@ package com.omnipasteapp.clipboardprovider.omniclipboard;
 import android.util.Log;
 
 import com.omnipasteapp.omniapi.IOmniApi;
-import com.omnipasteapp.omniapi.OmniApi;
 import com.omnipasteapp.omniapi.resources.IFetchClippingCompleteHandler;
 import com.omnipasteapp.omniapi.resources.ISaveClippingCompleteHandler;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
-import com.omnipasteapp.omnicommon.messaging.IMessagingService;
 import com.omnipasteapp.omnicommon.models.Clipping;
-import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCompleteHandler, IFetchClippingCompleteHandler {
-  private final IConfigurationService configurationService;
+public class OmniClipboard implements IOmniClipboard, Runnable, IFetchClippingCompleteHandler, ISaveClippingCompleteHandler {
   private final IOmniApi omniApi;
-  private final IMessagingService messagingService;
-  private CommunicationSettings communicationSettings;
   private ArrayList<ICanReceiveData> dataReceivers;
 
   @Inject
-  public OmniClipboard(IConfigurationService configurationService,
-                       IOmniApi omniApi,
-                       IMessagingService messagingService) {
-    this.configurationService = configurationService;
-    this.messagingService = messagingService;
+  public OmniClipboard(IOmniApi omniApi) {
     this.omniApi = omniApi;
 
-    dataReceivers = new ArrayList<ICanReceiveData>();
+    dataReceivers = new ArrayList<>();
   }
 
   // region IOmniClipboard/IClipboard
@@ -40,11 +29,6 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
   @Override
   public Thread initialize() {
     return new Thread(this);
-  }
-
-  @Override
-  public String getChannel() {
-    return communicationSettings.getChannel();
   }
 
   @Override
@@ -59,7 +43,6 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
   @Override
   public void dispose() {
-    messagingService.disconnect(getChannel());
   }
 
   @Override
@@ -69,57 +52,41 @@ public class OmniClipboard implements IOmniClipboard, Runnable, ISaveClippingCom
 
   // endregion
 
-  // region ISaveClippingCompleteHandler
+  // region FetchCompleteHandler
 
-  public void saveClippingSucceeded() {
+  @Override
+  public void fetchSuccess(Clipping resource) {
+    for (ICanReceiveData receiver : dataReceivers) {
+      receiver.dataReceived(resource);
+    }
   }
 
-  public void saveClippingFailed(String reason) {
+  @Override
+  public void callFailed(String reason) {
     Log.i("OmniClipboard", reason);
   }
 
   // endregion
 
-  // region IFetchClippingCompleteHandler
-
-  public void handleClipping(Clipping clip) {
-    for (ICanReceiveData receiver : dataReceivers) {
-      receiver.dataReceived(clip);
-    }
-  }
-
-  // endregion
-
-  // region IMessageHandler
-
-  public void messageReceived(String message) {
-    if (message != null && !message.equals(messagingService.getRegistrationId())) {
-      omniApi.clippings().getLastAsync(this);
-    }
-  }
-
-  // endregion
-
-  @Override
-  public synchronized void run() {
-    communicationSettings = configurationService.getCommunicationSettings();
-//    messagingService.connect(getChannel(), this);
-
-    OmniApi.setApiKey(getChannel());
-  }
-
-  @Override
-  public void fetchSuccess(Clipping resource) {
-
-  }
+  // region SaveClippingCompleteHandler
 
   @Override
   public void saveSuccess() {
+    Log.i("OmniClipboard", "Clipping saved");
+  }
 
+  // endregion
+
+  @Override
+  public void fetchClipping() {
+    omniApi.clippings().getLastAsync(this);
   }
 
   @Override
-  public void callFailed(String reason) {
+  public synchronized void run() {
+//    communicationSettings = configurationService.getCommunicationSettings();
+//    messagingService.connect(getChannel(), this);
 
+//    OmniApi.setApiKey(getChannel());
   }
 }

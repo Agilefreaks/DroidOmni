@@ -18,7 +18,7 @@
     </facet>
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
-        <option name="GRADLE_PROJECT_PATH" value=":clipboardprovider" />
+        <option name="GRADLE_PROJECT_PATH" value=":omnimessaging" />
       </configuration>
     </facet>
   </component>
@@ -71,7 +71,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="omnimessaging" exported="" />
     <orderEntry type="module" module-name="omniapi" exported="" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="objenesis-1.3" level="project" />
@@ -83,6 +82,7 @@
     <orderEntry type="library" exported="" name="dagger-compiler-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-13.0.0" level="project" />
     <orderEntry type="library" exported="" name="otto-1.3.3" level="project" />
+    <orderEntry type="library" exported="" name="ComGoogleAndroidGmsPlayServices4030.aar" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="dagger-1.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.0" level="project" />

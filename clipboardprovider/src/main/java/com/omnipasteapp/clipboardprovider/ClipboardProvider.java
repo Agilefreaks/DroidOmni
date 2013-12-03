@@ -1,10 +1,10 @@
-package com.omnipasteapp.omnicommon.services;
+package com.omnipasteapp.clipboardprovider;
 
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
-import com.omnipasteapp.omnicommon.interfaces.IOmniService;
 import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.models.Sender;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class OmniService implements IOmniService, ICanReceiveData {
+public class ClipboardProvider implements IClipboardProvider, ICanReceiveData {
   private ILocalClipboard _localClipboard;
   private IOmniClipboard _omniClipboard;
   private String _lastData;
@@ -23,12 +23,12 @@ public class OmniService implements IOmniService, ICanReceiveData {
   @Inject
   public IConfigurationService configurationService;
 
-  public OmniService() {
-    _dataReceivers = new ArrayList<ICanReceiveData>();
+  public ClipboardProvider() {
+    _dataReceivers = new ArrayList<>();
   }
 
   @Inject
-  public OmniService(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
+  public ClipboardProvider(ILocalClipboard localClipboard, IOmniClipboard omniClipboard) {
     this();
 
     _localClipboard = localClipboard;
@@ -56,7 +56,7 @@ public class OmniService implements IOmniService, ICanReceiveData {
     _omniClipboardInitialize.join();
     _localClipboardInitialize.join();
 
-   _omniClipboard.addDataReceiver(this);
+    _omniClipboard.addDataReceiver(this);
     _localClipboard.addDataReceiver(this);
   }
 
@@ -80,11 +80,6 @@ public class OmniService implements IOmniService, ICanReceiveData {
   }
 
   @Override
-  public boolean isConfigured() {
-    return configurationService.getCommunicationSettings().hasChannel();
-  }
-
-  @Override
   public void addListener(ICanReceiveData dataReceiver) {
     _dataReceivers.add(dataReceiver);
   }
@@ -105,6 +100,13 @@ public class OmniService implements IOmniService, ICanReceiveData {
       for (ICanReceiveData receiver : _dataReceivers) {
         receiver.dataReceived(clipping);
       }
+    }
+  }
+
+  @Override
+  public void messageReceived(String fromRegistrationId, String toRegistrationId) {
+    if (fromRegistrationId != null && !fromRegistrationId.equals(toRegistrationId)) {
+      _omniClipboard.fetchClipping();
     }
   }
 

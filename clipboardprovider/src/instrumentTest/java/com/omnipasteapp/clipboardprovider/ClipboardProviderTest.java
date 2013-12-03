@@ -1,4 +1,4 @@
-package com.omnipasteapp.omnicommon.services;
+package com.omnipasteapp.clipboardprovider;
 
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
@@ -6,7 +6,6 @@ import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnicommon.models.Sender;
-import com.omnipasteapp.omnicommon.settings.CommunicationSettings;
 
 import junit.framework.TestCase;
 
@@ -22,11 +21,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-public class OmniServiceTest extends TestCase {
+public class ClipboardProviderTest extends TestCase {
 
-  private OmniService subject;
+  private ClipboardProvider subject;
 
   @Mock
   private ILocalClipboard localClipboard;
@@ -40,7 +38,7 @@ public class OmniServiceTest extends TestCase {
   protected void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    subject = new OmniService(localClipboard, omniClipboard);
+    subject = new ClipboardProvider(localClipboard, omniClipboard);
     subject.configurationService = configurationService;
   }
 
@@ -91,24 +89,6 @@ public class OmniServiceTest extends TestCase {
     verify(omniClipboard).dispose();
   }
 
-  public void testIsConfiguredReturnsFalseWhenCommunicationSettingsHasChannelReturnsFalse() {
-    CommunicationSettings communicationSettings = mock(CommunicationSettings.class);
-
-    when(communicationSettings.hasChannel()).thenReturn(false);
-    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
-
-    assertFalse(subject.isConfigured());
-  }
-
-  public void testIsConfiguredReturnsTrueWhenCommunicationSettingsHasChannelReturnsTrue() {
-    CommunicationSettings communicationSettings = mock(CommunicationSettings.class);
-
-    when(communicationSettings.hasChannel()).thenReturn(true);
-    when(configurationService.getCommunicationSettings()).thenReturn(communicationSettings);
-
-    assertTrue(subject.isConfigured());
-  }
-
   public void testAddListenerWillNotFail() {
     subject.addListener(new ICanReceiveData() {
       @Override
@@ -131,5 +111,17 @@ public class OmniServiceTest extends TestCase {
     subject.dataReceived(new Clipping("", "some content", Sender.Omni));
 
     verify(dataReceiver, times(1)).dataReceived(any(Clipping.class));
+  }
+
+  public void testMessageReceiveWithFromAndToDifferentWillCallOmniClipboardFetch() {
+    subject.messageReceived("123", "1234s");
+
+    verify(omniClipboard).fetchClipping();
+  }
+
+  public void testMessageReceiveWithFromAndToEqualWillNotCallOmniClipboardFetch() {
+    subject.messageReceived("123", "123");
+
+    verify(omniClipboard, never()).fetchClipping();
   }
 }

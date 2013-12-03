@@ -1,7 +1,7 @@
 package com.omnipasteapp.omnicommon.interfaces;
 
 @SuppressWarnings("UnusedDeclaration")
-public interface IOmniService {
+public interface IClipboardProvider {
   public ILocalClipboard getLocalClipboard();
 
   public IOmniClipboard getOmniClipboard();
@@ -10,9 +10,9 @@ public interface IOmniService {
 
   public void stop();
 
-  public boolean isConfigured();
-
   public void addListener(ICanReceiveData dataReceiver);
 
   public void removeListener(ICanReceiveData dataReceiver);
+
+  public void messageReceived(String fromRegistrationId, String toRegistrationId);
 }

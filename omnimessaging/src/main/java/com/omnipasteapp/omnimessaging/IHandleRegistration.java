@@ -1,4 +1,4 @@
-package com.omnipasteapp.omnicommon.messaging;
+package com.omnipasteapp.omnimessaging;
 
 public interface IHandleRegistration {
   void handleRegistrationSuccess(String registrationId, int appVersion);

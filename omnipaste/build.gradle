@@ -22,6 +22,7 @@ dependencies {
 
     compile project(':omnicommon')
     compile project(':omniapi')
+    compile project(':omnimessaging')
     compile project(':clipboardprovider')
 
     instrumentTestCompile 'org.objenesis:objenesis:1.3'

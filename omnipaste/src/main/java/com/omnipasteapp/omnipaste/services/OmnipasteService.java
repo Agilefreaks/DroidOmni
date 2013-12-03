@@ -16,12 +16,17 @@ import android.os.RemoteException;
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
+import com.omnipasteapp.omniapi.OmniApi;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
-import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
+import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnicommon.models.Clipping;
+import com.omnipasteapp.omnimessaging.IMessagingService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 @EService
 public class OmnipasteService extends Service implements ICanReceiveData {
@@ -40,7 +45,14 @@ public class OmnipasteService extends Service implements ICanReceiveData {
 
   public final Messenger messenger = new Messenger(new IncomingHandler());
 
-  public IOmniService omniService;
+  @Inject
+  public IClipboardProvider clipboardProvider;
+
+  @Inject
+  public IMessagingService messagingService;
+
+  @Inject
+  IConfigurationService configurationService;
 
   @SystemService
   public NotificationManager notificationManager;
@@ -76,7 +88,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
           clients.add(msg.replyTo);
 
           // send state to the new client
-          if (OmnipasteService.this.omniService != null) {
+          if (OmnipasteService.this.clipboardProvider != null) {
             OmnipasteService.this.notifyStarted();
           }
           break;
@@ -103,6 +115,8 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   @Override
   public void onCreate() {
     super.onCreate();
+
+    OmnipasteApplication.inject(this);
 
     IntentFilter filter = new IntentFilter();
     filter.addAction(startOmniService);
@@ -138,17 +152,19 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   public void startOmniService() {
-    if (omniService != null) {
-      return;
-    }
-
-    omniService = OmnipasteApplication.get(IOmniService.class);
-
     try {
-      omniService.start();
-      omniService.addListener(this);
+      String channel = configurationService.getCommunicationSettings().getChannel();
+
+      // init the messaging service
+      messagingService.connect(channel);
+
+      // set api key
+      OmniApi.setApiKey(channel);
+
+      // init the clipboard provider
+      clipboardProvider.start();
+      clipboardProvider.addListener(this);
     } catch (InterruptedException e) {
-      //TODO: replace with proper error handler
       e.printStackTrace();
     }
 
@@ -156,13 +172,11 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   }
 
   public void stopOmniService() {
-    if (omniService == null) {
-      return;
-    }
+    messagingService.disconnect(configurationService.getCommunicationSettings().getChannel());
 
-    omniService.removeListener(this);
-    omniService.stop();
-    omniService = null;
+    clipboardProvider.removeListener(this);
+    clipboardProvider.stop();
+    clipboardProvider = null;
 
     notifyStopped();
   }

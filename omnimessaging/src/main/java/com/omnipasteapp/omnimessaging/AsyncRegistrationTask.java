@@ -1,4 +1,4 @@
-package com.omnipasteapp.omnicommon.messaging;
+package com.omnipasteapp.omnimessaging;
 
 import android.content.Context;
 import android.os.AsyncTask;

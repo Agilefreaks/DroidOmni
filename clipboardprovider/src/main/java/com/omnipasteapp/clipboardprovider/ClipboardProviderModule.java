@@ -8,8 +8,11 @@ import com.omnipasteapp.clipboardprovider.androidclipboard.AndroidClipboard;
 import com.omnipasteapp.clipboardprovider.androidclipboard.v10.ClipboardManagerWrapper;
 import com.omnipasteapp.clipboardprovider.androidclipboard.v10.IClipboardManagerWrapper;
 import com.omnipasteapp.clipboardprovider.omniclipboard.OmniClipboard;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -35,7 +38,13 @@ public class ClipboardProviderModule {
   }
 
   @Provides
-  IOmniClipboard provideOmniClipboard(OmniClipboard pubNubClipboard) {
-    return pubNubClipboard;
+  IOmniClipboard provideOmniClipboard(OmniClipboard omniClipboard) {
+    return omniClipboard;
+  }
+
+  @Provides
+  @Singleton
+  IClipboardProvider provideClipboardProvider(ClipboardProvider clipboardProvider) {
+    return clipboardProvider;
   }
 }

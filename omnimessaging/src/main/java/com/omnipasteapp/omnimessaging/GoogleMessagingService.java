@@ -1,9 +1,10 @@
-package com.omnipasteapp.omnicommon.messaging;
+package com.omnipasteapp.omnimessaging;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 
 import javax.inject.Inject;
@@ -15,6 +16,9 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   private String _registrationId;
 
   @Inject
+  IClipboardProvider clipboardProvider;
+
+  @Inject
   public GoogleMessagingService(IConfigurationService configurationService, Context context, GoogleCloudMessaging gcm) {
     _configurationService = configurationService;
     _gcm = gcm;
@@ -22,7 +26,7 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   }
 
   @Override
-  public boolean connect(String channel, IMessageHandler messageHandler) {
+  public boolean connect(String channel) {
     AsyncRegistrationTask asyncGetRegistrationIdTask = new AsyncRegistrationTask(_context, _gcm, this);
     asyncGetRegistrationIdTask.execute(
         _configurationService.getCommunicationSettings().getRegistrationId(),
@@ -71,5 +75,7 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
 
   @Override
   public void handleMessage(Bundle extras) {
+    String fromRegistrationId = extras.getString("registration_id");
+    clipboardProvider.messageReceived(fromRegistrationId, getRegistrationId());
   }
 }
