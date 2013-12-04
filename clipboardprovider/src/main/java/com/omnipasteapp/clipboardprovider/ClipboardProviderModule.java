@@ -12,8 +12,6 @@ import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
 import com.omnipasteapp.omnicommon.interfaces.ILocalClipboard;
 import com.omnipasteapp.omnicommon.interfaces.IOmniClipboard;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -43,7 +41,6 @@ public class ClipboardProviderModule {
   }
 
   @Provides
-  @Singleton
   IClipboardProvider provideClipboardProvider(ClipboardProvider clipboardProvider) {
     return clipboardProvider;
   }

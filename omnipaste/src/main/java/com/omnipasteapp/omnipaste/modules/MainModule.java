@@ -3,6 +3,7 @@ package com.omnipasteapp.omnipaste.modules;
 import android.content.Context;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.omnipasteapp.clipboardprovider.ClipboardProvider;
 import com.omnipasteapp.clipboardprovider.ClipboardProviderModule;
 import com.omnipasteapp.omniapi.OmniapiModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
@@ -29,7 +30,8 @@ import dagger.Provides;
         MainActivity_.class,
         LoginActivity_.class,
         LaunchActivity_.class,
-        GcmIntentService_.class
+        GcmIntentService_.class,
+        ClipboardProvider.class
     },
     includes = {
         OmnicommonModule.class,

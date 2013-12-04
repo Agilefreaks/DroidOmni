@@ -16,6 +16,7 @@ import android.os.RemoteException;
 import com.googlecode.androidannotations.annotations.EService;
 import com.googlecode.androidannotations.annotations.SystemService;
 import com.googlecode.androidannotations.annotations.res.StringRes;
+import com.omnipasteapp.clipboardprovider.ClipboardProvider;
 import com.omnipasteapp.omniapi.OmniApi;
 import com.omnipasteapp.omnicommon.interfaces.ICanReceiveData;
 import com.omnipasteapp.omnicommon.interfaces.IClipboardProvider;
@@ -38,7 +39,7 @@ public class OmnipasteService extends Service implements ICanReceiveData {
   public static final int MSG_SERVICE_DISCONNECTED = 4;
   public static final int MSG_DATA_RECEIVED = 5;
 
-  private ArrayList<Messenger> clients = new ArrayList<Messenger>();
+  private ArrayList<Messenger> clients = new ArrayList<>();
   private OmniServiceReceiver omniServiceReceiver = new OmniServiceReceiver();
 
   //region public properties
@@ -162,8 +163,11 @@ public class OmnipasteService extends Service implements ICanReceiveData {
       OmniApi.setApiKey(channel);
 
       // init the clipboard provider
+      clipboardProvider = OmnipasteApplication.get(ClipboardProvider.class);
       clipboardProvider.start();
       clipboardProvider.addListener(this);
+
+      messagingService.setClipboardProvider(clipboardProvider);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

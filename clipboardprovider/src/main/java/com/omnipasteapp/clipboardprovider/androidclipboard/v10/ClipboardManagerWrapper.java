@@ -80,7 +80,6 @@ public class ClipboardManagerWrapper extends Thread implements IClipboardManager
     _isCanceled = true;
     _oldClip = null;
     _listener = null;
-    interrupt();
   }
 
   private void fireClippingChanged() {

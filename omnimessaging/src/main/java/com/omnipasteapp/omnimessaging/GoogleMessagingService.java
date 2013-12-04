@@ -19,7 +19,6 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   private Context _context;
   private String _registrationId;
 
-  @Inject
   public IClipboardProvider clipboardProvider;
 
   @Inject
@@ -81,8 +80,14 @@ public class GoogleMessagingService implements IMessagingService, IHandleRegistr
   public void handleUnregisterError(String error) {
   }
 
+  @Override
   public String getRegistrationId() {
     return _registrationId;
+  }
+
+  @Override
+  public void setClipboardProvider(IClipboardProvider clipboardProvider) {
+    this.clipboardProvider = clipboardProvider;
   }
 
   @Override

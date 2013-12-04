@@ -129,7 +129,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   }
 
   @AfterViews
-  public void loadConfiguration() {
+  public void afterViews() {
     setActionBarTitle(_status);
     getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
