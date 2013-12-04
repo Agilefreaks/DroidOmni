@@ -27,10 +27,10 @@ import com.omnipasteapp.omnicommon.models.Clipping;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
 import com.omnipasteapp.omnipaste.R;
 import com.omnipasteapp.omnipaste.adapters.ArrayAdapter2;
-import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService;
-import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
 import com.omnipasteapp.omnipaste.dialogs.LogoutDialog;
-import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.services.IIntentHelper;
+import com.omnipasteapp.omnipaste.services.OmnipasteService;
+import com.omnipasteapp.omnipaste.services.OmnipasteService_;
 
 import javax.inject.Inject;
 
@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   public IConfigurationService configurationService;
 
   @Inject
-  public IIntentService intentService;
+  public IIntentHelper intentService;
 
   @StringRes
   public String startOmnipasteService;
@@ -129,7 +129,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
   }
 
   @AfterViews
-  public void loadConfiguration() {
+  public void afterViews() {
     setActionBarTitle(_status);
     getSupportActionBar().setSubtitle(configurationService.getCommunicationSettings().getChannel());
 
@@ -195,7 +195,7 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
       Parcelable[] parcelableArray = savedInstanceState.getParcelableArray(STATE_DATA);
       if (parcelableArray != null && parcelableArray.length > 0) {
         for (Parcelable parcelable : parcelableArray) {
-          _dataListAdapter.add((Clipping)parcelable);
+          _dataListAdapter.add((Clipping) parcelable);
         }
 
         setDataListAdapter();
@@ -232,7 +232,6 @@ public class MainActivity extends ActionBarActivity implements LogoutDialog.Logo
       }
 
     } catch (RemoteException e) {
-      //TODO: replace with proper error handler
       e.printStackTrace();
     }
   }

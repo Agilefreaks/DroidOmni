@@ -2,18 +2,22 @@ package com.omnipasteapp.omnipaste.modules;
 
 import android.content.Context;
 
-import com.omnipasteapp.omniclipboard.OmniClipboardModule;
-import com.omnipasteapp.androidclipboard.AndroidClipboardModule;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.omnipasteapp.clipboardprovider.ClipboardProvider;
+import com.omnipasteapp.clipboardprovider.ClipboardProviderModule;
+import com.omnipasteapp.omniapi.OmniapiModule;
 import com.omnipasteapp.omnicommon.OmnicommonModule;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationProvider;
-import com.omnipasteapp.omnicommon.interfaces.IOmniService;
+import com.omnipasteapp.omnimessaging.OmniMessagingModule;
+import com.omnipasteapp.omnipaste.GcmIntentService_;
 import com.omnipasteapp.omnipaste.activities.LaunchActivity_;
 import com.omnipasteapp.omnipaste.activities.LoginActivity_;
 import com.omnipasteapp.omnipaste.activities.MainActivity_;
-import com.omnipasteapp.omnipaste.backgroundServices.OmnipasteService_;
 import com.omnipasteapp.omnipaste.providers.SharedPreferencesConfigurationProvider;
-import com.omnipasteapp.omnipaste.services.IIntentService;
-import com.omnipasteapp.omnipaste.services.IntentService;
+import com.omnipasteapp.omnipaste.services.IIntentHelper;
+import com.omnipasteapp.omnipaste.services.IntentHelper;
+import com.omnipasteapp.omnipaste.services.OmnipasteService_;
+import com.omnipasteapp.phoneprovider.PhoneProviderModule;
 
 import javax.inject.Singleton;
 
@@ -26,12 +30,15 @@ import dagger.Provides;
         MainActivity_.class,
         LoginActivity_.class,
         LaunchActivity_.class,
-        IOmniService.class
+        GcmIntentService_.class,
+        ClipboardProvider.class
     },
     includes = {
         OmnicommonModule.class,
-        AndroidClipboardModule.class,
-        OmniClipboardModule.class
+        OmniapiModule.class,
+        OmniMessagingModule.class,
+        ClipboardProviderModule.class,
+        PhoneProviderModule.class
     })
 public class MainModule {
   private Context context;
@@ -54,7 +61,12 @@ public class MainModule {
 
   @Provides
   @Singleton
-  IIntentService providesIntentService(IntentService intentService) {
+  IIntentHelper providesIntentService(IntentHelper intentService) {
     return intentService;
+  }
+
+  @Provides
+  GoogleCloudMessaging providesGoogleCloudMessaging(Context context) {
+    return GoogleCloudMessaging.getInstance(context);
   }
 }

@@ -3,10 +3,10 @@ package com.omnipasteapp.omnicommon.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Clipping implements Parcelable {
+public class Clipping extends Tokenable implements Parcelable {
   private Sender sender;
-  private String token;
   private String content;
+  private String registrationId;
   private ClippingType type = ClippingType.Unknown;
 
   public static final Creator<Clipping> CREATOR = new Creator<Clipping>() {
@@ -29,7 +29,8 @@ public class Clipping implements Parcelable {
   }
 
   public Clipping(String token, String content) {
-    this.token = token;
+    super(token);
+
     this.content = content;
   }
 
@@ -52,10 +53,6 @@ public class Clipping implements Parcelable {
     this.sender = sender;
   }
 
-  public String getToken() {
-    return token;
-  }
-
   public String getContent() {
     return content;
   }
@@ -70,6 +67,14 @@ public class Clipping implements Parcelable {
 
   public void setSender(Sender sender) {
     this.sender = sender;
+  }
+
+  public void setRegistrationId(String registrationId) {
+    this.registrationId = registrationId;
+  }
+
+  public String getRegistrationId() {
+    return this.registrationId;
   }
 
   @Override

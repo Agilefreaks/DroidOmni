@@ -3,7 +3,7 @@ package com.omnipasteapp.omnipaste;
 import android.app.Application;
 import android.content.res.Resources;
 
-import com.omnipasteapp.omniclipboard.api.OmniApi;
+import com.omnipasteapp.omniapi.OmniApi;
 import com.omnipasteapp.omnipaste.modules.MainModule;
 
 import co.bugfreak.BugFreak;

@@ -20,11 +20,28 @@ public class SharedPreferencesConfigurationProvider implements IConfigurationPro
   }
 
   @Override
+  public int getValue(String key, int defaultValue) {
+    SharedPreferences preferences = getSharedPreferences();
+
+    return preferences.getInt(key, defaultValue);
+  }
+
+  @Override
   public boolean setValue(String key, String value) {
     SharedPreferences preferences = getSharedPreferences();
     SharedPreferences.Editor editor = preferences.edit();
 
     editor.putString(key, value);
+
+    return editor.commit();
+  }
+
+  @Override
+  public boolean setValue(String key, int value) {
+    SharedPreferences preferences = getSharedPreferences();
+    SharedPreferences.Editor editor = preferences.edit();
+
+    editor.putInt(key, value);
 
     return editor.commit();
   }

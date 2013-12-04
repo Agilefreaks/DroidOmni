@@ -1,20 +1,22 @@
 package com.omnipasteapp.omnipaste.activities;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.NoTitle;
 import com.omnipasteapp.omnicommon.interfaces.IConfigurationService;
 import com.omnipasteapp.omnipaste.OmnipasteApplication;
-import com.omnipasteapp.omnipaste.services.IIntentService;
+import com.omnipasteapp.omnipaste.services.IIntentHelper;
 
 import javax.inject.Inject;
 
 @NoTitle
 @EActivity
 public class LaunchActivity extends Activity {
+  private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
   //region Public Properties
 
@@ -22,7 +24,7 @@ public class LaunchActivity extends Activity {
   public IConfigurationService configurationService;
 
   @Inject
-  public IIntentService intentService;
+  public IIntentHelper intentService;
 
   //endregion
 
@@ -32,14 +34,36 @@ public class LaunchActivity extends Activity {
 
     OmnipasteApplication.inject(this);
 
-    configurationService.initialize();
+    checkPlayServices();
+
     if (configurationService.getCommunicationSettings().hasChannel()) {
       finish();
       intentService.startNewActivity(MainActivity_.class);
-    }
-    else {
+    } else {
       finish();
       intentService.startNewActivity(LoginActivity_.class);
     }
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    checkPlayServices();
+  }
+
+  private boolean checkPlayServices() {
+    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+    if (resultCode != ConnectionResult.SUCCESS) {
+      if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+        GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+            PLAY_SERVICES_RESOLUTION_REQUEST).show();
+      } else {
+        finish();
+      }
+      return false;
+    }
+
+    return true;
   }
 }

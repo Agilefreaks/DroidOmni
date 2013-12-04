@@ -1,6 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-import groovy.io.FileType
-
 buildscript {
     repositories {
         mavenCentral()
@@ -17,43 +15,4 @@ apply plugin: 'android-reporting'
 
 repositories {
     mavenCentral()
-}
-
-configurations {
-    apt
-}
-
-ext.androidAnnotationsVersion = '2.7.+'
-
-dependencies {
-    apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
-}
-
-@SuppressWarnings("GroovyUnusedDeclaration")
-def generateGoogleAnnotations(variant, buildDir) {
-    variant.javaCompile.doFirst {
-        ext.aptOutput = file("${buildDir}/source/r/${variant.dirName}")
-
-        println "*** compile doFirst ${variant.name}"
-        println "****************************"
-        println "variant: ${variant.name}"
-        println "manifest:  ${variant.processResources.manifestFile}"
-        println "aptOutput:  ${aptOutput}"
-        println "****************************"
-
-        aptOutput.mkdirs()
-
-        aptOutput.eachFileRecurse FileType.FILES, {
-            if (it.name.equals('R.java')) {
-                return
-            }
-            it.delete()
-        }
-
-        variant.javaCompile.options.compilerArgs += [
-                '-processorpath', configurations.apt.getAsPath(),
-                '-AandroidManifestFile=' + variant.processResources.manifestFile,
-                '-s', aptOutput
-        ]
-    }
 }
