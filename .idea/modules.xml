@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DroidOmni.iml" filepath="$PROJECT_DIR$/DroidOmni.iml" />
+      <module fileurl="file://$PROJECT_DIR$/droidomni/droidomni.iml" filepath="$PROJECT_DIR$/droidomni/droidomni.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omniapi/omniapi.iml" filepath="$PROJECT_DIR$/omniapi/omniapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omnicommon/omnicommon.iml" filepath="$PROJECT_DIR$/omnicommon/omnicommon.iml" />
+    </modules>
+  </component>
+</project>
+
