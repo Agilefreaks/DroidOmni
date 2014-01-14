@@ -4,6 +4,5 @@
     <string name="app_name">Droid Omni</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="fragment_main_choose">Choose and account to login with</string>
 
 </resources>

@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.fragments.LoginFragment_;
+import com.omnipaste.droidomni.factories.FragmentFactory;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EActivity;
@@ -24,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
 
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()
-          .add(R.id.container, new LoginFragment_())
+          .add(R.id.container, FragmentFactory.create_from(configurationService.getConfiguration()))
           .commit();
     }
   }

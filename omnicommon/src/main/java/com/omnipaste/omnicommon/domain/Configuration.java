@@ -1,6 +1,6 @@
 package com.omnipaste.omnicommon.domain;
 
-public class Configuration {
+public final class Configuration {
   public String channel;
 
   public Configuration() {

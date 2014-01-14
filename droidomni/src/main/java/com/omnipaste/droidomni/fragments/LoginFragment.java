@@ -3,41 +3,48 @@ package com.omnipaste.droidomni.fragments;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.support.v4.app.Fragment;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.adapters.AccountAdapter;
+import com.omnipaste.omnicommon.domain.Configuration;
+import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 
-import fj.F;
-import fj.data.Array;
-
-import static fj.data.Array.array;
+import javax.inject.Inject;
 
 @EFragment(R.layout.fragment_login)
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements AdapterView.OnItemClickListener {
   @ViewById
   public ListView accounts;
 
   @SystemService
   public AccountManager accountManager;
 
+  @Inject
+  public ConfigurationService configurationService;
+
   @AfterViews
   public void afterView() {
-    Array<Account> googleAccounts = array(accountManager.getAccountsByType("com.google"));
+    DroidOmniApplication.inject(this);
 
-    accounts.setAdapter(new ArrayAdapter<>(
-        getActivity(),
-        android.R.layout.simple_list_item_1,
-        googleAccounts.map(new F<Account, String>() {
-          @Override
-          public String f(Account account) {
-            return account.name;
-          }
-        }).array()));
+    accounts.setAdapter(new AccountAdapter(accountManager.getAccountsByType("com.google")));
+    accounts.setOnItemClickListener(this);
+  }
+
+  @Override
+  public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+    Account account = (Account) adapterView.getItemAtPosition(position);
+
+    if (account != null) {
+      configurationService.setConfiguration(new Configuration(account.name));
+    }
   }
 }
