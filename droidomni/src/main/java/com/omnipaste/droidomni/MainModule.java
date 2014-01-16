@@ -2,6 +2,7 @@ package com.omnipaste.droidomni;
 
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
+import com.omnipaste.droidomni.fragments.MainFragment_;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
@@ -13,7 +14,8 @@ import dagger.Provides;
 @Module(
     injects = {
         MainActivity_.class,
-        LoginFragment_.class
+        LoginFragment_.class,
+        MainFragment_.class
     }
 )
 public class MainModule {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="apiUrl">https://www.omnipasteapp.com/api</string>
+
+</resources>
