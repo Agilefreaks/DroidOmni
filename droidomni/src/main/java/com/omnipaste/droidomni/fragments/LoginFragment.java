@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.AccountAdapter;
+import com.omnipaste.droidomni.events.UpdateUI;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
@@ -20,8 +21,12 @@ import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
+
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment implements AdapterView.OnItemClickListener {
+  private EventBus eventBus = EventBus.getDefault();
+
   @ViewById
   public ListView accounts;
 
@@ -45,6 +50,7 @@ public class LoginFragment extends Fragment implements AdapterView.OnItemClickLi
 
     if (account != null) {
       configurationService.setConfiguration(new Configuration(account.name));
+      eventBus.post(new UpdateUI());
     }
   }
 }
