@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.events.StartService;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
@@ -12,12 +13,15 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import de.greenrobot.event.EventBus;
 import rx.android.concurrency.AndroidSchedulers;
 import rx.util.functions.Action0;
 import rx.util.functions.Action1;
 
 @EFragment(R.layout.fragment_main)
 public class MainFragment extends Fragment {
+  private EventBus eventBus = EventBus.getDefault();
+
   @ViewById
   public TextView fragmentMainText;
 
@@ -32,7 +36,7 @@ public class MainFragment extends Fragment {
             new Action1<RegisteredDeviceDto>() {
               @Override
               public void call(RegisteredDeviceDto registeredDeviceDto) {
-                fragmentMainText.setText(registeredDeviceDto.registration_id);
+                eventBus.post(new StartService(registeredDeviceDto));
               }
             },
             // OnError
@@ -48,6 +52,5 @@ public class MainFragment extends Fragment {
               }
             }
         );
-
   }
 }

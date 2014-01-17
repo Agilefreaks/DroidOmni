@@ -33,6 +33,10 @@
             </intent-filter>
         </activity>
 
+        <service
+                android:name=".services.OmniService_"
+                android:exported="false"/>
+
         <receiver
                 android:name=".gcm.GcmBroadcastReceiver"
                 android:permission="com.google.android.c2dm.permission.SEND">

@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.omnipaste.droidomni.events.GcmEvent;
 
 import org.androidannotations.annotations.EService;
 
+import de.greenrobot.event.EventBus;
+
 @EService
 public class GcmIntentService extends IntentService {
+  private EventBus eventBus = EventBus.getDefault();
   private static final String TAG = "GCMIntentService";
 
   public GcmIntentService() {
@@ -32,8 +36,7 @@ public class GcmIntentService extends IntentService {
           Log.i(TAG, "Deleted messages on server: " + (extras == null ? "" : extras.toString()));
           break;
         case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
-          // message received
-          // messagingService.handleMessage(extras);
+          eventBus.post(new GcmEvent(extras));
           break;
       }
     }
