@@ -1,13 +1,13 @@
 package com.omnipaste.omnicommon.dto;
 
-import java.util.Date;
-
 public class RegisteredDeviceDto {
   public String identifier;
   public String name;
   public String registration_id;
-  public Date updated_at;
-  public Date created_at;
+  public String provider;
+
+  public RegisteredDeviceDto() {
+  }
 
   public RegisteredDeviceDto(String identifier) {
     this.identifier = identifier;

@@ -23,7 +23,7 @@ public class GcmIntentService extends IntentService {
     GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
     String messageType = gcm.getMessageType(intent);
 
-    if (extras == null || !extras.isEmpty()) {
+    if (messageType != null) {
       switch (messageType) {
         case GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR:
           Log.i(TAG, "Send error: " + (extras == null ? "" : extras.toString()));

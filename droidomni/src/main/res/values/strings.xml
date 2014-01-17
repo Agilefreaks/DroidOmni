@@ -2,6 +2,7 @@
 <resources>
 
     <string name="apiUrl">http://192.168.56.1:3000/api</string>
+    <string name="gcm_sender_id">930634995806</string>
 
     <string name="app_name">Droid Omni</string>
     <string name="hello_world">Hello world!</string>

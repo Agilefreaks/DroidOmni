@@ -10,6 +10,7 @@ import retrofit.http.Body;
 import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import rx.Observable;
 import rx.concurrency.Schedulers;
 
@@ -23,6 +24,14 @@ public class Devices {
     })
     @POST("/v1/devices.json")
     Observable<RegisteredDeviceDto> create(@Header("CHANNEL") String channel, @Body RegisteredDeviceDto deviceDto);
+
+    @Headers({
+        "CONTENT_TYPE: application/json",
+        "ACCEPT: application/json",
+        "User-Agent: OmniApi"
+    })
+    @PUT("/v1/devices/activate.json")
+    Observable<RegisteredDeviceDto> activate(@Header("CHANNEL") String channel, @Body RegisteredDeviceDto deviceDto);
   }
 
   private DevicesApi devicesApi;
@@ -45,5 +54,13 @@ public class Devices {
 
   public Observable<RegisteredDeviceDto> create(final String channel, final String identifier, final String name) {
     return devicesApi.create(channel, new RegisteredDeviceDto(identifier, name)).subscribeOn(Schedulers.threadPoolForIO());
+  }
+
+  public Observable<RegisteredDeviceDto> activate(final String channel, final String identifier, String registrationId) {
+    RegisteredDeviceDto deviceDto = new RegisteredDeviceDto();
+    deviceDto.identifier = identifier;
+    deviceDto.registration_id = registrationId;
+    deviceDto.provider = "gcm";
+    return devicesApi.activate(channel, deviceDto).subscribeOn(Schedulers.threadPoolForIO());
   }
 }

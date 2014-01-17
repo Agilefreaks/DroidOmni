@@ -49,7 +49,10 @@ public class LoginFragment extends Fragment implements AdapterView.OnItemClickLi
     Account account = (Account) adapterView.getItemAtPosition(position);
 
     if (account != null) {
-      configurationService.setConfiguration(new Configuration(account.name));
+      Configuration configuration = configurationService.getConfiguration();
+      configuration.channel = account.name;
+      configurationService.setConfiguration(configuration);
+
       eventBus.post(new UpdateUI());
     }
   }

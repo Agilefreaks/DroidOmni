@@ -20,4 +20,8 @@ public class DevicesTest extends TestCase {
     assertThat(subject.create("test@test.com", "42"), instanceOf(Observable.class));
     assertThat(subject.create("test@test.com", "42", "Friendly name"), instanceOf(Observable.class));
   }
+
+  public void testActivate() throws Exception {
+    assertThat(subject.activate("test@test.com", "42", "42"), instanceOf(Observable.class));
+  }
 }
