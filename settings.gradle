@@ -1,1 +1,1 @@
-include ':omnicommon', ':omniapi', ':droidomni'
+include ':omnicommon', ':omniapi', ':droidomni', ':clipboardprovider'

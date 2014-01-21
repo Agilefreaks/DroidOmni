@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/clipboardprovider" />
             <option value="$PROJECT_DIR$/droidomni" />
             <option value="$PROJECT_DIR$/omniapi" />
             <option value="$PROJECT_DIR$/omnicommon" />

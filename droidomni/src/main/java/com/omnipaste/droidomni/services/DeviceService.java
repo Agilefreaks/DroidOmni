@@ -83,5 +83,4 @@ public class DeviceService {
     String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     return String.format("%s-%s", Build.MODEL, android_id);
   }
-
 }

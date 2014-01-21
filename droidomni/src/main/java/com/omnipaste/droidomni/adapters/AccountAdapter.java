@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.omnipaste.droidomni.views.AccountView;
+import com.omnipaste.droidomni.views.AccountView_;
 
 public class AccountAdapter extends BaseAdapter {
   private Account[] accounts;
@@ -38,7 +39,7 @@ public class AccountAdapter extends BaseAdapter {
     }
     else {
       Account account = accounts[position];
-      accountView = new AccountView(viewGroup.getContext());
+      accountView = AccountView_.build(viewGroup.getContext());
       ((AccountView) accountView).fillData(account.name);
     }
 
