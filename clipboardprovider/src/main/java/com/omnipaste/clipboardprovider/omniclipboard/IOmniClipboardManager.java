@@ -1,13 +1,13 @@
 package com.omnipaste.clipboardprovider.omniclipboard;
 
-import android.content.ClipData;
+import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import rx.Observable;
 
 public interface IOmniClipboardManager {
   public Observable<String> getObservable();
 
-  public ClipData getPrimaryClip();
+  public Observable<ClippingDto> getPrimaryClip();
 
-  public void setPrimaryClip(ClipData clipData);
+  public void setPrimaryClip(ClippingDto clippingDto);
 }

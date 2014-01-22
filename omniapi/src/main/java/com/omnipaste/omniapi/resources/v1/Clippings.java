@@ -33,10 +33,7 @@ public class Clippings extends Resource {
     return clippingsApi.last(channel).subscribeOn(Schedulers.threadPoolForIO());
   }
 
-  public Observable<ClippingDto> create(String channel, String content) {
-    ClippingDto clippingDto = new ClippingDto();
-    clippingDto.setContent(content);
-
+  public Observable<ClippingDto> create(String channel, ClippingDto clippingDto) {
     return clippingsApi.create(channel, clippingDto).subscribeOn(Schedulers.threadPoolForIO());
   }
 }

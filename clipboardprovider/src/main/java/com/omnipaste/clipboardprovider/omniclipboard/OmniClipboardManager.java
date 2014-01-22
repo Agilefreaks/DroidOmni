@@ -1,9 +1,8 @@
 package com.omnipaste.clipboardprovider.omniclipboard;
 
-import android.content.ClipData;
-
 import com.omnipaste.omniapi.IOmniApi;
 import com.omnipaste.omnicommon.Provider;
+import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
@@ -45,10 +44,11 @@ public class OmniClipboardManager implements IOmniClipboardManager {
     return omniClipboardSubject;
   }
 
-  public ClipData getPrimaryClip() {
-    return null;
+  public Observable<ClippingDto> getPrimaryClip() {
+    return omniApi.clippings().last("calinuswork@gmail.com");
   }
 
-  public void setPrimaryClip(ClipData clipData) {
+  public void setPrimaryClip(ClippingDto clippingDto) {
+    omniApi.clippings().create("", clippingDto).subscribe();
   }
 }
