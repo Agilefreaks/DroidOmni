@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.omnipaste.omnicommon.Provider;
 
 public class GcmEvent {
-  public static String REGISTRATION_ID_KEY = "registration_id";
+  public static String REGISTRATION_ID_KEY = "registrationId";
   public static String COLLAPSE_KEY = "collapse_key";
 
   private Provider provider;

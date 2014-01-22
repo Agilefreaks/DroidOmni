@@ -1,5 +1,7 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.google.gson.GsonBuilder;
+import com.omnipaste.omniapi.deserializers.ClippingTypeDeserializer;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import retrofit.http.Body;
@@ -26,7 +28,7 @@ public class Clippings extends Resource {
   public Clippings(String baseUrl) {
     super(baseUrl);
 
-    clippingsApi = builder.build().create(ClippingsApi.class);
+    clippingsApi = restAdapter.create(ClippingsApi.class);
   }
 
   public Observable<ClippingDto> last(String channel) {
@@ -35,5 +37,10 @@ public class Clippings extends Resource {
 
   public Observable<ClippingDto> create(String channel, ClippingDto clippingDto) {
     return clippingsApi.create(channel, clippingDto).subscribeOn(Schedulers.threadPoolForIO());
+  }
+
+  @Override
+  protected GsonBuilder getGsonBuilder() {
+    return super.getGsonBuilder().registerTypeAdapter(ClippingDto.ClippingType.class, new ClippingTypeDeserializer());
   }
 }

@@ -27,7 +27,7 @@ public class Devices extends Resource {
   public Devices(String baseUrl) {
     super(baseUrl);
 
-    devicesApi = builder.build().create(DevicesApi.class);
+    devicesApi = restAdapter.create(DevicesApi.class);
   }
 
   public Observable<RegisteredDeviceDto> create(final String channel, final String identifier) {
@@ -40,9 +40,9 @@ public class Devices extends Resource {
 
   public Observable<RegisteredDeviceDto> activate(final String channel, final String identifier, String registrationId) {
     RegisteredDeviceDto deviceDto = new RegisteredDeviceDto();
-    deviceDto.identifier = identifier;
-    deviceDto.registration_id = registrationId;
-    deviceDto.provider = "gcm";
+    deviceDto.setIdentifier(identifier);
+    deviceDto.setRegistrationId(registrationId);
+    deviceDto.setProvider("gcm");
 
     return devicesApi.activate(channel, deviceDto).subscribeOn(Schedulers.threadPoolForIO());
   }

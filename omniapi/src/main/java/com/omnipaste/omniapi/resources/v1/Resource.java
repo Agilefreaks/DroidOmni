@@ -1,6 +1,6 @@
 package com.omnipaste.omniapi.resources.v1;
 
-import com.google.gson.Gson;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 
 import retrofit.RestAdapter;
@@ -11,14 +11,22 @@ public abstract class Resource {
   public static final String ACCEPT = "ACCEPT: application/json";
   public static final String USER_AGENT = "User-Agent: OmniApi";
 
-  protected final RestAdapter.Builder builder;
+  protected final RestAdapter restAdapter;
 
   protected Resource(String baseUrl) {
-    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+    restAdapter = getBuilder(baseUrl).build();
+  }
 
-    builder = new RestAdapter.Builder()
+  protected RestAdapter.Builder getBuilder(String baseUrl) {
+    return new RestAdapter.Builder()
         .setServer(baseUrl)
         .setLogLevel(RestAdapter.LogLevel.FULL)
-        .setConverter(new GsonConverter(gson));
+        .setConverter(new GsonConverter(getGsonBuilder().create()));
+  }
+
+  protected GsonBuilder getGsonBuilder() {
+    return new GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
   }
 }

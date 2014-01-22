@@ -10,6 +10,7 @@ import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -22,6 +23,9 @@ public class OmniService extends Service {
 
   @StringRes
   public String appName;
+
+  @Inject
+  public ConfigurationService configurationService;
 
   @Inject
   public IClipboardProvider clipboardProvider;
@@ -55,7 +59,7 @@ public class OmniService extends Service {
   private void start() {
     if (!started) {
       notifyUser();
-      clipboardProvider.enable();
+      clipboardProvider.enable(configurationService.getConfiguration().getChannel());
 
       started = true;
     }

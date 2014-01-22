@@ -7,7 +7,7 @@ import rx.Observable;
 public interface IOmniClipboardManager {
   public Observable<String> getObservable();
 
-  public Observable<ClippingDto> getPrimaryClip();
+  public Observable<ClippingDto> getPrimaryClip(String channel);
 
-  public void setPrimaryClip(ClippingDto clippingDto);
+  public void setPrimaryClip(String channel, ClippingDto clippingDto);
 }

@@ -44,11 +44,11 @@ public class OmniClipboardManager implements IOmniClipboardManager {
     return omniClipboardSubject;
   }
 
-  public Observable<ClippingDto> getPrimaryClip() {
-    return omniApi.clippings().last("calinuswork@gmail.com");
+  public Observable<ClippingDto> getPrimaryClip(String channel) {
+    return omniApi.clippings().last(channel);
   }
 
-  public void setPrimaryClip(ClippingDto clippingDto) {
-    omniApi.clippings().create("", clippingDto).subscribe();
+  public void setPrimaryClip(String channel, ClippingDto clippingDto) {
+    omniApi.clippings().create(channel, clippingDto).subscribe();
   }
 }

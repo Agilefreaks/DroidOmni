@@ -1,10 +1,7 @@
 package com.omnipaste.omnicommon.dto;
 
 public class RegisteredDeviceDto {
-  public String identifier;
-  public String name;
-  public String registration_id;
-  public String provider;
+  private String identifier, name, registrationId, provider;
 
   public RegisteredDeviceDto() {
   }
@@ -17,5 +14,37 @@ public class RegisteredDeviceDto {
     this(identifier);
 
     this.name = name;
+  }
+
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public void setIdentifier(String identifier) {
+    this.identifier = identifier;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getRegistrationId() {
+    return registrationId;
+  }
+
+  public void setRegistrationId(String registrationId) {
+    this.registrationId = registrationId;
+  }
+
+  public String getProvider() {
+    return provider;
+  }
+
+  public void setProvider(String provider) {
+    this.provider = provider;
   }
 }

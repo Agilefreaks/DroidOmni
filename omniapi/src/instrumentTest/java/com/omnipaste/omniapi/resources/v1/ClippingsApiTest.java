@@ -1,5 +1,7 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.omnipaste.omnicommon.dto.ClippingDto;
+
 import junit.framework.TestCase;
 
 import rx.Observable;
@@ -21,6 +23,6 @@ public class ClippingsApiTest extends TestCase {
   }
 
   public void testCreateWillReturnAnObservable() throws Exception {
-    assertThat(clippings.create("test@test.com", "content"), instanceOf(Observable.class));
+    assertThat(clippings.create("test@test.com", new ClippingDto()), instanceOf(Observable.class));
   }
 }
