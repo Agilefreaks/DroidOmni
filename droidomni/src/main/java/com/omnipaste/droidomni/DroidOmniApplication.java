@@ -41,8 +41,8 @@ public class DroidOmniApplication extends Application {
 
   private void init() {
     Configuration configuration = configurationService.getConfiguration();
-    configuration.apiUrl = apiUrl;
-    configuration.gcmSenderId = gcmSenderId;
+    configuration.setApiUrl(apiUrl);
+    configuration.setGcmSenderId(gcmSenderId);
     configurationService.setConfiguration(configuration);
   }
 }

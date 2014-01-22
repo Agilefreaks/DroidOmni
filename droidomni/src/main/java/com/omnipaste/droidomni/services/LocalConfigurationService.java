@@ -27,9 +27,9 @@ public class LocalConfigurationService implements ConfigurationService {
     }
     else {
       result = new Configuration();
-      result.channel = sharedPreferences.getString(CHANNEL_KEY, "");
-      result.gcmSenderId = sharedPreferences.getString(GCM_SENDER_ID_KEY,  "");
-      result.apiUrl = sharedPreferences.getString(API_URL_KEY,  "");
+      result.setChannel(sharedPreferences.getString(CHANNEL_KEY, ""));
+      result.setGcmSenderId(sharedPreferences.getString(GCM_SENDER_ID_KEY,  ""));
+      result.setApiUrl(sharedPreferences.getString(API_URL_KEY,  ""));
     }
 
     return result;
@@ -40,9 +40,9 @@ public class LocalConfigurationService implements ConfigurationService {
     this.configuration = configuration;
 
     SharedPreferences.Editor editor = sharedPreferences.edit();
-    editor.putString(CHANNEL_KEY, configuration.channel);
-    editor.putString(GCM_SENDER_ID_KEY, configuration.gcmSenderId);
-    editor.putString(API_URL_KEY, configuration.apiUrl);
+    editor.putString(CHANNEL_KEY, configuration.getChannel());
+    editor.putString(GCM_SENDER_ID_KEY, configuration.getGcmSenderId());
+    editor.putString(API_URL_KEY, configuration.getApiUrl());
     editor.commit();
   }
 }

@@ -11,10 +11,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.events.StartService;
 import com.omnipaste.droidomni.events.UpdateUI;
 import com.omnipaste.droidomni.factories.FragmentFactory;
-import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EActivity;
@@ -58,11 +56,6 @@ public class MainActivity extends ActionBarActivity {
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(UpdateUI event) {
     setFragment(FragmentFactory.create_from(configurationService.getConfiguration()));
-  }
-
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(StartService event) {
-    OmniService_.intent(getApplication()).start();
   }
 
   @Override

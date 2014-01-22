@@ -8,6 +8,7 @@ import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.MainFragment_;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
+import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import javax.inject.Singleton;
@@ -22,6 +23,9 @@ import dagger.Provides;
         MainFragment_.class,
         DroidOmniApplication_.class,
         DeviceService.class
+    },
+    includes = {
+        OmniApiModule.class
     }
 )
 public class MainModule {

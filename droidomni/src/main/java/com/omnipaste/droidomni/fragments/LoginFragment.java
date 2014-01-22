@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment implements AdapterView.OnItemClickLi
 
     if (account != null) {
       Configuration configuration = configurationService.getConfiguration();
-      configuration.channel = account.name;
+      configuration.setChannel(account.name);
       configurationService.setConfiguration(configuration);
 
       eventBus.post(new UpdateUI());

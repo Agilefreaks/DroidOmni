@@ -34,6 +34,9 @@ public class DeviceService {
   @Inject
   public Context context;
 
+  @Inject
+  public OmniApi omniApi;
+
   public DeviceService() {
     DroidOmniApplication.inject(this);
 
@@ -55,7 +58,7 @@ public class DeviceService {
   }
 
   public Observable<RegisteredDeviceDto> createDevice() {
-    return new OmniApi(configuration.apiUrl).devices().create(configuration.channel, getIdentifier());
+    return omniApi.devices().create(configuration.getChannel(), getIdentifier());
   }
 
   public Observable<String> registerToGcm() {
@@ -63,7 +66,7 @@ public class DeviceService {
       @Override
       public Subscription onSubscribe(Observer<? super String> observer) {
         try {
-          observer.onNext(googleCloudMessaging.register(configuration.gcmSenderId));
+          observer.onNext(googleCloudMessaging.register(configuration.getGcmSenderId()));
         } catch (IOException e) {
           observer.onError(e);
         }
@@ -76,7 +79,7 @@ public class DeviceService {
   }
 
   private Observable<RegisteredDeviceDto> activateDevice(String registrationId) {
-    return new OmniApi(configuration.apiUrl).devices().activate(configuration.channel, getIdentifier(), registrationId);
+    return omniApi.devices().activate(configuration.getChannel(), getIdentifier(), registrationId);
   }
 
   private String getIdentifier() {
