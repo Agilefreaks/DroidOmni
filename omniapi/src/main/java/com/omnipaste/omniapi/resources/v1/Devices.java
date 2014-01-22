@@ -1,11 +1,7 @@
 package com.omnipaste.omniapi.resources.v1;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
 import retrofit.http.Body;
 import retrofit.http.Header;
 import retrofit.http.Headers;
@@ -14,22 +10,14 @@ import retrofit.http.PUT;
 import rx.Observable;
 import rx.concurrency.Schedulers;
 
-public class Devices {
+public class Devices extends Resource {
 
   private interface DevicesApi {
-    @Headers({
-        "CONTENT_TYPE: application/json",
-        "ACCEPT: application/json",
-        "User-Agent: OmniApi"
-    })
+    @Headers({Resource.CONTENT_TYPE, Resource.ACCEPT, Resource.USER_AGENT})
     @POST("/v1/devices.json")
     Observable<RegisteredDeviceDto> create(@Header("CHANNEL") String channel, @Body RegisteredDeviceDto deviceDto);
 
-    @Headers({
-        "CONTENT_TYPE: application/json",
-        "ACCEPT: application/json",
-        "User-Agent: OmniApi"
-    })
+    @Headers({Resource.CONTENT_TYPE, Resource.ACCEPT, Resource.USER_AGENT})
     @PUT("/v1/devices/activate.json")
     Observable<RegisteredDeviceDto> activate(@Header("CHANNEL") String channel, @Body RegisteredDeviceDto deviceDto);
   }
@@ -37,15 +25,9 @@ public class Devices {
   private DevicesApi devicesApi;
 
   public Devices(String baseUrl) {
-    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+    super(baseUrl);
 
-    RestAdapter restAdapter = new RestAdapter.Builder()
-        .setServer(baseUrl)
-        .setLogLevel(RestAdapter.LogLevel.FULL)
-        .setConverter(new GsonConverter(gson))
-        .build();
-
-    devicesApi = restAdapter.create(DevicesApi.class);
+    devicesApi = builder.build().create(DevicesApi.class);
   }
 
   public Observable<RegisteredDeviceDto> create(final String channel, final String identifier) {
@@ -61,6 +43,7 @@ public class Devices {
     deviceDto.identifier = identifier;
     deviceDto.registration_id = registrationId;
     deviceDto.provider = "gcm";
+
     return devicesApi.activate(channel, deviceDto).subscribeOn(Schedulers.threadPoolForIO());
   }
 }

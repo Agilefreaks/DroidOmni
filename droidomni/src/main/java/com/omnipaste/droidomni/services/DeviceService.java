@@ -29,13 +29,13 @@ public class DeviceService {
   public GoogleCloudMessaging googleCloudMessaging;
 
   @Inject
+  public IOmniApi omniApi;
+
+  @Inject
   public ConfigurationService configurationService;
 
   @Inject
   public Context context;
-
-  @Inject
-  public IOmniApi omniApi;
 
   public DeviceService() {
     DroidOmniApplication.inject(this);

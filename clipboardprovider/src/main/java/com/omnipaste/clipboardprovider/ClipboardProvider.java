@@ -15,7 +15,7 @@ public class ClipboardProvider implements IClipboardProvider {
   }
 
   public void enable() {
-    omniClipboardManager.get();
+     omniClipboardManager.get();
   }
 
   public void disable() {
