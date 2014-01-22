@@ -5,24 +5,31 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
+import com.omnipaste.clipboardprovider.IClipboardProvider;
+import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
-import com.omnipaste.droidomni.events.GcmEvent;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
 
-import de.greenrobot.event.EventBus;
+import javax.inject.Inject;
 
 @EService
 public class OmniService extends Service {
-  private EventBus eventBus = EventBus.getDefault();
   private Boolean started = false;
 
   @StringRes
   public String appName;
+
+  @Inject
+  public IClipboardProvider clipboardProvider;
+
+  public OmniService() {
+    super();
+    DroidOmniApplication.inject(this);
+  }
 
   @Override
   public IBinder onBind(Intent intent) {
@@ -42,20 +49,13 @@ public class OmniService extends Service {
   public void onDestroy() {
     super.onDestroy();
 
-    // cancel notification
-    eventBus.unregister(this);
     stop();
-  }
-
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventBackgroundThread(GcmEvent gcmEvent) {
-    Log.i("dude", "event");
   }
 
   private void start() {
     if (!started) {
-      eventBus.register(this);
       notifyUser();
+      clipboardProvider.enable();
 
       started = true;
     }

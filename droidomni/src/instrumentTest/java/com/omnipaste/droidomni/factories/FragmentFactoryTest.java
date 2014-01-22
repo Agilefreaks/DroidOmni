@@ -10,12 +10,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 
 public class FragmentFactoryTest extends TestCase {
+  @Override
   public void setUp() throws Exception {
     super.setUp();
   }
 
   public void testCreateWhenConfigurationHasChannelWillReturnInstanceOfMainFragment() throws Exception {
-    Configuration configuration = new Configuration("calin@test.com");
+    Configuration configuration = new Configuration();
+    configuration.setChannel("calin@test.com");
     assertThat(FragmentFactory.create_from(configuration), instanceOf(MainFragment_.class));
   }
 

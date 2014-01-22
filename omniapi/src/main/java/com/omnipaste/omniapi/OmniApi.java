@@ -2,11 +2,11 @@ package com.omnipaste.omniapi;
 
 import com.omnipaste.omniapi.resources.v1.Devices;
 
-public class OmniApi {
+class OmniApi implements IOmniApi {
   private final String baseUrl;
   private Devices devices;
 
-  public OmniApi(String baseUrl) {
+  OmniApi(String baseUrl) {
     this.baseUrl = baseUrl;
   }
 

@@ -6,7 +6,7 @@ import android.provider.Settings;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.omniapi.OmniApi;
+import com.omnipaste.omniapi.IOmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -35,7 +35,7 @@ public class DeviceService {
   public Context context;
 
   @Inject
-  public OmniApi omniApi;
+  public IOmniApi omniApi;
 
   public DeviceService() {
     DroidOmniApplication.inject(this);
