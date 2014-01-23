@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ import rx.util.functions.Action1;
 
 @EFragment(R.layout.fragment_main)
 public class MainFragment extends Fragment {
+  public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
+
   @ViewById
   public TextView fragmentMainText;
 
@@ -33,7 +36,10 @@ public class MainFragment extends Fragment {
             new Action1<RegisteredDeviceDto>() {
               @Override
               public void call(RegisteredDeviceDto registeredDeviceDto) {
-                OmniService_.intent(getActivity()).start();
+                Intent service = new Intent(getActivity(), OmniService_.class);
+                service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
+
+                getActivity().startService(service);
               }
             },
             // OnError

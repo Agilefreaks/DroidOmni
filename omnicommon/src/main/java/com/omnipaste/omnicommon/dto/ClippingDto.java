@@ -6,12 +6,21 @@ public class ClippingDto {
   private String content;
   private Date create_at;
   private ClippingType type;
+  private String identifier;
 
   public enum ClippingType {
     phoneNumber, uri, unknown
   }
 
   public ClippingDto() {
+  }
+
+  public String getIdentifier() {
+    return identifier;
+  }
+
+  public void setIdentifier(String identifier) {
+    this.identifier = identifier;
   }
 
   public ClippingType getType() {

@@ -18,7 +18,7 @@ public class ClipboardProvider implements IClipboardProvider {
   public ClipboardProvider() {
   }
 
-  public void enable(final String channel) {
+  public void enable(final String channel, final String identifier) {
     omniClipboardManagerSubscriber = omniClipboardManager.get()
         .getObservable()
         .skip(1)

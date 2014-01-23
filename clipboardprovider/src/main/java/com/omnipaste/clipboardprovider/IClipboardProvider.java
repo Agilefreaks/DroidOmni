@@ -1,8 +1,7 @@
 package com.omnipaste.clipboardprovider;
 
 public interface IClipboardProvider {
-  public void enable(String channel);
+  public void enable(final String channel, final String identifier);
 
   public void disable();
-
 }

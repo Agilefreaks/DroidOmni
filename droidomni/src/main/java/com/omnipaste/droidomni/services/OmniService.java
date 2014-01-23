@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.services;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -10,6 +11,8 @@ import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.fragments.MainFragment;
+import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EService;
@@ -20,6 +23,7 @@ import javax.inject.Inject;
 @EService
 public class OmniService extends Service {
   private Boolean started = false;
+  private String deviceIdentifier;
 
   @StringRes
   public String appName;
@@ -44,6 +48,11 @@ public class OmniService extends Service {
   public int onStartCommand(Intent intent, int flags, int startId) {
     super.onStartCommand(intent, flags, startId);
 
+    Bundle extras = intent.getExtras();
+    if (extras != null) {
+      deviceIdentifier = extras.getString(MainFragment.DEVICE_IDENTIFIER_EXTRA_KEY);
+    }
+
     start();
 
     return START_STICKY;
@@ -59,7 +68,9 @@ public class OmniService extends Service {
   private void start() {
     if (!started) {
       notifyUser();
-      clipboardProvider.enable(configurationService.getConfiguration().getChannel());
+
+      Configuration configuration = configurationService.getConfiguration();
+      clipboardProvider.enable(configuration.getChannel(), deviceIdentifier);
 
       started = true;
     }
