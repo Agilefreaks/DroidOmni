@@ -1,44 +1,71 @@
 package com.omnipaste.clipboardprovider;
 
-import com.omnipaste.clipboardprovider.omniclipboard.OmniClipboardManager;
+import com.omnipaste.clipboardprovider.androidclipboard.ILocalClipboardManager;
+import com.omnipaste.clipboardprovider.omniclipboard.IOmniClipboardManager;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
 
 import dagger.Lazy;
-import rx.Subscription;
+import rx.Observable;
+import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 import rx.util.functions.Action1;
 
 public class ClipboardProvider implements IClipboardProvider {
-  private Subscription omniClipboardManagerSubscriber;
+  private PublishSubject<ClippingDto> clipboardProviderSubject;
 
   @Inject
-  public Lazy<OmniClipboardManager> omniClipboardManager;
+  public Lazy<IOmniClipboardManager> omniClipboardManager;
+
+  @Inject
+  public Lazy<ILocalClipboardManager> localClipboardManager;
 
   public ClipboardProvider() {
+    clipboardProviderSubject = PublishSubject.create();
   }
 
-  public void enable(final String channel, final String identifier) {
-    omniClipboardManagerSubscriber = omniClipboardManager.get()
+  public Observable<ClippingDto> getObservable(final String channel, final String identifier) {
+    final IOmniClipboardManager currentOmniClipboardManager = omniClipboardManager.get();
+    final ILocalClipboardManager currentLocalClipboardManager = localClipboardManager.get();
+
+    currentOmniClipboardManager
         .getObservable()
-        .skip(1)
         .subscribe(new Action1<String>() {
           @Override
           public void call(String registrationId) {
-            omniClipboardManager.get()
+            currentOmniClipboardManager
                 .getPrimaryClip(channel)
                 .subscribe(new Action1<ClippingDto>() {
                   @Override
                   public void call(ClippingDto clippingDto) {
-                    // emit an event
+                    currentLocalClipboardManager.setPrimaryClip(channel, clippingDto);
+
+                    clipboardProviderSubject.onNext(clippingDto);
                   }
-                }
-                );
+                });
           }
         });
-  }
 
-  public void disable() {
-    omniClipboardManagerSubscriber.unsubscribe();
+    currentLocalClipboardManager
+        .getObservable()
+        .subscribe(new Action1<String>() {
+          @Override
+          public void call(String s) {
+            currentLocalClipboardManager
+                .getPrimaryClip(channel)
+                .subscribe(new Action1<ClippingDto>() {
+                  @Override
+                  public void call(ClippingDto clippingDto) {
+                    clippingDto.setIdentifier(identifier);
+                    currentOmniClipboardManager.setPrimaryClip(channel, clippingDto);
+
+                    clipboardProviderSubject.onNext(clippingDto);
+                  }
+                });
+          }
+        });
+
+    return clipboardProviderSubject.subscribeOn(Schedulers.computation());
   }
 }

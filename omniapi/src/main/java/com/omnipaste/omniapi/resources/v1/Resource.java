@@ -10,6 +10,7 @@ public abstract class Resource {
   public static final String CONTENT_TYPE = "CONTENT_TYPE: application/json";
   public static final String ACCEPT = "ACCEPT: application/json";
   public static final String USER_AGENT = "User-Agent: OmniApi";
+  public static final String CONNECTION = "Connection: Close";
 
   protected final RestAdapter restAdapter;
 

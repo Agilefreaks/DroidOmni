@@ -70,7 +70,7 @@ public class OmniService extends Service {
       notifyUser();
 
       Configuration configuration = configurationService.getConfiguration();
-      clipboardProvider.enable(configuration.getChannel(), deviceIdentifier);
+      clipboardProvider.getObservable(configuration.getChannel(), deviceIdentifier);
 
       started = true;
     }

@@ -2,7 +2,7 @@
   <library name="Gradle: ComGoogleAndroidGmsPlayServices4132.aar">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/droidomni/build/exploded-bundles/ComGoogleAndroidGmsPlayServices4132.aar/classes.jar!/" />
-      <root url="jar://$PROJECT_DIR$/droidomni/build/exploded-bundles/ComGoogleAndroidGmsPlayServices4132.aar/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/droidomni/build/exploded-bundles/ComGoogleAndroidGmsPlayServices4132.aar/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

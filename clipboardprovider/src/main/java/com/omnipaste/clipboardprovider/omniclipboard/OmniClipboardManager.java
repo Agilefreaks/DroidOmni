@@ -9,23 +9,24 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
+import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 import rx.util.functions.Action1;
 import rx.util.functions.Func1;
 
 public class OmniClipboardManager implements IOmniClipboardManager {
-  private BehaviorSubject<String> omniClipboardSubject;
+  private PublishSubject<String> omniClipboardSubject;
 
   @Inject
   public IOmniApi omniApi;
 
   @Inject
   public OmniClipboardManager(NotificationProvider notificationProvider) {
-    omniClipboardSubject = BehaviorSubject.create("");
+    omniClipboardSubject = PublishSubject.create();
 
     notificationProvider
         .getObservable()
-        .where(new Func1<NotificationDto, Boolean>() {
+        .filter(new Func1<NotificationDto, Boolean>() {
           @Override
           public Boolean call(NotificationDto notificationDto) {
             return notificationDto.getProvider() == Provider.clipboard;
@@ -41,7 +42,7 @@ public class OmniClipboardManager implements IOmniClipboardManager {
   }
 
   public Observable<String> getObservable() {
-    return omniClipboardSubject;
+    return omniClipboardSubject.subscribeOn(Schedulers.computation());
   }
 
   public Observable<ClippingDto> getPrimaryClip(String channel) {

@@ -6,18 +6,18 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import de.greenrobot.event.EventBus;
 import rx.Observable;
-import rx.concurrency.Schedulers;
-import rx.subjects.BehaviorSubject;
+import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
 public class GcmNotificationProvider implements NotificationProvider {
-  private BehaviorSubject<NotificationDto> notificationSubject;
+  private PublishSubject<NotificationDto> notificationSubject;
 
   public GcmNotificationProvider() {
     EventBus eventBus = EventBus.getDefault();
     eventBus.register(this);
 
-    notificationSubject = BehaviorSubject.create(new NotificationDto());
-    notificationSubject.subscribeOn(Schedulers.threadPoolForIO());
+    notificationSubject = PublishSubject.create();
+    notificationSubject.subscribeOn(Schedulers.io());
   }
 
   @SuppressWarnings("UnusedDeclaration")

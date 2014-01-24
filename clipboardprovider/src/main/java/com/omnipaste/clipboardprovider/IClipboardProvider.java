@@ -1,7 +1,9 @@
 package com.omnipaste.clipboardprovider;
 
-public interface IClipboardProvider {
-  public void enable(final String channel, final String identifier);
+import com.omnipaste.omnicommon.dto.ClippingDto;
 
-  public void disable();
+import rx.Observable;
+
+public interface IClipboardProvider {
+  public Observable<ClippingDto> getObservable(final String channel, final String identifier);
 }

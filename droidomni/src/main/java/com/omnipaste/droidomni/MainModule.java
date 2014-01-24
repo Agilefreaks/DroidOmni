@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -39,6 +40,12 @@ public class MainModule {
 
   public MainModule(Context context) {
     this.context = context.getApplicationContext();
+  }
+
+  @Provides
+  @Singleton
+  public ClipboardManager providesClipboardManager() {
+    return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
   }
 
   @Provides

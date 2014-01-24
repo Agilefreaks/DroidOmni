@@ -45,6 +45,6 @@ public class GcmNotificationProviderTest extends TestCase {
     notificationProvider.onEventBackgroundThread(new GcmEvent());
 
     // first time is the default value
-    verify(observer, times(2)).onNext(isA(NotificationDto.class));
+    verify(observer, times(1)).onNext(isA(NotificationDto.class));
   }
 }
