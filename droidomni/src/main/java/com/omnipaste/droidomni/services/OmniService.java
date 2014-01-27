@@ -11,8 +11,10 @@ import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.droidomni.fragments.MainFragment;
 import com.omnipaste.omnicommon.domain.Configuration;
+import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EService;
@@ -20,10 +22,15 @@ import org.androidannotations.annotations.res.StringRes;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.util.functions.Action1;
+
 @EService
 public class OmniService extends Service {
   private Boolean started = false;
   private String deviceIdentifier;
+  private EventBus eventBus = EventBus.getDefault();
 
   @StringRes
   public String appName;
@@ -70,7 +77,15 @@ public class OmniService extends Service {
       notifyUser();
 
       Configuration configuration = configurationService.getConfiguration();
-      clipboardProvider.getObservable(configuration.getChannel(), deviceIdentifier);
+      clipboardProvider
+          .getObservable(configuration.getChannel(), deviceIdentifier)
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(new Action1<ClippingDto>() {
+            @Override
+            public void call(ClippingDto clippingDto) {
+              eventBus.post(new ClippingAdded(clippingDto));
+            }
+          });
 
       started = true;
     }

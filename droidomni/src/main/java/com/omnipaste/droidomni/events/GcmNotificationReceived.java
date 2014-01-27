@@ -4,17 +4,17 @@ import android.os.Bundle;
 
 import com.omnipaste.omnicommon.Provider;
 
-public class GcmEvent {
+public class GcmNotificationReceived {
   public static String REGISTRATION_ID_KEY = "registrationId";
   public static String COLLAPSE_KEY = "collapse_key";
 
   private Provider provider;
   private String registrationId;
 
-  public GcmEvent() {
+  public GcmNotificationReceived() {
   }
 
-  public GcmEvent(Bundle extras) {
+  public GcmNotificationReceived(Bundle extras) {
     registrationId = extras.getString(REGISTRATION_ID_KEY);
     provider = Provider.valueOf(extras.getString(COLLAPSE_KEY));
   }

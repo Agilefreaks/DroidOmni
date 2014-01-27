@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.omnipaste.droidomni.events.GcmEvent;
+import com.omnipaste.droidomni.events.GcmNotificationReceived;
 
 import org.androidannotations.annotations.EService;
 
@@ -36,7 +36,7 @@ public class GcmIntentService extends IntentService {
           Log.i(TAG, "Deleted messages on server: " + (extras == null ? "" : extras.toString()));
           break;
         case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
-          eventBus.post(new GcmEvent(extras));
+          eventBus.post(new GcmNotificationReceived(extras));
           break;
       }
     }

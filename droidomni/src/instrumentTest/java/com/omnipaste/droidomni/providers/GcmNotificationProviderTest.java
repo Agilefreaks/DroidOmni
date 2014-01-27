@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.providers;
 
-import com.omnipaste.droidomni.events.GcmEvent;
+import com.omnipaste.droidomni.events.GcmNotificationReceived;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 
 import junit.framework.TestCase;
@@ -42,7 +42,7 @@ public class GcmNotificationProviderTest extends TestCase {
     Observer observer = mock(Observer.class);
     notificationProvider.getObservable().subscribe(observer);
 
-    notificationProvider.onEventBackgroundThread(new GcmEvent());
+    notificationProvider.onEventBackgroundThread(new GcmNotificationReceived());
 
     // first time is the default value
     verify(observer, times(1)).onNext(isA(NotificationDto.class));

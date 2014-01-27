@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.events.FragmentChanged;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
@@ -14,13 +15,16 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import rx.android.concurrency.AndroidSchedulers;
+import de.greenrobot.event.EventBus;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.util.functions.Action0;
 import rx.util.functions.Action1;
 
 @EFragment(R.layout.fragment_main)
 public class MainFragment extends Fragment {
   public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
+
+  private EventBus eventBus = EventBus.getDefault();
 
   @ViewById
   public TextView fragmentMainText;
@@ -40,6 +44,7 @@ public class MainFragment extends Fragment {
                 service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
 
                 getActivity().startService(service);
+                eventBus.post(new FragmentChanged(ClippingsFragment_.builder().build()));
               }
             },
             // OnError

@@ -8,15 +8,15 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 @EViewGroup(android.R.layout.simple_list_item_1)
-public class AccountView extends LinearLayout {
+public class ClippingView extends LinearLayout {
   @ViewById
   public TextView text1;
 
-  public AccountView(Context context) {
+  public ClippingView(Context context) {
     super(context);
   }
 
-  public void fillData(String content) {
-    text1.setText(content);
+  public void fillData(String name) {
+    text1.setText(name);
   }
 }

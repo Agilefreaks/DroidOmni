@@ -11,8 +11,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.events.UpdateUI;
-import com.omnipaste.droidomni.factories.FragmentFactory;
+import com.omnipaste.droidomni.events.FragmentChanged;
+import com.omnipaste.droidomni.fragments.LoginFragment_;
+import com.omnipaste.droidomni.fragments.MainFragment_;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EActivity;
@@ -33,12 +34,13 @@ public class MainActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     DroidOmniApplication.inject(this);
+    eventBus.register(this);
 
     if (savedInstanceState == null) {
-      setFragment(FragmentFactory.create_from(configurationService.getConfiguration()));
+      Fragment fragmentToDisplay = configurationService.getConfiguration().hasChannel() ? MainFragment_.builder().build() : LoginFragment_.builder().build();
+      eventBus.post(new FragmentChanged(fragmentToDisplay));
     }
 
-    eventBus.register(this);
   }
 
   @Override
@@ -54,8 +56,8 @@ public class MainActivity extends ActionBarActivity {
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(UpdateUI event) {
-    setFragment(FragmentFactory.create_from(configurationService.getConfiguration()));
+  public void onEventMainThread(FragmentChanged event) {
+    setFragment(event.getFragment());
   }
 
   @Override

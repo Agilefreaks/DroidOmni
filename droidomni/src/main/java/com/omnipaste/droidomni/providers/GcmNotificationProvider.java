@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.providers;
 
-import com.omnipaste.droidomni.events.GcmEvent;
+import com.omnipaste.droidomni.events.GcmNotificationReceived;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
@@ -21,8 +21,8 @@ public class GcmNotificationProvider implements NotificationProvider {
   }
 
   @SuppressWarnings("UnusedDeclaration")
-  public void onEventBackgroundThread(GcmEvent gcmEvent) {
-    notificationSubject.onNext(new NotificationDto(gcmEvent.getProvider(), gcmEvent.getRegistrationId()));
+  public void onEventBackgroundThread(GcmNotificationReceived gcmNotificationReceived) {
+    notificationSubject.onNext(new NotificationDto(gcmNotificationReceived.getProvider(), gcmNotificationReceived.getRegistrationId()));
   }
 
   @Override
