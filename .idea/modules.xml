@@ -3,10 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DroidOmni.iml" filepath="$PROJECT_DIR$/DroidOmni.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clipboardprovider/clipboardprovider.iml" filepath="$PROJECT_DIR$/clipboardprovider/clipboardprovider.iml" />
       <module fileurl="file://$PROJECT_DIR$/droidomni/droidomni.iml" filepath="$PROJECT_DIR$/droidomni/droidomni.iml" />
       <module fileurl="file://$PROJECT_DIR$/omniapi/omniapi.iml" filepath="$PROJECT_DIR$/omniapi/omniapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/omnicommon/omnicommon.iml" filepath="$PROJECT_DIR$/omnicommon/omnicommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/providerclipboard/providerclipboard.iml" filepath="$PROJECT_DIR$/providerclipboard/providerclipboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/providerphone/providerphone.iml" filepath="$PROJECT_DIR$/providerphone/providerphone.iml" />
     </modules>
   </component>
 </project>

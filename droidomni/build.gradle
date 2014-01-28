@@ -48,7 +48,8 @@ apt {
 dependencies {
     compile project(':omnicommon')
     compile project(':omniapi')
-    compile project(':clipboardprovider')
+    compile project(':providerclipboard')
+    compile project(':providerphone')
 
     apt 'org.androidannotations:androidannotations:3.0'
 
