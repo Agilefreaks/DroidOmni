@@ -40,8 +40,6 @@ public class ClipboardProvider implements IClipboardProvider {
                   @Override
                   public void call(ClippingDto clippingDto) {
                     currentLocalClipboardManager.setPrimaryClip(channel, clippingDto);
-
-                    clipboardProviderSubject.onNext(clippingDto);
                   }
                 });
           }
