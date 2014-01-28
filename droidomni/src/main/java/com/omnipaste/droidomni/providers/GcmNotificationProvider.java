@@ -22,7 +22,10 @@ public class GcmNotificationProvider implements NotificationProvider {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventBackgroundThread(GcmNotificationReceived gcmNotificationReceived) {
-    notificationSubject.onNext(new NotificationDto(gcmNotificationReceived.getProvider(), gcmNotificationReceived.getRegistrationId()));
+    notificationSubject.onNext(new NotificationDto(
+        gcmNotificationReceived.getProvider(),
+        gcmNotificationReceived.getRegistrationId(),
+        gcmNotificationReceived.getExtras()));
   }
 
   @Override

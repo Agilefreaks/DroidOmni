@@ -1,6 +1,6 @@
 package com.omnipaste.clipboardprovider.omniclipboard;
 
-import com.omnipaste.omnicommon.Provider;
+import com.omnipaste.omnicommon.Target;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
@@ -40,7 +40,7 @@ public class OmniClipboardManagerTest extends TestCase {
     Observer observer = mock(Observer.class);
     omniClipboardManager.getObservable().subscribe(observer);
 
-    notificationSubject.onNext(new NotificationDto(Provider.clipboard, "42"));
+    notificationSubject.onNext(new NotificationDto(Target.clipboard, "42"));
 
     verify(observer).onNext("42");
   }
@@ -50,7 +50,7 @@ public class OmniClipboardManagerTest extends TestCase {
     Observer observer = mock(Observer.class);
     omniClipboardManager.getObservable().subscribe(observer);
 
-    notificationSubject.onNext(new NotificationDto(Provider.phone, "42"));
+    notificationSubject.onNext(new NotificationDto(Target.phone, "42"));
 
     verify(observer, never()).onNext("42");
   }

@@ -16,6 +16,7 @@ import com.omnipaste.droidomni.fragments.MainFragment;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.phoneprovider.IPhoneProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -23,14 +24,17 @@ import org.androidannotations.annotations.res.StringRes;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.util.functions.Action1;
 
 @EService
 public class OmniService extends Service {
+  private EventBus eventBus = EventBus.getDefault();
   private Boolean started = false;
   private String deviceIdentifier;
-  private EventBus eventBus = EventBus.getDefault();
+  private Subscription phoneSubscribe;
+  private Subscription clipboardSubscriber;
 
   @StringRes
   public String appName;
@@ -40,6 +44,9 @@ public class OmniService extends Service {
 
   @Inject
   public IClipboardProvider clipboardProvider;
+
+  @Inject
+  public IPhoneProvider phoneProvider;
 
   public OmniService() {
     super();
@@ -77,7 +84,8 @@ public class OmniService extends Service {
       notifyUser();
 
       Configuration configuration = configurationService.getConfiguration();
-      clipboardProvider
+
+      clipboardSubscriber = clipboardProvider
           .getObservable(configuration.getChannel(), deviceIdentifier)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(new Action1<ClippingDto>() {
@@ -86,6 +94,8 @@ public class OmniService extends Service {
               eventBus.post(new ClippingAdded(clippingDto));
             }
           });
+
+      phoneSubscribe = phoneProvider.getObservable(getApplicationContext()).subscribe();
 
       started = true;
     }
@@ -113,6 +123,8 @@ public class OmniService extends Service {
   private void stop() {
     if (started) {
       started = false;
+      phoneSubscribe.unsubscribe();
+      clipboardSubscriber.unsubscribe();
       stopForeground(true);
     }
   }

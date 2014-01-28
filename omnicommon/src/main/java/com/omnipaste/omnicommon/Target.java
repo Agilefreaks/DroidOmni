@@ -1,6 +1,6 @@
 package com.omnipaste.omnicommon;
 
-public enum Provider {
+public enum Target {
   clipboard,
   phone
 }

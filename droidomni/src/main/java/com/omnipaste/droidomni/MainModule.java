@@ -15,6 +15,7 @@ import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.phoneprovider.PhoneProviderModule;
 
 import javax.inject.Singleton;
 
@@ -32,7 +33,8 @@ import dagger.Provides;
     },
     includes = {
         OmniApiModule.class,
-        ClipboardProviderModule.class
+        ClipboardProviderModule.class,
+        PhoneProviderModule.class
     }
 )
 public class MainModule {
