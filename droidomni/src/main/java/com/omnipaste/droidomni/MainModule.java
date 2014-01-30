@@ -6,6 +6,8 @@ import android.content.Context;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.controllers.MainActivityController;
+import com.omnipaste.droidomni.controllers.MainController;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.MainFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
@@ -71,5 +73,10 @@ public class MainModule {
   @Provides
   public GoogleCloudMessaging providesGoogleCloudMessaging(Context context) {
     return GoogleCloudMessaging.getInstance(context);
+  }
+
+  @Provides
+  public MainActivityController providesMainActivityController(MainController mainController) {
+    return mainController;
   }
 }

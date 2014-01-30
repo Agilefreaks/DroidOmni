@@ -7,5 +7,6 @@
     <string name="app_name">Droid Omni</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="clippings_title">Clippings</string>
 
 </resources>

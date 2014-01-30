@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.AccountAdapter;
+import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
@@ -47,6 +48,6 @@ public class LoginFragment extends Fragment {
     configuration.setChannel(account.name);
     configurationService.setConfiguration(configuration);
 
-    eventBus.post(MainFragment_.builder().build());
+    eventBus.post(new LoginEvent());
   }
 }

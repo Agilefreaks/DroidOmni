@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.events.FragmentChanged;
+import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
@@ -44,7 +44,7 @@ public class MainFragment extends Fragment {
                 service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
 
                 getActivity().startService(service);
-                eventBus.post(new FragmentChanged(ClippingsFragment_.builder().build()));
+                eventBus.post(new DeviceInitEvent());
               }
             },
             // OnError

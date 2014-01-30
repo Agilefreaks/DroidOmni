@@ -11,36 +11,25 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.events.FragmentChanged;
-import com.omnipaste.droidomni.fragments.LoginFragment_;
-import com.omnipaste.droidomni.fragments.MainFragment_;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.droidomni.controllers.MainActivityController;
 
 import org.androidannotations.annotations.EActivity;
 
 import javax.inject.Inject;
 
-import de.greenrobot.event.EventBus;
-
 @EActivity(R.layout.activity_main)
 public class MainActivity extends ActionBarActivity {
   private static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
-  private EventBus eventBus = EventBus.getDefault();
 
   @Inject
-  public ConfigurationService configurationService;
+  public MainActivityController controller;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     DroidOmniApplication.inject(this);
-    eventBus.register(this);
 
-    if (savedInstanceState == null) {
-      Fragment fragmentToDisplay = configurationService.getConfiguration().hasChannel() ? MainFragment_.builder().build() : LoginFragment_.builder().build();
-      eventBus.post(new FragmentChanged(fragmentToDisplay));
-    }
-
+    controller.run(this, savedInstanceState);
   }
 
   @Override
@@ -52,12 +41,16 @@ public class MainActivity extends ActionBarActivity {
   @Override
   public void onDestroy() {
     super.onDestroy();
-    eventBus.unregister(this);
+    controller.stop();
   }
 
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(FragmentChanged event) {
-    setFragment(event.getFragment());
+  public void setFragment(Fragment fragment) {
+    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+    getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.main_container, fragment)
+        .commit();
   }
 
   @Override
@@ -90,14 +83,5 @@ public class MainActivity extends ActionBarActivity {
 
   private void showErrorDialog(int code) {
     GooglePlayServicesUtil.getErrorDialog(code, this, REQUEST_CODE_RECOVER_PLAY_SERVICES).show();
-  }
-
-  private void setFragment(Fragment fragment) {
-    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-    getSupportFragmentManager()
-        .beginTransaction()
-        .replace(R.id.main_container, fragment)
-        .commit();
   }
 }
