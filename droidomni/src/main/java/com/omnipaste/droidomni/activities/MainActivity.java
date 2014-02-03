@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
@@ -12,8 +13,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.MainActivityController;
+import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
 
@@ -23,6 +27,12 @@ public class MainActivity extends ActionBarActivity {
 
   @Inject
   public MainActivityController controller;
+
+  @ViewById
+  public DrawerLayout drawerLayout;
+
+  @FragmentById
+  public NavigationDrawerFragment navigationDrawer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,8 @@ public class MainActivity extends ActionBarActivity {
   public void onResume() {
     super.onResume();
     checkPlayServices();
+
+    navigationDrawer.setUp(drawerLayout);
   }
 
   @Override
@@ -45,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
   }
 
   public void setFragment(Fragment fragment) {
+
     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
     getSupportFragmentManager()
