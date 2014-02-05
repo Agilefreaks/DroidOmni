@@ -2,6 +2,7 @@ package com.omnipaste.droidomni.fragments;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
@@ -25,6 +26,7 @@ import de.greenrobot.event.EventBus;
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
+  private AccountAdapter accounsAdapter;
 
   @ViewById
   public ListView accounts;
@@ -35,11 +37,21 @@ public class LoginFragment extends Fragment {
   @Inject
   public ConfigurationService configurationService;
 
-  @AfterViews
-  public void afterView() {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     DroidOmniApplication.inject(this);
 
-    accounts.setAdapter(new AccountAdapter(accountManager.getAccountsByType("com.google")));
+    setRetainInstance(true);
+
+    accounsAdapter = new AccountAdapter(accountManager.getAccountsByType("com.google"));
+  }
+
+  @AfterViews
+  public void afterView() {
+    if (accounts.getAdapter() == null) {
+      accounts.setAdapter(accounsAdapter);
+    }
   }
 
   @ItemClick

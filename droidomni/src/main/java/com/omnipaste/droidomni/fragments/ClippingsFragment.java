@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.fragments;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
@@ -21,12 +22,21 @@ public class ClippingsFragment extends Fragment {
   @ViewById
   public ListView clippings;
 
-  @AfterViews
-  public void afterView() {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     eventBus.register(this);
 
+    setRetainInstance(true);
+
     clippingAdapter = new ClippingAdapter();
-    clippings.setAdapter(clippingAdapter);
+  }
+
+  @AfterViews
+  public void afterView() {
+    if (clippings.getAdapter() == null) {
+      clippings.setAdapter(clippingAdapter);
+    }
   }
 
   @SuppressWarnings("UnusedDeclaration")
