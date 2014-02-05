@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.events;
 
 import android.os.Bundle;
 
-import com.omnipaste.omnicommon.Provider;
+import com.omnipaste.omnicommon.Target;
 
 import junit.framework.TestCase;
 
@@ -16,7 +16,7 @@ public class GcmNotificationReceivedTest extends TestCase {
     bundle.putString(GcmNotificationReceived.REGISTRATION_ID_KEY, "42");
     GcmNotificationReceived gcmNotificationReceived = new GcmNotificationReceived(bundle);
 
-    assertThat(gcmNotificationReceived.getProvider(), is(Provider.clipboard));
+    assertThat(gcmNotificationReceived.getProvider(), is(Target.clipboard));
     assertThat(gcmNotificationReceived.getRegistrationId(), is("42"));
   }
 }

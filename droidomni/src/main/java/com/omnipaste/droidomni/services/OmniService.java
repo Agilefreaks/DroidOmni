@@ -111,7 +111,7 @@ public class OmniService extends Service {
     PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
 
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_launcher)
+        .setSmallIcon(R.drawable.ic_stat_clipboard)
         .setContentTitle(appName)
         .setContentText("")
         .setOngoing(true)

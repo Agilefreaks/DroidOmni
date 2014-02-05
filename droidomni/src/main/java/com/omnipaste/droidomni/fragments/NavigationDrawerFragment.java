@@ -10,19 +10,24 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.adapters.NavigationDrawerAdapter;
 
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_navigation_drawer)
 public class NavigationDrawerFragment extends Fragment {
   private ActionBarDrawerToggle drawerToggle;
 
+  @ViewById
+  public ListView navigationDrawerList;
+
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    // Indicate that this fragment would like to influence the set of actions in the action bar.
     setHasOptionsMenu(true);
   }
 
@@ -34,8 +39,6 @@ public class NavigationDrawerFragment extends Fragment {
   public void setUp(DrawerLayout drawerLayout) {
     drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-    // ActionBarDrawerToggle ties together the the proper interactions
-    // between the navigation drawer and the action bar app icon.
     drawerToggle = new ActionBarDrawerToggle(
         getActivity(),
         drawerLayout,
@@ -50,7 +53,7 @@ public class NavigationDrawerFragment extends Fragment {
           return;
         }
 
-        getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+        getActivity().supportInvalidateOptionsMenu();
       }
 
       @Override
@@ -60,7 +63,7 @@ public class NavigationDrawerFragment extends Fragment {
           return;
         }
 
-        getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+        getActivity().supportInvalidateOptionsMenu();
       }
     };
 
@@ -76,6 +79,8 @@ public class NavigationDrawerFragment extends Fragment {
     ActionBar actionBar = getActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setHomeButtonEnabled(true);
+
+    navigationDrawerList.setAdapter(new NavigationDrawerAdapter());
   }
 
   @Override
