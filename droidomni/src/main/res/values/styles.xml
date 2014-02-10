@@ -7,4 +7,11 @@
         <item name="listPreferredItemPaddingStart">@dimen/listPreferredItemPaddingStart</item>
         <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingStart</item>
     </style>
+
+    <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.Menu">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:choiceMode">singleChoice</item>
+    </style>
 </resources>
