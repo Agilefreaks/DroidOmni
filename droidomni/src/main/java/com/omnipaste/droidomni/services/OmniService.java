@@ -11,8 +11,8 @@ import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.controllers.MainController;
 import com.omnipaste.droidomni.events.ClippingAdded;
-import com.omnipaste.droidomni.fragments.MainFragment;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -64,7 +64,7 @@ public class OmniService extends Service {
 
     Bundle extras = intent.getExtras();
     if (extras != null) {
-      deviceIdentifier = extras.getString(MainFragment.DEVICE_IDENTIFIER_EXTRA_KEY);
+      deviceIdentifier = extras.getString(MainController.DEVICE_IDENTIFIER_EXTRA_KEY);
     }
 
     start();

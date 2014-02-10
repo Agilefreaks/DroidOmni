@@ -1,17 +1,28 @@
 package com.omnipaste.droidomni.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.View;
 
+import com.omnipaste.droidomni.NavigationMenu;
+import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.views.NavigationDrawerView;
 import com.omnipaste.droidomni.views.NavigationDrawerView_;
 
-public class NavigationDrawerAdapter extends LocalAdapter<NavigationDrawerItem, NavigationDrawerView> {
-  public NavigationDrawerAdapter() {
-    super();
+import java.util.ArrayList;
+import java.util.Arrays;
 
-    items.add(new NavigationDrawerItem("Sign out", false));
-    items.add(new NavigationDrawerItem("Clippings", true));
+public class NavigationDrawerAdapter extends LocalAdapter<NavigationDrawerItem, NavigationDrawerView> {
+  public static NavigationDrawerAdapter build(Resources resources) {
+    return new NavigationDrawerAdapter(new ArrayList<>(
+        Arrays.asList(
+            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_clippings), NavigationMenu.Clippings, true),
+            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_sign_out), NavigationMenu.SignOut)))
+    );
+  }
+
+  private NavigationDrawerAdapter(ArrayList<NavigationDrawerItem> navigationDrawerItems) {
+    items = navigationDrawerItems;
   }
 
   @Override

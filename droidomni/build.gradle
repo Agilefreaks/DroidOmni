@@ -51,11 +51,11 @@ dependencies {
     compile project(':providerclipboard')
     compile project(':providerphone')
 
-    apt 'org.androidannotations:androidannotations:3.0'
+    apt 'org.androidannotations:androidannotations:3.0.+'
 
     compile 'com.android.support:support-v4:19.0.+'
     compile 'com.google.android.gms:play-services:4.1.+'
-    compile 'org.androidannotations:androidannotations-api:3.0'
+    compile 'org.androidannotations:androidannotations-api:3.0.+'
     compile 'de.greenrobot:eventbus:2.2.0'
 
     instrumentTestCompile instrumentTest

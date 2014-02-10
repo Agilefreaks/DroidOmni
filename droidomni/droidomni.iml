@@ -93,7 +93,7 @@
     <orderEntry type="module" module-name="providerphone" exported="" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.0" level="project" />
-    <orderEntry type="library" exported="" name="androidannotations-api-3.0" level="project" />
+    <orderEntry type="library" exported="" name="androidannotations-api-3.0.1" level="project" />
     <orderEntry type="library" exported="" name="rxjava-core-0.16.1" level="project" />
   </component>
 </module>

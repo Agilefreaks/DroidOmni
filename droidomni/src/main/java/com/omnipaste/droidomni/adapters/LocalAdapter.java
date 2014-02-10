@@ -23,7 +23,7 @@ public abstract class LocalAdapter<T, TView extends HasSetup<T>> extends BaseAda
 
   @Override
   public T getItem(int position) {
-    return items.get(this.getCount() - position - 1);
+    return items.get(position);
   }
 
   @Override

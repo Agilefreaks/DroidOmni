@@ -11,35 +11,39 @@
     <permission
             android:name="com.omnipaste.droidomni.C2D_MESSAGE"
             android:protectionLevel="signature"/>
+
     <uses-permission android:name="com.omnipaste.droidomni.C2D_MESSAGE"/>
 
     <application
-            android:name=".DroidOmniApplication_"
+            android:name="com.omnipaste.droidomni.DroidOmniApplication_"
             android:allowBackup="true"
             android:icon="@drawable/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
-
         <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version"/>
 
         <activity
-                android:name=".activities.MainActivity_"
+                android:name="com.omnipaste.droidomni.activities.MainActivity_"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+        <activity
+                android:name="com.omnipaste.droidomni.activities.LoginActivity_"
+                android:label="@string/app_name">
+        </activity>
+
         <service
-                android:name=".services.OmniService_"
+                android:name="com.omnipaste.droidomni.services.OmniService_"
                 android:exported="false"/>
 
         <receiver
-                android:name=".gcm.GcmBroadcastReceiver"
+                android:name="com.omnipaste.droidomni.gcm.GcmBroadcastReceiver"
                 android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
@@ -49,7 +53,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".gcm.GcmIntentService_"/>
+        <service android:name="com.omnipaste.droidomni.gcm.GcmIntentService_"/>
     </application>
 
 </manifest>

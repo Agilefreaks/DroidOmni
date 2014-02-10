@@ -14,16 +14,33 @@ import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.NavigationDrawerAdapter;
+import com.omnipaste.droidomni.adapters.NavigationDrawerItem;
+import com.omnipaste.droidomni.events.NavigationItemClicked;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+
+import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_navigation_drawer)
 public class NavigationDrawerFragment extends Fragment {
   private ActionBarDrawerToggle drawerToggle;
+  private EventBus eventBus = EventBus.getDefault();
+  private NavigationDrawerAdapter navigationDrawerAdapter;
 
   @ViewById
   public ListView navigationDrawerList;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    setRetainInstance(true);
+
+    navigationDrawerAdapter = NavigationDrawerAdapter.build(this.getResources());
+  }
 
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
@@ -76,11 +93,14 @@ public class NavigationDrawerFragment extends Fragment {
 
     drawerLayout.setDrawerListener(drawerToggle);
 
-    ActionBar actionBar = getActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeButtonEnabled(true);
+    setUpActionBar();
+  }
 
-    navigationDrawerList.setAdapter(new NavigationDrawerAdapter());
+  @AfterViews
+  public void afterViews() {
+    if (navigationDrawerList.getAdapter() == null) {
+      navigationDrawerList.setAdapter(navigationDrawerAdapter);
+    }
   }
 
   @Override
@@ -94,7 +114,14 @@ public class NavigationDrawerFragment extends Fragment {
     return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }
 
-  private ActionBar getActionBar() {
-    return ((ActionBarActivity) getActivity()).getSupportActionBar();
+  @ItemClick
+  public void navigationDrawerListItemClicked(NavigationDrawerItem navigationDrawerItem) {
+    eventBus.post(new NavigationItemClicked(navigationDrawerItem));
+  }
+
+  private void setUpActionBar() {
+    ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setHomeButtonEnabled(true);
   }
 }

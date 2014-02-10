@@ -26,7 +26,7 @@ import de.greenrobot.event.EventBus;
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
-  private AccountAdapter accounsAdapter;
+  private AccountAdapter accountsAdapter;
 
   @ViewById
   public ListView accounts;
@@ -44,13 +44,13 @@ public class LoginFragment extends Fragment {
 
     setRetainInstance(true);
 
-    accounsAdapter = new AccountAdapter(accountManager.getAccountsByType("com.google"));
+    accountsAdapter = new AccountAdapter(accountManager.getAccountsByType("com.google"));
   }
 
   @AfterViews
   public void afterView() {
     if (accounts.getAdapter() == null) {
-      accounts.setAdapter(accounsAdapter);
+      accounts.setAdapter(accountsAdapter);
     }
   }
 
