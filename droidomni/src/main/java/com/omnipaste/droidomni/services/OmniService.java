@@ -2,6 +2,7 @@ package com.omnipaste.droidomni.services;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -11,10 +12,10 @@ import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
-import com.omnipaste.droidomni.controllers.MainController;
 import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.ClippingDto;
+import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 import com.omnipaste.phoneprovider.IPhoneProvider;
 
@@ -24,12 +25,18 @@ import org.androidannotations.annotations.res.StringRes;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.Subscriptions;
 import rx.util.functions.Action1;
 
 @EService
 public class OmniService extends Service {
+  public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
+
   private EventBus eventBus = EventBus.getDefault();
   private Boolean started = false;
   private String deviceIdentifier;
@@ -48,6 +55,34 @@ public class OmniService extends Service {
   @Inject
   public IPhoneProvider phoneProvider;
 
+  public static Observable start(final Context context, final RegisteredDeviceDto registeredDeviceDto) {
+    return Observable.create(new Observable.OnSubscribeFunc() {
+      @Override
+      public Subscription onSubscribe(Observer observer) {
+        Intent service = new Intent(context, OmniService_.class);
+        service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
+        context.startService(service);
+
+        observer.onCompleted();
+
+        return Subscriptions.empty();
+      }
+    }).subscribeOn(Schedulers.immediate());
+  }
+
+  public static Observable stop(final Context context) {
+    return Observable.create(new Observable.OnSubscribeFunc() {
+      @Override
+      public Subscription onSubscribe(Observer observer) {
+        context.stopService(new Intent(context, OmniService_.class));
+
+        observer.onCompleted();
+
+        return Subscriptions.empty();
+      }
+    }).subscribeOn(Schedulers.immediate());
+  }
+
   public OmniService() {
     super();
     DroidOmniApplication.inject(this);
@@ -64,7 +99,7 @@ public class OmniService extends Service {
 
     Bundle extras = intent.getExtras();
     if (extras != null) {
-      deviceIdentifier = extras.getString(MainController.DEVICE_IDENTIFIER_EXTRA_KEY);
+      deviceIdentifier = extras.getString(DEVICE_IDENTIFIER_EXTRA_KEY);
     }
 
     start();
@@ -101,6 +136,15 @@ public class OmniService extends Service {
     }
   }
 
+  private void stop() {
+    if (started) {
+      started = false;
+      phoneSubscribe.unsubscribe();
+      clipboardSubscriber.unsubscribe();
+      stopForeground(true);
+    }
+  }
+
   private void notifyUser() {
     final int serviceId = 42;
 
@@ -118,14 +162,5 @@ public class OmniService extends Service {
         .setContentIntent(contentIntent);
 
     startForeground(serviceId, builder.build());
-  }
-
-  private void stop() {
-    if (started) {
-      started = false;
-      phoneSubscribe.unsubscribe();
-      clipboardSubscriber.unsubscribe();
-      stopForeground(true);
-    }
   }
 }

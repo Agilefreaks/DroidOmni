@@ -12,24 +12,17 @@ import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
-import com.omnipaste.droidomni.services.OmniService_;
+import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.Subscriptions;
 import rx.util.functions.Action0;
 
 public class MainController implements MainActivityController {
-  public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
-
   private EventBus eventBus = EventBus.getDefault();
   private ConfigurationService configurationService;
   private MainActivity activity;
@@ -61,7 +54,7 @@ public class MainController implements MainActivityController {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(DeviceInitEvent event) {
-    startService(event).
+    OmniService.start(activity, event.getRegisteredDeviceDto()).
         observeOn(AndroidSchedulers.mainThread()).
         doOnCompleted(new Action0() {
           @Override
@@ -70,21 +63,6 @@ public class MainController implements MainActivityController {
             activity.finish();
           }
         }).subscribe();
-  }
-
-  private Observable startService(final DeviceInitEvent deviceInitEvent) {
-    return Observable.create(new Observable.OnSubscribeFunc() {
-      @Override
-      public Subscription onSubscribe(Observer observer) {
-        Intent service = new Intent(activity, OmniService_.class);
-        service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, deviceInitEvent.getRegisteredDeviceDto().getIdentifier());
-        activity.startService(service);
-
-        observer.onCompleted();
-
-        return Subscriptions.empty();
-      }
-    }).subscribeOn(Schedulers.immediate());
   }
 
   private void setInitialFragment() {
