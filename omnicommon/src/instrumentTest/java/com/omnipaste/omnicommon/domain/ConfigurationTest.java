@@ -10,13 +10,14 @@ public class ConfigurationTest extends TestCase {
 
   public void testHasChannelReturnsTrueWhenChannelIsNotEmpty() throws Exception {
     subject = new Configuration();
-    subject.channel = "test@test.com";
+    subject.setChannel("test@test.com");
 
     assertThat(subject.hasChannel(), is(true));
   }
 
   public void testHasChannelReturnsFalseWhenChannelIsEmpty() throws Exception {
     subject = new Configuration();
+    subject.setChannel("");
 
     assertThat(subject.hasChannel(), is(false));
   }
