@@ -13,8 +13,7 @@ import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.services.OmniService;
-import com.omnipaste.omnicommon.domain.Configuration;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.droidomni.services.SessionService;
 
 import javax.inject.Inject;
 
@@ -25,12 +24,12 @@ import rx.util.functions.Action0;
 
 public class MainController implements MainActivityController {
   private EventBus eventBus = EventBus.getDefault();
-  private ConfigurationService configurationService;
   private MainActivity activity;
+  private SessionService sessionService;
 
   @Inject
-  public MainController(ConfigurationService configurationService) {
-    this.configurationService = configurationService;
+  public MainController(SessionService sessionService) {
+    this.sessionService = sessionService;
   }
 
   @Override
@@ -50,6 +49,8 @@ public class MainController implements MainActivityController {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(LoginEvent event) {
+    sessionService.login(event.getChannel());
+
     setFragment(DeviceInitFragment_.builder().build());
   }
 
@@ -68,10 +69,9 @@ public class MainController implements MainActivityController {
   }
 
   private void setInitialFragment() {
-    Configuration configuration = configurationService.getConfiguration();
     Fragment fragmentToShow;
 
-    if (configuration.hasChannel()) {
+    if (sessionService.isLogged()) {
       fragmentToShow = DeviceInitFragment_.builder().build();
     } else {
       fragmentToShow = LoginFragment_.builder().build();

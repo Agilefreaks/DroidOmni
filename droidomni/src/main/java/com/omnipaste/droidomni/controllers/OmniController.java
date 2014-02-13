@@ -13,8 +13,7 @@ import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.fragments.ClippingsFragment_;
 import com.omnipaste.droidomni.services.OmniService;
-import com.omnipaste.omnicommon.domain.Configuration;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.droidomni.services.SessionService;
 
 import javax.inject.Inject;
 
@@ -24,13 +23,13 @@ import rx.schedulers.Schedulers;
 import rx.util.functions.Action0;
 
 public class OmniController implements OmniActivityController {
+  private final SessionService sessionService;
   private EventBus eventBus = EventBus.getDefault();
   private OmniActivity activity;
-  private ConfigurationService configurationService;
 
   @Inject
-  public OmniController(ConfigurationService configurationService) {
-    this.configurationService = configurationService;
+  public OmniController(SessionService sessionService) {
+    this.sessionService = sessionService;
   }
 
   @Override
@@ -57,10 +56,7 @@ public class OmniController implements OmniActivityController {
           doOnCompleted(new Action0() {
             @Override
             public void call() {
-              // remove channel
-              Configuration configuration = configurationService.getConfiguration();
-              configuration.setChannel(null);
-              configurationService.setConfiguration(configuration);
+              sessionService.logout();
 
               activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
               activity.finish();
@@ -87,7 +83,7 @@ public class OmniController implements OmniActivityController {
   private void setInitialFragment() {
     setFragment(ClippingsFragment_.builder().build());
     setTitle(R.string.clippings_title);
-    setSubtitle(configurationService.getConfiguration().getChannel());
+    setSubtitle(sessionService.getChannel());
   }
 
   private void setFragment(Fragment fragment) {

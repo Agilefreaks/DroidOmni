@@ -11,11 +11,12 @@ import com.omnipaste.droidomni.controllers.MainActivityController;
 import com.omnipaste.droidomni.controllers.MainController;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniController;
-import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.OmniService_;
+import com.omnipaste.droidomni.services.SessionService;
+import com.omnipaste.droidomni.services.SessionServiceImpl;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -30,9 +31,9 @@ import dagger.Provides;
     injects = {
         MainActivity_.class,
         OmniActivity_.class,
-        LoginFragment_.class,
         DroidOmniApplication_.class,
         DeviceService.class,
+        SessionServiceImpl.class,
         OmniService_.class
     },
     includes = {
@@ -85,5 +86,10 @@ public class MainModule {
   @Provides
   public OmniActivityController providesOmniActivityController(OmniController omniController) {
     return omniController;
+  }
+
+  @Provides
+  public SessionService providesSessionService(SessionServiceImpl sessionService) {
+    return sessionService;
   }
 }
