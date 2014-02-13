@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 import rx.subscriptions.Subscriptions;
 
@@ -31,7 +30,7 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
 
   @Override
   public Observable<String> getObservable() {
-    return localClipboardSubject.subscribeOn(Schedulers.computation());
+    return localClipboardSubject;
   }
 
   @Override

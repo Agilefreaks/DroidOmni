@@ -12,6 +12,7 @@ import rx.subjects.BehaviorSubject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isA;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -53,5 +54,9 @@ public class OmniClipboardManagerTest extends TestCase {
     notificationSubject.onNext(new NotificationDto(Target.phone, "42"));
 
     verify(observer, never()).onNext("42");
+  }
+
+  public void testGetObservableWillReturnTheSameInstanceOnMultipleCalls() throws Exception {
+    assertThat(omniClipboardManager.getObservable(), sameInstance(omniClipboardManager.getObservable()));
   }
 }

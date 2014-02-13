@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.util.functions.Action0;
 
 public class MainController implements MainActivityController {
@@ -55,6 +56,7 @@ public class MainController implements MainActivityController {
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(DeviceInitEvent event) {
     OmniService.start(activity, event.getRegisteredDeviceDto()).
+        subscribeOn(Schedulers.io()).
         observeOn(AndroidSchedulers.mainThread()).
         doOnCompleted(new Action0() {
           @Override

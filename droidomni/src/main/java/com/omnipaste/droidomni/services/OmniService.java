@@ -29,7 +29,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 import rx.util.functions.Action1;
 
@@ -67,7 +66,7 @@ public class OmniService extends Service {
 
         return Subscriptions.empty();
       }
-    }).subscribeOn(Schedulers.immediate());
+    });
   }
 
   public static Observable stop(final Context context) {
@@ -80,7 +79,7 @@ public class OmniService extends Service {
 
         return Subscriptions.empty();
       }
-    }).subscribeOn(Schedulers.immediate());
+    });
   }
 
   public OmniService() {
@@ -121,7 +120,7 @@ public class OmniService extends Service {
       Configuration configuration = configurationService.getConfiguration();
 
       clipboardSubscriber = clipboardProvider
-          .getObservable(configuration.getChannel(), deviceIdentifier)
+          .subscribe(configuration.getChannel(), deviceIdentifier)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(new Action1<ClippingDto>() {
             @Override
@@ -130,7 +129,7 @@ public class OmniService extends Service {
             }
           });
 
-      phoneSubscribe = phoneProvider.getObservable(getApplicationContext()).subscribe();
+      phoneSubscribe = phoneProvider.subscribe(getApplicationContext()).subscribe();
 
       started = true;
     }
@@ -139,8 +138,13 @@ public class OmniService extends Service {
   private void stop() {
     if (started) {
       started = false;
+
       phoneSubscribe.unsubscribe();
+      phoneProvider.unsubscribe();
+
       clipboardSubscriber.unsubscribe();
+      clipboardProvider.unsubscribe();
+
       stopForeground(true);
     }
   }

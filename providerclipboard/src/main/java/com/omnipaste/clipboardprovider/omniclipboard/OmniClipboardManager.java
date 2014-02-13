@@ -9,7 +9,6 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 import rx.util.functions.Action1;
 import rx.util.functions.Func1;
@@ -42,7 +41,7 @@ public class OmniClipboardManager implements IOmniClipboardManager {
   }
 
   public Observable<String> getObservable() {
-    return omniClipboardSubject.subscribeOn(Schedulers.computation());
+    return omniClipboardSubject;
   }
 
   public Observable<ClippingDto> getPrimaryClip(String channel) {

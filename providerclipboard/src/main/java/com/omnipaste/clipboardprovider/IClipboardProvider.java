@@ -5,5 +5,7 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import rx.Observable;
 
 public interface IClipboardProvider {
-  public Observable<ClippingDto> getObservable(final String channel, final String identifier);
+  Observable<ClippingDto> subscribe(final String channel, final String identifier);
+
+  void unsubscribe();
 }

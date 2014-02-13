@@ -36,7 +36,7 @@ public class PhoneProviderTest extends InstrumentationTestCase {
 
   public void testGetObservableSubscribesToPhoneNotificationTargetOnly() throws Exception {
     Context context = mock(Context.class);
-    phoneProvider.getObservable(context);
+    phoneProvider.subscribe(context);
 
     notificationSubject.onNext(new NotificationDto(Target.clipboard, "42"));
     Bundle extra = new Bundle();

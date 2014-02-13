@@ -14,6 +14,7 @@ import org.androidannotations.annotations.ViewById;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.util.functions.Action0;
 import rx.util.functions.Action1;
 
@@ -27,6 +28,7 @@ public class DeviceInitFragment extends Fragment {
   @AfterViews
   public void afterViews() {
     new DeviceService().init()
+        .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
             // OnNext

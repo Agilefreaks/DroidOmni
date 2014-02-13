@@ -10,6 +10,7 @@ import rx.Observable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isA;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,6 +38,10 @@ public class ClipboardProviderTest extends TestCase {
   }
 
   public void testEnableAlwaysReturnsAnObservable() throws Exception {
-    assertThat(clipboardProvider.getObservable("channel", "identifier"), isA(Observable.class));
+    assertThat(clipboardProvider.subscribe("channel", "identifier"), isA(Observable.class));
+  }
+
+  public void testGetObservableWillReturnTheSameInstanceOnMultipleCalls() throws Exception {
+    assertThat(clipboardProvider.subscribe("channel", "identifier"), sameInstance(clipboardProvider.subscribe("channel", "identifier")));
   }
 }

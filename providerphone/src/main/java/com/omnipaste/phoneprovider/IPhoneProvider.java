@@ -5,5 +5,7 @@ import android.content.Context;
 import rx.Observable;
 
 public interface IPhoneProvider {
-  Observable getObservable(Context context);
+  Observable subscribe(Context context);
+
+  void unsubscribe();
 }

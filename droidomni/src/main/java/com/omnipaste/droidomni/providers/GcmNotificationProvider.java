@@ -6,7 +6,6 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import de.greenrobot.event.EventBus;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
 public class GcmNotificationProvider implements NotificationProvider {
@@ -17,7 +16,6 @@ public class GcmNotificationProvider implements NotificationProvider {
     eventBus.register(this);
 
     notificationSubject = PublishSubject.create();
-    notificationSubject.subscribeOn(Schedulers.io());
   }
 
   @SuppressWarnings("UnusedDeclaration")

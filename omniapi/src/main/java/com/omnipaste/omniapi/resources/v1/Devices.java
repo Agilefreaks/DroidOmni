@@ -8,7 +8,6 @@ import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 public class Devices extends Resource {
 
@@ -31,11 +30,11 @@ public class Devices extends Resource {
   }
 
   public Observable<RegisteredDeviceDto> create(final String channel, final String identifier) {
-    return devicesApi.create(channel, new RegisteredDeviceDto(identifier)).subscribeOn(Schedulers.io());
+    return devicesApi.create(channel, new RegisteredDeviceDto(identifier));
   }
 
   public Observable<RegisteredDeviceDto> create(final String channel, final String identifier, final String name) {
-    return devicesApi.create(channel, new RegisteredDeviceDto(identifier, name)).subscribeOn(Schedulers.io());
+    return devicesApi.create(channel, new RegisteredDeviceDto(identifier, name));
   }
 
   public Observable<RegisteredDeviceDto> activate(final String channel, final String identifier, String registrationId) {
@@ -44,6 +43,6 @@ public class Devices extends Resource {
     deviceDto.setRegistrationId(registrationId);
     deviceDto.setProvider("gcm");
 
-    return devicesApi.activate(channel, deviceDto).subscribeOn(Schedulers.io());
+    return devicesApi.activate(channel, deviceDto);
   }
 }

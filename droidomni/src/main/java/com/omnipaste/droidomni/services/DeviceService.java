@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 import rx.util.functions.Func1;
 
@@ -75,7 +74,7 @@ public class DeviceService {
 
         return Subscriptions.empty();
       }
-    }).subscribeOn(Schedulers.io());
+    });
   }
 
   private Observable<RegisteredDeviceDto> activateDevice(String registrationId) {

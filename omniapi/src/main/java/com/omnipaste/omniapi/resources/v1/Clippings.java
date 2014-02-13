@@ -10,7 +10,6 @@ import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 public class Clippings extends Resource {
   private interface ClippingsApi {
@@ -32,11 +31,11 @@ public class Clippings extends Resource {
   }
 
   public Observable<ClippingDto> last(String channel) {
-    return clippingsApi.last(channel).subscribeOn(Schedulers.io());
+    return clippingsApi.last(channel);
   }
 
   public Observable<ClippingDto> create(String channel, ClippingDto clippingDto) {
-    return clippingsApi.create(channel, clippingDto).subscribeOn(Schedulers.io());
+    return clippingsApi.create(channel, clippingDto);
   }
 
   @Override

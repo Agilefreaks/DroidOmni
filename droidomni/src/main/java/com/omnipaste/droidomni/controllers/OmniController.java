@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.util.functions.Action0;
 
 public class OmniController implements OmniActivityController {
@@ -51,6 +52,7 @@ public class OmniController implements OmniActivityController {
   public void onEventMainThread(NavigationItemClicked event) {
     if (event.getNavigationDrawerItem().getNavigationMenu() == NavigationMenu.SignOut) {
       OmniService.stop(activity).
+          subscribeOn(Schedulers.io()).
           observeOn(AndroidSchedulers.mainThread()).
           doOnCompleted(new Action0() {
             @Override
