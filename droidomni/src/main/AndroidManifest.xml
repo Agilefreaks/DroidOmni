@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-                android:name="com.omnipaste.droidomni.activities.LoginActivity_"
+                android:name="com.omnipaste.droidomni.activities.OmniActivity_"
                 android:label="@string/app_name">
         </activity>
 

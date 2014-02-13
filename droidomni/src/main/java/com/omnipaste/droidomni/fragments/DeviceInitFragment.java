@@ -3,7 +3,6 @@ package com.omnipaste.droidomni.fragments;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.services.DeviceService;
@@ -18,8 +17,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.util.functions.Action0;
 import rx.util.functions.Action1;
 
-@EFragment(R.layout.fragment_main)
-public class MainFragment extends Fragment {
+@EFragment(R.layout.fragment_device_init)
+public class DeviceInitFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
 
   @ViewById
@@ -27,8 +26,6 @@ public class MainFragment extends Fragment {
 
   @AfterViews
   public void afterViews() {
-    DroidOmniApplication.inject(this);
-
     new DeviceService().init()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(

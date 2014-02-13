@@ -5,14 +5,13 @@ import android.content.Context;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
-import com.omnipaste.droidomni.activities.LoginActivity_;
 import com.omnipaste.droidomni.activities.MainActivity_;
-import com.omnipaste.droidomni.controllers.LoginActivityController;
-import com.omnipaste.droidomni.controllers.LoginController;
+import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.controllers.MainActivityController;
 import com.omnipaste.droidomni.controllers.MainController;
+import com.omnipaste.droidomni.controllers.OmniActivityController;
+import com.omnipaste.droidomni.controllers.OmniController;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
-import com.omnipaste.droidomni.fragments.MainFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
@@ -30,9 +29,8 @@ import dagger.Provides;
 @Module(
     injects = {
         MainActivity_.class,
-        LoginActivity_.class,
+        OmniActivity_.class,
         LoginFragment_.class,
-        MainFragment_.class,
         DroidOmniApplication_.class,
         DeviceService.class,
         OmniService_.class
@@ -85,7 +83,7 @@ public class MainModule {
   }
 
   @Provides
-  public LoginActivityController providesLoginActivityController() {
-    return new LoginController();
+  public OmniActivityController providesOmniActivityController(OmniController omniController) {
+    return omniController;
   }
 }

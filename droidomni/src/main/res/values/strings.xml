@@ -5,7 +5,7 @@
     <string name="gcm_sender_id">930634995806</string>
 
     <string name="app_name">Droid Omni</string>
-    <string name="registering">Registering device to the network</string>
+    <string name="registering">Registering device to the API</string>
     <string name="clippings_title">Clippings</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

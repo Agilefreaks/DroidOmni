@@ -4,16 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 
-import com.omnipaste.droidomni.NavigationMenu;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.activities.LoginActivity_;
 import com.omnipaste.droidomni.activities.MainActivity;
+import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.events.DeviceInitEvent;
-import com.omnipaste.droidomni.events.NavigationItemClicked;
-import com.omnipaste.droidomni.fragments.ClippingsFragment_;
-import com.omnipaste.droidomni.fragments.MainFragment_;
+import com.omnipaste.droidomni.events.LoginEvent;
+import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
+import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -44,8 +42,7 @@ public class MainController implements MainActivityController {
   @Override
   public void run(MainActivity mainActivity, Bundle savedInstanceState) {
     eventBus.register(this);
-
-    this.activity = mainActivity;
+    activity = mainActivity;
 
     if (savedInstanceState == null) {
       setInitialFragment();
@@ -58,46 +55,21 @@ public class MainController implements MainActivityController {
   }
 
   @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(LoginEvent event) {
+    setFragment(DeviceInitFragment_.builder().build());
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(DeviceInitEvent event) {
     startService(event).
         observeOn(AndroidSchedulers.mainThread()).
         doOnCompleted(new Action0() {
           @Override
           public void call() {
-            setFragment(ClippingsFragment_.builder().build());
-            setTitle(R.string.clippings_title);
+            activity.startActivity(new Intent(activity.getApplicationContext(), OmniActivity_.class));
+            activity.finish();
           }
         }).subscribe();
-  }
-
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(NavigationItemClicked event) {
-    if (event.getNavigationDrawerItem().getNavigationMenu() == NavigationMenu.SignOut) {
-      stopService().
-          observeOn(AndroidSchedulers.mainThread()).
-          doOnCompleted(new Action0() {
-            @Override
-            public void call() {
-              // remove channel
-              Configuration configuration = configurationService.getConfiguration();
-              configuration.setChannel(null);
-              configurationService.setConfiguration(configuration);
-
-              setInitialFragment();
-            }
-          }).subscribe();
-    }
-  }
-
-  private void setFragment(Fragment fragment) {
-    FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
-
-    supportFragmentManager
-        .beginTransaction()
-        .replace(R.id.main_container, fragment)
-        .commitAllowingStateLoss();
-
-    supportFragmentManager.executePendingTransactions();
   }
 
   private Observable startService(final DeviceInitEvent deviceInitEvent) {
@@ -115,46 +87,27 @@ public class MainController implements MainActivityController {
     }).subscribeOn(Schedulers.immediate());
   }
 
-  private Observable stopService() {
-    return Observable.create(new Observable.OnSubscribeFunc() {
-      @Override
-      public Subscription onSubscribe(Observer observer) {
-        Intent service = new Intent(activity, OmniService_.class);
-        activity.stopService(service);
-
-        observer.onCompleted();
-
-        return Subscriptions.empty();
-      }
-    }).subscribeOn(Schedulers.immediate());
-  }
-
-  private void setTitle(int clippings_title) {
-    getActionBar().setTitle(clippings_title);
-  }
-
-  private void setSubtitle(String subtitle) {
-    getActionBar().setSubtitle(subtitle);
-  }
-
-  private ActionBar getActionBar() {
-    ActionBar actionBar = activity.getSupportActionBar();
-    actionBar.setDisplayShowTitleEnabled(true);
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-    return actionBar;
-  }
-
   private void setInitialFragment() {
     Configuration configuration = configurationService.getConfiguration();
+    Fragment fragmentToShow;
 
     if (configuration.hasChannel()) {
-      setFragment(MainFragment_.builder().build());
-      setSubtitle(configuration.getChannel());
+      fragmentToShow = DeviceInitFragment_.builder().build();
     } else {
-      Intent intent = new Intent(activity, LoginActivity_.class);
-      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      activity.startActivity(intent);
+      fragmentToShow = LoginFragment_.builder().build();
     }
+
+    setFragment(fragmentToShow);
+  }
+
+  private void setFragment(Fragment fragment) {
+    FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+
+    supportFragmentManager
+        .beginTransaction()
+        .replace(R.id.main_container, fragment)
+        .commitAllowingStateLoss();
+
+    supportFragmentManager.executePendingTransactions();
   }
 }

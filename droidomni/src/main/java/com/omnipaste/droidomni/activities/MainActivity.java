@@ -2,8 +2,7 @@ package com.omnipaste.droidomni.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -11,26 +10,17 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.MainActivityController;
-import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
   private static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
 
   @Inject
   public MainActivityController controller;
-
-  @ViewById
-  public DrawerLayout drawerLayout;
-
-  @FragmentById
-  public NavigationDrawerFragment navigationDrawer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +34,6 @@ public class MainActivity extends ActionBarActivity {
   public void onResume() {
     super.onResume();
     checkPlayServices();
-
-    navigationDrawer.setUp(drawerLayout);
   }
 
   @Override
