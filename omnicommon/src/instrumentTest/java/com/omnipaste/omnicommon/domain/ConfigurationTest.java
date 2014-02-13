@@ -21,11 +21,4 @@ public class ConfigurationTest extends TestCase {
 
     assertThat(subject.hasChannel(), is(false));
   }
-
-  public void testHasChannelReturnsFalseWithChannelIsNull() throws Exception {
-    subject = new Configuration();
-    subject.setChannel(null);
-
-    assertThat(subject.hasChannel(), is(false));
-  }
 }
