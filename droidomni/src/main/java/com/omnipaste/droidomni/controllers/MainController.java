@@ -3,8 +3,8 @@ package com.omnipaste.droidomni.controllers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
+import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity_;
@@ -81,13 +81,6 @@ public class MainController implements MainActivityController {
   }
 
   private void setFragment(Fragment fragment) {
-    FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
-
-    supportFragmentManager
-        .beginTransaction()
-        .replace(R.id.main_container, fragment)
-        .commitAllowingStateLoss();
-
-    supportFragmentManager.executePendingTransactions();
+    Helpers.setFragment(activity, R.id.main_container, fragment);
   }
 }
