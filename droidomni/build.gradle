@@ -27,8 +27,24 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../key.store")
+            storePassword "ArtLine123"
+            keyAlias "omnipaste"
+            keyPassword "ArtLine123"
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        staging {
+            signingConfig signingConfigs.release
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }

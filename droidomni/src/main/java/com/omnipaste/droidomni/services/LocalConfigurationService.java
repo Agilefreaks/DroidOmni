@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
-public class LocalConfigurationService implements ConfigurationService {
+public class LocalConfigurationService implements ConfigurationService, SharedPreferences.OnSharedPreferenceChangeListener {
   private final SharedPreferences sharedPreferences;
   private Configuration configuration;
 
@@ -16,23 +16,16 @@ public class LocalConfigurationService implements ConfigurationService {
 
   public LocalConfigurationService(Context context) {
     sharedPreferences = context.getSharedPreferences("com.omnipaste.droidomni", Context.MODE_PRIVATE);
+    sharedPreferences.registerOnSharedPreferenceChangeListener(this);
   }
 
   @Override
   public Configuration getConfiguration() {
-    Configuration result;
-
-    if (configuration != null) {
-      result = configuration;
-    }
-    else {
-      result = new Configuration();
-      result.setChannel(sharedPreferences.getString(CHANNEL_KEY, ""));
-      result.setGcmSenderId(sharedPreferences.getString(GCM_SENDER_ID_KEY,  ""));
-      result.setApiUrl(sharedPreferences.getString(API_URL_KEY,  ""));
+    if (configuration == null) {
+      populateConfiguration();
     }
 
-    return result;
+    return configuration;
   }
 
   @Override
@@ -44,5 +37,18 @@ public class LocalConfigurationService implements ConfigurationService {
     editor.putString(GCM_SENDER_ID_KEY, configuration.getGcmSenderId());
     editor.putString(API_URL_KEY, configuration.getApiUrl());
     editor.commit();
+  }
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+    populateConfiguration();
+  }
+
+  private void populateConfiguration() {
+    configuration = new Configuration();
+
+    configuration.setChannel(sharedPreferences.getString(CHANNEL_KEY, ""));
+    configuration.setGcmSenderId(sharedPreferences.getString(GCM_SENDER_ID_KEY,  ""));
+    configuration.setApiUrl(sharedPreferences.getString(API_URL_KEY,  ""));
   }
 }
