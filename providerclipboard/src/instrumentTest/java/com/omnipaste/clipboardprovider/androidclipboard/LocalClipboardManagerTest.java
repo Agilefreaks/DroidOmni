@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,6 +47,7 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     when(clipboardManager.getPrimaryClip()).thenReturn(ClipData.newPlainText("label",  "some text"));
 
     localClipboardManager.getPrimaryClip("some@channel").subscribe(observer);
+    localClipboardManager.onPrimaryClipChanged();
 
     verify(observer, times(1)).onNext(isA(ClippingDto.class));
   }
@@ -68,5 +70,16 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
 
   public void testGetObserverWillReturnTheSameInstanceMultipleTimes() throws Exception {
     assertThat(localClipboardManager.getObservable(), sameInstance(localClipboardManager.getObservable()));
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testSetPrimaryClipDoesNotFireOnNext() throws InterruptedException {
+    Observer observer = mock(Observer.class);
+    localClipboardManager.getObservable().subscribe(observer);
+
+    localClipboardManager.setPrimaryClip("test@test.com", new ClippingDto());
+    localClipboardManager.onPrimaryClipChanged();
+
+    verify(observer, never()).onNext("");
   }
 }

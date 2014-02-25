@@ -6,7 +6,7 @@ import com.omnipaste.omnicommon.Target;
 
 public class GcmNotificationReceived {
   public static String REGISTRATION_ID_KEY = "registrationId";
-  public static String COLLAPSE_KEY = "collapse_key";
+  public static String PROVIDER_KEY = "provider";
 
   private Target provider;
   private String registrationId;
@@ -18,7 +18,7 @@ public class GcmNotificationReceived {
   public GcmNotificationReceived(Bundle extras) {
     this.extras = extras;
     registrationId = extras.getString(REGISTRATION_ID_KEY);
-    provider = Target.valueOf(extras.getString(COLLAPSE_KEY));
+    provider = Target.valueOf(extras.getString(PROVIDER_KEY));
   }
 
   public Target getProvider() {

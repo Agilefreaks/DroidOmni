@@ -19,6 +19,7 @@ import rx.subscriptions.Subscriptions;
 public class LocalClipboardManager implements ILocalClipboardManager, ClipboardManager.OnPrimaryClipChangedListener {
   private PublishSubject<String> localClipboardSubject;
   private ClipboardManager clipboardManager;
+  private boolean skipNext = false;
 
   @Inject
   public LocalClipboardManager(ClipboardManager clipboardManager) {
@@ -69,11 +70,16 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
 
   @Override
   public void setPrimaryClip(String channel, ClippingDto clippingDto) {
+    skipNext = true;
     clipboardManager.setPrimaryClip(ClipData.newPlainText("", clippingDto.getContent()));
   }
 
   @Override
   public void onPrimaryClipChanged() {
-    localClipboardSubject.onNext("");
+    if (!skipNext) {
+      localClipboardSubject.onNext("");
+    }
+
+    skipNext = false;
   }
 }

@@ -12,7 +12,7 @@ import static org.hamcrest.core.Is.is;
 public class GcmNotificationReceivedTest extends TestCase {
   public void testCorrectValuesGetSet() throws Exception {
     Bundle bundle = new Bundle();
-    bundle.putString(GcmNotificationReceived.COLLAPSE_KEY, "clipboard");
+    bundle.putString(GcmNotificationReceived.PROVIDER_KEY, "clipboard");
     bundle.putString(GcmNotificationReceived.REGISTRATION_ID_KEY, "42");
     GcmNotificationReceived gcmNotificationReceived = new GcmNotificationReceived(bundle);
 
