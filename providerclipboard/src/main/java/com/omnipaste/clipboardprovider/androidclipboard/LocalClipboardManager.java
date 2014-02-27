@@ -40,30 +40,20 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
       @SuppressWarnings("ConstantConditions")
       @Override
       public Subscription onSubscribe(Observer<? super ClippingDto> observer) {
-        ClippingDto clippingDto = new ClippingDto();
-        clippingDto.setContent(getPrimaryClip().getItemAt(0).getText().toString());
-        clippingDto.setIdentifier("");
-        observer.onNext(clippingDto);
+        if (hasPrimaryClip()) {
+          ClippingDto clippingDto = new ClippingDto();
+          clippingDto.setContent(getPrimaryClip().getItemAt(0).getText().toString());
+          clippingDto.setIdentifier("");
+          observer.onNext(clippingDto);
+        }
+
         observer.onCompleted();
 
         return Subscriptions.empty();
       }
 
       private ClipData getPrimaryClip() {
-        ClipData result = clipboardManager.getPrimaryClip();
-
-        if (result == null) {
-          result = new EmptyClipData();
-        }
-
-        return result;
-      }
-
-      @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-      class EmptyClipData extends ClipData {
-        public EmptyClipData() {
-          super("", new String[]{""}, new Item(""));
-        }
+        return clipboardManager.getPrimaryClip();
       }
     });
   }
@@ -76,10 +66,15 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
 
   @Override
   public void onPrimaryClipChanged() {
-    if (!skipNext) {
+    if (!skipNext && clipboardManager.hasPrimaryClip()) {
       localClipboardSubject.onNext("");
     }
 
     skipNext = false;
+  }
+
+  public Boolean hasPrimaryClip() {
+    ClipData primaryClip = clipboardManager.getPrimaryClip();
+    return clipboardManager.hasPrimaryClip() && primaryClip != null && primaryClip.getItemAt(0) != null && primaryClip.getItemAt(0).getText() != null;
   }
 }

@@ -14,6 +14,7 @@ import rx.Observable;
 import rx.Observer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
@@ -52,6 +53,54 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     verify(observer, times(1)).onNext(isA(ClippingDto.class));
   }
 
+  public void testHasPrimaryClipReturnsFalseWhenClipboardManagerHasPrimaryClipReturnsFalse() throws Exception {
+    when(clipboardManager.hasPrimaryClip()).thenReturn(false);
+
+    assertThat(localClipboardManager.hasPrimaryClip(), is(false));
+  }
+
+  public void testHasPrimaryClipReturnsFalseWhenGetPrimaryClipReturnsNull() throws Exception {
+    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
+    when(clipboardManager.getPrimaryClip()).thenReturn(null);
+
+    assertThat(localClipboardManager.hasPrimaryClip(), is(false));
+  }
+
+
+  public void testHasPrimaryClipReturnsFalseWhenClipDataGetItemIsNull() throws Exception {
+    ClipData clipData = mock(ClipData.class);
+
+    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
+    when(clipboardManager.getPrimaryClip()).thenReturn(clipData);
+    when(clipData.getItemAt(0)).thenReturn(null);
+
+    assertThat(localClipboardManager.hasPrimaryClip(), is(false));
+  }
+
+  public void testHasPrimaryClipReturnsFalseWhenClipDataItemsGetTextIsNull() throws Exception {
+    ClipData clipData = mock(ClipData.class);
+    ClipData.Item item = mock(ClipData.Item.class);
+
+    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
+    when(clipboardManager.getPrimaryClip()).thenReturn(clipData);
+    when(clipData.getItemAt(0)).thenReturn(item);
+    when(item.getText()).thenReturn(null);
+
+    assertThat(localClipboardManager.hasPrimaryClip(), is(false));
+  }
+
+  public void testHasPrimaryClipReturnsTrueWhenThePlanetsAlign() throws Exception {
+    ClipData clipData = mock(ClipData.class);
+    ClipData.Item item = mock(ClipData.Item.class);
+
+    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
+    when(clipboardManager.getPrimaryClip()).thenReturn(clipData);
+    when(clipData.getItemAt(0)).thenReturn(item);
+    when(item.getText()).thenReturn("some clip");
+
+    assertThat(localClipboardManager.hasPrimaryClip(), is(true));
+  }
+
   public void testSetPrimaryClipWillCallSetPrimaryClipOnClipboardManager() {
     localClipboardManager.setPrimaryClip("channel@to", new ClippingDto());
 
@@ -62,6 +111,8 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
   public void testOnPrimaryClipChangedFiresOnNext() {
     Observer observer = mock(Observer.class);
     localClipboardManager.getObservable().subscribe(observer);
+
+    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
 
     localClipboardManager.onPrimaryClipChanged();
 
