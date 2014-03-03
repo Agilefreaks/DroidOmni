@@ -7,12 +7,25 @@ public class ClippingDto {
   private Date create_at;
   private ClippingType type;
   private String identifier;
+  private ClippingProvider clippingProvider;
 
   public enum ClippingType {
     phoneNumber, uri, unknown
   }
 
+  public enum ClippingProvider {
+    local, cloud
+  }
+
   public ClippingDto() {
+  }
+
+  public ClippingDto(ClippingDto clippingDto) {
+    content = clippingDto.getContent();
+    create_at = clippingDto.getCreateAt();
+    type = clippingDto.getType();
+    identifier = clippingDto.getIdentifier();
+    clippingProvider = clippingDto.getClippingProvider();
   }
 
   public String getIdentifier() {
@@ -45,5 +58,15 @@ public class ClippingDto {
 
   public void setCreateAt(Date createAt) {
     this.create_at = createAt;
+  }
+
+  public ClippingProvider getClippingProvider() {
+    return clippingProvider;
+  }
+
+  public ClippingDto setClippingProvider(ClippingProvider clippingProvider) {
+    this.clippingProvider = clippingProvider;
+
+    return this;
   }
 }

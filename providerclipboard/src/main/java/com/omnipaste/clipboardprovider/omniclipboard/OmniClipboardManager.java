@@ -48,7 +48,9 @@ public class OmniClipboardManager implements IOmniClipboardManager {
     return omniApi.clippings().last(channel);
   }
 
-  public void setPrimaryClip(String channel, ClippingDto clippingDto) {
+  public ClippingDto setPrimaryClip(String channel, ClippingDto clippingDto) {
     omniApi.clippings().create(channel, clippingDto).subscribe();
+
+    return new ClippingDto(clippingDto).setClippingProvider(ClippingDto.ClippingProvider.local);
   }
 }
