@@ -2,4 +2,4 @@
           xmlns:tools="http://schemas.android.com/tools"
           style="@style/Widget.ListView.NavDrawer"
           android:id="@+id/navigation_drawer_list"
-          tools:context="com.omnipaste.droidomni.fragments.NavigationDrawerFragment" />
+          tools:context="com.omnipaste.droidomni.fragments.NavigationDrawerFragment"/>
