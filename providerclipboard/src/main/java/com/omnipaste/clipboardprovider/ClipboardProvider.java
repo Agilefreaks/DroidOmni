@@ -44,7 +44,7 @@ public class ClipboardProvider implements IClipboardProvider {
                   .subscribe(new Action1<ClippingDto>() {
                     @Override
                     public void call(ClippingDto clippingDto) {
-                      currentLocalClipboardManager.setPrimaryClip(channel, clippingDto);
+                      clippingDto = currentLocalClipboardManager.setPrimaryClip(channel, clippingDto);
 
                       clipboardProviderSubject.onNext(clippingDto);
                     }
@@ -63,7 +63,7 @@ public class ClipboardProvider implements IClipboardProvider {
                     @Override
                     public void call(ClippingDto clippingDto) {
                       clippingDto.setIdentifier(identifier);
-                      currentOmniClipboardManager.setPrimaryClip(channel, clippingDto);
+                      clippingDto = currentOmniClipboardManager.setPrimaryClip(channel, clippingDto);
 
                       clipboardProviderSubject.onNext(clippingDto);
                     }

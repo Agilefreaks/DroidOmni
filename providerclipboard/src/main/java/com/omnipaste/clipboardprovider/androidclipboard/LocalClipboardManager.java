@@ -59,9 +59,11 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
   }
 
   @Override
-  public void setPrimaryClip(String channel, ClippingDto clippingDto) {
+  public ClippingDto setPrimaryClip(String channel, ClippingDto clippingDto) {
     skipNext = true;
     clipboardManager.setPrimaryClip(ClipData.newPlainText("", clippingDto.getContent()));
+
+    return new ClippingDto(clippingDto).setClippingProvider(ClippingDto.ClippingProvider.cloud);
   }
 
   @Override

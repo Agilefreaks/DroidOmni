@@ -45,6 +45,7 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
   @SuppressWarnings("unchecked")
   public void testGePrimaryClipWillReturnThePrimaryClip() {
     Observer observer = mock(Observer.class);
+    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
     when(clipboardManager.getPrimaryClip()).thenReturn(ClipData.newPlainText("label",  "some text"));
 
     localClipboardManager.getPrimaryClip("some@channel").subscribe(observer);
@@ -101,12 +102,6 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     assertThat(localClipboardManager.hasPrimaryClip(), is(true));
   }
 
-  public void testSetPrimaryClipWillCallSetPrimaryClipOnClipboardManager() {
-    localClipboardManager.setPrimaryClip("channel@to", new ClippingDto());
-
-    verify(clipboardManager).setPrimaryClip(isA(ClipData.class));
-  }
-
   @SuppressWarnings("unchecked")
   public void testOnPrimaryClipChangedFiresOnNext() {
     Observer observer = mock(Observer.class);
@@ -123,6 +118,12 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     assertThat(localClipboardManager.getObservable(), sameInstance(localClipboardManager.getObservable()));
   }
 
+  public void testSetPrimaryClipWillCallSetPrimaryClipOnClipboardManager() {
+    localClipboardManager.setPrimaryClip("channel@to", new ClippingDto());
+
+    verify(clipboardManager).setPrimaryClip(isA(ClipData.class));
+  }
+
   @SuppressWarnings("unchecked")
   public void testSetPrimaryClipDoesNotFireOnNext() throws InterruptedException {
     Observer observer = mock(Observer.class);
@@ -132,5 +133,11 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     localClipboardManager.onPrimaryClipChanged();
 
     verify(observer, never()).onNext("");
+  }
+
+  public void testSetPrimaryReturnClippingDtoWithCloudSetAsProvider() throws Exception {
+    ClippingDto result = localClipboardManager.setPrimaryClip("test@test.com", new ClippingDto());
+
+    assertThat(result.getClippingProvider(), is(ClippingDto.ClippingProvider.cloud));
   }
 }

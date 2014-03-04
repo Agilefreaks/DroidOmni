@@ -9,5 +9,5 @@ public interface IClipboardManager {
 
   public Observable<ClippingDto> getPrimaryClip(String channel);
 
-  public void setPrimaryClip(String channel, ClippingDto clippingDto);
+  public ClippingDto setPrimaryClip(String channel, ClippingDto clippingDto);
 }
