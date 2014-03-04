@@ -10,4 +10,5 @@
     <!-- List dimensions -->
     <dimen name="listPreferredItemPaddingStart">?android:listPreferredItemPaddingStart</dimen>
     <dimen name="listPreferredItemPaddingEnd">?android:listPreferredItemPaddingEnd</dimen>
+    <dimen name="drawablePadding">?android:drawablePadding</dimen>
 </resources>

@@ -1,4 +1,5 @@
 <resources>
     <dimen name="listPreferredItemPaddingStart">6dip</dimen>
     <dimen name="listPreferredItemPaddingEnd">6dip</dimen>
+    <dimen name="drawablePadding">6dip</dimen>
 </resources>
