@@ -7,10 +7,10 @@
     <string name="app_name">Droid Omni</string>
     <string name="registering">Registering device to the API</string>
     <string name="clippings_title">Clippings</string>
+    <string name="clipping_smart_action_description">Smart action</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_clippings">Clippings</string>
     <string name="navigation_drawer_sign_out">Sign out</string>
-    <string name="clipping_provider_description">Clipping Provider</string>
 </resources>
