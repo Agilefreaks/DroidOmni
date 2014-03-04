@@ -6,14 +6,16 @@ public class NavigationDrawerItem {
   private String title;
   private NavigationMenu navigationMenu;
   private Boolean isSelected = false;
+  private Integer icon;
 
-  public NavigationDrawerItem(String title, NavigationMenu navigationMenu) {
+  public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Integer icon) {
     this.title = title;
     this.navigationMenu = navigationMenu;
+    this.icon = icon;
   }
 
-  public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Boolean isSelected) {
-    this(title, navigationMenu);
+  public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Integer icon, Boolean isSelected) {
+    this(title, navigationMenu, icon);
     this.isSelected = isSelected;
   }
 
@@ -27,5 +29,13 @@ public class NavigationDrawerItem {
 
   public NavigationMenu getNavigationMenu() {
     return navigationMenu;
+  }
+
+  public Integer getIcon() {
+    return icon;
+  }
+
+  public void setIcon(Integer icon) {
+    this.icon = icon;
   }
 }
