@@ -17,6 +17,9 @@ import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.droidomni.services.SessionServiceImpl;
+import com.omnipaste.droidomni.services.SmartActionService;
+import com.omnipaste.droidomni.services.SmartActionServiceImpl;
+import com.omnipaste.droidomni.views.ClippingView_;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -34,7 +37,8 @@ import dagger.Provides;
         DroidOmniApplication_.class,
         DeviceService.class,
         SessionServiceImpl.class,
-        OmniService_.class
+        OmniService_.class,
+        ClippingView_.class
     },
     includes = {
         OmniApiModule.class,
@@ -91,5 +95,11 @@ public class MainModule {
   @Provides
   public SessionService providesSessionService(SessionServiceImpl sessionService) {
     return sessionService;
+  }
+
+  @Singleton
+  @Provides
+  public SmartActionService providesSmartActionService(SmartActionServiceImpl smartActionService) {
+    return smartActionService;
   }
 }

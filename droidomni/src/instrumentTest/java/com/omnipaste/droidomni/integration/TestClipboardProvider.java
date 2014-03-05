@@ -23,10 +23,10 @@ public class TestClipboardProvider extends TestIntegration<MainActivity_> {
     assertTrue("Should show a list view with clippings", solo.waitForView(R.id.clippings));
 
     setTextInClipboard("some");
-    setTextInClipboard("test");
-
-    solo.waitForText("test");
     solo.waitForText("some");
+
+    setTextInClipboard("test");
+    solo.waitForText("test");
 
     ListView view = (ListView) solo.getView(R.id.clippings);
     assertThat(((ClippingDto) view.getItemAtPosition(0)).getContent(), is("test"));

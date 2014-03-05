@@ -19,8 +19,8 @@ public class ClippingTypeDeserializerTest extends TestCase {
     assertThat(ClippingDto.ClippingType.phoneNumber, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("phone_number"), null, null)));
   }
 
-  public void testDeserializeReturnUriType() {
-    assertThat(ClippingDto.ClippingType.uri, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("uri"), null, null)));
+  public void testDeserializeReturnWebSiteType() {
+    assertThat(ClippingDto.ClippingType.webSite, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("web_site"), null, null)));
   }
 
   public void testDeserializeReturnUUnknownType() {
