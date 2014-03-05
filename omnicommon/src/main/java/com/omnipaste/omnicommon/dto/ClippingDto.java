@@ -5,7 +5,7 @@ import java.util.Date;
 public class ClippingDto {
   private String content;
   private Date create_at;
-  private ClippingType type;
+  private ClippingType type = ClippingType.unknown;
   private String identifier;
   private ClippingProvider clippingProvider;
 

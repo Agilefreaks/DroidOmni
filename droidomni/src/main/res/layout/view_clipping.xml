@@ -6,7 +6,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingStart="?attr/listPreferredItemPaddingStart"
-        android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:descendantFocusability="blocksDescendants">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/textContent"
@@ -17,14 +18,16 @@
               android:textAppearance="?android:attr/textAppearanceListItemSmall"
               android:gravity="center_vertical"
               android:drawablePadding="?attr/drawablePadding"
-              android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+              android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
 
     <ImageButton
+            xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/Widget.Holo.ActionImageButton"
+            android:visibility="gone"
+            android:id="@+id/smart_action_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_omni"
             android:contentDescription="@string/clipping_smart_action_description"/>
 
 </LinearLayout>
