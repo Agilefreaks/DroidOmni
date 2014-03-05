@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/textContent"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:textAppearance="?android:attr/textAppearanceListItemSmall"
-          android:gravity="center_vertical"
-          android:drawablePadding="?attr/drawablePadding"
-          android:paddingStart="?attr/listPreferredItemPaddingStart"
-          android:paddingEnd="?attr/listPreferredItemPaddingEnd"
-          android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="?attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:descendantFocusability="blocksDescendants">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/textContent"
+              android:layout_width="0dip"
+              android:layout_height="wrap_content"
+              android:layout_gravity="left"
+              android:layout_weight="1"
+              android:textAppearance="?android:attr/textAppearanceListItemSmall"
+              android:gravity="center_vertical"
+              android:drawablePadding="?attr/drawablePadding"
+              android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+
+    <ImageButton
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            style="@style/Widget.Holo.ActionImageButton"
+            android:visibility="gone"
+            android:id="@+id/smart_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/clipping_smart_action_description"/>
+
+</LinearLayout>
 
 

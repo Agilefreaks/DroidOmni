@@ -5,12 +5,12 @@ import java.util.Date;
 public class ClippingDto {
   private String content;
   private Date create_at;
-  private ClippingType type;
+  private ClippingType type = ClippingType.unknown;
   private String identifier;
   private ClippingProvider clippingProvider;
 
   public enum ClippingType {
-    phoneNumber, uri, unknown
+    phoneNumber, webSite, unknown
   }
 
   public enum ClippingProvider {
@@ -40,16 +40,20 @@ public class ClippingDto {
     return type;
   }
 
-  public void setType(ClippingType type) {
+  public ClippingDto setType(ClippingType type) {
     this.type = type;
+
+    return this;
   }
 
   public String getContent() {
     return content;
   }
 
-  public void setContent(String content) {
+  public ClippingDto setContent(String content) {
     this.content = content;
+
+    return this;
   }
 
   public Date getCreateAt() {

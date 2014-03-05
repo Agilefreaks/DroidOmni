@@ -1,17 +1,13 @@
 package com.omnipaste.droidomni.services;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 
 import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -53,6 +49,9 @@ public class OmniService extends Service {
 
   @Inject
   public IPhoneProvider phoneProvider;
+
+  @Inject
+  public NotificationService notificationService;
 
   public static Observable start(final Context context, final RegisteredDeviceDto registeredDeviceDto) {
     return Observable.create(new Observable.OnSubscribeFunc() {
@@ -150,21 +149,6 @@ public class OmniService extends Service {
   }
 
   private void notifyUser() {
-    final int serviceId = 42;
-
-    Intent resultIntent = new Intent(this, MainActivity_.class);
-    resultIntent.setAction("android.intent.action.MAIN");
-    resultIntent.addCategory("android.intent.category.LAUNCHER");
-
-    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, 0);
-
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_stat_clipboard)
-        .setContentTitle(appName)
-        .setContentText("")
-        .setOngoing(true)
-        .setContentIntent(contentIntent);
-
-    startForeground(serviceId, builder.build());
+    startForeground(NotificationServiceImpl.NOTIFICATION_ID, notificationService.buildUserNotification(this, appName, ""));
   }
 }
