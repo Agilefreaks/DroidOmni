@@ -1,19 +1,26 @@
 package com.omnipaste.droidomni.controllers;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 
+import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.NavigationMenu;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
+import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
+import com.omnipaste.droidomni.fragments.ClippingsFragment;
 import com.omnipaste.droidomni.fragments.ClippingsFragment_;
+import com.omnipaste.droidomni.services.NotificationService;
+import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
+import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
 
@@ -26,9 +33,17 @@ public class OmniController implements OmniActivityController {
   private final SessionService sessionService;
   private EventBus eventBus = EventBus.getDefault();
   private OmniActivity activity;
+  private ClippingsFragment clippingsFragment;
+
+  @Inject
+  public NotificationService notificationService;
+
+  @Inject
+  public NotificationManager notificationManager;
 
   @Inject
   public OmniController(SessionService sessionService) {
+    DroidOmniApplication.inject(this);
     this.sessionService = sessionService;
   }
 
@@ -65,6 +80,14 @@ public class OmniController implements OmniActivityController {
     }
   }
 
+  @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(ClippingAdded event) {
+    ClippingDto clipping = event.getClipping();
+
+    clippingsFragment.setClipping(clipping);
+    notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notificationService.buildUserNotification(activity, clipping.getContent()));
+  }
+
   private void setTitle(int title) {
     getActionBar().setTitle(title);
   }
@@ -81,7 +104,9 @@ public class OmniController implements OmniActivityController {
   }
 
   private void setInitialFragment() {
-    setFragment(ClippingsFragment_.builder().build());
+    clippingsFragment = ClippingsFragment_.builder().build();
+
+    setFragment(clippingsFragment);
     setTitle(R.string.clippings_title);
     setSubtitle(sessionService.getChannel());
   }

@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni;
 
+import android.app.NotificationManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 
@@ -14,6 +15,8 @@ import com.omnipaste.droidomni.controllers.OmniController;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
+import com.omnipaste.droidomni.services.NotificationService;
+import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.droidomni.services.SessionServiceImpl;
@@ -32,12 +35,17 @@ import dagger.Provides;
 
 @Module(
     injects = {
+        DroidOmniApplication_.class,
+        // activities
         MainActivity_.class,
         OmniActivity_.class,
-        DroidOmniApplication_.class,
+        // controllers
+        OmniController.class,
+        // services
         DeviceService.class,
         SessionServiceImpl.class,
         OmniService_.class,
+        // others
         ClippingView_.class
     },
     includes = {
@@ -57,6 +65,12 @@ public class MainModule {
   @Singleton
   public ClipboardManager providesClipboardManager() {
     return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+  }
+
+  @Provides
+  @Singleton
+  public NotificationManager providesNotificationManager() {
+    return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
   }
 
   @Provides
@@ -101,5 +115,11 @@ public class MainModule {
   @Provides
   public SmartActionService providesSmartActionService(SmartActionServiceImpl smartActionService) {
     return smartActionService;
+  }
+
+  @Provides
+  @Singleton
+  public NotificationService providesNotificationService() {
+    return new NotificationServiceImpl();
   }
 }
