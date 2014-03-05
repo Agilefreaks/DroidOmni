@@ -119,7 +119,7 @@ public class MainModule {
 
   @Provides
   @Singleton
-  public NotificationService providesNotificationService() {
-    return new NotificationServiceImpl();
+  public NotificationService providesNotificationService(NotificationServiceImpl notificationService) {
+    return notificationService;
   }
 }

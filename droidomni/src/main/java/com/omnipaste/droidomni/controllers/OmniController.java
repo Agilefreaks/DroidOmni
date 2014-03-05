@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.controllers;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,7 +86,16 @@ public class OmniController implements OmniActivityController {
     ClippingDto clipping = event.getClipping();
 
     clippingsFragment.setClipping(clipping);
-    notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notificationService.buildUserNotification(activity, clipping.getContent()));
+
+    Notification notification;
+    if (clipping.getType() == ClippingDto.ClippingType.unknown) {
+      notification = notificationService.buildSimpleNotification(activity, clipping.getContent());
+    }
+    else {
+      notification = notificationService.buildSmartActionNotification(activity, clipping);
+    }
+
+    notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notification);
   }
 
   private void setTitle(int title) {

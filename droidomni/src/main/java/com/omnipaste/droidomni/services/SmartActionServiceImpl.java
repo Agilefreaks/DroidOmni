@@ -26,8 +26,12 @@ public class SmartActionServiceImpl implements SmartActionService {
   }
 
   @Override
+  public Intent buildIntent(ClippingDto clippingDto) {
+    return smartActions.get(clippingDto.getType()).buildIntent(clippingDto);
+  }
+
+  @Override
   public void run(ClippingDto clippingDto) {
-    Intent intent = smartActions.get(clippingDto.getType()).buildIntent(clippingDto);
-    context.startActivity(intent);
+    context.startActivity(buildIntent(clippingDto));
   }
 }

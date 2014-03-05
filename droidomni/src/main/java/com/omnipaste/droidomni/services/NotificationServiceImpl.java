@@ -10,11 +10,25 @@ import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-public class NotificationServiceImpl implements NotificationService {
+import java.util.HashMap;
 
+import javax.inject.Inject;
+
+public class NotificationServiceImpl implements NotificationService {
   public static final int NOTIFICATION_ID = 42;
 
-  public String appName;
+  private HashMap<ClippingDto.ClippingType, Integer> smartActionIcon = new HashMap<ClippingDto.ClippingType, Integer>() {{
+    put(ClippingDto.ClippingType.phoneNumber, R.drawable.ic_smart_action_phone_number_light);
+    put(ClippingDto.ClippingType.webSite, R.drawable.ic_smart_action_uri_light);
+  }};
+
+  private String appName;
+  private SmartActionService smartActionService;
+
+  @Inject
+  public NotificationServiceImpl(SmartActionService smartActionService) {
+    this.smartActionService = smartActionService;
+  }
 
   @Override
   public Notification buildUserNotification(Context context, String appName, String text) {
@@ -23,24 +37,20 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   @Override
-  public Notification buildUserNotification(Context context, String text) {
+  public Notification buildSimpleNotification(Context context, String text) {
     return basicBuilder(context, text).build();
   }
 
-  public Notification buildSmartActionNotification(ClippingDto clipping) {
-    return null;
-//    NotificationCompat.Builder builder = basicBuilder(clipping.getContent());
-//
-//    if (clipping.getType() == ClippingDto.ClippingType.phoneNumber) {
-//      Intent callIntent = new Intent(Intent.ACTION_CALL);
-//      callIntent.setData(Uri.parse("tel:" + clipping.getContent()));
-//
-//      builder = builder
-//          .setStyle(new NotificationCompat.BigTextStyle().bigText(clipping.getContent()))
-//          .addAction(R.drawable.ic_action_call_light, call, PendingIntent.getActivity(this, 0, callIntent, 0));
-//    }
-//
-//    notificationManager.notify(NOTIFICATION_ID, builder.build());
+  @Override
+  public Notification buildSmartActionNotification(Context context, ClippingDto clippingDto) {
+    NotificationCompat.Builder builder =
+        basicBuilder(context, clippingDto.getContent())
+            .setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()))
+            .addAction(smartActionIcon.get(clippingDto.getType()),
+                "Call",
+                PendingIntent.getActivity(context, 0, smartActionService.buildIntent(clippingDto), 0));
+
+    return builder.build();
   }
 
   private NotificationCompat.Builder basicBuilder(Context context, String text) {
