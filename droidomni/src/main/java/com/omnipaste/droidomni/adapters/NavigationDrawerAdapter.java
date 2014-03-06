@@ -6,13 +6,13 @@ import android.view.View;
 
 import com.omnipaste.droidomni.NavigationMenu;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.views.NavigationDrawerView;
-import com.omnipaste.droidomni.views.NavigationDrawerView_;
+import com.omnipaste.droidomni.views.NavigationDrawerItemView;
+import com.omnipaste.droidomni.views.NavigationDrawerItemView_;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class NavigationDrawerAdapter extends LocalAdapter<NavigationDrawerItem, NavigationDrawerView> {
+public class NavigationDrawerAdapter extends LocalAdapter<NavigationDrawerItem, NavigationDrawerItemView> {
   public static NavigationDrawerAdapter build(Resources resources) {
     return new NavigationDrawerAdapter(new ArrayList<>(
         Arrays.asList(
@@ -27,6 +27,6 @@ public class NavigationDrawerAdapter extends LocalAdapter<NavigationDrawerItem, 
 
   @Override
   protected View buildView(Context context) {
-    return NavigationDrawerView_.build(context);
+    return NavigationDrawerItemView_.build(context);
   }
 }

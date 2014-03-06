@@ -9,10 +9,9 @@
         <item name="drawablePadding">@dimen/drawablePadding</item>
     </style>
 
-    <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.White">
+    <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.Menu">
         <item name="android:background">@android:color/white</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:divider">@null</item>
     </style>
 
     <style name="Widget.Holo.ActionImageButton" parent="@android:style/Widget.Holo.ImageButton">
