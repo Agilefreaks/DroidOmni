@@ -11,11 +11,11 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 @EViewGroup(R.layout.view_navigation_drawer_item)
-public class NavigationDrawerView extends LinearLayout implements HasSetup<NavigationDrawerItem> {
+public class NavigationDrawerItemView extends LinearLayout implements HasSetup<NavigationDrawerItem> {
   @ViewById
   public TextView textTitle;
 
-  public NavigationDrawerView(Context context) {
+  public NavigationDrawerItemView(Context context) {
     super(context);
   }
 
@@ -25,7 +25,7 @@ public class NavigationDrawerView extends LinearLayout implements HasSetup<Navig
     textTitle.setCompoundDrawablesWithIntrinsicBounds(item.getIcon(), 0, 0, 0);
 
     if (item.getIsSelected()) {
-      this.setSelected(true);
+      textTitle.setSelected(true);
     }
   }
 }

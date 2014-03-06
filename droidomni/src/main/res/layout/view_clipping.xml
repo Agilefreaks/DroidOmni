@@ -5,8 +5,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="?attr/listPreferredItemPaddingStart"
-        android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+        android:divider="?android:dividerVertical"
+        android:showDividers="middle"
+        android:dividerPadding="12dip"
         android:descendantFocusability="blocksDescendants">
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +27,7 @@
             android:visibility="gone"
             android:id="@+id/smart_action_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:contentDescription="@string/clipping_smart_action_description"/>
 
