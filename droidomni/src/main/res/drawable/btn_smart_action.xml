@@ -16,9 +16,7 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true"
-          android:drawable="@drawable/btn_default_pressed_holo" />
-    <item android:state_focused="true" android:state_enabled="true"
-          android:drawable="@drawable/btn_default_selected" />
+          android:drawable="@drawable/nav_list_item_selected" />
     <item android:state_enabled="true"
           android:drawable="@android:color/transparent" />
 </selector>
