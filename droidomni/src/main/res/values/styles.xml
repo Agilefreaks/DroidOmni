@@ -10,7 +10,6 @@
     </style>
 
     <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.Menu">
-        <item name="android:background">@android:color/white</item>
         <item name="android:divider">@null</item>
     </style>
 

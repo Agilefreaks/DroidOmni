@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.NavigationDrawerAdapter;
 import com.omnipaste.droidomni.adapters.NavigationDrawerItem;
+import com.omnipaste.droidomni.adapters.SecondaryNavigationDrawerAdapter;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 
 import org.androidannotations.annotations.AfterViews;
@@ -29,9 +30,13 @@ public class NavigationDrawerFragment extends Fragment {
   private ActionBarDrawerToggle drawerToggle;
   private EventBus eventBus = EventBus.getDefault();
   private NavigationDrawerAdapter navigationDrawerAdapter;
+  private SecondaryNavigationDrawerAdapter secondaryNavigationDrawerAdapter;
 
   @ViewById
   public ListView navigationDrawerList;
+
+  @ViewById
+  public ListView secondaryNavigationDrawerList;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class NavigationDrawerFragment extends Fragment {
     setRetainInstance(true);
 
     navigationDrawerAdapter = NavigationDrawerAdapter.build(this.getResources());
+    secondaryNavigationDrawerAdapter = SecondaryNavigationDrawerAdapter.build(this.getResources());
   }
 
   @Override
@@ -101,6 +107,10 @@ public class NavigationDrawerFragment extends Fragment {
     if (navigationDrawerList.getAdapter() == null) {
       navigationDrawerList.setAdapter(navigationDrawerAdapter);
     }
+
+    if (secondaryNavigationDrawerList.getAdapter() == null) {
+      secondaryNavigationDrawerList.setAdapter(secondaryNavigationDrawerAdapter);
+    }
   }
 
   @Override
@@ -116,6 +126,11 @@ public class NavigationDrawerFragment extends Fragment {
 
   @ItemClick
   public void navigationDrawerListItemClicked(NavigationDrawerItem navigationDrawerItem) {
+    eventBus.post(new NavigationItemClicked(navigationDrawerItem));
+  }
+
+  @ItemClick
+  public void secondaryNavigationDrawerListItemClicked(NavigationDrawerItem navigationDrawerItem) {
     eventBus.post(new NavigationItemClicked(navigationDrawerItem));
   }
 

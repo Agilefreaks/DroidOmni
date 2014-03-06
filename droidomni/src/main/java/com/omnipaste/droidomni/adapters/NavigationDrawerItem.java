@@ -8,14 +8,21 @@ public class NavigationDrawerItem {
   private Boolean isSelected = false;
   private Integer icon;
 
-  public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Integer icon) {
+  public NavigationDrawerItem(String title, NavigationMenu navigationMenu)
+  {
     this.title = title;
     this.navigationMenu = navigationMenu;
+  }
+
+  public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Integer icon) {
+    this(title, navigationMenu);
+
     this.icon = icon;
   }
 
   public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Integer icon, Boolean isSelected) {
     this(title, navigationMenu, icon);
+
     this.isSelected = isSelected;
   }
 
