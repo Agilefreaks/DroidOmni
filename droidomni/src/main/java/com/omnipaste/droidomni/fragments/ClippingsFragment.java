@@ -4,37 +4,35 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
+import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.adapters.ClippingAdapter;
-import com.omnipaste.omnicommon.dto.ClippingDto;
+import com.omnipaste.droidomni.controllers.ClippingsFragmentController;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import javax.inject.Inject;
+
 @EFragment(R.layout.fragment_clippings)
 public class ClippingsFragment extends Fragment {
-  private ClippingAdapter clippingAdapter;
 
   @ViewById
   public ListView clippings;
 
+  @Inject
+  public ClippingsFragmentController controller;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setRetainInstance(true);
+    DroidOmniApplication.inject(this);
 
-    clippingAdapter = new ClippingAdapter();
+    controller.run(this, savedInstanceState);
   }
 
   @AfterViews
   public void afterView() {
-    if (clippings.getAdapter() == null) {
-      clippings.setAdapter(clippingAdapter);
-    }
-  }
-
-  public void setClipping(ClippingDto clippingDto) {
-    clippingAdapter.add(clippingDto);
+    controller.afterView();
   }
 }

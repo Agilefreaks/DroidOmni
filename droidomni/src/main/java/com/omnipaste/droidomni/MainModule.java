@@ -8,10 +8,13 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity_;
+import com.omnipaste.droidomni.controllers.ClippingsFragmentController;
+import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
 import com.omnipaste.droidomni.controllers.MainActivityController;
-import com.omnipaste.droidomni.controllers.MainController;
+import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
-import com.omnipaste.droidomni.controllers.OmniController;
+import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
+import com.omnipaste.droidomni.fragments.ClippingsFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
@@ -40,13 +43,14 @@ import dagger.Provides;
         MainActivity_.class,
         OmniActivity_.class,
         // controllers
-        OmniController.class,
+        OmniActivityControllerImpl.class,
         // services
         DeviceService.class,
         SessionServiceImpl.class,
         OmniService_.class,
         // others
-        ClippingView_.class
+        ClippingView_.class,
+        ClippingsFragment_.class
     },
     includes = {
         OmniApiModule.class,
@@ -97,13 +101,18 @@ public class MainModule {
   }
 
   @Provides
-  public MainActivityController providesMainActivityController(MainController mainController) {
-    return mainController;
+  public MainActivityController providesMainActivityController(MainActivityControllerImpl mainActivityController) {
+    return mainActivityController;
   }
 
   @Provides
-  public OmniActivityController providesOmniActivityController(OmniController omniController) {
-    return omniController;
+  public OmniActivityController providesOmniActivityController(OmniActivityControllerImpl omniActivityController) {
+    return omniActivityController;
+  }
+
+  @Provides
+  public ClippingsFragmentController providesClippingsFragmentController(ClippingsFragmentControllerImpl clippingsFragmentController) {
+    return clippingsFragmentController;
   }
 
   @Provides

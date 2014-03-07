@@ -22,13 +22,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.util.functions.Action0;
 
-public class MainController implements MainActivityController {
+public class MainActivityControllerImpl implements MainActivityController {
   private EventBus eventBus = EventBus.getDefault();
   private MainActivity activity;
   private SessionService sessionService;
 
   @Inject
-  public MainController(SessionService sessionService) {
+  public MainActivityControllerImpl(SessionService sessionService) {
     this.sessionService = sessionService;
   }
 
