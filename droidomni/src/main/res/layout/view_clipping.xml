@@ -19,12 +19,17 @@
               android:textAppearance="?android:attr/textAppearanceListItemSmall"
               android:gravity="center_vertical"
               android:drawablePadding="?attr/drawablePadding"
-              android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+              android:minHeight="?android:attr/listPreferredItemHeightLarge"
+              android:lines="2"
+              android:ellipsize="end" />
 
     <ImageButton
             xmlns:android="http://schemas.android.com/apk/res/android"
             style="@style/Widget.Holo.ActionImageButton"
+            android:src="@drawable/ic_smart_action_phone_number"
+            android:padding="?attr/listPreferredItemPaddingStart"
             android:visibility="gone"
+            android:layout_margin="8dip"
             android:id="@+id/smart_action_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
