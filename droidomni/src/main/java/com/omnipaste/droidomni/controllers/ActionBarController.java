@@ -23,4 +23,6 @@ public interface ActionBarController {
   ActionBarDrawerToggle setupNavigationDrawer(DrawerLayout drawerLayout, final ActionBarDrawerToggleListener listener);
 
   void addTab(int id, ActionBar.TabListener tabListener);
+
+  int getNavigationMode();
 }

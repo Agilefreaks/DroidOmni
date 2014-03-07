@@ -3,10 +3,12 @@ package com.omnipaste.droidomni.integration;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.widget.ListView;
+import android.support.v4.app.ListFragment;
+import android.support.v4.view.ViewPager;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,7 +22,7 @@ public class TestClipboardProvider extends TestIntegration<MainActivity_> {
   @SuppressWarnings("ConstantConditions")
   public void testClipboardProviderShouldNotDuplicatedItems() {
     TestHelper.signIn(solo);
-    assertTrue("Should show a list view with clippings", solo.waitForView(R.id.clippings));
+    assertTrue("Should show a list view with clippings", solo.waitForView(R.id.clippingsPager));
 
     setTextInClipboard("some");
     solo.waitForText("some");
@@ -28,9 +30,12 @@ public class TestClipboardProvider extends TestIntegration<MainActivity_> {
     setTextInClipboard("test");
     solo.waitForText("test");
 
-    ListView view = (ListView) solo.getView(R.id.clippings);
-    assertThat(((ClippingDto) view.getItemAtPosition(0)).getContent(), is("test"));
-    assertThat(((ClippingDto) view.getItemAtPosition(1)).getContent(), is("some"));
+    ViewPager view = (ViewPager) solo.getView(R.id.clippingsPager);
+    ClippingsPagerAdapter adapter = (ClippingsPagerAdapter) view.getAdapter();
+    ListFragment listFragment = adapter.getFragment(0);
+
+    assertThat(((ClippingDto) listFragment.getListView().getItemAtPosition(0)).getContent(), is("test"));
+    assertThat(((ClippingDto) listFragment.getListView().getItemAtPosition(1)).getContent(), is("some"));
   }
 
   private void setTextInClipboard(String text) {

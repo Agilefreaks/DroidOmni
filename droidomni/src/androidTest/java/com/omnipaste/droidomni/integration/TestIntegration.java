@@ -32,7 +32,7 @@ public abstract class TestIntegration<TActivity extends Activity> extends Activi
   }
 
   protected void ensureLoggedOut() {
-    if (solo.waitForView(R.id.clippings, 1, 5000)) {
+    if (solo.waitForView(R.id.clippingsPager, 1, 5000)) {
       // we need to sign out
       TestHelper.signOut(solo);
     }

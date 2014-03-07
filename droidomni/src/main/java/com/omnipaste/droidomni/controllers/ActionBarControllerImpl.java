@@ -45,7 +45,7 @@ public class ActionBarControllerImpl implements ActionBarController {
   }
 
   @Override
-  public ActionBarDrawerToggle setupNavigationDrawer(DrawerLayout drawerLayout, final ActionBarDrawerToggleListener listener) {
+  public ActionBarDrawerToggle setupNavigationDrawer(final DrawerLayout drawerLayout, final ActionBarDrawerToggleListener listener) {
     drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
     final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
@@ -55,16 +55,36 @@ public class ActionBarControllerImpl implements ActionBarController {
         R.string.navigation_drawer_open,
         R.string.navigation_drawer_close
     ) {
-      @Override
-      public void onDrawerClosed(View drawerView) {
-        super.onDrawerClosed(drawerView);
-        listener.onDrawerClosed(drawerView);
+      private Boolean notStarted = true;
+      private int savedNavigationMode;
+
+      public void onDrawerSlide(View drawerView, float slideOffset) {
+        super.onDrawerSlide(drawerView, slideOffset);
+
+        if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+          if (notStarted) {
+            savedNavigationMode = getNavigationMode();
+            notStarted = false;
+          }
+
+          setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        }
+        else {
+          notStarted = true;
+          setNavigationMode(savedNavigationMode);
+        }
       }
 
       @Override
       public void onDrawerOpened(View drawerView) {
         super.onDrawerOpened(drawerView);
         listener.onDrawerOpened(drawerView);
+      }
+
+      @Override
+      public void onDrawerClosed(View drawerView) {
+        super.onDrawerClosed(drawerView);
+        listener.onDrawerClosed(drawerView);
       }
     };
 
@@ -86,6 +106,11 @@ public class ActionBarControllerImpl implements ActionBarController {
   @Override
   public void addTab(int id, ActionBar.TabListener tabListener) {
     getActionBar().addTab(getActionBar().newTab().setText(id).setTabListener(tabListener));
+  }
+
+  @Override
+  public int getNavigationMode() {
+    return getActionBar().getNavigationMode();
   }
 
   private ActionBar getActionBar() {

@@ -74,13 +74,12 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
       fragment.clippingsPager.setAdapter(clippingsPagerAdapter);
       fragment.clippingsPager.setOnPageChangeListener(this);
 
-      actionBarController.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
       actionBarController.addTab(R.string.clippings_tab_all, this);
       actionBarController.addTab(R.string.clippings_tab_local, this);
       actionBarController.addTab(R.string.clippings_tab_cloud, this);
-    }
 
-    actionBarController.setTitle(R.string.clippings_title);
+      actionBarController.setTitle(R.string.clippings_title);
+    }
   }
 
   @SuppressWarnings("UnusedDeclaration")
@@ -104,12 +103,16 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   private void setClipping(ClippingDto clippingDto) {
     allClippingsFragment.add(clippingDto);
 
-    if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.cloud) {
-      cloudFragment.add(clippingDto);
-    }
-
     if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.local) {
       localFragment.add(clippingDto);
+    }
+
+    if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.cloud) {
+      cloudFragment.add(clippingDto);
+
+      if (actionBarController.getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS) {
+        actionBarController.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+      }
     }
   }
 

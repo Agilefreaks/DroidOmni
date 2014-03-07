@@ -11,7 +11,7 @@ public class TestSessions extends TestIntegration<MainActivity_> {
   @SuppressWarnings("ConstantConditions")
   public void testLoginLogout() throws Exception {
     TestHelper.signIn(solo);
-    assertTrue("Should show a list view with clippings", solo.waitForView(R.id.clippings));
+    assertTrue("Should show a list view with clippings", solo.waitForView(R.id.clippingsPager));
 
     TestHelper.signOut(solo);
     assertTrue("Should be on main activity", solo.waitForActivity(MainActivity_.class));
