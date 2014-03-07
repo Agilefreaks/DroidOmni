@@ -4,12 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
@@ -27,10 +22,10 @@ import de.greenrobot.event.EventBus;
 
 @EFragment(R.layout.fragment_navigation_drawer)
 public class NavigationDrawerFragment extends Fragment {
-  private ActionBarDrawerToggle drawerToggle;
   private EventBus eventBus = EventBus.getDefault();
   private NavigationDrawerAdapter navigationDrawerAdapter;
   private SecondaryNavigationDrawerAdapter secondaryNavigationDrawerAdapter;
+  private ActionBarDrawerToggle drawerToggle;
 
   @ViewById
   public ListView navigationDrawerList;
@@ -54,54 +49,6 @@ public class NavigationDrawerFragment extends Fragment {
     setHasOptionsMenu(true);
   }
 
-  /**
-   * Users of this fragment must call this method to set up the navigation drawer interactions.
-   *
-   * @param drawerLayout The DrawerLayout containing this fragment's UI.
-   */
-  public void setUp(DrawerLayout drawerLayout) {
-    drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-    drawerToggle = new ActionBarDrawerToggle(
-        getActivity(),
-        drawerLayout,
-        R.drawable.ic_drawer,
-        R.string.navigation_drawer_open,
-        R.string.navigation_drawer_close
-    ) {
-      @Override
-      public void onDrawerClosed(View drawerView) {
-        super.onDrawerClosed(drawerView);
-        if (!isAdded()) {
-          return;
-        }
-
-        getActivity().supportInvalidateOptionsMenu();
-      }
-
-      @Override
-      public void onDrawerOpened(View drawerView) {
-        super.onDrawerOpened(drawerView);
-        if (!isAdded()) {
-          return;
-        }
-
-        getActivity().supportInvalidateOptionsMenu();
-      }
-    };
-
-    drawerLayout.post(new Runnable() {
-      @Override
-      public void run() {
-        drawerToggle.syncState();
-      }
-    });
-
-    drawerLayout.setDrawerListener(drawerToggle);
-
-    setUpActionBar();
-  }
-
   @AfterViews
   public void afterViews() {
     if (navigationDrawerList.getAdapter() == null) {
@@ -111,6 +58,10 @@ public class NavigationDrawerFragment extends Fragment {
     if (secondaryNavigationDrawerList.getAdapter() == null) {
       secondaryNavigationDrawerList.setAdapter(secondaryNavigationDrawerAdapter);
     }
+  }
+
+  public void setUp(ActionBarDrawerToggle drawerToggle) {
+    this.drawerToggle = drawerToggle;
   }
 
   @Override
@@ -132,11 +83,5 @@ public class NavigationDrawerFragment extends Fragment {
   @ItemClick
   public void secondaryNavigationDrawerListItemClicked(NavigationDrawerItem navigationDrawerItem) {
     eventBus.post(new NavigationItemClicked(navigationDrawerItem));
-  }
-
-  private void setUpActionBar() {
-    ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeButtonEnabled(true);
   }
 }

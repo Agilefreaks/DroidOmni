@@ -1,11 +1,12 @@
-package com.omnipaste.droidomni.fragments;
+package com.omnipaste.droidomni.fragments.clippings;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.ListView;
+import android.support.v4.view.ViewPager;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.controllers.ActionBarController;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentController;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,10 +19,12 @@ import javax.inject.Inject;
 public class ClippingsFragment extends Fragment {
 
   @ViewById
-  public ListView clippings;
+  public ViewPager clippingsPager;
 
   @Inject
   public ClippingsFragmentController controller;
+
+  public ActionBarController actionBarController;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

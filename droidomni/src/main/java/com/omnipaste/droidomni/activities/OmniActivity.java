@@ -44,6 +44,7 @@ public class OmniActivity extends ActionBarActivity {
   @Override
   public void onResume() {
     super.onResume();
-    navigationDrawer.setUp(drawerLayout);
+
+    controller.setUpNavigationDrawer(navigationDrawer);
   }
 }

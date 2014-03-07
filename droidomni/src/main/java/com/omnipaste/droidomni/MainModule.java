@@ -8,13 +8,15 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity_;
+import com.omnipaste.droidomni.controllers.ActionBarController;
+import com.omnipaste.droidomni.controllers.ActionBarControllerImpl;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentController;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
 import com.omnipaste.droidomni.controllers.MainActivityController;
 import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
-import com.omnipaste.droidomni.fragments.ClippingsFragment_;
+import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
@@ -44,6 +46,7 @@ import dagger.Provides;
         OmniActivity_.class,
         // controllers
         OmniActivityControllerImpl.class,
+        ClippingsFragmentControllerImpl.class,
         // services
         DeviceService.class,
         SessionServiceImpl.class,
@@ -111,8 +114,13 @@ public class MainModule {
   }
 
   @Provides
-  public ClippingsFragmentController providesClippingsFragmentController(ClippingsFragmentControllerImpl clippingsFragmentController) {
-    return clippingsFragmentController;
+  public ClippingsFragmentController providesClippingsFragmentController() {
+    return new ClippingsFragmentControllerImpl();
+  }
+
+  @Provides
+  public ActionBarController providesActionBarController() {
+    return new ActionBarControllerImpl();
   }
 
   @Provides

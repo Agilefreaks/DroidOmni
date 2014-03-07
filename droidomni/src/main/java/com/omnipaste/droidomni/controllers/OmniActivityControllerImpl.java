@@ -3,17 +3,19 @@ package com.omnipaste.droidomni.controllers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.NavigationMenu;
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
-import com.omnipaste.droidomni.fragments.ClippingsFragment;
-import com.omnipaste.droidomni.fragments.ClippingsFragment_;
+import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
+import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
+import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
 
@@ -24,10 +26,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.util.functions.Action0;
 
-public class OmniActivityControllerImpl implements OmniActivityController {
+public class OmniActivityControllerImpl implements OmniActivityController, ActionBarDrawerToggleListener {
   private final SessionService sessionService;
   private EventBus eventBus = EventBus.getDefault();
   private OmniActivity activity;
+
+  @Inject
+  public ActionBarController actionBarController;
 
   @Inject
   public OmniActivityControllerImpl(SessionService sessionService) {
@@ -40,6 +45,8 @@ public class OmniActivityControllerImpl implements OmniActivityController {
     eventBus.register(this);
     activity = omniActivity;
 
+    actionBarController.run(omniActivity);
+
     if (savedInstance == null) {
       setInitialFragment();
     }
@@ -48,6 +55,30 @@ public class OmniActivityControllerImpl implements OmniActivityController {
   @Override
   public void stop() {
     eventBus.unregister(this);
+    actionBarController.stop();
+  }
+
+  @Override
+  public void setUpNavigationDrawer(NavigationDrawerFragment navigationDrawer) {
+    navigationDrawer.setUp(actionBarController.setupNavigationDrawer(activity.drawerLayout, this));
+  }
+
+  @Override
+  public void onDrawerOpened(View drawerView) {
+    if (!activity.navigationDrawer.isAdded()) {
+      return;
+    }
+
+    activity.supportInvalidateOptionsMenu();
+  }
+
+  @Override
+  public void onDrawerClosed(View drawerView) {
+    if (!activity.navigationDrawer.isAdded()) {
+      return;
+    }
+
+    activity.supportInvalidateOptionsMenu();
   }
 
   @SuppressWarnings("UnusedDeclaration")
@@ -68,27 +99,13 @@ public class OmniActivityControllerImpl implements OmniActivityController {
     }
   }
 
-  private void setTitle(int title) {
-    getActionBar().setTitle(title);
-  }
-
-  private void setSubtitle(String subtitle) {
-    getActionBar().setSubtitle(subtitle);
-  }
-
-  private ActionBar getActionBar() {
-    ActionBar actionBar = activity.getSupportActionBar();
-    actionBar.setDisplayShowTitleEnabled(true);
-    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-    return actionBar;
-  }
-
   private void setInitialFragment() {
     ClippingsFragment clippingsFragment = ClippingsFragment_.builder().build();
+    clippingsFragment.actionBarController = actionBarController;
 
     setFragment(clippingsFragment);
-    setTitle(R.string.clippings_title);
-    setSubtitle(sessionService.getChannel());
+
+    actionBarController.setSubtitle(sessionService.getChannel());
   }
 
   private void setFragment(Fragment fragment) {

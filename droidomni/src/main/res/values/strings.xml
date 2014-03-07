@@ -6,9 +6,15 @@
 
     <string name="app_name">Droid Omni</string>
     <string name="registering">Registering device to the API</string>
+
+    <!-- Clippings -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>
+    <string name="clippings_tab_all">All</string>
+    <string name="clippings_tab_local">Local</string>
+    <string name="clippings_tab_cloud">Cloud</string>
 
+    <!-- Navigation -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_clippings">Clippings</string>

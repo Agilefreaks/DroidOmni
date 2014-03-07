@@ -3,10 +3,21 @@ package com.omnipaste.droidomni.controllers;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 
-import com.omnipaste.droidomni.adapters.ClippingAdapter;
+import com.omnipaste.droidomni.DroidOmniApplication;
+import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.actionbar.SimpleTabListener;
+import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
 import com.omnipaste.droidomni.events.ClippingAdded;
-import com.omnipaste.droidomni.fragments.ClippingsFragment;
+import com.omnipaste.droidomni.fragments.clippings.AllFragment;
+import com.omnipaste.droidomni.fragments.clippings.AllFragment_;
+import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
+import com.omnipaste.droidomni.fragments.clippings.CloudFragment;
+import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
+import com.omnipaste.droidomni.fragments.clippings.LocalFragment;
+import com.omnipaste.droidomni.fragments.clippings.LocalFragment_;
 import com.omnipaste.droidomni.services.NotificationService;
 import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -15,27 +26,41 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 
-public class ClippingsFragmentControllerImpl implements ClippingsFragmentController {
-  private ClippingAdapter clippingAdapter;
-  private ClippingsFragment fragment;
-  private NotificationService notificationService;
-  private NotificationManager notificationManager;
+public class ClippingsFragmentControllerImpl extends SimpleTabListener implements ClippingsFragmentController {
   private EventBus eventBus = EventBus.getDefault();
 
+  private ClippingsFragment fragment;
+  private ClippingsPagerAdapter clippingsPagerAdapter;
+  private AllFragment allClippingsFragment;
+  private LocalFragment localFragment;
+  private CloudFragment cloudFragment;
+  private ActionBarController actionBarController;
+
   @Inject
-  public ClippingsFragmentControllerImpl(NotificationService notificationService, NotificationManager notificationManager) {
-    this.notificationManager = notificationManager;
-    this.notificationService = notificationService;
+  public NotificationService notificationService;
+
+  @Inject
+  public NotificationManager notificationManager;
+
+  public ClippingsFragmentControllerImpl() {
+    DroidOmniApplication.inject(this);
   }
 
   @Override
   public void run(ClippingsFragment clippingsFragment, Bundle savedInstance) {
-    this.fragment = clippingsFragment;
-
+    clippingsFragment.setRetainInstance(true);
     eventBus.register(this);
 
-    clippingsFragment.setRetainInstance(true);
-    clippingAdapter = new ClippingAdapter();
+    this.fragment = clippingsFragment;
+    this.actionBarController = clippingsFragment.actionBarController;
+
+    allClippingsFragment = AllFragment_.builder().build();
+    localFragment = LocalFragment_.builder().build();
+    cloudFragment = CloudFragment_.builder().build();
+    clippingsPagerAdapter = new ClippingsPagerAdapter(clippingsFragment.getChildFragmentManager());
+    clippingsPagerAdapter.addFragment(allClippingsFragment);
+    clippingsPagerAdapter.addFragment(localFragment);
+    clippingsPagerAdapter.addFragment(cloudFragment);
   }
 
   @Override
@@ -45,9 +70,17 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
 
   @Override
   public void afterView() {
-    if (fragment.clippings.getAdapter() == null) {
-      fragment.clippings.setAdapter(clippingAdapter);
+    if (fragment.clippingsPager.getAdapter() == null) {
+      fragment.clippingsPager.setAdapter(clippingsPagerAdapter);
+      fragment.clippingsPager.setOnPageChangeListener(this);
+
+      actionBarController.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+      actionBarController.addTab(R.string.clippings_tab_all, this);
+      actionBarController.addTab(R.string.clippings_tab_local, this);
+      actionBarController.addTab(R.string.clippings_tab_cloud, this);
     }
+
+    actionBarController.setTitle(R.string.clippings_title);
   }
 
   @SuppressWarnings("UnusedDeclaration")
@@ -55,19 +88,39 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
     ClippingDto clipping = event.getClipping();
 
     setClipping(clipping);
+    notifyClipping(clipping);
+  }
 
+  @Override
+  public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    fragment.clippingsPager.setCurrentItem(tab.getPosition(), true);
+  }
+
+  @Override
+  public void onPageSelected(int position) {
+    actionBarController.setSelectedNavigationItem(position);
+  }
+
+  private void setClipping(ClippingDto clippingDto) {
+    allClippingsFragment.add(clippingDto);
+
+    if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.cloud) {
+      cloudFragment.add(clippingDto);
+    }
+
+    if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.local) {
+      localFragment.add(clippingDto);
+    }
+  }
+
+  private void notifyClipping(ClippingDto clipping) {
     Notification notification;
     if (clipping.getType() == ClippingDto.ClippingType.unknown) {
       notification = notificationService.buildSimpleNotification(fragment.getActivity(), clipping.getContent());
-    }
-    else {
+    } else {
       notification = notificationService.buildSmartActionNotification(fragment.getActivity(), clipping);
     }
 
     notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notification);
-  }
-
-  private void setClipping(ClippingDto clippingDto) {
-    clippingAdapter.add(clippingDto);
   }
 }
