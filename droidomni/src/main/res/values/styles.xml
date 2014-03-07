@@ -1,12 +1,20 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
 
         <!-- List attributes -->
         <item name="listPreferredItemPaddingStart">@dimen/listPreferredItemPaddingStart</item>
         <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingStart</item>
         <item name="drawablePadding">@dimen/drawablePadding</item>
+
+        <item name="android:actionBarStyle">@style/OmniActionBar</item>
+    </style>
+
+    <style name="OmniActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
+        <item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
+        <item name="android:background">@drawable/ab_solid_dark_holo</item>
     </style>
 
     <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.Menu">
