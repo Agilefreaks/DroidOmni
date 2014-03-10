@@ -25,6 +25,8 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 public class ClippingsFragmentControllerImpl extends SimpleTabListener implements ClippingsFragmentController {
   private EventBus eventBus = EventBus.getDefault();
@@ -35,6 +37,7 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   private LocalFragment localFragment;
   private CloudFragment cloudFragment;
   private ActionBarController actionBarController;
+  private PublishSubject<ClippingDto> clippingsSubject;
 
   @Inject
   public NotificationService notificationService;
@@ -44,6 +47,12 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
 
   public ClippingsFragmentControllerImpl() {
     DroidOmniApplication.inject(this);
+
+    clippingsSubject = PublishSubject.create();
+
+    allClippingsFragment = AllFragment_.builder().build();
+    localFragment = LocalFragment_.builder().build();
+    cloudFragment = CloudFragment_.builder().build();
   }
 
   @Override
@@ -54,13 +63,12 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     this.fragment = clippingsFragment;
     this.actionBarController = clippingsFragment.actionBarController;
 
-    allClippingsFragment = AllFragment_.builder().build();
-    localFragment = LocalFragment_.builder().build();
-    cloudFragment = CloudFragment_.builder().build();
+    allClippingsFragment.observer(this.getObservable());
+    localFragment.observer(this.getObservable());
+    cloudFragment.observer(this.getObservable());
+
     clippingsPagerAdapter = new ClippingsPagerAdapter(clippingsFragment.getChildFragmentManager());
     clippingsPagerAdapter.addFragment(allClippingsFragment);
-    clippingsPagerAdapter.addFragment(localFragment);
-    clippingsPagerAdapter.addFragment(cloudFragment);
   }
 
   @Override
@@ -82,6 +90,11 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     }
   }
 
+  @Override
+  public Observable<ClippingDto> getObservable() {
+    return clippingsSubject;
+  }
+
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(ClippingAdded event) {
     ClippingDto clipping = event.getClipping();
@@ -101,18 +114,14 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   }
 
   private void setClipping(ClippingDto clippingDto) {
-    allClippingsFragment.add(clippingDto);
+    clippingsSubject.onNext(clippingDto);
 
-    if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.local) {
-      localFragment.add(clippingDto);
-    }
+    if (clippingsPagerAdapter.getCount() == 1 &&
+        cloudFragment.getActualListAdapter().getCount() > 0) {
+      clippingsPagerAdapter.addFragment(localFragment);
+      clippingsPagerAdapter.addFragment(cloudFragment);
 
-    if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.cloud) {
-      cloudFragment.add(clippingDto);
-
-      if (actionBarController.getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS) {
-        actionBarController.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-      }
+      actionBarController.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
   }
 
