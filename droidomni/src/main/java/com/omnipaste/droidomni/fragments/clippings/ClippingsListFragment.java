@@ -8,6 +8,8 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 
+import rx.Observable;
+
 @EFragment
 public abstract class ClippingsListFragment extends ListFragment {
   private final ClippingAdapter clippingAdapter;
@@ -24,7 +26,13 @@ public abstract class ClippingsListFragment extends ListFragment {
     }
   }
 
-  public void add(ClippingDto clippingDto) {
+  public ClippingAdapter getActualListAdapter() {
+    return clippingAdapter;
+  }
+
+  public abstract void observer(Observable<ClippingDto>observable);
+
+  protected void add(ClippingDto clippingDto) {
     clippingAdapter.add(clippingDto);
   }
 }

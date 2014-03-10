@@ -28,6 +28,7 @@ public class ClippingsPagerAdapter extends FragmentPagerAdapter {
 
   public void addFragment(ListFragment fragment) {
     fragments.add(fragment);
+    notifyDataSetChanged();
   }
 
   public ListFragment getFragment(int position) {
