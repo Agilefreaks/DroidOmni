@@ -1,5 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+project.ext.preDexLibs = !project.hasProperty('disablePreDex')
+
 buildscript {
     repositories {
         mavenCentral()
@@ -31,4 +33,14 @@ allprojects {
             'org.mockito:mockito-core:1.9.5',
             'com.jayway.android.robotium:robotium-solo:5.0.1'
     ]
+}
+
+subprojects {
+    project.plugins.whenPluginAdded { plugin ->
+        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        }
+    }
 }
