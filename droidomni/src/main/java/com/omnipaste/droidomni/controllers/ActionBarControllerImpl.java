@@ -15,8 +15,7 @@ public class ActionBarControllerImpl implements ActionBarController {
   private ActionBar actionBar;
 
   @Override
-  public void
-  run(ActionBarActivity actionBarActivity) {
+  public void run(ActionBarActivity actionBarActivity) {
     this.actionBarActivity = actionBarActivity;
     this.actionBar = null;
   }
