@@ -11,13 +11,13 @@ import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 
 public class ActionBarControllerImpl implements ActionBarController {
-
   private ActionBarActivity actionBarActivity;
   private ActionBar actionBar;
 
   @Override
   public void run(ActionBarActivity actionBarActivity) {
     this.actionBarActivity = actionBarActivity;
+    this.actionBar = null;
   }
 
   @Override
@@ -113,7 +113,7 @@ public class ActionBarControllerImpl implements ActionBarController {
     return getActionBar().getNavigationMode();
   }
 
-  private ActionBar getActionBar() {
+  public ActionBar getActionBar() {
     if (actionBar == null) {
       actionBar = actionBarActivity.getSupportActionBar();
       actionBar.setDisplayShowTitleEnabled(true);
