@@ -10,7 +10,7 @@ import rx.functions.Action1;
 @EFragment
 public class AllFragment extends ClippingsListFragment {
   @Override
-  public void observer(Observable<ClippingDto> observable) {
+  public void observe(Observable<ClippingDto> observable) {
     observable
         .subscribe(new Action1<ClippingDto>() {
           @Override

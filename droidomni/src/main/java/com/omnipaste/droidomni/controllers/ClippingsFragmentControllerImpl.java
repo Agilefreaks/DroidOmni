@@ -25,7 +25,8 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
 import rx.subjects.PublishSubject;
 
 public class ClippingsFragmentControllerImpl extends SimpleTabListener implements ClippingsFragmentController {
@@ -63,9 +64,9 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     this.fragment = clippingsFragment;
     this.actionBarController = clippingsFragment.actionBarController;
 
-    allClippingsFragment.observer(this.getObservable());
-    localFragment.observer(this.getObservable());
-    cloudFragment.observer(this.getObservable());
+    allClippingsFragment.observe(clippingsSubject);
+    localFragment.observe(clippingsSubject);
+    cloudFragment.observe(clippingsSubject);
 
     clippingsPagerAdapter = new ClippingsPagerAdapter(clippingsFragment.getChildFragmentManager());
     clippingsPagerAdapter.addFragment(allClippingsFragment);
@@ -91,8 +92,8 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   }
 
   @Override
-  public Observable<ClippingDto> getObservable() {
-    return clippingsSubject;
+  public Subscription subscribe(Observer<ClippingDto> observer) {
+    return clippingsSubject.subscribe(observer);
   }
 
   @SuppressWarnings("UnusedDeclaration")
@@ -113,10 +114,11 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     actionBarController.setSelectedNavigationItem(position);
   }
 
-  private void setClipping(ClippingDto clippingDto) {
+  public void setClipping(ClippingDto clippingDto) {
     clippingsSubject.onNext(clippingDto);
 
-    if (clippingsPagerAdapter.getCount() == 1 &&
+    if (clippingsPagerAdapter != null &&
+        clippingsPagerAdapter.getCount() == 1 &&
         cloudFragment.getActualListAdapter().getCount() > 0) {
       clippingsPagerAdapter.addFragment(localFragment);
       clippingsPagerAdapter.addFragment(cloudFragment);
@@ -125,7 +127,7 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     }
   }
 
-  private void notifyClipping(ClippingDto clipping) {
+  public void notifyClipping(ClippingDto clipping) {
     Notification notification;
     if (clipping.getType() == ClippingDto.ClippingType.unknown) {
       notification = notificationService.buildSimpleNotification(fragment.getActivity(), clipping.getContent());

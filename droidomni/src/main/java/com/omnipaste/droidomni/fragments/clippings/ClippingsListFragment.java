@@ -30,7 +30,7 @@ public abstract class ClippingsListFragment extends ListFragment {
     return clippingAdapter;
   }
 
-  public abstract void observer(Observable<ClippingDto>observable);
+  public abstract void observe(Observable<ClippingDto> observable);
 
   protected void add(ClippingDto clippingDto) {
     clippingAdapter.add(clippingDto);

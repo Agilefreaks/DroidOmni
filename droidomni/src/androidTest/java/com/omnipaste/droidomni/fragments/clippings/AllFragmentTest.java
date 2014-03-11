@@ -22,7 +22,7 @@ public class AllFragmentTest extends TestCase {
 
   public void testWillAddClippingsNoMatterWhatProvider() throws Exception {
     PublishSubject<ClippingDto> publishSubject = PublishSubject.create();
-    allFragment.observer(publishSubject);
+    allFragment.observe(publishSubject);
 
     publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.cloud));
     publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.local));

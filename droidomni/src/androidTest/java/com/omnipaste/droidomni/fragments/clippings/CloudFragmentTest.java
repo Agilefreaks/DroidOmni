@@ -23,7 +23,7 @@ public class CloudFragmentTest extends TestCase {
   public void testWillAddCloudClippings() throws Exception {
     PublishSubject<ClippingDto> publishSubject = PublishSubject.create();
     ClippingDto cloudClipping = new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.cloud);
-    cloudFragment.observer(publishSubject);
+    cloudFragment.observe(publishSubject);
 
     publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.local));
     publishSubject.onNext(cloudClipping);

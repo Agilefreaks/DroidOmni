@@ -23,7 +23,7 @@ public class LocalFragmentTest extends TestCase {
   public void testWillAddLocalClippings() throws Exception {
     PublishSubject<ClippingDto> publishSubject = PublishSubject.create();
     ClippingDto localClipping = new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.local);
-    localFragment.observer(publishSubject);
+    localFragment.observe(publishSubject);
 
     publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.cloud));
     publishSubject.onNext(localClipping);
