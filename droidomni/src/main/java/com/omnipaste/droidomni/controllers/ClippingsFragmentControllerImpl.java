@@ -25,6 +25,8 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
+import rx.Observer;
+import rx.Subscription;
 import rx.subjects.PublishSubject;
 
 public class ClippingsFragmentControllerImpl extends SimpleTabListener implements ClippingsFragmentController {
@@ -87,6 +89,10 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
 
       actionBarController.setTitle(R.string.clippings_title);
     }
+  }
+
+  public Subscription subscribe(Observer<ClippingDto> observer) {
+    return clippingsSubject.subscribe(observer);
   }
 
   @SuppressWarnings("UnusedDeclaration")
