@@ -12,8 +12,8 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
-import rx.util.functions.Action1;
-import rx.util.functions.Func1;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class PhoneProvider implements IPhoneProvider {
   private static final String PHONE_NUMBER_KEY = "phone_number";

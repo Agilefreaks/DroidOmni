@@ -20,7 +20,7 @@ public abstract class Resource {
 
   protected RestAdapter.Builder getBuilder(String baseUrl) {
     return new RestAdapter.Builder()
-        .setServer(baseUrl)
+        .setEndpoint(baseUrl)
         .setLogLevel(RestAdapter.LogLevel.FULL)
         .setConverter(new GsonConverter(getGsonBuilder().create()));
   }

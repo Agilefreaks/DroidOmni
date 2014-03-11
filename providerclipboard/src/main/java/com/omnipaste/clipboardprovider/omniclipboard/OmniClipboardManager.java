@@ -9,9 +9,9 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subjects.PublishSubject;
-import rx.util.functions.Action1;
-import rx.util.functions.Func1;
 
 public class OmniClipboardManager implements IOmniClipboardManager {
   private PublishSubject<String> omniClipboardSubject;
@@ -37,7 +37,8 @@ public class OmniClipboardManager implements IOmniClipboardManager {
               public void call(NotificationDto notificationDto) {
                 omniClipboardSubject.onNext(notificationDto.getRegistrationId());
               }
-            });
+            }
+        );
   }
 
   public Observable<String> getObservable() {

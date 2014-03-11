@@ -10,10 +10,8 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
+import rx.Subscriber;
 import rx.subjects.PublishSubject;
-import rx.subscriptions.Subscriptions;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LocalClipboardManager implements ILocalClipboardManager, ClipboardManager.OnPrimaryClipChangedListener {
@@ -36,10 +34,10 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
 
   @Override
   public Observable<ClippingDto> getPrimaryClip(String channel) {
-    return Observable.create(new Observable.OnSubscribeFunc<ClippingDto>() {
+    return Observable.create(new Observable.OnSubscribe<ClippingDto>() {
       @SuppressWarnings("ConstantConditions")
       @Override
-      public Subscription onSubscribe(Observer<? super ClippingDto> observer) {
+      public void call(Subscriber<? super ClippingDto> observer) {
         if (hasPrimaryClip()) {
           ClippingDto clippingDto = new ClippingDto();
           clippingDto.setContent(getPrimaryClip().getItemAt(0).getText().toString());
@@ -48,8 +46,6 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
         }
 
         observer.onCompleted();
-
-        return Subscriptions.empty();
       }
 
       private ClipData getPrimaryClip() {

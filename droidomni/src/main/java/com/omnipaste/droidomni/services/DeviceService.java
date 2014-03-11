@@ -16,10 +16,8 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
-import rx.subscriptions.Subscriptions;
-import rx.util.functions.Func1;
+import rx.Subscriber;
+import rx.functions.Func1;
 
 public class DeviceService {
   private final Configuration configuration;
@@ -61,18 +59,16 @@ public class DeviceService {
   }
 
   public Observable<String> registerToGcm() {
-    return Observable.create(new Observable.OnSubscribeFunc<String>() {
+    return Observable.create(new Observable.OnSubscribe<String>() {
       @Override
-      public Subscription onSubscribe(Observer<? super String> observer) {
+      public void call(Subscriber<? super String> subscriber) {
         try {
-          observer.onNext(googleCloudMessaging.register(configuration.getGcmSenderId()));
+          subscriber.onNext(googleCloudMessaging.register(configuration.getGcmSenderId()));
         } catch (IOException e) {
-          observer.onError(e);
+          subscriber.onError(e);
         }
 
-        observer.onCompleted();
-
-        return Subscriptions.empty();
+        subscriber.onCompleted();
       }
     });
   }

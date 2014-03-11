@@ -9,8 +9,8 @@ import javax.inject.Inject;
 import dagger.Lazy;
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.subjects.PublishSubject;
-import rx.util.functions.Action1;
 
 public class ClipboardProvider implements IClipboardProvider {
   private PublishSubject<ClippingDto> clipboardProviderSubject;
