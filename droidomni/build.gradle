@@ -5,11 +5,13 @@ buildscript {
 
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.2'
+        classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
     }
 }
 
 apply plugin: 'android'
 apply plugin: 'android-apt'
+apply plugin: 'android-cq'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

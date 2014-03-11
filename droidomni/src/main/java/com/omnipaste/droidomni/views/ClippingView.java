@@ -20,15 +20,19 @@ import javax.inject.Inject;
 
 @EViewGroup(R.layout.view_clipping)
 public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> {
-  private HashMap<ClippingDto.ClippingProvider, Integer> icon = new HashMap<ClippingDto.ClippingProvider, Integer>() {{
-    put(ClippingDto.ClippingProvider.local, R.drawable.ic_local);
-    put(ClippingDto.ClippingProvider.cloud, R.drawable.ic_omni);
-  }};
+  private HashMap<ClippingDto.ClippingProvider, Integer> icon = new HashMap<ClippingDto.ClippingProvider, Integer>() {
+    {
+      put(ClippingDto.ClippingProvider.local, R.drawable.ic_local);
+      put(ClippingDto.ClippingProvider.cloud, R.drawable.ic_omni);
+    }
+  };
 
-  private HashMap<ClippingDto.ClippingType, Integer> smartActionIcon = new HashMap<ClippingDto.ClippingType, Integer>() {{
-    put(ClippingDto.ClippingType.phoneNumber, R.drawable.ic_smart_action_phone_number);
-    put(ClippingDto.ClippingType.webSite, R.drawable.ic_smart_action_uri);
-  }};
+  private HashMap<ClippingDto.ClippingType, Integer> smartActionIcon = new HashMap<ClippingDto.ClippingType, Integer>() {
+    {
+      put(ClippingDto.ClippingType.phoneNumber, R.drawable.ic_smart_action_phone_number);
+      put(ClippingDto.ClippingType.webSite, R.drawable.ic_smart_action_uri);
+    }
+  };
 
   @ViewById
   public TextView textContent;
@@ -55,8 +59,7 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
     if (clippingDto.getType() != ClippingDto.ClippingType.unknown) {
       smartActionButton.setVisibility(VISIBLE);
       smartActionButton.setImageResource(smartActionIcon.get(clippingDto.getType()));
-    }
-    else {
+    } else {
       smartActionButton.setVisibility(GONE);
     }
   }
