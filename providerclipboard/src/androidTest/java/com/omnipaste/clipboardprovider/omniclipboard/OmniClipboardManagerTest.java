@@ -11,6 +11,7 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.subjects.BehaviorSubject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -76,7 +77,11 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
   public void testSetPrimaryWillReturnAClippingDtoWithTheRightProvider() throws Exception {
     Clippings clippings = mock(Clippings.class);
 
-    when(clippings.create(eq("test@test.com"), any(ClippingDto.class))).thenReturn(mock(Observable.class));
+    when(clippings.create(eq("test@test.com"), any(ClippingDto.class))).thenReturn(Observable.create(new Observable.OnSubscribe<ClippingDto>() {
+      @Override
+      public void call(Subscriber<? super ClippingDto> subscriber) {
+      }
+    }));
     when(mockOmniApi.clippings()).thenReturn(clippings);
 
     ClippingDto clippingDto = omniClipboardManager.setPrimaryClip("test@test.com", new ClippingDto());
