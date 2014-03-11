@@ -22,9 +22,6 @@ import com.omnipaste.droidomni.services.SessionService;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.util.functions.Action0;
 
 public class OmniActivityControllerImpl implements OmniActivityController, ActionBarDrawerToggleListener {
   private final SessionService sessionService;
@@ -84,18 +81,11 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(NavigationItemClicked event) {
     if (event.getNavigationDrawerItem().getNavigationMenu() == NavigationMenu.SignOut) {
-      OmniService.stop(activity).
-          subscribeOn(Schedulers.io()).
-          observeOn(AndroidSchedulers.mainThread()).
-          doOnCompleted(new Action0() {
-            @Override
-            public void call() {
-              sessionService.logout();
+      OmniService.stop(activity);
 
-              activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
-              activity.finish();
-            }
-          }).subscribe();
+      sessionService.logout();
+      activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
+      activity.finish();
     }
   }
 

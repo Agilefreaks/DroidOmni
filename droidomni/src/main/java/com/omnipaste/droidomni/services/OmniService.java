@@ -21,7 +21,6 @@ import org.androidannotations.annotations.res.StringRes;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -51,24 +50,14 @@ public class OmniService extends Service {
   @Inject
   public NotificationService notificationService;
 
-  public static Observable start(final Context context, final RegisteredDeviceDto registeredDeviceDto) {
-    return Observable.create(new Observable.OnSubscribe() {
-      @Override
-      public void call(Object object) {
-        Intent service = new Intent(context, OmniService_.class);
-        service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
-        context.startService(service);
-      }
-    });
+  public static void start(final Context context, final RegisteredDeviceDto registeredDeviceDto) {
+    Intent service = new Intent(context, OmniService_.class);
+    service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
+    context.startService(service);
   }
 
-  public static Observable stop(final Context context) {
-    return Observable.create(new Observable.OnSubscribe() {
-      @Override
-      public void call(Object object) {
-        context.stopService(new Intent(context, OmniService_.class));
-      }
-    });
+  public static void stop(final Context context) {
+    context.stopService(new Intent(context, OmniService_.class));
   }
 
   public OmniService() {

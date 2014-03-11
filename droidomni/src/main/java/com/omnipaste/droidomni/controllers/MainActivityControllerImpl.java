@@ -18,9 +18,6 @@ import com.omnipaste.droidomni.services.SessionService;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.util.functions.Action0;
 
 public class MainActivityControllerImpl implements MainActivityController {
   private EventBus eventBus = EventBus.getDefault();
@@ -56,16 +53,10 @@ public class MainActivityControllerImpl implements MainActivityController {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(DeviceInitEvent event) {
-    OmniService.start(activity, event.getRegisteredDeviceDto()).
-        subscribeOn(Schedulers.io()).
-        observeOn(AndroidSchedulers.mainThread()).
-        doOnCompleted(new Action0() {
-          @Override
-          public void call() {
-            activity.startActivity(new Intent(activity.getApplicationContext(), OmniActivity_.class));
-            activity.finish();
-          }
-        }).subscribe();
+    OmniService.start(activity, event.getRegisteredDeviceDto());
+
+    activity.startActivity(new Intent(activity.getApplicationContext(), OmniActivity_.class));
+    activity.finish();
   }
 
   private void setInitialFragment() {
