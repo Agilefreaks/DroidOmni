@@ -119,6 +119,7 @@ public class MainModule {
   }
 
   @Provides
+  @Singleton
   public ActionBarController providesActionBarController() {
     return new ActionBarControllerImpl();
   }

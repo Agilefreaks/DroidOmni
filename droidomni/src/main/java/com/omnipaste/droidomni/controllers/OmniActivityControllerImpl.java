@@ -47,6 +47,8 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
     if (savedInstance == null) {
       setInitialFragment();
     }
+
+    actionBarController.setSubtitle(sessionService.getChannel());
   }
 
   @Override
@@ -91,11 +93,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   private void setInitialFragment() {
     ClippingsFragment clippingsFragment = ClippingsFragment_.builder().build();
-    clippingsFragment.actionBarController = actionBarController;
-
     setFragment(clippingsFragment);
-
-    actionBarController.setSubtitle(sessionService.getChannel());
   }
 
   private void setFragment(Fragment fragment) {

@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.controllers.ActionBarController;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentController;
 
 import org.androidannotations.annotations.AfterViews;
@@ -24,14 +23,19 @@ public class ClippingsFragment extends Fragment {
   @Inject
   public ClippingsFragmentController controller;
 
-  public ActionBarController actionBarController;
-
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     DroidOmniApplication.inject(this);
 
     controller.run(this, savedInstanceState);
+  }
+
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+
+    controller.onActivityCreate();
   }
 
   @AfterViews

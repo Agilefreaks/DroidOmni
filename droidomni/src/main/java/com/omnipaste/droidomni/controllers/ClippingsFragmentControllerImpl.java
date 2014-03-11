@@ -37,7 +37,6 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   private AllFragment allClippingsFragment;
   private LocalFragment localFragment;
   private CloudFragment cloudFragment;
-  private ActionBarController actionBarController;
   private PublishSubject<ClippingDto> clippingsSubject;
 
   @Inject
@@ -45,6 +44,9 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
 
   @Inject
   public NotificationManager notificationManager;
+
+  @Inject
+  public ActionBarController actionBarController;
 
   public ClippingsFragmentControllerImpl() {
     DroidOmniApplication.inject(this);
@@ -62,7 +64,6 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     eventBus.register(this);
 
     this.fragment = clippingsFragment;
-    this.actionBarController = clippingsFragment.actionBarController;
 
     allClippingsFragment.observe(clippingsSubject);
     localFragment.observe(clippingsSubject);
@@ -89,6 +90,11 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
 
       actionBarController.setTitle(R.string.clippings_title);
     }
+  }
+
+  @Override
+  public void onActivityCreate() {
+    setNavigationMode();
   }
 
   public Subscription subscribe(Observer<ClippingDto> observer) {
@@ -121,9 +127,9 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
         cloudFragment.getActualListAdapter().getCount() > 0) {
       clippingsPagerAdapter.addFragment(localFragment);
       clippingsPagerAdapter.addFragment(cloudFragment);
-
-      actionBarController.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
+
+    setNavigationMode();
   }
 
   public void notifyClipping(ClippingDto clipping) {
@@ -135,5 +141,13 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     }
 
     notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notification);
+  }
+
+  private void setNavigationMode() {
+    if (clippingsPagerAdapter != null) {
+      int navigationMode = clippingsPagerAdapter.getCount() == 1 ?
+          ActionBar.NAVIGATION_MODE_STANDARD : ActionBar.NAVIGATION_MODE_TABS;
+      actionBarController.setNavigationMode(navigationMode);
+    }
   }
 }
