@@ -13,6 +13,7 @@ import com.omnipaste.droidomni.activities.AboutActivity_;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.PrivacyPolicyActivity_;
+import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
@@ -87,6 +88,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
       case Clippings:
         break;
       case Settings:
+        activity.startActivity(new Intent(activity, SettingsActivity.class));
         break;
       case About:
         activity.startActivity(new Intent(activity, AboutActivity_.class));

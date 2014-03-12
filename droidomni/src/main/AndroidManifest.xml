@@ -47,6 +47,12 @@
                 android:label="@string/title_activity_privacy_policy"
                 android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
         </activity>
+        <activity
+                android:name="com.omnipaste.droidomni.activities.SettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
+        </activity>
+
 
         <service
                 android:name="com.omnipaste.droidomni.services.OmniService_"
