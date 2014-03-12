@@ -7,9 +7,9 @@ import android.view.View;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.Helpers;
-import com.omnipaste.droidomni.NavigationMenu;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
+import com.omnipaste.droidomni.activities.AboutActivity_;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
@@ -82,13 +82,28 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(NavigationItemClicked event) {
-    if (event.getNavigationDrawerItem().getNavigationMenu() == NavigationMenu.SignOut) {
-      OmniService.stop(activity);
-
-      sessionService.logout();
-      activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
-      activity.finish();
+    switch (event.getNavigationDrawerItem().getNavigationMenu()) {
+      case Clippings:
+        break;
+      case Settings:
+        break;
+      case About:
+        activity.startActivity(new Intent(activity, AboutActivity_.class));
+        break;
+      case PrivacyPolicy:
+        break;
+      case SignOut:
+        signOut();
+        break;
     }
+  }
+
+  private void signOut() {
+    OmniService.stop(activity);
+
+    sessionService.logout();
+    activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
+    activity.finish();
   }
 
   private void setInitialFragment() {
