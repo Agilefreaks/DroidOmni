@@ -24,4 +24,7 @@
 
     <!-- About -->
     <string name="title_activity_about">About</string>
+
+    <!-- Privacy Policy -->
+    <string name="title_activity_privacy_policy">Privacy Policy</string>
 </resources>

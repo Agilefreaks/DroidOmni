@@ -12,6 +12,7 @@ import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.AboutActivity_;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
+import com.omnipaste.droidomni.activities.PrivacyPolicyActivity_;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
@@ -91,6 +92,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
         activity.startActivity(new Intent(activity, AboutActivity_.class));
         break;
       case PrivacyPolicy:
+        activity.startActivity(new Intent(activity, PrivacyPolicyActivity_.class));
         break;
       case SignOut:
         signOut();
