@@ -23,9 +23,6 @@ public class NavigationDrawerItemView extends LinearLayout implements HasSetup<N
   public void setUp(NavigationDrawerItem item) {
     textTitle.setText(item.getTitle());
     textTitle.setCompoundDrawablesWithIntrinsicBounds(item.getIcon(), 0, 0, 0);
-
-    if (item.getIsSelected()) {
-      textTitle.setSelected(true);
-    }
+    textTitle.setSelected(item.getIsSelected());
   }
 }

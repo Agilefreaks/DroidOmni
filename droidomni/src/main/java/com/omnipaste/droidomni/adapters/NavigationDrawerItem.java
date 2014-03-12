@@ -14,6 +14,13 @@ public class NavigationDrawerItem {
     this.navigationMenu = navigationMenu;
   }
 
+  public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Boolean isSelected)
+  {
+    this(title, navigationMenu);
+
+    this.isSelected = isSelected;
+  }
+
   public NavigationDrawerItem(String title, NavigationMenu navigationMenu, Integer icon) {
     this(title, navigationMenu);
 
