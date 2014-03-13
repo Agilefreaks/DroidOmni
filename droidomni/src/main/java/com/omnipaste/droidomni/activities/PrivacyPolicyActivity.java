@@ -6,6 +6,8 @@ import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import com.omnipaste.droidomni.R;
+
 public class PrivacyPolicyActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,6 @@ public class PrivacyPolicyActivity extends ActionBarActivity {
       }
     });
 
-    webView.loadUrl("https://www.omnipasteapp.com/tos");
+    webView.loadUrl(getResources().getString(R.string.tos_url));
   }
 }
