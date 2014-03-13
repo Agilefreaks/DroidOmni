@@ -38,7 +38,7 @@
                 android:label="@string/app_name">
         </activity>
         <activity
-                android:name="com.omnipaste.droidomni.activities.AboutActivity_"
+                android:name="com.omnipaste.droidomni.activities.AboutActivity"
                 android:label="@string/title_activity_about"
                 android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
         </activity>

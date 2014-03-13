@@ -9,7 +9,7 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
-import com.omnipaste.droidomni.activities.AboutActivity_;
+import com.omnipaste.droidomni.activities.AboutActivity;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.PrivacyPolicyActivity_;
@@ -91,7 +91,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
         activity.startActivity(new Intent(activity, SettingsActivity.class));
         break;
       case About:
-        activity.startActivity(new Intent(activity, AboutActivity_.class));
+        activity.startActivity(new Intent(activity, AboutActivity.class));
         break;
       case PrivacyPolicy:
         activity.startActivity(new Intent(activity, PrivacyPolicyActivity_.class));

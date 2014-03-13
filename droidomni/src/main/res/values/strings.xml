@@ -4,6 +4,7 @@
     <string name="apiUrl">http://10.0.3.2:3000/api</string>
     <string name="gcm_sender_id">930634995806</string>
     <string name="app_name">Droid Omni</string>
+    <string name="motto">Take control of your multi screen world.</string>
     <string name="registering">Registering device to the API</string>
 
     <!-- Clippings -->
@@ -24,6 +25,7 @@
 
     <!-- About -->
     <string name="title_activity_about">About</string>
+    <string name="about_version">Version</string>
 
     <!-- Privacy Policy -->
     <string name="title_activity_privacy_policy">Privacy Policy</string>

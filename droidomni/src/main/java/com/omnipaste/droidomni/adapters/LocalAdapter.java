@@ -49,5 +49,9 @@ public abstract class LocalAdapter<T, TView extends HasSetup<T>> extends BaseAda
     return itemView;
   }
 
+  public void addItem(T item) {
+    items.add(item);
+  }
+
   protected abstract View buildView(Context context);
 }
