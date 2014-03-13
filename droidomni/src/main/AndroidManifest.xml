@@ -43,7 +43,7 @@
                 android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
         </activity>
         <activity
-                android:name="com.omnipaste.droidomni.activities.PrivacyPolicyActivity_"
+                android:name="com.omnipaste.droidomni.activities.PrivacyPolicyActivity"
                 android:label="@string/title_activity_privacy_policy"
                 android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
         </activity>
