@@ -8,7 +8,10 @@
         <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingStart</item>
         <item name="drawablePadding">@dimen/drawablePadding</item>
 
+        <!-- Actionbar styles -->
         <item name="android:actionBarStyle">@style/OmniActionBar</item>
+
+        <item name="android:homeAsUpIndicator">@drawable/ic_ab_back_holo_dark_am</item>
     </style>
 
     <style name="OmniActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">

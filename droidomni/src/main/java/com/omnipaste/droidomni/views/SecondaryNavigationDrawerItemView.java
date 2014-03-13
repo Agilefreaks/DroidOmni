@@ -22,5 +22,6 @@ public class SecondaryNavigationDrawerItemView extends LinearLayout implements H
   @Override
   public void setUp(NavigationDrawerItem item) {
     textTitle.setText(item.getTitle());
+    textTitle.setSelected(item.getIsSelected());
   }
 }
