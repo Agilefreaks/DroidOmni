@@ -2,6 +2,7 @@ package com.omnipaste.droidomni.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -30,5 +31,17 @@ public class PrivacyPolicyActivity extends ActionBarActivity {
     });
 
     webView.loadUrl(getResources().getString(R.string.tos_url));
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem menuItem) {
+    switch (menuItem.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case android.R.id.home:
+        super.onBackPressed();
+        return true;
+    }
+
+    return super.onOptionsItemSelected(menuItem);
   }
 }

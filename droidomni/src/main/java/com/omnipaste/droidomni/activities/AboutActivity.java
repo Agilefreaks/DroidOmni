@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.AboutAdapter;
@@ -29,7 +30,20 @@ public class AboutActivity extends ListActivity {
     }
     aboutAdapter.addItem(new AboutItem(resources.getString(R.string.about_version), pInfo.versionName));
 
-
     setListAdapter(aboutAdapter);
+
+    getActionBar().setDisplayHomeAsUpEnabled(true);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem menuItem) {
+    switch (menuItem.getItemId()) {
+      // Respond to the action bar's Up/Home button
+      case android.R.id.home:
+        super.onBackPressed();
+        return true;
+    }
+
+    return super.onOptionsItemSelected(menuItem);
   }
 }
