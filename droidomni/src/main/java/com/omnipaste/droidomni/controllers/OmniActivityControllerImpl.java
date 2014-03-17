@@ -88,12 +88,15 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
       case Clippings:
         break;
       case Settings:
+        activity.drawerLayout.closeDrawers();
         activity.startActivity(new Intent(activity, SettingsActivity.class));
         break;
       case About:
+        activity.drawerLayout.closeDrawers();
         activity.startActivity(new Intent(activity, AboutActivity.class));
         break;
       case PrivacyPolicy:
+        activity.drawerLayout.closeDrawers();
         activity.startActivity(new Intent(activity, PrivacyPolicyActivity.class));
         break;
       case SignOut:

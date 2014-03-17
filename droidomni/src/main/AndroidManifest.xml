@@ -41,6 +41,9 @@
                 android:name="com.omnipaste.droidomni.activities.AboutActivity"
                 android:label="@string/title_activity_about"
                 android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.omnipaste.droidomni.activities.OmniActivity_"/>
         </activity>
         <activity
                 android:name="com.omnipaste.droidomni.activities.PrivacyPolicyActivity"

@@ -55,7 +55,9 @@ public class MainActivityControllerImpl implements MainActivityController {
   public void onEventMainThread(DeviceInitEvent event) {
     OmniService.start(activity, event.getRegisteredDeviceDto());
 
-    activity.startActivity(new Intent(activity.getApplicationContext(), OmniActivity_.class));
+    Intent intent = new Intent(activity, OmniActivity_.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    activity.startActivity(intent);
     activity.finish();
   }
 
