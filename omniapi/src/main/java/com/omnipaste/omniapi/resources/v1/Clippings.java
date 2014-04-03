@@ -7,19 +7,16 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
-import retrofit.http.Headers;
 import retrofit.http.POST;
 import rx.Observable;
 
 public class Clippings extends Resource {
   private interface ClippingsApi {
-    @Headers({Resource.CONTENT_TYPE, Resource.ACCEPT, Resource.USER_AGENT, Resource.CONNECTION})
     @GET("/v1/clippings/last.json")
-    Observable<ClippingDto> last(@Header("CHANNEL") String channel);
+    Observable<ClippingDto> last(@Header("Authorization") String token);
 
-    @Headers({Resource.CONTENT_TYPE, Resource.ACCEPT, Resource.USER_AGENT, Resource.CONNECTION})
     @POST("/v1/clippings.json")
-    Observable<ClippingDto> create(@Header("CHANNEL") String channel, @Body ClippingDto content);
+    Observable<ClippingDto> create(@Header("Authorization") String token, @Body ClippingDto content);
   }
 
   private ClippingsApi clippingsApi;
@@ -31,11 +28,11 @@ public class Clippings extends Resource {
   }
 
   public Observable<ClippingDto> last(String channel) {
-    return clippingsApi.last(channel);
+    return clippingsApi.last(BEARER_TOKEN);
   }
 
   public Observable<ClippingDto> create(String channel, ClippingDto clippingDto) {
-    return clippingsApi.create(channel, clippingDto);
+    return clippingsApi.create(BEARER_TOKEN, clippingDto);
   }
 
   @Override

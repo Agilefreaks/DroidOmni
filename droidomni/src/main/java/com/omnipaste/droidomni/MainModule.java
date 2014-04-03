@@ -20,6 +20,7 @@ import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
+import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.NotificationService;
 import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.droidomni.services.OmniService_;
@@ -49,6 +50,7 @@ import dagger.Provides;
         ClippingsFragmentControllerImpl.class,
         // services
         DeviceService.class,
+        LoginService.class,
         SessionServiceImpl.class,
         OmniService_.class,
         // others

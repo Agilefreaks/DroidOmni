@@ -14,9 +14,9 @@ import org.androidannotations.annotations.ViewById;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
-import rx.util.functions.Action0;
-import rx.util.functions.Action1;
 
 @EFragment(R.layout.fragment_device_init)
 public class DeviceInitFragment extends Fragment {
