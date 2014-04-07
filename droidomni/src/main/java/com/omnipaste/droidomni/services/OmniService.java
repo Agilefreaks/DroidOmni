@@ -98,7 +98,7 @@ public class OmniService extends Service {
       Configuration configuration = configurationService.getConfiguration();
 
       clipboardSubscriber = clipboardProvider
-          .subscribe(configuration.getChannel(), deviceIdentifier)
+          .subscribe(configuration.getAccessToken().getAccessToken(), deviceIdentifier)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(new Action1<ClippingDto>() {
             @Override

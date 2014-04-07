@@ -22,6 +22,9 @@ public class DroidOmniApplication extends Application {
   @StringRes
   public String apiUrl;
 
+  @StringRes
+  public String apiClientId;
+
   @Inject
   public ConfigurationService configurationService;
 
@@ -43,6 +46,7 @@ public class DroidOmniApplication extends Application {
     Configuration configuration = configurationService.getConfiguration();
     configuration.setApiUrl(apiUrl);
     configuration.setGcmSenderId(gcmSenderId);
+    configuration.setApiClientId(apiClientId);
     configurationService.setConfiguration(configuration);
   }
 }

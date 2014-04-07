@@ -11,8 +11,6 @@ import javax.inject.Inject;
 import rx.Observable;
 
 public class LoginService {
-  private final Configuration configuration;
-
   @Inject
   public IOmniApi omniApi;
 
@@ -21,11 +19,13 @@ public class LoginService {
 
   public LoginService() {
     DroidOmniApplication.inject(this);
-
-    configuration = configurationService.getConfiguration();
   }
 
   public Observable<AccessTokenDto> login(String code) {
-    return omniApi.token().create("1", code);
+    return omniApi.token().create(getConfiguration().getApiClientId(), code);
+  }
+
+  private Configuration getConfiguration() {
+    return configurationService.getConfiguration();
   }
 }

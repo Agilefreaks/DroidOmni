@@ -55,7 +55,7 @@ public class DeviceService {
   }
 
   public Observable<RegisteredDeviceDto> createDevice() {
-    return omniApi.devices().create(configuration.getChannel(), getIdentifier());
+    return omniApi.devices().create(configuration.getAccessToken().getAccessToken(), getIdentifier());
   }
 
   public Observable<String> registerToGcm() {
@@ -74,7 +74,7 @@ public class DeviceService {
   }
 
   private Observable<RegisteredDeviceDto> activateDevice(String registrationId) {
-    return omniApi.devices().activate(configuration.getChannel(), getIdentifier(), registrationId);
+    return omniApi.devices().activate(configuration.getAccessToken().getAccessToken(), getIdentifier(), registrationId);
   }
 
   private String getIdentifier() {

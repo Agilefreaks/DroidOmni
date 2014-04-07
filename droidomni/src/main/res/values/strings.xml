@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="api_url">http://10.0.3.2:9292/api</string>
-    <string name="tos_url">http://10.0.3.2:3000/tos</string>
-    <string name="gcm_sender_id">930634995806</string>
-    <string name="app_name">Droid Omni</string>
-    <string name="motto">Take control of your multi screen world.</string>
-    <string name="registering">Registering device to the API</string>
-
     <!-- Clippings -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>

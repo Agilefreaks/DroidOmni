@@ -12,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class OmniActivityControllerImplTest extends TestCase {
   private OmniActivityControllerImpl controller;
@@ -38,14 +37,6 @@ public class OmniActivityControllerImplTest extends TestCase {
     controller.run(omniActivity, new Bundle());
 
     verify(mockActionBarController, times(1)).run(omniActivity);
-  }
-
-  public void testRunWillSetSubtitle() throws Exception {
-    when(mockSessionService.getChannel()).thenReturn("test@test.com");
-
-    controller.run(new OmniActivity(), new Bundle());
-
-    verify(mockActionBarController, times(1)).setSubtitle("test@test.com");
   }
 
   public void testStopWillCallActionBarControllerStop() throws Exception {

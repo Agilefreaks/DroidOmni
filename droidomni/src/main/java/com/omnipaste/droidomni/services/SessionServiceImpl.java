@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.services;
 
 import com.omnipaste.omnicommon.domain.Configuration;
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import javax.inject.Inject;
@@ -15,26 +16,21 @@ public class SessionServiceImpl implements SessionService {
   }
 
   @Override
-  public void login(String channel) {
+  public void login(AccessTokenDto accessTokenDto) {
     Configuration configuration = configurationService.getConfiguration();
-    configuration.setChannel(channel);
+    configuration.setAccessToken(accessTokenDto);
     configurationService.setConfiguration(configuration);
   }
 
   @Override
   public void logout() {
     Configuration configuration = configurationService.getConfiguration();
-    configuration.setChannel(null);
+    // configuration.setChannel(null);
     configurationService.setConfiguration(configuration);
   }
 
   @Override
   public Boolean isLogged() {
-    return configurationService.getConfiguration().hasChannel();
-  }
-
-  @Override
-  public String getChannel() {
-    return configurationService.getConfiguration().getChannel();
+    return false; //configurationService.getConfiguration().hasChannel();
   }
 }
