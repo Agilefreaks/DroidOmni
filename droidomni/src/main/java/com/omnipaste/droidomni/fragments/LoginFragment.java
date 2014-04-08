@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.AccountAdapter;
+import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
@@ -59,7 +60,7 @@ public class LoginFragment extends Fragment {
             new Action1<AccessTokenDto>() {
               @Override
               public void call(AccessTokenDto accessTokenDto) {
-                // eventBus.post(new LoginEvent(account.name));
+                eventBus.post(new LoginEvent(accessTokenDto));
               }
             },
             // OnError

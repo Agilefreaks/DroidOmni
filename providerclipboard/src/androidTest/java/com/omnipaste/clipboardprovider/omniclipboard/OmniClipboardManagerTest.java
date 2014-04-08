@@ -2,7 +2,7 @@ package com.omnipaste.clipboardprovider.omniclipboard;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.omniapi.IOmniApi;
+import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omnicommon.Target;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -19,7 +19,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -28,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class OmniClipboardManagerTest extends InstrumentationTestCase {
   private OmniClipboardManager omniClipboardManager;
   private BehaviorSubject<NotificationDto> notificationSubject = BehaviorSubject.create(new NotificationDto());
-  private IOmniApi mockOmniApi;
+  private OmniApi mockOmniApi;
 
   @SuppressWarnings("ConstantConditions")
   @Override
@@ -37,7 +36,7 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
 
     System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-    mockOmniApi = mock(IOmniApi.class);
+    mockOmniApi = mock(OmniApi.class);
     NotificationProvider notificationProvider = mock(NotificationProvider.class);
     when(notificationProvider.getObservable()).thenReturn(notificationSubject);
 
@@ -77,14 +76,14 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
   public void testSetPrimaryWillReturnAClippingDtoWithTheRightProvider() throws Exception {
     Clippings clippings = mock(Clippings.class);
 
-    when(clippings.create(eq("test@test.com"), any(ClippingDto.class))).thenReturn(Observable.create(new Observable.OnSubscribe<ClippingDto>() {
+    when(clippings.create(any(ClippingDto.class))).thenReturn(Observable.create(new Observable.OnSubscribe<ClippingDto>() {
       @Override
       public void call(Subscriber<? super ClippingDto> subscriber) {
       }
     }));
     when(mockOmniApi.clippings()).thenReturn(clippings);
 
-    ClippingDto clippingDto = omniClipboardManager.setPrimaryClip("test@test.com", new ClippingDto());
+    ClippingDto clippingDto = omniClipboardManager.setPrimaryClip(new ClippingDto());
 
     assertThat(clippingDto.getClippingProvider(), is(ClippingDto.ClippingProvider.local));
   }

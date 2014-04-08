@@ -9,11 +9,10 @@ import android.os.IBinder;
 import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.events.ClippingAdded;
-import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
-import com.omnipaste.phoneprovider.IPhoneProvider;
+import com.omnipaste.phoneprovider.PhoneProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -45,7 +44,7 @@ public class OmniService extends Service {
   public IClipboardProvider clipboardProvider;
 
   @Inject
-  public IPhoneProvider phoneProvider;
+  public PhoneProvider phoneProvider;
 
   @Inject
   public NotificationService notificationService;
@@ -95,10 +94,8 @@ public class OmniService extends Service {
     if (!started) {
       notifyUser();
 
-      Configuration configuration = configurationService.getConfiguration();
-
       clipboardSubscriber = clipboardProvider
-          .subscribe(configuration.getAccessToken().getAccessToken(), deviceIdentifier)
+          .subscribe(deviceIdentifier)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(new Action1<ClippingDto>() {
             @Override

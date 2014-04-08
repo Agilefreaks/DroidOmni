@@ -7,7 +7,7 @@ import rx.Observable;
 public interface IClipboardManager {
   public Observable<String> getObservable();
 
-  public Observable<ClippingDto> getPrimaryClip(String channel);
+  public Observable<ClippingDto> getPrimaryClip();
 
-  public ClippingDto setPrimaryClip(String channel, ClippingDto clippingDto);
+  public ClippingDto setPrimaryClip(ClippingDto clippingDto);
 }

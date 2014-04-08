@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.services;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.omniapi.IOmniApi;
+import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omniapi.resources.v1.Token;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -18,7 +18,7 @@ public class LoginServiceTest extends InstrumentationTestCase {
   private LoginService loginService;
 
   @Mock
-  IOmniApi mockOmniApi;
+  OmniApi mockOmniApi;
 
   @Mock
   ConfigurationService configurationService;

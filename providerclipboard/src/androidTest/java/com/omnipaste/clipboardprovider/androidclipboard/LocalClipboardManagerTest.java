@@ -48,7 +48,7 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     when(clipboardManager.hasPrimaryClip()).thenReturn(true);
     when(clipboardManager.getPrimaryClip()).thenReturn(ClipData.newPlainText("label",  "some text"));
 
-    localClipboardManager.getPrimaryClip("some@channel").subscribe(observer);
+    localClipboardManager.getPrimaryClip().subscribe(observer);
     localClipboardManager.onPrimaryClipChanged();
 
     verify(observer, times(1)).onNext(isA(ClippingDto.class));
@@ -119,7 +119,7 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
   }
 
   public void testSetPrimaryClipWillCallSetPrimaryClipOnClipboardManager() {
-    localClipboardManager.setPrimaryClip("channel@to", new ClippingDto());
+    localClipboardManager.setPrimaryClip(new ClippingDto());
 
     verify(clipboardManager).setPrimaryClip(isA(ClipData.class));
   }
@@ -129,14 +129,14 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     Observer observer = mock(Observer.class);
     localClipboardManager.getObservable().subscribe(observer);
 
-    localClipboardManager.setPrimaryClip("test@test.com", new ClippingDto());
+    localClipboardManager.setPrimaryClip(new ClippingDto());
     localClipboardManager.onPrimaryClipChanged();
 
     verify(observer, never()).onNext("");
   }
 
   public void testSetPrimaryReturnClippingDtoWithCloudSetAsProvider() throws Exception {
-    ClippingDto result = localClipboardManager.setPrimaryClip("test@test.com", new ClippingDto());
+    ClippingDto result = localClipboardManager.setPrimaryClip(new ClippingDto());
 
     assertThat(result.getClippingProvider(), is(ClippingDto.ClippingProvider.cloud));
   }

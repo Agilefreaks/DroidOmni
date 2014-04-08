@@ -11,7 +11,7 @@ import dagger.Provides;
 public class OmniApiModule {
   @Singleton
   @Provides
-  public IOmniApi providesOmniApi(ConfigurationService configurationService) {
-    return new OmniApi(configurationService.getConfiguration().getApiUrl());
+  public OmniApi providesOmniApi(ConfigurationService configurationService) {
+    return new OmniApiV1(configurationService.getConfiguration().getApiUrl());
   }
 }

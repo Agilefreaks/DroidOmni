@@ -9,6 +9,9 @@ public class Configuration {
   public Configuration() {
   }
 
+  public boolean hasAccessToken() {
+    return getAccessToken() != null;
+  }
   public String getGcmSenderId() {
     return gcmSenderId;
   }

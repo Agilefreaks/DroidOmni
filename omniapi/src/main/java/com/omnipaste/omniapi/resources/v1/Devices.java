@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
 import retrofit.http.Body;
@@ -19,26 +20,26 @@ public class Devices extends Resource {
 
   private DevicesApi devicesApi;
 
-  public Devices(String baseUrl) {
-    super(baseUrl);
+  public Devices(AccessTokenDto accessToken, String baseUrl) {
+    super(accessToken, baseUrl);
 
     devicesApi = restAdapter.create(DevicesApi.class);
   }
 
-  public Observable<RegisteredDeviceDto> create(final String channel, final String identifier) {
-    return devicesApi.create(BEARER_TOKEN, new RegisteredDeviceDto(identifier));
+  public Observable<RegisteredDeviceDto> create(final String identifier) {
+    return devicesApi.create(bearerToken(accessToken), new RegisteredDeviceDto(identifier));
   }
 
-  public Observable<RegisteredDeviceDto> create(final String channel, final String identifier, final String name) {
-    return devicesApi.create(BEARER_TOKEN, new RegisteredDeviceDto(identifier, name));
+  public Observable<RegisteredDeviceDto> create(final String identifier, final String name) {
+    return devicesApi.create(bearerToken(accessToken), new RegisteredDeviceDto(identifier, name));
   }
 
-  public Observable<RegisteredDeviceDto> activate(final String channel, final String identifier, String registrationId) {
+  public Observable<RegisteredDeviceDto> activate(final String identifier, String registrationId) {
     RegisteredDeviceDto deviceDto = new RegisteredDeviceDto();
     deviceDto.setIdentifier(identifier);
     deviceDto.setRegistrationId(registrationId);
     deviceDto.setProvider("gcm");
 
-    return devicesApi.activate(BEARER_TOKEN, deviceDto);
+    return devicesApi.activate(bearerToken(accessToken), deviceDto);
   }
 }

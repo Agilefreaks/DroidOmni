@@ -33,7 +33,7 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
   }
 
   @Override
-  public Observable<ClippingDto> getPrimaryClip(String channel) {
+  public Observable<ClippingDto> getPrimaryClip() {
     return Observable.create(new Observable.OnSubscribe<ClippingDto>() {
       @SuppressWarnings("ConstantConditions")
       @Override
@@ -55,7 +55,7 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
   }
 
   @Override
-  public ClippingDto setPrimaryClip(String channel, ClippingDto clippingDto) {
+  public ClippingDto setPrimaryClip(ClippingDto clippingDto) {
     skipNext = true;
     clipboardManager.setPrimaryClip(ClipData.newPlainText("", clippingDto.getContent()));
 

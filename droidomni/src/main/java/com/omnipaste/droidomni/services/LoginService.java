@@ -1,7 +1,7 @@
 package com.omnipaste.droidomni.services;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.omniapi.IOmniApi;
+import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -12,7 +12,7 @@ import rx.Observable;
 
 public class LoginService {
   @Inject
-  public IOmniApi omniApi;
+  public OmniApi omniApi;
 
   @Inject
   public ConfigurationService configurationService;

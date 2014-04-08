@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.test.InstrumentationTestCase;
 
 import com.google.gson.Gson;
+import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import org.mockito.Mock;
@@ -14,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class LocalConfigurationServiceTest extends InstrumentationTestCase {
@@ -53,5 +56,14 @@ public class LocalConfigurationServiceTest extends InstrumentationTestCase {
 
     assertThat(accessTokenDto.getAccessToken(), is("access token"));
     assertThat(accessTokenDto.getRefreshToken(), is("refresh token"));
+  }
+
+  public void testSetConfigurationWhenAccessTokenIsNull() throws Exception {
+    SharedPreferences.Editor editor = mock(SharedPreferences.Editor.class);
+    when(sharedPreferences.edit()).thenReturn(editor);
+
+    subject.setConfiguration(new Configuration());
+
+    verify(editor).commit();
   }
 }

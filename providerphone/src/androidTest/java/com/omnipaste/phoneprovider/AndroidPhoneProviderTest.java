@@ -17,8 +17,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class PhoneProviderTest extends InstrumentationTestCase {
-  private PhoneProvider phoneProvider;
+public class AndroidPhoneProviderTest extends InstrumentationTestCase {
+  private AndroidPhoneProvider androidPhoneProvider;
   private BehaviorSubject<NotificationDto> notificationSubject = BehaviorSubject.create(new NotificationDto());
 
   @Override
@@ -31,12 +31,12 @@ public class PhoneProviderTest extends InstrumentationTestCase {
     NotificationProvider notificationProvider = mock(NotificationProvider.class);
     when(notificationProvider.getObservable()).thenReturn(notificationSubject);
 
-    phoneProvider = new PhoneProvider(notificationProvider);
+    androidPhoneProvider = new AndroidPhoneProvider(notificationProvider);
   }
 
   public void testGetObservableSubscribesToPhoneNotificationTargetOnly() throws Exception {
     Context context = mock(Context.class);
-    phoneProvider.subscribe(context);
+    androidPhoneProvider.subscribe(context);
 
     notificationSubject.onNext(new NotificationDto(Target.clipboard, "42"));
     Bundle extra = new Bundle();

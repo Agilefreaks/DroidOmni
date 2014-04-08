@@ -7,6 +7,7 @@ import retrofit.http.POST;
 import rx.Observable;
 
 public class Token extends Resource {
+  @SuppressWarnings("UnusedDeclaration")
   private class AuthorizationRequest {
     private String clientId;
     private String grantType;

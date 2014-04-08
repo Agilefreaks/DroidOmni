@@ -1,5 +1,7 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
+
 import junit.framework.TestCase;
 
 import rx.Observable;
@@ -13,15 +15,15 @@ public class DevicesTest extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    subject = new Devices("http://test.omnipasteapp.com/api");
+    subject = new Devices(new AccessTokenDto("access"), "http://test.omnipasteapp.com/api");
   }
 
   public void testCreate() throws Exception {
-    assertThat(subject.create("test@test.com", "42"), instanceOf(Observable.class));
-    assertThat(subject.create("test@test.com", "42", "Friendly name"), instanceOf(Observable.class));
+    assertThat(subject.create("42"), instanceOf(Observable.class));
+    assertThat(subject.create("42", "Friendly name"), instanceOf(Observable.class));
   }
 
   public void testActivate() throws Exception {
-    assertThat(subject.activate("test@test.com", "42", "42"), instanceOf(Observable.class));
+    assertThat(subject.activate("42", "42"), instanceOf(Observable.class));
   }
 }

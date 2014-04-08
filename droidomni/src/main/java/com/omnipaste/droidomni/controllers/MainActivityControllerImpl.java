@@ -64,7 +64,7 @@ public class MainActivityControllerImpl implements MainActivityController {
   private void setInitialFragment() {
     Fragment fragmentToShow;
 
-    if (sessionService.isLogged()) {
+    if (sessionService.login()) {
       fragmentToShow = DeviceInitFragment_.builder().build();
     } else {
       fragmentToShow = LoginFragment_.builder().build();
