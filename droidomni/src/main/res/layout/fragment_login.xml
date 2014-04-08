@@ -11,9 +11,16 @@
               android:orientation="vertical"
               tools:context="com.omnipaste.droidomni.activities.MainActivity$PlaceholderFragment">
 
-    <ListView
+    <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/accounts"/>
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/login_hint"
+            android:id="@+id/authorizationCode"/>
 
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button"
+            android:id="@+id/login"/>
 </LinearLayout>

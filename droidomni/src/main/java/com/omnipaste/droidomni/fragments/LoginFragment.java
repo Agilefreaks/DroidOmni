@@ -1,22 +1,19 @@
 package com.omnipaste.droidomni.fragments;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.adapters.AccountAdapter;
 import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
-import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringRes;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,32 +24,31 @@ import rx.schedulers.Schedulers;
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
-  private AccountAdapter accountsAdapter;
 
   @ViewById
-  public ListView accounts;
+  public EditText authorizationCode;
 
-  @SystemService
-  public AccountManager accountManager;
+  @ViewById
+  Button login;
+
+  @StringRes
+  public String loginInvalidCode;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
-
-    accountsAdapter = new AccountAdapter(accountManager.getAccountsByType("com.google"));
   }
 
-  @AfterViews
-  public void afterView() {
-    if (accounts.getAdapter() == null) {
-      accounts.setAdapter(accountsAdapter);
+  @Click
+  public void loginClicked() {
+    if (authorizationCode.getText() == null) {
+      return;
     }
-  }
 
-  @ItemClick
-  public void accountsItemClicked(Account account) {
-    new LoginService().login("12345")
+    login.setEnabled(false);
+
+    new LoginService().login(authorizationCode.getText().toString())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
@@ -67,6 +63,8 @@ public class LoginFragment extends Fragment {
             new Action1<Throwable>() {
               @Override
               public void call(Throwable throwable) {
+                authorizationCode.setError(loginInvalidCode);
+                login.setEnabled(true);
               }
             },
             // OnComplete

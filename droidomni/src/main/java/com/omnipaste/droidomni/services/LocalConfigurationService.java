@@ -14,7 +14,8 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
 
   public static String GCM_SENDER_ID_KEY = "gcmSenderId";
   public static String API_URL_KEY = "apiUrl";
-  public static String ACCESS_TOKEN = "accessToken";
+  public static String API_CLIENT_ID = "clientId";
+    public static String ACCESS_TOKEN = "accessToken";
 
   public LocalConfigurationService(Context context) {
     sharedPreferences = context.getSharedPreferences("com.omnipaste.droidomni", Context.MODE_PRIVATE);
@@ -37,6 +38,7 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
     SharedPreferences.Editor editor = sharedPreferences.edit();
     editor.putString(GCM_SENDER_ID_KEY, configuration.getGcmSenderId());
     editor.putString(API_URL_KEY, configuration.getApiUrl());
+    editor.putString(API_CLIENT_ID, configuration.getApiClientId());
     editor.putString(ACCESS_TOKEN, new Gson().toJson(configuration.getAccessToken()));
 
     editor.commit();
@@ -52,6 +54,7 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
 
     configuration.setGcmSenderId(sharedPreferences.getString(GCM_SENDER_ID_KEY, ""));
     configuration.setApiUrl(sharedPreferences.getString(API_URL_KEY, ""));
+    configuration.setApiClientId(sharedPreferences.getString(API_CLIENT_ID, ""));
     configuration.setAccessToken(
         new Gson().fromJson(sharedPreferences.getString(ACCESS_TOKEN, ""), AccessTokenDto.class));
   }
