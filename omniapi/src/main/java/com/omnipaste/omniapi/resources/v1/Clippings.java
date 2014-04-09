@@ -1,6 +1,7 @@
 package com.omnipaste.omniapi.resources.v1;
 
 import com.google.gson.GsonBuilder;
+import com.omnipaste.omniapi.AuthorizationObservable;
 import com.omnipaste.omniapi.deserializers.ClippingTypeDeserializer;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -22,18 +23,18 @@ public class Clippings extends Resource {
 
   private ClippingsApi clippingsApi;
 
-  public Clippings(AccessTokenDto accessToken, String baseUrl) {
-    super(accessToken, baseUrl);
+  public Clippings(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
+    super(authorizationObservable, accessToken, baseUrl);
 
     clippingsApi = restAdapter.create(ClippingsApi.class);
   }
 
   public Observable<ClippingDto> last() {
-    return clippingsApi.last(bearerToken(accessToken));
+    return authorizationObservable.authorize(clippingsApi.last(bearerToken(accessToken)));
   }
 
   public Observable<ClippingDto> create(ClippingDto clippingDto) {
-    return clippingsApi.create(bearerToken(accessToken), clippingDto);
+    return authorizationObservable.authorize(clippingsApi.create(bearerToken(accessToken), clippingDto));
   }
 
   @Override

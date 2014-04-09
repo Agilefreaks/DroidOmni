@@ -14,7 +14,6 @@ import org.androidannotations.annotations.ViewById;
 
 import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -36,18 +35,6 @@ public class DeviceInitFragment extends Fragment {
               @Override
               public void call(RegisteredDeviceDto registeredDeviceDto) {
                 eventBus.post(new DeviceInitEvent(registeredDeviceDto));
-              }
-            },
-            // OnError
-            new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-              }
-            },
-            // OnComplete
-            new Action0() {
-              @Override
-              public void call() {
               }
             }
         );

@@ -2,6 +2,7 @@ package com.omnipaste.omniapi.resources.v1;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+import com.omnipaste.omniapi.AuthorizationObservable;
 import com.omnipaste.omniapi.OmniRequestInterceptor;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
@@ -10,6 +11,7 @@ import retrofit.converter.GsonConverter;
 
 public abstract class Resource {
   protected final RestAdapter restAdapter;
+  protected AuthorizationObservable authorizationObservable;
   protected AccessTokenDto accessToken;
 
   protected Resource(String baseUrl) {
@@ -19,6 +21,11 @@ public abstract class Resource {
   protected Resource(AccessTokenDto accessToken, String baseUrl) {
     this(baseUrl);
     this.accessToken = accessToken;
+  }
+
+  protected Resource(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
+    this(accessToken, baseUrl);
+    this.authorizationObservable = authorizationObservable;
   }
 
   protected RestAdapter.Builder getBuilder(String baseUrl) {

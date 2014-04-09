@@ -5,32 +5,38 @@ import com.omnipaste.omniapi.resources.v1.Devices;
 import com.omnipaste.omniapi.resources.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
-class OmniApiV1 implements OmniApi {
+public class OmniApiV1 implements OmniApi {
+  private String apiClientId;
   private final String baseUrl;
   private Devices devices;
   private Clippings clippings;
   private Token token;
   private AccessTokenDto accessToken;
 
-  OmniApiV1(String baseUrl) {
+  public OmniApiV1(String apiClientId, String baseUrl) {
+    this.apiClientId = apiClientId;
     this.baseUrl = baseUrl;
   }
 
   @Override
   public Devices devices() {
     ensureAccessToken();
-    return devices == null ? devices = new Devices(accessToken, baseUrl) : devices;
+    return devices == null
+        ? devices = new Devices(new AuthorizationObservable(token(), accessToken), accessToken, baseUrl)
+        : devices;
   }
 
   @Override
   public Clippings clippings() {
     ensureAccessToken();
-    return clippings == null ? clippings = new Clippings(accessToken, baseUrl) : clippings;
+    return clippings == null
+        ? clippings = new Clippings(new AuthorizationObservable(token(), accessToken), accessToken, baseUrl)
+        : clippings;
   }
 
   @Override
   public Token token() {
-    return token == null ? token = new Token(baseUrl) : token;
+    return token == null ? token = new Token(apiClientId, baseUrl) : token;
   }
 
   @Override

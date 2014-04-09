@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.omnipaste.omniapi.OmniApiV1;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
@@ -16,7 +17,9 @@ public class ClippingsTest extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    clippings = new Clippings(new AccessTokenDto("access"), "http://test.omnipasteapp.com/api");
+    OmniApiV1 omniApiV1 = new OmniApiV1("client id", "http://test.omnipasteapp.com/api");
+    omniApiV1.setAccessToken(new AccessTokenDto("access"));
+    clippings = omniApiV1.clippings();
   }
 
   public void testLastWillReturnAnObservable() throws Exception {

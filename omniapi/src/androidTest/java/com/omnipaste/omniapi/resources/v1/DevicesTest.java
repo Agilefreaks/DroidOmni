@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.omnipaste.omniapi.OmniApiV1;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import junit.framework.TestCase;
@@ -15,7 +16,9 @@ public class DevicesTest extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    subject = new Devices(new AccessTokenDto("access"), "http://test.omnipasteapp.com/api");
+    OmniApiV1 omniApiV1 = new OmniApiV1("client id", "http://test.omnipasteapp.com/api");
+    omniApiV1.setAccessToken(new AccessTokenDto("access"));
+    subject = omniApiV1.devices();
   }
 
   public void testCreate() throws Exception {

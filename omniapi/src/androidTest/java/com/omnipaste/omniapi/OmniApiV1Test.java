@@ -13,7 +13,7 @@ public class OmniApiV1Test extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    subject = new OmniApiV1("http://test.omnipasteapp.com/api");
+    subject = new OmniApiV1("client id", "http://test.omnipasteapp.com/api");
   }
 
   public void testDevicesWithNoAccessTokenThrowsIllegalArgumentException() throws Exception {

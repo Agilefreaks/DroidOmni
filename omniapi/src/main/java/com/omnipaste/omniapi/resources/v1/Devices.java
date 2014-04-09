@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi.resources.v1;
 
+import com.omnipaste.omniapi.AuthorizationObservable;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
@@ -20,18 +21,18 @@ public class Devices extends Resource {
 
   private DevicesApi devicesApi;
 
-  public Devices(AccessTokenDto accessToken, String baseUrl) {
-    super(accessToken, baseUrl);
+  public Devices(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
+    super(authorizationObservable, accessToken, baseUrl);
 
     devicesApi = restAdapter.create(DevicesApi.class);
   }
 
   public Observable<RegisteredDeviceDto> create(final String identifier) {
-    return devicesApi.create(bearerToken(accessToken), new RegisteredDeviceDto(identifier));
+    return authorizationObservable.authorize(devicesApi.create(bearerToken(accessToken), new RegisteredDeviceDto(identifier)));
   }
 
   public Observable<RegisteredDeviceDto> create(final String identifier, final String name) {
-    return devicesApi.create(bearerToken(accessToken), new RegisteredDeviceDto(identifier, name));
+    return authorizationObservable.authorize(devicesApi.create(bearerToken(accessToken), new RegisteredDeviceDto(identifier, name)));
   }
 
   public Observable<RegisteredDeviceDto> activate(final String identifier, String registrationId) {
@@ -40,6 +41,6 @@ public class Devices extends Resource {
     deviceDto.setRegistrationId(registrationId);
     deviceDto.setProvider("gcm");
 
-    return devicesApi.activate(bearerToken(accessToken), deviceDto);
+    return authorizationObservable.authorize(devicesApi.activate(bearerToken(accessToken), deviceDto));
   }
 }
