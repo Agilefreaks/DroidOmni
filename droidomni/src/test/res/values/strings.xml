@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_url">http://10.0.3.2:3000/api</string>
+    <string name="api_url">http://10.0.3.2:9292/api</string>
     <string name="tos_url">http://10.0.3.2:3000/tos</string>
 </resources>

@@ -6,7 +6,7 @@ import android.provider.Settings;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.omniapi.IOmniApi;
+import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -26,7 +26,7 @@ public class DeviceService {
   public GoogleCloudMessaging googleCloudMessaging;
 
   @Inject
-  public IOmniApi omniApi;
+  public OmniApi omniApi;
 
   @Inject
   public ConfigurationService configurationService;
@@ -55,7 +55,7 @@ public class DeviceService {
   }
 
   public Observable<RegisteredDeviceDto> createDevice() {
-    return omniApi.devices().create(configuration.getChannel(), getIdentifier());
+    return omniApi.devices().create(getIdentifier());
   }
 
   public Observable<String> registerToGcm() {
@@ -74,7 +74,7 @@ public class DeviceService {
   }
 
   private Observable<RegisteredDeviceDto> activateDevice(String registrationId) {
-    return omniApi.devices().activate(configuration.getChannel(), getIdentifier(), registrationId);
+    return omniApi.devices().activate(getIdentifier(), registrationId);
   }
 
   private String getIdentifier() {

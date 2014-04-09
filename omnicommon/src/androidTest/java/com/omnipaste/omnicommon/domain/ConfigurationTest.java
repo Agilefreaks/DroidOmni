@@ -1,24 +1,28 @@
 package com.omnipaste.omnicommon.domain;
 
-import junit.framework.TestCase;
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import junit.framework.TestCase;
 
 public class ConfigurationTest extends TestCase {
   private Configuration subject;
 
-  public void testHasChannelReturnsTrueWhenChannelIsNotEmpty() throws Exception {
-    subject = new Configuration();
-    subject.setChannel("test@test.com");
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
 
-    assertThat(subject.hasChannel(), is(true));
+    subject = new Configuration();
   }
 
-  public void testHasChannelReturnsFalseWhenChannelIsEmpty() throws Exception {
-    subject = new Configuration();
-    subject.setChannel("");
+  public void testHasAccessTokenWhenAccessTokeNullReturnsFalse() throws Exception {
+    subject.setAccessToken(null);
 
-    assertThat(subject.hasChannel(), is(false));
+    assertFalse(subject.hasAccessToken());
+  }
+
+  public void testHasAccessTokenWhenAccessTokeNotNullReturnsTrue() throws Exception {
+    subject.setAccessToken(new AccessTokenDto());
+
+    assertTrue(subject.hasAccessToken());
   }
 }

@@ -28,7 +28,7 @@ public class ClipboardProvider implements IClipboardProvider {
     clipboardProviderSubject = PublishSubject.create();
   }
 
-  public Observable<ClippingDto> subscribe(final String channel, final String identifier) {
+  public Observable<ClippingDto> subscribe(final String identifier) {
     if (!subscribed)
     {
       final IOmniClipboardManager currentOmniClipboardManager = omniClipboardManager.get();
@@ -40,11 +40,11 @@ public class ClipboardProvider implements IClipboardProvider {
             @Override
             public void call(String registrationId) {
               currentOmniClipboardManager
-                  .getPrimaryClip(channel)
+                  .getPrimaryClip()
                   .subscribe(new Action1<ClippingDto>() {
                     @Override
                     public void call(ClippingDto clippingDto) {
-                      clippingDto = currentLocalClipboardManager.setPrimaryClip(channel, clippingDto);
+                      clippingDto = currentLocalClipboardManager.setPrimaryClip(clippingDto);
 
                       clipboardProviderSubject.onNext(clippingDto);
                     }
@@ -58,12 +58,12 @@ public class ClipboardProvider implements IClipboardProvider {
             @Override
             public void call(String s) {
               currentLocalClipboardManager
-                  .getPrimaryClip(channel)
+                  .getPrimaryClip()
                   .subscribe(new Action1<ClippingDto>() {
                     @Override
                     public void call(ClippingDto clippingDto) {
                       clippingDto.setIdentifier(identifier);
-                      clippingDto = currentOmniClipboardManager.setPrimaryClip(channel, clippingDto);
+                      clippingDto = currentOmniClipboardManager.setPrimaryClip(clippingDto);
 
                       clipboardProviderSubject.onNext(clippingDto);
                     }

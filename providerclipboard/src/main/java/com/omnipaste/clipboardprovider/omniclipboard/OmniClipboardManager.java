@@ -1,6 +1,6 @@
 package com.omnipaste.clipboardprovider.omniclipboard;
 
-import com.omnipaste.omniapi.IOmniApi;
+import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.Target;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
@@ -17,7 +17,7 @@ public class OmniClipboardManager implements IOmniClipboardManager {
   private PublishSubject<String> omniClipboardSubject;
 
   @Inject
-  public IOmniApi omniApi;
+  public OmniApi omniApi;
 
   @Inject
   public OmniClipboardManager(NotificationProvider notificationProvider) {
@@ -41,16 +41,19 @@ public class OmniClipboardManager implements IOmniClipboardManager {
         );
   }
 
+  @Override
   public Observable<String> getObservable() {
     return omniClipboardSubject;
   }
 
-  public Observable<ClippingDto> getPrimaryClip(String channel) {
-    return omniApi.clippings().last(channel);
+  @Override
+  public Observable<ClippingDto> getPrimaryClip() {
+    return omniApi.clippings().last();
   }
 
-  public ClippingDto setPrimaryClip(String channel, ClippingDto clippingDto) {
-    omniApi.clippings().create(channel, clippingDto).subscribe();
+  @Override
+  public ClippingDto setPrimaryClip(ClippingDto clippingDto) {
+    omniApi.clippings().create(clippingDto).subscribe();
 
     return new ClippingDto(clippingDto).setClippingProvider(ClippingDto.ClippingProvider.local);
   }

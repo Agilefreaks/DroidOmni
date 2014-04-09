@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi;
 
+import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import javax.inject.Singleton;
@@ -11,7 +12,8 @@ import dagger.Provides;
 public class OmniApiModule {
   @Singleton
   @Provides
-  public IOmniApi providesOmniApi(ConfigurationService configurationService) {
-    return new OmniApi(configurationService.getConfiguration().getApiUrl());
+  public OmniApi providesOmniApi(ConfigurationService configurationService) {
+    Configuration configuration = configurationService.getConfiguration();
+    return new OmniApiV1(configuration.getApiClientId(), configuration.getApiUrl());
   }
 }

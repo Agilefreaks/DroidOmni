@@ -21,7 +21,6 @@ public class TestClipboardProvider extends TestIntegration<MainActivity_> {
 
   @SuppressWarnings("ConstantConditions")
   public void testClipboardProviderShouldNotDuplicatedItems() {
-    TestHelper.signIn(solo);
     assertTrue("Should show a list view with clippings", solo.waitForView(R.id.clippingsPager));
 
     setTextInClipboard("some");

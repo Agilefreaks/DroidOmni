@@ -1,13 +1,15 @@
 package com.omnipaste.droidomni.events;
 
-public class LoginEvent {
-  private String channel;
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
-  public LoginEvent(String channel) {
-    this.channel = channel;
+public class LoginEvent {
+  private AccessTokenDto accessTokenDto;
+
+  public LoginEvent(AccessTokenDto accessTokenDto) {
+    this.accessTokenDto = accessTokenDto;
   }
 
-  public String getChannel() {
-    return channel;
+  public AccessTokenDto getAccessToken() {
+    return accessTokenDto;
   }
 }
