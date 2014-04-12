@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_url">http://staging.omnipasteapp.com/api</string>
-    <string name="tos_url">https://staging.omnipasteapp.com/tos</string>
+    <string name="api_url">http://apistaging.omnipasteapp.com/</string>
+    <string name="tos_url">http://staging.omnipasteapp.com/tos</string>
+    <string name="api_client_id">5348cedf61706947ea000000</string>
 </resources>
