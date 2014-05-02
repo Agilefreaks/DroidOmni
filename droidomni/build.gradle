@@ -68,6 +68,7 @@ dependencies {
     compile project(':omniapi')
     compile project(':providerclipboard')
     compile project(':providerphone')
+    compile project(':providernotifications')
 
     compile 'com.android.support:support-v4:19.1.+'
     compile 'com.google.android.gms:play-services:4.3.+'

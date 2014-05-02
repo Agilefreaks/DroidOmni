@@ -1,1 +1,1 @@
-include ':omnicommon', ':omniapi', ':droidomni', 'providerclipboard', 'providerphone'
+include ':omnicommon', ':omniapi', ':droidomni', ':providernotifications', 'providerclipboard', 'providerphone'

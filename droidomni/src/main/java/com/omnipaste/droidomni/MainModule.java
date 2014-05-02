@@ -30,6 +30,7 @@ import com.omnipaste.droidomni.services.SessionServiceImpl;
 import com.omnipaste.droidomni.services.SmartActionService;
 import com.omnipaste.droidomni.services.SmartActionServiceImpl;
 import com.omnipaste.droidomni.views.ClippingView_;
+import com.omnipaste.notificationsprovider.NotificationsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -61,7 +62,8 @@ import dagger.Provides;
     includes = {
         OmniApiModule.class,
         ClipboardProviderModule.class,
-        PhoneProviderModule.class
+        PhoneProviderModule.class,
+        NotificationsProviderModule.class
     }
 )
 public class MainModule {
