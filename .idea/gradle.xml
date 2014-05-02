@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/omniapi" />
             <option value="$PROJECT_DIR$/omnicommon" />
             <option value="$PROJECT_DIR$/providerclipboard" />
+            <option value="$PROJECT_DIR$/providernotifications" />
             <option value="$PROJECT_DIR$/providerphone" />
           </set>
         </option>

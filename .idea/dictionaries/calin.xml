@@ -9,7 +9,9 @@
       <w>hamcrest</w>
       <w>jayway</w>
       <w>neenbedankt</w>
+      <w>notificationsprovider</w>
       <w>providerclipboard</w>
+      <w>providernotifications</w>
       <w>providerphone</w>
       <w>robotium</w>
       <w>testrunner</w>

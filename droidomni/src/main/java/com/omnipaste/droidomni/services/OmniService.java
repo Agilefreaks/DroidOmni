@@ -9,6 +9,7 @@ import android.os.IBinder;
 import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.events.ClippingAdded;
+import com.omnipaste.notificationsprovider.TelephonyNotificationsProvider;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -33,6 +34,7 @@ public class OmniService extends Service {
   private String deviceIdentifier;
   private Subscription phoneSubscribe;
   private Subscription clipboardSubscriber;
+  private Subscription telephonyNotificationsSubscribe;
 
   @StringRes
   public String appName;
@@ -45,6 +47,9 @@ public class OmniService extends Service {
 
   @Inject
   public PhoneProvider phoneProvider;
+
+  @Inject
+  public TelephonyNotificationsProvider telephonyNotificationsProvider;
 
   @Inject
   public NotificationService notificationService;
@@ -105,6 +110,9 @@ public class OmniService extends Service {
           });
 
       phoneSubscribe = phoneProvider.subscribe(getApplicationContext()).subscribe();
+      telephonyNotificationsSubscribe = telephonyNotificationsProvider
+          .subscribe(deviceIdentifier)
+          .subscribe();
 
       started = true;
     }
@@ -119,6 +127,9 @@ public class OmniService extends Service {
 
       clipboardSubscriber.unsubscribe();
       clipboardProvider.unsubscribe();
+
+      telephonyNotificationsSubscribe.unsubscribe();
+      telephonyNotificationsProvider.unsubscribe();
 
       stopForeground(true);
     }

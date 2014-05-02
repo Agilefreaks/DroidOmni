@@ -3,6 +3,7 @@ package com.omnipaste.droidomni;
 import android.app.NotificationManager;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
@@ -29,6 +30,7 @@ import com.omnipaste.droidomni.services.SessionServiceImpl;
 import com.omnipaste.droidomni.services.SmartActionService;
 import com.omnipaste.droidomni.services.SmartActionServiceImpl;
 import com.omnipaste.droidomni.views.ClippingView_;
+import com.omnipaste.notificationsprovider.NotificationsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -60,7 +62,8 @@ import dagger.Provides;
     includes = {
         OmniApiModule.class,
         ClipboardProviderModule.class,
-        PhoneProviderModule.class
+        PhoneProviderModule.class,
+        NotificationsProviderModule.class
     }
 )
 public class MainModule {
@@ -74,6 +77,12 @@ public class MainModule {
   @Singleton
   public ClipboardManager providesClipboardManager() {
     return (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+  }
+
+  @Provides
+  @Singleton
+  public TelephonyManager providesTelephonyManager() {
+    return (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
   }
 
   @Provides
