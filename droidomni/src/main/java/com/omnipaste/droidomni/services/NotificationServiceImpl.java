@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.activities.OmniActivity_;
+import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -48,7 +48,9 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   private NotificationCompat.Builder basicBuilder(Context context, String text) {
-    Intent resultIntent = new Intent(context, OmniActivity_.class);
+    Intent resultIntent = new Intent(context, MainActivity_.class);
+    resultIntent.setAction("android.intent.action.MAIN");
+    resultIntent.addCategory("android.intent.category.LAUNCHER");
 
     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
 
