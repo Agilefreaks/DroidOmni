@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.services;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
@@ -26,12 +27,30 @@ public class SmartActionServiceImpl implements SmartActionService {
   }
 
   @Override
-  public Intent buildIntent(ClippingDto clippingDto) {
-    return smartActions.get(clippingDto.getType()).buildIntent(clippingDto);
+  public void run(ClippingDto clippingDto) {
+    context.startActivity(buildIntent(clippingDto));
   }
 
   @Override
-  public void run(ClippingDto clippingDto) {
-    context.startActivity(buildIntent(clippingDto));
+  public CharSequence getTitle(ClippingDto clippingDto) {
+    return context.getText(getSmartAction(clippingDto).getTitle());
+  }
+
+  @Override
+  public int getIcon(ClippingDto clippingDto) {
+    return getSmartAction(clippingDto).getIcon();
+  }
+
+  @Override
+  public PendingIntent buildPendingIntent(ClippingDto clippingDto) {
+    return PendingIntent.getActivity(context, 0, buildIntent(clippingDto), 0);
+  }
+
+  private Intent buildIntent(ClippingDto clippingDto) {
+    return getSmartAction(clippingDto).buildIntent(clippingDto);
+  }
+
+  private SmartAction getSmartAction(ClippingDto clippingDto) {
+    return smartActions.get(clippingDto.getType());
   }
 }

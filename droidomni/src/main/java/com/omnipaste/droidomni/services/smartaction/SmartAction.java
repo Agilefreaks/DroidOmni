@@ -13,6 +13,10 @@ public abstract class SmartAction {
     return result;
   }
 
+  public abstract int getTitle();
+
+  public abstract int getIcon();
+
   protected abstract String getAction();
 
   protected abstract Uri getURI(ClippingDto clippingDto);
