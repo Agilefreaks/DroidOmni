@@ -38,10 +38,10 @@ public class ClipboardProviderTest extends TestCase {
   }
 
   public void testEnableAlwaysReturnsAnObservable() throws Exception {
-    assertThat(clipboardProvider.subscribe("identifier"), isA(Observable.class));
+    assertThat(clipboardProvider.init("identifier"), isA(Observable.class));
   }
 
   public void testGetObservableWillReturnTheSameInstanceOnMultipleCalls() throws Exception {
-    assertThat(clipboardProvider.subscribe("identifier"), sameInstance(clipboardProvider.subscribe("identifier")));
+    assertThat(clipboardProvider.init("identifier"), sameInstance(clipboardProvider.init("identifier")));
   }
 }

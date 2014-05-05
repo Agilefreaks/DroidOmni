@@ -28,7 +28,7 @@ public class ClipboardProvider implements IClipboardProvider {
     clipboardProviderSubject = PublishSubject.create();
   }
 
-  public Observable<ClippingDto> subscribe(final String identifier) {
+  public Observable<ClippingDto> init(final String identifier) {
     if (!subscribed)
     {
       final IOmniClipboardManager currentOmniClipboardManager = omniClipboardManager.get();
@@ -78,7 +78,7 @@ public class ClipboardProvider implements IClipboardProvider {
   }
 
   @Override
-  public void unsubscribe() {
+  public void destroy() {
     subscribed = false;
     localSubscription.unsubscribe();
     omniSubscription.unsubscribe();

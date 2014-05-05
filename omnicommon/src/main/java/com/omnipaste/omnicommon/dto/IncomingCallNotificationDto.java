@@ -1,5 +1,6 @@
 package com.omnipaste.omnicommon.dto;
 
+@SuppressWarnings("UnusedDeclaration")
 public class IncomingCallNotificationDto {
   private String phoneNumber;
 

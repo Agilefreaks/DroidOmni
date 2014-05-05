@@ -1,5 +1,6 @@
 package com.omnipaste.omnicommon.dto;
 
+@SuppressWarnings("UnusedDeclaration")
 public class TelephonyNotificationDto {
   private String identifier;
   private TelephonyNotificationType type;

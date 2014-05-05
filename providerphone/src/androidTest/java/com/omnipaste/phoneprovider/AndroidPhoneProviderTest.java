@@ -9,6 +9,9 @@ import com.omnipaste.omnicommon.Target;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
 import rx.subjects.BehaviorSubject;
 
 import static org.mockito.Matchers.isA;
@@ -21,6 +24,9 @@ public class AndroidPhoneProviderTest extends InstrumentationTestCase {
   private AndroidPhoneProvider androidPhoneProvider;
   private BehaviorSubject<NotificationDto> notificationSubject = BehaviorSubject.create(new NotificationDto());
 
+  @Mock
+  public Context context;
+
   @Override
   @SuppressWarnings("ConstantConditions")
   public void setUp() throws Exception {
@@ -28,15 +34,16 @@ public class AndroidPhoneProviderTest extends InstrumentationTestCase {
 
     System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
+    MockitoAnnotations.initMocks(this);
+
     NotificationProvider notificationProvider = mock(NotificationProvider.class);
     when(notificationProvider.getObservable()).thenReturn(notificationSubject);
 
-    androidPhoneProvider = new AndroidPhoneProvider(notificationProvider);
+    androidPhoneProvider = new AndroidPhoneProvider(notificationProvider, context);
   }
 
   public void testGetObservableSubscribesToPhoneNotificationTargetOnly() throws Exception {
-    Context context = mock(Context.class);
-    androidPhoneProvider.subscribe(context);
+    androidPhoneProvider.init("smart watch");
 
     notificationSubject.onNext(new NotificationDto(Target.clipboard, "42"));
     Bundle extra = new Bundle();
