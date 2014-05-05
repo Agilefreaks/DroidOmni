@@ -9,20 +9,20 @@ import junit.framework.TestCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class PhoneNumberSmartActionTest extends TestCase {
-  private PhoneNumberSmartAction phoneNumberSmartAction;
+public class SmartActionPhoneNumberTest extends TestCase {
+  private SmartActionPhoneNumber smartActionPhoneNumber;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
 
-    phoneNumberSmartAction = new PhoneNumberSmartAction();
+    smartActionPhoneNumber = new SmartActionPhoneNumber();
   }
 
   public void testBuildIntentWillReturnACorrectIntent() throws Exception {
     ClippingDto clippingDto = new ClippingDto().setContent("42");
 
-    Intent intent = phoneNumberSmartAction.buildIntent(clippingDto);
+    Intent intent = smartActionPhoneNumber.buildIntent(clippingDto);
 
     assertThat(intent.getAction(), is(Intent.ACTION_CALL));
     assertThat(intent.getDataString(), is("tel:42"));

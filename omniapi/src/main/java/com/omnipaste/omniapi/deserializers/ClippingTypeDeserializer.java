@@ -15,6 +15,7 @@ public class ClippingTypeDeserializer implements JsonDeserializer<ClippingDto.Cl
     {
       put("phone_number", ClippingDto.ClippingType.phoneNumber);
       put("web_site", ClippingDto.ClippingType.webSite);
+      put("address", ClippingDto.ClippingType.address);
       put("unknown", ClippingDto.ClippingType.unknown);
     }
   };

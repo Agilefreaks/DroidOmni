@@ -38,7 +38,7 @@ public class SmartActionServiceImplTest extends InstrumentationTestCase {
     SmartAction smartAction = mock(SmartAction.class);
     Intent intent = new Intent();
 
-    smartActionService.smartActions.put(ClippingDto.ClippingType.phoneNumber, smartAction);
+    SmartActionService.SMART_ACTIONS.put(ClippingDto.ClippingType.phoneNumber, smartAction);
     when(smartAction.buildIntent(clippingDto)).thenReturn(intent);
 
     smartActionService.run(clippingDto);

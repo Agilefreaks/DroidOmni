@@ -2,4 +2,5 @@
 <resources>
     <string name="smart_action_call">Call</string>
     <string name="smart_action_browse">Browse</string>
+    <string name="smart_action_navigate">Navigate</string>
 </resources>

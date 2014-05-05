@@ -6,24 +6,24 @@ import android.net.Uri;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-public class WebSiteSmartAction extends SmartAction {
+public class SmartActionPhoneNumber extends SmartAction {
   @Override
   public int getTitle() {
-    return R.string.smart_action_browse;
+    return R.string.smart_action_call;
   }
 
   @Override
-  public int getIcon() {
-    return R.drawable.ic_smart_action_uri_light;
+  public int[] getIcon() {
+    return new int[] { R.drawable.ic_smart_action_phone_number_light, R.drawable.ic_smart_action_phone_number };
   }
 
   @Override
   protected String getAction() {
-    return Intent.ACTION_VIEW;
+    return Intent.ACTION_CALL;
   }
 
   @Override
   protected Uri getURI(ClippingDto clippingDto) {
-    return Uri.parse(clippingDto.getContent());
+    return Uri.parse("tel:" + clippingDto.getContent());
   }
 }

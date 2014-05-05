@@ -15,7 +15,7 @@ public abstract class SmartAction {
 
   public abstract int getTitle();
 
-  public abstract int getIcon();
+  public abstract int[] getIcon();
 
   protected abstract String getAction();
 
