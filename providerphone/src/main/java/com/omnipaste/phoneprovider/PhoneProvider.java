@@ -1,11 +1,7 @@
 package com.omnipaste.phoneprovider;
 
-import android.content.Context;
+import com.omnipaste.omnicommon.Provider;
+import com.omnipaste.omnicommon.dto.EmptyDto;
 
-import rx.Observable;
-
-public interface PhoneProvider {
-  Observable subscribe(Context context);
-
-  void unsubscribe();
+public interface PhoneProvider extends Provider<EmptyDto> {
 }

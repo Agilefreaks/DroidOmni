@@ -1,9 +1,7 @@
 package com.omnipaste.notificationsprovider;
 
-import rx.Observable;
+import com.omnipaste.omnicommon.Provider;
+import com.omnipaste.omnicommon.dto.NotificationDto;
 
-public interface TelephonyNotificationsProvider {
-  Observable subscribe(final String identifier);
-
-  void unsubscribe();
+public interface TelephonyNotificationsProvider extends Provider<NotificationDto> {
 }

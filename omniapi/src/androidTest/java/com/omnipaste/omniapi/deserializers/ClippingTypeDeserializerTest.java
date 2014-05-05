@@ -23,6 +23,10 @@ public class ClippingTypeDeserializerTest extends TestCase {
     assertThat(ClippingDto.ClippingType.webSite, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("web_site"), null, null)));
   }
 
+  public void testDeserializeReturnAddressType() {
+    assertThat(ClippingDto.ClippingType.address, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("address"), null, null)));
+  }
+
   public void testDeserializeReturnUUnknownType() {
     assertThat(ClippingDto.ClippingType.unknown, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("something else"), null, null)));
   }

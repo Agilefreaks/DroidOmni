@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.omnipaste.omnicommon.Target;
+import com.omnipaste.omnicommon.dto.EmptyDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
@@ -19,16 +20,18 @@ public class AndroidPhoneProvider implements PhoneProvider {
   private static final String PHONE_NUMBER_KEY = "phone_number";
 
   private NotificationProvider notificationProvider;
+  private Context context;
   private Boolean subscribed = false;
   private Subscription subscription;
 
   @Inject
-  public AndroidPhoneProvider(NotificationProvider notificationProvider) {
+  public AndroidPhoneProvider(NotificationProvider notificationProvider, Context context) {
     this.notificationProvider = notificationProvider;
+    this.context = context;
   }
 
   @Override
-  public Observable subscribe(final Context context) {
+  public Observable<EmptyDto> init(final String identifier) {
     if (!subscribed) {
       subscription = notificationProvider
           .getObservable()
@@ -55,7 +58,7 @@ public class AndroidPhoneProvider implements PhoneProvider {
   }
 
   @Override
-  public void unsubscribe() {
+  public void destroy() {
     subscribed = false;
     subscription.unsubscribe();
   }

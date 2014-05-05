@@ -27,17 +27,19 @@
 
         <activity
                 android:name="com.omnipaste.droidomni.activities.MainActivity_"
+                android:launchMode="singleTop"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
                 android:name="com.omnipaste.droidomni.activities.OmniActivity_"
                 android:label="@string/app_name">
         </activity>
+
         <activity
                 android:name="com.omnipaste.droidomni.activities.AboutActivity"
                 android:label="@string/title_activity_about"
@@ -46,6 +48,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.omnipaste.droidomni.activities.OmniActivity_"/>
         </activity>
+
         <activity
                 android:name="com.omnipaste.droidomni.activities.PrivacyPolicyActivity"
                 android:label="@string/title_activity_privacy_policy"
@@ -54,6 +57,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.omnipaste.droidomni.activities.OmniActivity_"/>
         </activity>
+
         <activity
                 android:name="com.omnipaste.droidomni.activities.SettingsActivity"
                 android:label="@string/title_activity_settings"
@@ -62,7 +66,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.omnipaste.droidomni.activities.OmniActivity_"/>
         </activity>
-
 
         <service
                 android:name="com.omnipaste.droidomni.services.OmniService_"

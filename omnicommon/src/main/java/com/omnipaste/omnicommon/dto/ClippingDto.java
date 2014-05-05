@@ -10,7 +10,7 @@ public class ClippingDto {
   private ClippingProvider clippingProvider;
 
   public enum ClippingType {
-    phoneNumber, webSite, unknown
+    phoneNumber, webSite, address, unknown
   }
 
   public enum ClippingProvider {

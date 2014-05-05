@@ -10,17 +10,10 @@ import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-import java.util.HashMap;
-
 import javax.inject.Inject;
 
 public class NotificationServiceImpl implements NotificationService {
   public static final int NOTIFICATION_ID = 42;
-
-  private HashMap<ClippingDto.ClippingType, Integer> smartActionIcon = new HashMap<ClippingDto.ClippingType, Integer>() {{
-    put(ClippingDto.ClippingType.phoneNumber, R.drawable.ic_smart_action_phone_number_light);
-    put(ClippingDto.ClippingType.webSite, R.drawable.ic_smart_action_uri_light);
-  }};
 
   private String appName;
   private SmartActionService smartActionService;
@@ -46,9 +39,10 @@ public class NotificationServiceImpl implements NotificationService {
     NotificationCompat.Builder builder =
         basicBuilder(context, clippingDto.getContent())
             .setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()))
-            .addAction(smartActionIcon.get(clippingDto.getType()),
-                "Call",
-                PendingIntent.getActivity(context, 0, smartActionService.buildIntent(clippingDto), 0));
+            .addAction(
+                smartActionService.getIcon(clippingDto),
+                smartActionService.getTitle(clippingDto),
+                smartActionService.buildPendingIntent(clippingDto));
 
     return builder.build();
   }

@@ -27,13 +27,6 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
     }
   };
 
-  private HashMap<ClippingDto.ClippingType, Integer> smartActionIcon = new HashMap<ClippingDto.ClippingType, Integer>() {
-    {
-      put(ClippingDto.ClippingType.phoneNumber, R.drawable.ic_smart_action_phone_number);
-      put(ClippingDto.ClippingType.webSite, R.drawable.ic_smart_action_uri);
-    }
-  };
-
   @ViewById
   public TextView textContent;
 
@@ -58,7 +51,7 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
 
     if (clippingDto.getType() != ClippingDto.ClippingType.unknown) {
       smartActionButton.setVisibility(VISIBLE);
-      smartActionButton.setImageResource(smartActionIcon.get(clippingDto.getType()));
+      smartActionButton.setImageResource(SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
     } else {
       smartActionButton.setVisibility(GONE);
     }

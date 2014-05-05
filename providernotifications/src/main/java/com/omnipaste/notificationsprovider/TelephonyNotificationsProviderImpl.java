@@ -4,6 +4,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.omnipaste.omniapi.OmniApi;
+import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
 
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
   }
 
   @Override
-  public Observable subscribe(final String identifier) {
+  public Observable<NotificationDto> init(final String identifier) {
     if (!subscribe) {
       telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
       phoneStateSubscriber = phoneStateListener.getObservable().subscribe(new Action1<TelephonyNotificationDto>() {
@@ -46,7 +47,7 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
   }
 
   @Override
-  public void unsubscribe() {
+  public void destroy() {
     telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
     phoneStateSubscriber.unsubscribe();
 

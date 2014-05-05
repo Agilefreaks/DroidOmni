@@ -100,7 +100,7 @@ public class OmniService extends Service {
       notifyUser();
 
       clipboardSubscriber = clipboardProvider
-          .subscribe(deviceIdentifier)
+          .init(deviceIdentifier)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(new Action1<ClippingDto>() {
             @Override
@@ -109,9 +109,9 @@ public class OmniService extends Service {
             }
           });
 
-      phoneSubscribe = phoneProvider.subscribe(getApplicationContext()).subscribe();
+      phoneSubscribe = phoneProvider.init(deviceIdentifier).subscribe();
       telephonyNotificationsSubscribe = telephonyNotificationsProvider
-          .subscribe(deviceIdentifier)
+          .init(deviceIdentifier)
           .subscribe();
 
       started = true;
@@ -123,13 +123,13 @@ public class OmniService extends Service {
       started = false;
 
       phoneSubscribe.unsubscribe();
-      phoneProvider.unsubscribe();
+      phoneProvider.destroy();
 
       clipboardSubscriber.unsubscribe();
-      clipboardProvider.unsubscribe();
+      clipboardProvider.destroy();
 
       telephonyNotificationsSubscribe.unsubscribe();
-      telephonyNotificationsProvider.unsubscribe();
+      telephonyNotificationsProvider.destroy();
 
       stopForeground(true);
     }
