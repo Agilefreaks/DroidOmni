@@ -5,15 +5,22 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 
+import com.omnipaste.droidomni.fragments.clippings.ClippingsListFragment;
+
 import java.util.ArrayList;
 
 public class ClippingsPagerAdapter extends FragmentPagerAdapter {
-  private ArrayList<ListFragment> fragments;
+  private ArrayList<ClippingsListFragment> fragments;
 
   public ClippingsPagerAdapter(FragmentManager fm) {
     super(fm);
 
     fragments = new ArrayList<>();
+  }
+
+  @Override
+  public CharSequence getPageTitle(int position) {
+    return ((ClippingsListFragment) getFragment(position)).getTitle();
   }
 
   @Override
@@ -26,7 +33,7 @@ public class ClippingsPagerAdapter extends FragmentPagerAdapter {
     return fragments.size();
   }
 
-  public void addFragment(ListFragment fragment) {
+  public void addFragment(ClippingsListFragment fragment) {
     fragments.add(fragment);
     notifyDataSetChanged();
   }

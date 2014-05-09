@@ -6,7 +6,6 @@ public class DeviceInitEvent {
   private RegisteredDeviceDto registeredDeviceDto;
 
   public DeviceInitEvent(RegisteredDeviceDto registeredDeviceDto) {
-
     this.registeredDeviceDto = registeredDeviceDto;
   }
 

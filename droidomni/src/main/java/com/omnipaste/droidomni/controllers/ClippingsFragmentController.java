@@ -10,6 +10,4 @@ public interface ClippingsFragmentController {
   void stop();
 
   void afterView();
-
-  void onActivityCreate();
 }

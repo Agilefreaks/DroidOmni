@@ -35,11 +35,6 @@ public class ActionBarControllerImpl implements ActionBarController {
   }
 
   @Override
-  public void setNavigationMode(int navigationMode) {
-    getActionBar().setNavigationMode(navigationMode);
-  }
-
-  @Override
   public void setSelectedNavigationItem(int position) {
     getActionBar().setSelectedNavigationItem(position);
   }
@@ -55,26 +50,6 @@ public class ActionBarControllerImpl implements ActionBarController {
         R.string.navigation_drawer_open,
         R.string.navigation_drawer_close
     ) {
-      private Boolean notStarted = true;
-      private int savedNavigationMode;
-
-      public void onDrawerSlide(View drawerView, float slideOffset) {
-        super.onDrawerSlide(drawerView, slideOffset);
-
-        if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
-          if (notStarted) {
-            savedNavigationMode = getNavigationMode();
-            notStarted = false;
-          }
-
-          setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        }
-        else {
-          notStarted = true;
-          setNavigationMode(savedNavigationMode);
-        }
-      }
-
       @Override
       public void onDrawerOpened(View drawerView) {
         super.onDrawerOpened(drawerView);
@@ -101,16 +76,6 @@ public class ActionBarControllerImpl implements ActionBarController {
     getActionBar().setHomeButtonEnabled(true);
 
     return drawerToggle;
-  }
-
-  @Override
-  public void addTab(int id, ActionBar.TabListener tabListener) {
-    getActionBar().addTab(getActionBar().newTab().setText(id).setTabListener(tabListener));
-  }
-
-  @Override
-  public int getNavigationMode() {
-    return getActionBar().getNavigationMode();
   }
 
   public ActionBar getActionBar() {
