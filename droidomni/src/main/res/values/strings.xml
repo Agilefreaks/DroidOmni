@@ -5,6 +5,10 @@
     <string name="login_button">Login</string>
     <string name="login_invalid_code">Invalid Authorization Code</string>
 
+    <!-- Device init -->
+    <string name="device_init_error_retry">Retry</string>
+    <string name="device_init_error_message">We failed master :(, please don\'t kill us!</string>
+
     <!-- Clippings -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>

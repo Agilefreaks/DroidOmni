@@ -8,8 +8,11 @@ import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity_;
+import com.omnipaste.droidomni.events.DeviceInitErrorEvent;
 import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.events.LoginEvent;
+import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment;
+import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment_;
 import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.services.OmniService;
@@ -59,6 +62,14 @@ public class MainActivityControllerImpl implements MainActivityController {
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
     activity.startActivity(intent);
     activity.finish();
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(DeviceInitErrorEvent event) {
+    DeviceInitErrorFragment deviceInitErrorFragment = DeviceInitErrorFragment_.builder().build();
+    deviceInitErrorFragment.setExceptionMessage(event.getError());
+
+    setFragment(deviceInitErrorFragment);
   }
 
   private void setInitialFragment() {

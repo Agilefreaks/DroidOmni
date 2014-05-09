@@ -6,5 +6,4 @@
     <string name="api_client_id">53633f1262616c160d000000</string>
     <string name="app_name">Droid Omni</string>
     <string name="motto">Take control of your multi screen world.</string>
-    <string name="registering">Registering device to the API</string>
 </resources>
