@@ -63,6 +63,7 @@ public class DeviceService {
       @Override
       public void call(Subscriber<? super String> subscriber) {
         try {
+//          throw new IOException("SERVICE_NOT_AVAILABLE");
           subscriber.onNext(googleCloudMessaging.register(configuration.getGcmSenderId()));
         } catch (IOException e) {
           subscriber.onError(e);
