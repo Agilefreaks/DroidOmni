@@ -16,7 +16,6 @@ import com.omnipaste.droidomni.activities.PrivacyPolicyActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
-import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
@@ -114,8 +113,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   }
 
   private void setInitialFragment() {
-    ClippingsFragment clippingsFragment = ClippingsFragment_.builder().build();
-    setFragment(clippingsFragment);
+    setFragment(ClippingsFragment_.builder().build());
   }
 
   private void setFragment(Fragment fragment) {

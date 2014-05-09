@@ -13,6 +13,7 @@ import rx.Observable;
 @EFragment
 public abstract class ClippingsListFragment extends ListFragment {
   private final ClippingAdapter clippingAdapter;
+  private String title;
 
   public ClippingsListFragment() {
     setRetainInstance(true);
@@ -34,5 +35,13 @@ public abstract class ClippingsListFragment extends ListFragment {
 
   protected void add(ClippingDto clippingDto) {
     clippingAdapter.add(clippingDto);
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
   }
 }
