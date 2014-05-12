@@ -10,6 +10,10 @@ import rx.functions.Func1;
 
 @EFragment
 public class LocalFragment extends ClippingsListFragment {
+  public LocalFragment() {
+    super();
+  }
+
   @Override
   public void observe(Observable<ClippingDto> observable) {
     observable.filter(new Func1<ClippingDto, Boolean>() {

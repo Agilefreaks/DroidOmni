@@ -25,17 +25,20 @@ public class ClippingsFragment extends Fragment {
   @ViewById
   public PagerSlidingTabStrip clippingsTabs;
 
-  @StringRes
+  @StringRes(R.string.clippings_tab_all)
   public String clippingsTabAll;
 
-  @StringRes
+  @StringRes(R.string.clippings_tab_local)
   public String clippingsTabLocal;
 
-  @StringRes
+  @StringRes(R.string.clippings_tab_cloud)
   public String clippingsTabCloud;
 
   @Inject
   public ClippingsFragmentController controller;
+
+  public ClippingsFragment() {
+  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

@@ -5,12 +5,11 @@
 
         <!-- List attributes -->
         <item name="listPreferredItemPaddingStart">@dimen/listPreferredItemPaddingStart</item>
-        <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingStart</item>
+        <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingEnd</item>
         <item name="drawablePadding">@dimen/drawablePadding</item>
 
         <!-- Actionbar styles -->
         <item name="android:actionBarStyle">@style/OmniActionBar</item>
-
         <item name="android:homeAsUpIndicator">@drawable/ic_ab_back_holo_dark_am</item>
     </style>
 
@@ -22,6 +21,10 @@
 
     <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.Menu">
         <item name="android:divider">@null</item>
+    </style>
+
+    <style name="NavLinearLayout" parent="AppTheme">
+        <item name="android:background">@android:color/background_light</item>
     </style>
 
     <style name="Widget.Holo.ActionImageButton" parent="@android:style/Widget.Holo.ImageButton">

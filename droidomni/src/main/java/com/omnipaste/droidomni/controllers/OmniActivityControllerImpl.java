@@ -9,7 +9,7 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
-import com.omnipaste.droidomni.activities.AboutActivity;
+import com.omnipaste.droidomni.activities.AboutActivity_;
 import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.PrivacyPolicyActivity;
@@ -92,7 +92,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
         break;
       case About:
         activity.drawerLayout.closeDrawers();
-        activity.startActivity(new Intent(activity, AboutActivity.class));
+        activity.startActivity(new Intent(activity, AboutActivity_.class));
         break;
       case PrivacyPolicy:
         activity.drawerLayout.closeDrawers();

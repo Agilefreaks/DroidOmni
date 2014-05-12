@@ -10,6 +10,10 @@ import rx.functions.Func1;
 
 @EFragment
 public class CloudFragment extends ClippingsListFragment {
+  public CloudFragment() {
+    super();
+  }
+
   @Override
   public void observe(Observable<ClippingDto> observable) {
     observable.filter(new Func1<ClippingDto, Boolean>() {
