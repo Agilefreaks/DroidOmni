@@ -31,7 +31,7 @@ public class LoginFragment extends Fragment {
   @ViewById
   Button login;
 
-  @StringRes
+  @StringRes(R.string.login_invalid_code)
   public String loginInvalidCode;
 
   public LoginFragment() {

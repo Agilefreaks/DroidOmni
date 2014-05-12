@@ -16,13 +16,13 @@ import dagger.ObjectGraph;
 public class DroidOmniApplication extends Application {
   private static ObjectGraph objectGraph;
 
-  @StringRes
+  @StringRes(R.string.gcm_sender_id)
   public String gcmSenderId;
 
-  @StringRes
+  @StringRes(R.string.api_url)
   public String apiUrl;
 
-  @StringRes
+  @StringRes(R.string.api_client_id)
   public String apiClientId;
 
   @Inject

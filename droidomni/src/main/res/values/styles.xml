@@ -5,7 +5,7 @@
 
         <!-- List attributes -->
         <item name="listPreferredItemPaddingStart">@dimen/listPreferredItemPaddingStart</item>
-        <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingStart</item>
+        <item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingEnd</item>
         <item name="drawablePadding">@dimen/drawablePadding</item>
 
         <!-- Actionbar styles -->
