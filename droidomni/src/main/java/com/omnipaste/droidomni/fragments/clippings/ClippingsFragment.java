@@ -37,6 +37,9 @@ public class ClippingsFragment extends Fragment {
   @Inject
   public ClippingsFragmentController controller;
 
+  public ClippingsFragment() {
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

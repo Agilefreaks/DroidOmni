@@ -34,6 +34,9 @@ public class LoginFragment extends Fragment {
   @StringRes
   public String loginInvalidCode;
 
+  public LoginFragment() {
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

@@ -20,6 +20,9 @@ import rx.schedulers.Schedulers;
 public class DeviceInitFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
 
+  public DeviceInitFragment() {
+  }
+
   @AfterViews
   public void afterViews() {
     new DeviceService().init()

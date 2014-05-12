@@ -221,6 +221,9 @@ public class SettingsActivity extends PreferenceActivity {
    */
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public static class GeneralPreferenceFragment extends PreferenceFragment {
+    public GeneralPreferenceFragment() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -241,6 +244,9 @@ public class SettingsActivity extends PreferenceActivity {
    */
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public static class NotificationPreferenceFragment extends PreferenceFragment {
+    public NotificationPreferenceFragment() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -260,6 +266,9 @@ public class SettingsActivity extends PreferenceActivity {
    */
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public static class DataSyncPreferenceFragment extends PreferenceFragment {
+    public DataSyncPreferenceFragment() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);

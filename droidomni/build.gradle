@@ -53,6 +53,10 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
     }
+
+    lintOptions {
+        lintConfig file("../lint.xml")
+    }
 }
 
 apt {

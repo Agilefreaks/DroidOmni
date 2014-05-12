@@ -9,6 +9,10 @@ import rx.functions.Action1;
 
 @EFragment
 public class AllFragment extends ClippingsListFragment {
+  public AllFragment() {
+    super();
+  }
+
   @Override
   public void observe(Observable<ClippingDto> observable) {
     observable

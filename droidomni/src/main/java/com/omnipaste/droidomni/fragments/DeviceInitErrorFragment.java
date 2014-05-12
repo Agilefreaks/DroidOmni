@@ -18,6 +18,9 @@ public class DeviceInitErrorFragment extends Fragment {
   @ViewById(R.id.device_init_error_exception_message)
   public TextView exceptionMessage;
 
+  public DeviceInitErrorFragment() {
+  }
+
   public void setExceptionMessage(Throwable errorMessage) {
     this.exceptionMessageText = errorMessage.toString();
   }
