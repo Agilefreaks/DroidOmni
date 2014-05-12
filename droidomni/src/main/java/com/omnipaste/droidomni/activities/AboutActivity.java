@@ -1,38 +1,52 @@
 package com.omnipaste.droidomni.activities;
 
-import android.app.ListActivity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.AboutAdapter;
 import com.omnipaste.droidomni.adapters.AboutItem;
 
-public class AboutActivity extends ListActivity {
-  @SuppressWarnings("ConstantConditions")
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+@EActivity(R.layout.activity_about)
+public class AboutActivity extends ActionBarActivity {
+  @ViewById
+  public ListView aboutListView;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Resources resources = getResources();
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  }
 
-    AboutAdapter aboutAdapter = new AboutAdapter();
-    aboutAdapter.addItem(new AboutItem(resources.getString(R.string.app_name), resources.getString(R.string.motto)));
+  @SuppressWarnings("ConstantConditions")
+  @AfterViews
+  public void afterView() {
+    if (aboutListView.getAdapter() == null) {
+      Resources resources = getResources();
 
-    PackageInfo pInfo = new PackageInfo();
-    try {
-      pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-    } catch (PackageManager.NameNotFoundException e) {
-      e.printStackTrace();
+      AboutAdapter aboutAdapter = new AboutAdapter();
+      aboutAdapter.addItem(new AboutItem(resources.getString(R.string.app_name), resources.getString(R.string.motto)));
+
+      PackageInfo pInfo = new PackageInfo();
+      try {
+        pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+      } catch (PackageManager.NameNotFoundException e) {
+        e.printStackTrace();
+      }
+      aboutAdapter.addItem(new AboutItem(resources.getString(R.string.about_version), pInfo.versionName));
+
+      aboutListView.setAdapter(aboutAdapter);
     }
-    aboutAdapter.addItem(new AboutItem(resources.getString(R.string.about_version), pInfo.versionName));
-
-    setListAdapter(aboutAdapter);
-
-    getActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   @Override
