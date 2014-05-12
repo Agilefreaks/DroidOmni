@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -14,6 +15,7 @@ import dagger.ObjectGraph;
 
 @EApplication
 public class DroidOmniApplication extends Application {
+  private static Context context;
   private static ObjectGraph objectGraph;
 
   @StringRes(R.string.gcm_sender_id)
@@ -28,6 +30,10 @@ public class DroidOmniApplication extends Application {
   @Inject
   public ConfigurationService configurationService;
 
+  public static Context getAppContext() {
+    return DroidOmniApplication.context;
+  }
+
   public static <T> void inject(T instance) {
     objectGraph.inject(instance);
   }
@@ -38,6 +44,8 @@ public class DroidOmniApplication extends Application {
 
     objectGraph = ObjectGraph.create(new MainModule(this));
     inject(this);
+
+    context = getApplicationContext();
 
     init();
   }
