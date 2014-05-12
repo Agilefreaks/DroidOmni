@@ -132,9 +132,9 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   public void notifyClipping(ClippingDto clipping) {
     Notification notification;
     if (clipping.getType() == ClippingDto.ClippingType.unknown) {
-      notification = notificationService.buildSimpleNotification(fragment.getActivity(), clipping.getContent());
+      notification = notificationService.buildSimpleNotification(DroidOmniApplication.getAppContext(), clipping.getContent());
     } else {
-      notification = notificationService.buildSmartActionNotification(fragment.getActivity(), clipping);
+      notification = notificationService.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clipping);
     }
 
     notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notification);
