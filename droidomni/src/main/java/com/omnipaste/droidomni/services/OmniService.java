@@ -54,10 +54,10 @@ public class OmniService extends Service {
   @Inject
   public NotificationService notificationService;
 
-  public static void start(final Context context, final RegisteredDeviceDto registeredDeviceDto) {
-    Intent service = new Intent(context, OmniService_.class);
+  public static void start(final RegisteredDeviceDto registeredDeviceDto) {
+    Intent service = new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
     service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
-    context.startService(service);
+    DroidOmniApplication.getAppContext().startService(service);
   }
 
   public static void stop(final Context context) {
@@ -136,6 +136,6 @@ public class OmniService extends Service {
   }
 
   private void notifyUser() {
-    startForeground(NotificationServiceImpl.NOTIFICATION_ID, notificationService.buildUserNotification(this, appName, ""));
+    startForeground(NotificationServiceImpl.NOTIFICATION_ID, notificationService.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
   }
 }

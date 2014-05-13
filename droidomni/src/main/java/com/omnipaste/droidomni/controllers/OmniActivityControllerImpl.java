@@ -48,8 +48,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
     if (savedInstance == null) {
       setInitialFragment();
     }
-
-    // actionBarController.setSubtitle(sessionService.getChannel());
   }
 
   @Override

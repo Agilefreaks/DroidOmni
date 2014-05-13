@@ -38,6 +38,8 @@ public class NotificationServiceImpl implements NotificationService {
   public Notification buildSmartActionNotification(Context context, ClippingDto clippingDto) {
     NotificationCompat.Builder builder =
         basicBuilder(context, clippingDto.getContent())
+            .setWhen(0)
+            .setPriority(Notification.PRIORITY_MAX)
             .setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()))
             .addAction(
                 smartActionService.getIcon(clippingDto),
@@ -58,7 +60,6 @@ public class NotificationServiceImpl implements NotificationService {
         .setSmallIcon(R.drawable.ic_stat_clipboard)
         .setContentTitle(appName)
         .setContentText(text)
-        .setOngoing(true)
         .setContentIntent(contentIntent);
   }
 }

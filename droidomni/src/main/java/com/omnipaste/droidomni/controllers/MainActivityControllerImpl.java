@@ -56,7 +56,7 @@ public class MainActivityControllerImpl implements MainActivityController {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(DeviceInitEvent event) {
-    OmniService.start(activity, event.getRegisteredDeviceDto());
+    OmniService.start(event.getRegisteredDeviceDto());
 
     Intent intent = new Intent(activity, OmniActivity_.class);
     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
