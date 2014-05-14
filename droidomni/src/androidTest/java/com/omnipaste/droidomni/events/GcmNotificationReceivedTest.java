@@ -19,4 +19,13 @@ public class GcmNotificationReceivedTest extends TestCase {
     assertThat(gcmNotificationReceived.getProvider(), is(Target.clipboard));
     assertThat(gcmNotificationReceived.getRegistrationId(), is("42"));
   }
+
+  public void testUnknownProvider() throws Exception {
+    Bundle bundle = new Bundle();
+    bundle.putString(GcmNotificationReceived.PROVIDER_KEY, "notification");
+
+    GcmNotificationReceived gcmNotificationReceived = new GcmNotificationReceived(bundle);
+
+    assertThat(gcmNotificationReceived.getProvider(), is(Target.unknown));
+  }
 }
