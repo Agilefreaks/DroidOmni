@@ -6,35 +6,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.events.ClippingAdded;
-import com.omnipaste.notificationsprovider.TelephonyNotificationsProvider;
-import com.omnipaste.omnicommon.dto.ClippingDto;
+import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
+import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriber;
+import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
+import com.omnipaste.droidomni.services.subscribers.Subscriber;
+import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
-import com.omnipaste.phoneprovider.PhoneProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
-import de.greenrobot.event.EventBus;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import javax.inject.Inject;
 
 @EService
 public class OmniService extends Service {
   public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
 
-  private EventBus eventBus = EventBus.getDefault();
   private Boolean started = false;
   private String deviceIdentifier;
-  private Subscription phoneSubscribe;
-  private Subscription clipboardSubscriber;
-  private Subscription telephonyNotificationsSubscribe;
+  private List<Subscriber> subscribes = new ArrayList<Subscriber>();
 
   @StringRes
   public String appName;
@@ -43,13 +38,16 @@ public class OmniService extends Service {
   public ConfigurationService configurationService;
 
   @Inject
-  public IClipboardProvider clipboardProvider;
+  public ClipboardSubscriber clipboardSubscriber;
 
   @Inject
-  public PhoneProvider phoneProvider;
+  public PhoneSubscriber phoneSubscribe;
 
   @Inject
-  public TelephonyNotificationsProvider telephonyNotificationsProvider;
+  public GcmWorkaroundSubscriber gcmWorkaroundSubscriber;
+
+  @Inject
+  public TelephonyNotificationsSubscriber telephonyNotificationsSubscriber;
 
   @Inject
   public NotificationService notificationService;
@@ -66,7 +64,17 @@ public class OmniService extends Service {
 
   public OmniService() {
     super();
+
     DroidOmniApplication.inject(this);
+
+    subscribes.add(clipboardSubscriber);
+    subscribes.add(phoneSubscribe);
+    subscribes.add(telephonyNotificationsSubscriber);
+    subscribes.add(gcmWorkaroundSubscriber);
+  }
+
+  public List<Subscriber> getSubscribers() {
+    return subscribes;
   }
 
   @Override
@@ -99,20 +107,9 @@ public class OmniService extends Service {
     if (!started) {
       notifyUser();
 
-      clipboardSubscriber = clipboardProvider
-          .init(deviceIdentifier)
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new Action1<ClippingDto>() {
-            @Override
-            public void call(ClippingDto clippingDto) {
-              eventBus.post(new ClippingAdded(clippingDto));
-            }
-          });
-
-      phoneSubscribe = phoneProvider.init(deviceIdentifier).subscribe();
-      telephonyNotificationsSubscribe = telephonyNotificationsProvider
-          .init(deviceIdentifier)
-          .subscribe();
+      for (Subscriber subscribe : subscribes) {
+        subscribe.start(deviceIdentifier);
+      }
 
       started = true;
     }
@@ -122,14 +119,10 @@ public class OmniService extends Service {
     if (started) {
       started = false;
 
-      phoneSubscribe.unsubscribe();
-      phoneProvider.destroy();
+      for (Subscriber subscribe : subscribes) {
+        subscribe.stop();
+      }
 
-      clipboardSubscriber.unsubscribe();
-      clipboardProvider.destroy();
-
-      telephonyNotificationsSubscribe.unsubscribe();
-      telephonyNotificationsProvider.destroy();
 
       stopForeground(true);
     }
