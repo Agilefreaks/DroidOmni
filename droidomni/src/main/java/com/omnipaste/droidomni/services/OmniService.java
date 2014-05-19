@@ -8,10 +8,10 @@ import android.os.IBinder;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
-import com.omnipaste.notificationsprovider.TelephonyNotificationsProvider;
+import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
+import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
-import com.omnipaste.phoneprovider.PhoneProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -32,8 +31,6 @@ public class OmniService extends Service {
 
   private Boolean started = false;
   private String deviceIdentifier;
-  private Subscription phoneSubscribe;
-  private Subscription telephonyNotificationsSubscribe;
 
   @StringRes
   public String appName;
@@ -45,10 +42,10 @@ public class OmniService extends Service {
   public ClipboardSubscriber clipboardSubscriber;
 
   @Inject
-  public PhoneProvider phoneProvider;
+  public PhoneSubscriber phoneSubscribe;
 
   @Inject
-  public TelephonyNotificationsProvider telephonyNotificationsProvider;
+  public TelephonyNotificationsSubscriber telephonyNotificationsSubscriber;
 
   @Inject
   public NotificationService notificationService;
@@ -99,12 +96,8 @@ public class OmniService extends Service {
       notifyUser();
 
       clipboardSubscriber.start(deviceIdentifier);
-
-      phoneSubscribe = phoneProvider.init(deviceIdentifier).subscribe();
-
-      telephonyNotificationsSubscribe = telephonyNotificationsProvider
-          .init(deviceIdentifier)
-          .subscribe();
+      phoneSubscribe.start(deviceIdentifier);
+      telephonyNotificationsSubscriber.start(deviceIdentifier);
 
       // work around for gcm registration
       Observable.timer(2, TimeUnit.MINUTES, Schedulers.io()).subscribe(new Action1<Long>() {
@@ -126,12 +119,8 @@ public class OmniService extends Service {
       started = false;
 
       clipboardSubscriber.stop();
-
-      phoneSubscribe.unsubscribe();
-      phoneProvider.destroy();
-
-      telephonyNotificationsSubscribe.unsubscribe();
-      telephonyNotificationsProvider.destroy();
+      phoneSubscribe.stop();
+      telephonyNotificationsSubscriber.stop();
 
       stopForeground(true);
     }

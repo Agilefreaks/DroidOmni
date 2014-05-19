@@ -31,6 +31,10 @@ import com.omnipaste.droidomni.services.SmartActionService;
 import com.omnipaste.droidomni.services.SmartActionServiceImpl;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriberImpl;
+import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
+import com.omnipaste.droidomni.services.subscribers.PhoneSubscriberImpl;
+import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
+import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriberImpl;
 import com.omnipaste.droidomni.views.ClippingView_;
 import com.omnipaste.notificationsprovider.NotificationsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
@@ -158,5 +162,17 @@ public class MainModule {
   @Singleton
   public ClipboardSubscriber providesClipboardSubscriber(ClipboardSubscriberImpl clipboardSubscriber) {
     return clipboardSubscriber;
+  }
+
+  @Provides
+  @Singleton
+  public PhoneSubscriber providesPhoneSubscriber(PhoneSubscriberImpl phoneSubscriber) {
+    return phoneSubscriber;
+  }
+
+  @Provides
+  @Singleton
+  public TelephonyNotificationsSubscriber providesTelephonyNotificationsSubscriber(TelephonyNotificationsSubscriberImpl telephonyNotificationsSubscriber) {
+    return telephonyNotificationsSubscriber;
   }
 }
