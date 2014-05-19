@@ -29,6 +29,8 @@ import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.droidomni.services.SessionServiceImpl;
 import com.omnipaste.droidomni.services.SmartActionService;
 import com.omnipaste.droidomni.services.SmartActionServiceImpl;
+import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
+import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriberImpl;
 import com.omnipaste.droidomni.views.ClippingView_;
 import com.omnipaste.notificationsprovider.NotificationsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
@@ -150,5 +152,11 @@ public class MainModule {
   @Singleton
   public NotificationService providesNotificationService(NotificationServiceImpl notificationService) {
     return notificationService;
+  }
+
+  @Provides
+  @Singleton
+  public ClipboardSubscriber providesClipboardSubscriber(ClipboardSubscriberImpl clipboardSubscriber) {
+    return clipboardSubscriber;
   }
 }

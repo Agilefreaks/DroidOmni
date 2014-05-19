@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import com.omnipaste.clipboardprovider.IClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.events.ClippingAdded;
+import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
 import com.omnipaste.notificationsprovider.TelephonyNotificationsProvider;
-import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 import com.omnipaste.phoneprovider.PhoneProvider;
@@ -18,22 +16,23 @@ import com.omnipaste.phoneprovider.PhoneProvider;
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
-import de.greenrobot.event.EventBus;
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 @EService
 public class OmniService extends Service {
   public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
 
-  private EventBus eventBus = EventBus.getDefault();
   private Boolean started = false;
   private String deviceIdentifier;
   private Subscription phoneSubscribe;
-  private Subscription clipboardSubscriber;
   private Subscription telephonyNotificationsSubscribe;
 
   @StringRes
@@ -43,7 +42,7 @@ public class OmniService extends Service {
   public ConfigurationService configurationService;
 
   @Inject
-  public IClipboardProvider clipboardProvider;
+  public ClipboardSubscriber clipboardSubscriber;
 
   @Inject
   public PhoneProvider phoneProvider;
@@ -99,20 +98,24 @@ public class OmniService extends Service {
     if (!started) {
       notifyUser();
 
-      clipboardSubscriber = clipboardProvider
-          .init(deviceIdentifier)
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new Action1<ClippingDto>() {
-            @Override
-            public void call(ClippingDto clippingDto) {
-              eventBus.post(new ClippingAdded(clippingDto));
-            }
-          });
+      clipboardSubscriber.start(deviceIdentifier);
 
       phoneSubscribe = phoneProvider.init(deviceIdentifier).subscribe();
+
       telephonyNotificationsSubscribe = telephonyNotificationsProvider
           .init(deviceIdentifier)
           .subscribe();
+
+      // work around for gcm registration
+      Observable.timer(2, TimeUnit.MINUTES, Schedulers.io()).subscribe(new Action1<Long>() {
+        @Override
+        public void call(Long aLong) {
+          new DeviceService().registerToGcm()
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe();
+        }
+      });
 
       started = true;
     }
@@ -122,11 +125,10 @@ public class OmniService extends Service {
     if (started) {
       started = false;
 
+      clipboardSubscriber.stop();
+
       phoneSubscribe.unsubscribe();
       phoneProvider.destroy();
-
-      clipboardSubscriber.unsubscribe();
-      clipboardProvider.destroy();
 
       telephonyNotificationsSubscribe.unsubscribe();
       telephonyNotificationsProvider.destroy();
