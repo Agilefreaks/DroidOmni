@@ -8,7 +8,9 @@ import android.os.IBinder;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
+import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriber;
 import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
+import com.omnipaste.droidomni.services.subscribers.Subscriber;
 import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -16,14 +18,10 @@ import com.omnipaste.omnicommon.services.ConfigurationService;
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
 
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 @EService
 public class OmniService extends Service {
@@ -31,6 +29,7 @@ public class OmniService extends Service {
 
   private Boolean started = false;
   private String deviceIdentifier;
+  private List<Subscriber> subscribes = new ArrayList<Subscriber>();
 
   @StringRes
   public String appName;
@@ -43,6 +42,9 @@ public class OmniService extends Service {
 
   @Inject
   public PhoneSubscriber phoneSubscribe;
+
+  @Inject
+  public GcmWorkaroundSubscriber gcmWorkaroundSubscriber;
 
   @Inject
   public TelephonyNotificationsSubscriber telephonyNotificationsSubscriber;
@@ -62,7 +64,17 @@ public class OmniService extends Service {
 
   public OmniService() {
     super();
+
     DroidOmniApplication.inject(this);
+
+    subscribes.add(clipboardSubscriber);
+    subscribes.add(phoneSubscribe);
+    subscribes.add(telephonyNotificationsSubscriber);
+    subscribes.add(gcmWorkaroundSubscriber);
+  }
+
+  public List<Subscriber> getSubscribers() {
+    return subscribes;
   }
 
   @Override
@@ -95,20 +107,9 @@ public class OmniService extends Service {
     if (!started) {
       notifyUser();
 
-      clipboardSubscriber.start(deviceIdentifier);
-      phoneSubscribe.start(deviceIdentifier);
-      telephonyNotificationsSubscriber.start(deviceIdentifier);
-
-      // work around for gcm registration
-      Observable.timer(2, TimeUnit.MINUTES, Schedulers.io()).subscribe(new Action1<Long>() {
-        @Override
-        public void call(Long aLong) {
-          new DeviceService().registerToGcm()
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe();
-        }
-      });
+      for (Subscriber subscribe : subscribes) {
+        subscribe.start(deviceIdentifier);
+      }
 
       started = true;
     }
@@ -118,9 +119,10 @@ public class OmniService extends Service {
     if (started) {
       started = false;
 
-      clipboardSubscriber.stop();
-      phoneSubscribe.stop();
-      telephonyNotificationsSubscriber.stop();
+      for (Subscriber subscribe : subscribes) {
+        subscribe.stop();
+      }
+
 
       stopForeground(true);
     }

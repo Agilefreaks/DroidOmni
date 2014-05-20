@@ -31,6 +31,8 @@ import com.omnipaste.droidomni.services.SmartActionService;
 import com.omnipaste.droidomni.services.SmartActionServiceImpl;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriberImpl;
+import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriber;
+import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriberImpl;
 import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
 import com.omnipaste.droidomni.services.subscribers.PhoneSubscriberImpl;
 import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
@@ -174,5 +176,11 @@ public class MainModule {
   @Singleton
   public TelephonyNotificationsSubscriber providesTelephonyNotificationsSubscriber(TelephonyNotificationsSubscriberImpl telephonyNotificationsSubscriber) {
     return telephonyNotificationsSubscriber;
+  }
+
+  @Provides
+  @Singleton
+  public GcmWorkaroundSubscriber providesGcmWorkaroundSubscriber() {
+    return new GcmWorkaroundSubscriberImpl();
   }
 }
