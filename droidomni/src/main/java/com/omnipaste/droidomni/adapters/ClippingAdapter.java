@@ -20,6 +20,11 @@ public class ClippingAdapter extends LocalAdapter<ClippingDto, ClippingView> {
 
   public void add(ClippingDto clippingDto) {
     items.add(clippingDto);
+
+    if (items.size() > 42) {
+      items.remove(0);
+    }
+
     this.notifyDataSetChanged();
   }
 }
