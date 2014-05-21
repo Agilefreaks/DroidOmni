@@ -1,7 +1,7 @@
 <resources>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Example settings for Notifications -->
+    <!-- Settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 
     <string name="pref_title_clipboard">Enable Clipboard sharing</string>
@@ -15,4 +15,8 @@
 
     <string name="pref_title_never_miss_a_beat">Never miss a beat</string>
     <string name="pref_description_never_miss_a_beat">Make sure everything stays in sync (might be drain just a tiny more battery live)</string>
+
+    <string name="pref_category_session">Session</string>
+    <string name="pref_title_logout">Logout</string>
+    <string name="pref_description_logout">Close the app and logout, on starting the app again you will require a new authorization code</string>
 </resources>

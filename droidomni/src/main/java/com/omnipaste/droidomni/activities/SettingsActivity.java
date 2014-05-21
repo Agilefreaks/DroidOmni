@@ -2,15 +2,20 @@ package com.omnipaste.droidomni.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.view.MenuItem;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
+import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.OmniService;
+
+import de.greenrobot.event.EventBus;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -60,6 +65,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
   }
 
   public static class NotificationPreferenceFragment extends PreferenceFragment {
+    private EventBus eventBus = EventBus.getDefault();
+
     public NotificationPreferenceFragment() {
     }
 
@@ -68,6 +75,19 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
       super.onCreate(savedInstanceState);
 
       addPreferencesFromResource(R.xml.pref_notification);
+    }
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+      if (preference.getKey() != null && preference.getKey().equals("logout")) {
+        eventBus.post(new SignOutEvent());
+
+        return true;
+      }
+      else {
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
+      }
     }
   }
 }

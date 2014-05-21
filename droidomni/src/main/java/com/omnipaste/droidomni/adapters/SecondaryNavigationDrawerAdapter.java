@@ -18,8 +18,7 @@ public class SecondaryNavigationDrawerAdapter extends LocalAdapter<NavigationDra
         Arrays.asList(
             new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_settings), NavigationMenu.Settings),
             new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_about), NavigationMenu.About),
-            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_privacy_policy), NavigationMenu.PrivacyPolicy),
-            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_sign_out), NavigationMenu.SignOut))
+            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_privacy_policy), NavigationMenu.PrivacyPolicy))
     ));
   }
 

@@ -1,27 +1,33 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <CheckBoxPreference
-        android:key="notifications_clipboard"
-        android:title="@string/pref_title_clipboard"
-        android:summary="@string/pref_description_clipboard"
-        android:defaultValue="true" />
+            android:key="notifications_clipboard"
+            android:title="@string/pref_title_clipboard"
+            android:summary="@string/pref_description_clipboard"
+            android:defaultValue="true"/>
 
     <CheckBoxPreference
             android:key="notifications_telephony"
             android:title="@string/pref_title_notifications"
             android:summary="@string/pref_description_notifications"
-            android:defaultValue="true" />
+            android:defaultValue="true"/>
 
     <CheckBoxPreference
             android:key="notifications_phone"
             android:title="@string/pref_title_phone"
             android:summary="@string/pref_description_phone"
-            android:defaultValue="true" />
+            android:defaultValue="true"/>
 
     <CheckBoxPreference
             android:key="notifications_gcm_workaround"
             android:title="@string/pref_title_never_miss_a_beat"
             android:summary="@string/pref_description_never_miss_a_beat"
-            android:defaultValue="true" />
+            android:defaultValue="true"/>
 
+    <PreferenceCategory android:title="@string/pref_category_session">
+        <Preference
+                android:key="logout"
+                android:title="@string/pref_title_logout"
+                android:summary="@string/pref_description_logout"/>
+    </PreferenceCategory>
 </PreferenceScreen>
