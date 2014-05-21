@@ -21,7 +21,22 @@ public class GcmWorkaroundSubscriberImpl implements GcmWorkaroundSubscriber {
         new DeviceService().registerToGcm()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe();
+            .subscribe(
+                // onNext
+                new Action1<String>() {
+                  @Override
+                  public void call(String s) {
+                    // nothing
+                  }
+                },
+                // onError
+                new Action1<Throwable>() {
+                  @Override
+                  public void call(Throwable throwable) {
+                    // nothing
+                  }
+                }
+            );
       }
     });
   }

@@ -2,6 +2,7 @@ package com.omnipaste.droidomni.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.omnipaste.omnicommon.domain.Configuration;
@@ -15,10 +16,10 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
   public static String GCM_SENDER_ID_KEY = "gcmSenderId";
   public static String API_URL_KEY = "apiUrl";
   public static String API_CLIENT_ID = "clientId";
-    public static String ACCESS_TOKEN = "accessToken";
+  public static String ACCESS_TOKEN = "accessToken";
 
   public LocalConfigurationService(Context context) {
-    sharedPreferences = context.getSharedPreferences("com.omnipaste.droidomni", Context.MODE_PRIVATE);
+    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     sharedPreferences.registerOnSharedPreferenceChangeListener(this);
   }
 

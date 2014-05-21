@@ -29,7 +29,7 @@ public class OmniService extends Service {
 
   private Boolean started = false;
   private String deviceIdentifier;
-  private List<Subscriber> subscribes = new ArrayList<Subscriber>();
+  private List<Subscriber> subscribes = new ArrayList<>();
 
   @StringRes
   public String appName;
@@ -122,7 +122,6 @@ public class OmniService extends Service {
       for (Subscriber subscribe : subscribes) {
         subscribe.stop();
       }
-
 
       stopForeground(true);
     }
