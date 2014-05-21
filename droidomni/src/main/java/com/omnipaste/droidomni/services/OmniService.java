@@ -23,6 +23,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
+
 @EService
 public class OmniService extends Service {
   public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
@@ -38,16 +40,16 @@ public class OmniService extends Service {
   public ConfigurationService configurationService;
 
   @Inject
-  public ClipboardSubscriber clipboardSubscriber;
+  public Lazy<ClipboardSubscriber> clipboardSubscriber;
 
   @Inject
-  public PhoneSubscriber phoneSubscribe;
+  public Lazy<PhoneSubscriber> phoneSubscribe;
 
   @Inject
-  public GcmWorkaroundSubscriber gcmWorkaroundSubscriber;
+  public Lazy<GcmWorkaroundSubscriber> gcmWorkaroundSubscriber;
 
   @Inject
-  public TelephonyNotificationsSubscriber telephonyNotificationsSubscriber;
+  public Lazy<TelephonyNotificationsSubscriber> telephonyNotificationsSubscriber;
 
   @Inject
   public NotificationService notificationService;
@@ -66,14 +68,27 @@ public class OmniService extends Service {
     super();
 
     DroidOmniApplication.inject(this);
-
-    subscribes.add(clipboardSubscriber);
-    subscribes.add(phoneSubscribe);
-    subscribes.add(telephonyNotificationsSubscriber);
-    subscribes.add(gcmWorkaroundSubscriber);
   }
 
   public List<Subscriber> getSubscribers() {
+    if (subscribes.isEmpty()) {
+      if (configurationService.isClipboardNotificationEnabled()) {
+        subscribes.add(clipboardSubscriber.get());
+      }
+
+      if (configurationService.isTelephonyServiceEnabled()) {
+        subscribes.add(phoneSubscribe.get());
+      }
+
+      if (configurationService.isTelephonyNotificationEnabled()) {
+        subscribes.add(telephonyNotificationsSubscriber.get());
+      }
+
+      if (configurationService.isGcmWorkAroundEnabled()) {
+        subscribes.add(gcmWorkaroundSubscriber.get());
+      }
+    }
+
     return subscribes;
   }
 
@@ -107,7 +122,7 @@ public class OmniService extends Service {
     if (!started) {
       notifyUser();
 
-      for (Subscriber subscribe : subscribes) {
+      for (Subscriber subscribe : getSubscribers()) {
         subscribe.start(deviceIdentifier);
       }
 
@@ -119,7 +134,7 @@ public class OmniService extends Service {
     if (started) {
       started = false;
 
-      for (Subscriber subscribe : subscribes) {
+      for (Subscriber subscribe : getSubscribers()) {
         subscribe.stop();
       }
 

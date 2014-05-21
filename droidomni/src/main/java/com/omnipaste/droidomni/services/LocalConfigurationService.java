@@ -18,6 +18,11 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
   public static String API_CLIENT_ID = "clientId";
   public static String ACCESS_TOKEN = "accessToken";
 
+  public static String NOTIFICATIONS_CLIPBOARD = "notifications_clipboard";
+  public static String NOTIFICATIONS_TELEPHONY = "notifications_telephony";
+  public static String NOTIFICATIONS_PHONE = "notifications_phone";
+  public static String NOTIFICATIONS_GCM_WORKAROUND = "notifications_gcm_workaround";
+
   public LocalConfigurationService(Context context) {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     sharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -46,6 +51,26 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
   }
 
   @Override
+  public boolean isClipboardNotificationEnabled() {
+    return getConfiguration().getNotificationsClipboard();
+  }
+
+  @Override
+  public boolean isTelephonyServiceEnabled() {
+    return getConfiguration().getNotificationsPhone();
+  }
+
+  @Override
+  public boolean isTelephonyNotificationEnabled() {
+    return getConfiguration().getNotificationsTelephony();
+  }
+
+  @Override
+  public boolean isGcmWorkAroundEnabled() {
+    return getConfiguration().getNotificationsGcmWorkaround();
+  }
+
+  @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
     populateConfiguration();
   }
@@ -58,5 +83,10 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
     configuration.setApiClientId(sharedPreferences.getString(API_CLIENT_ID, ""));
     configuration.setAccessToken(
         new Gson().fromJson(sharedPreferences.getString(ACCESS_TOKEN, ""), AccessTokenDto.class));
+
+    configuration.setNotificationsClipboard(sharedPreferences.getBoolean(NOTIFICATIONS_CLIPBOARD, true));
+    configuration.setNotificationsTelephony(sharedPreferences.getBoolean(NOTIFICATIONS_TELEPHONY, true));
+    configuration.setNotificationsPhone(sharedPreferences.getBoolean(NOTIFICATIONS_PHONE, true));
+    configuration.setNotificationsGcmWorkaround(sharedPreferences.getBoolean(NOTIFICATIONS_GCM_WORKAROUND, true));
   }
 }
