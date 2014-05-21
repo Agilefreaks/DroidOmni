@@ -29,6 +29,8 @@ import dagger.Lazy;
 public class OmniService extends Service {
   public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
 
+  private static RegisteredDeviceDto registeredDeviceDto;
+
   private Boolean started = false;
   private String deviceIdentifier;
   private List<Subscriber> subscribes = new ArrayList<>();
@@ -55,13 +57,21 @@ public class OmniService extends Service {
   public NotificationService notificationService;
 
   public static void start(final RegisteredDeviceDto registeredDeviceDto) {
+    OmniService.registeredDeviceDto = registeredDeviceDto;
+
     Intent service = new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
     service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
     DroidOmniApplication.getAppContext().startService(service);
   }
 
-  public static void stop(final Context context) {
-    context.stopService(new Intent(context, OmniService_.class));
+  public static boolean stop(final Context context) {
+    return context.stopService(new Intent(context, OmniService_.class));
+  }
+
+  public static void restart(final Context context) {
+    if (stop(context) && registeredDeviceDto != null) {
+      start(registeredDeviceDto);
+    }
   }
 
   public OmniService() {
