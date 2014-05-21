@@ -73,9 +73,6 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     allClippingsFragment.observe(clippingsSubject);
     localFragment.observe(clippingsSubject);
     cloudFragment.observe(clippingsSubject);
-
-    clippingsPagerAdapter = new ClippingsPagerAdapter(clippingsFragment.getChildFragmentManager());
-    clippingsPagerAdapter.addFragment(allClippingsFragment);
   }
 
   @Override
@@ -86,8 +83,8 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   @Override
   public void afterView() {
     if (fragment.clippingsPager.getAdapter() == null) {
-      fragment.clippingsPager.setAdapter(clippingsPagerAdapter);
-      fragment.clippingsPager.setOnPageChangeListener(this);
+      clippingsPagerAdapter = new ClippingsPagerAdapter(fragment.getChildFragmentManager());
+      addFragmentsToPagerAdapter();
 
       actionBarController.setTitle(R.string.clippings_title);
     }
@@ -118,15 +115,7 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
   public void setClipping(ClippingDto clippingDto) {
     clippingsSubject.onNext(clippingDto);
 
-    if (clippingsPagerAdapter != null &&
-        clippingsPagerAdapter.getCount() == 1 &&
-        cloudFragment.getActualListAdapter().getCount() > 0) {
-      clippingsPagerAdapter.addFragment(localFragment);
-      clippingsPagerAdapter.addFragment(cloudFragment);
-
-      fragment.clippingsTabs.setViewPager(fragment.clippingsPager);
-      fragment.clippingsTabs.setVisibility(View.VISIBLE);
-    }
+    addFragmentsToPagerAdapter();
   }
 
   public void notifyClipping(ClippingDto clipping) {
@@ -138,5 +127,25 @@ public class ClippingsFragmentControllerImpl extends SimpleTabListener implement
     }
 
     notificationManager.notify(NotificationServiceImpl.NOTIFICATION_ID, notification);
+  }
+
+  private void addFragmentsToPagerAdapter() {
+    if (clippingsPagerAdapter != null &&
+        clippingsPagerAdapter.getCount() == 0) {
+      clippingsPagerAdapter.addFragment(allClippingsFragment);
+
+      fragment.clippingsPager.setAdapter(clippingsPagerAdapter);
+      fragment.clippingsPager.setOnPageChangeListener(this);
+    }
+
+    if (clippingsPagerAdapter != null &&
+        clippingsPagerAdapter.getCount() == 1 &&
+        cloudFragment.getActualListAdapter().getCount() > 0) {
+      clippingsPagerAdapter.addFragment(localFragment);
+      clippingsPagerAdapter.addFragment(cloudFragment);
+
+      fragment.clippingsTabs.setViewPager(fragment.clippingsPager);
+      fragment.clippingsTabs.setVisibility(View.VISIBLE);
+    }
   }
 }
