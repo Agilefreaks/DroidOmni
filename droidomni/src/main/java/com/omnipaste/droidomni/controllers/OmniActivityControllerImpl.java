@@ -15,6 +15,7 @@ import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.PrivacyPolicyActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
+import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.services.OmniService;
@@ -96,10 +97,12 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
         activity.drawerLayout.closeDrawers();
         activity.startActivity(new Intent(activity, PrivacyPolicyActivity.class));
         break;
-      case SignOut:
-        signOut();
-        break;
     }
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(SignOutEvent signOutEvent) {
+    signOut();
   }
 
   private void signOut() {

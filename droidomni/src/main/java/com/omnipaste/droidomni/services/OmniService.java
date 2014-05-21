@@ -23,13 +23,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
+
 @EService
 public class OmniService extends Service {
   public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
 
+  private static RegisteredDeviceDto registeredDeviceDto;
+
   private Boolean started = false;
   private String deviceIdentifier;
-  private List<Subscriber> subscribes = new ArrayList<Subscriber>();
+  private List<Subscriber> subscribes = new ArrayList<>();
 
   @StringRes
   public String appName;
@@ -38,42 +42,63 @@ public class OmniService extends Service {
   public ConfigurationService configurationService;
 
   @Inject
-  public ClipboardSubscriber clipboardSubscriber;
+  public Lazy<ClipboardSubscriber> clipboardSubscriber;
 
   @Inject
-  public PhoneSubscriber phoneSubscribe;
+  public Lazy<PhoneSubscriber> phoneSubscribe;
 
   @Inject
-  public GcmWorkaroundSubscriber gcmWorkaroundSubscriber;
+  public Lazy<GcmWorkaroundSubscriber> gcmWorkaroundSubscriber;
 
   @Inject
-  public TelephonyNotificationsSubscriber telephonyNotificationsSubscriber;
+  public Lazy<TelephonyNotificationsSubscriber> telephonyNotificationsSubscriber;
 
   @Inject
   public NotificationService notificationService;
 
   public static void start(final RegisteredDeviceDto registeredDeviceDto) {
+    OmniService.registeredDeviceDto = registeredDeviceDto;
+
     Intent service = new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
     service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
     DroidOmniApplication.getAppContext().startService(service);
   }
 
-  public static void stop(final Context context) {
-    context.stopService(new Intent(context, OmniService_.class));
+  public static boolean stop(final Context context) {
+    return context.stopService(new Intent(context, OmniService_.class));
+  }
+
+  public static void restart(final Context context) {
+    if (stop(context) && registeredDeviceDto != null) {
+      start(registeredDeviceDto);
+    }
   }
 
   public OmniService() {
     super();
 
     DroidOmniApplication.inject(this);
-
-    subscribes.add(clipboardSubscriber);
-    subscribes.add(phoneSubscribe);
-    subscribes.add(telephonyNotificationsSubscriber);
-    subscribes.add(gcmWorkaroundSubscriber);
   }
 
   public List<Subscriber> getSubscribers() {
+    if (subscribes.isEmpty()) {
+      if (configurationService.isClipboardNotificationEnabled()) {
+        subscribes.add(clipboardSubscriber.get());
+      }
+
+      if (configurationService.isTelephonyServiceEnabled()) {
+        subscribes.add(phoneSubscribe.get());
+      }
+
+      if (configurationService.isTelephonyNotificationEnabled()) {
+        subscribes.add(telephonyNotificationsSubscriber.get());
+      }
+
+      if (configurationService.isGcmWorkAroundEnabled()) {
+        subscribes.add(gcmWorkaroundSubscriber.get());
+      }
+    }
+
     return subscribes;
   }
 
@@ -107,7 +132,7 @@ public class OmniService extends Service {
     if (!started) {
       notifyUser();
 
-      for (Subscriber subscribe : subscribes) {
+      for (Subscriber subscribe : getSubscribers()) {
         subscribe.start(deviceIdentifier);
       }
 
@@ -119,10 +144,9 @@ public class OmniService extends Service {
     if (started) {
       started = false;
 
-      for (Subscriber subscribe : subscribes) {
+      for (Subscriber subscribe : getSubscribers()) {
         subscribe.stop();
       }
-
 
       stopForeground(true);
     }
