@@ -11,6 +11,7 @@ import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.events.DeviceInitErrorEvent;
 import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.events.LoginEvent;
+import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment;
 import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment_;
 import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
@@ -70,6 +71,13 @@ public class MainActivityControllerImpl implements MainActivityController {
     deviceInitErrorFragment.setExceptionMessage(event.getError());
 
     setFragment(deviceInitErrorFragment);
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(SignOutEvent signOutEvent) {
+    Helpers.signOut(activity, sessionService);
+
+    setInitialFragment();
   }
 
   private void setInitialFragment() {

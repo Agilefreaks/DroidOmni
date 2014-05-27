@@ -18,7 +18,6 @@ import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
-import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
 
 import javax.inject.Inject;
@@ -102,13 +101,8 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(SignOutEvent signOutEvent) {
-    signOut();
-  }
+    Helpers.signOut(activity, sessionService);
 
-  private void signOut() {
-    OmniService.stop(activity);
-
-    sessionService.logout();
     activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
     activity.finish();
   }

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.DeviceInitErrorEvent;
 import com.omnipaste.droidomni.events.DeviceInitEvent;
+import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
@@ -26,6 +27,13 @@ public class DeviceInitFragment extends Fragment {
   @AfterViews
   public void afterViews() {
     new DeviceService().init()
+        .doOnError(new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            // something was very wrong the user should login back in
+            eventBus.post(new SignOutEvent());
+          }
+        })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
