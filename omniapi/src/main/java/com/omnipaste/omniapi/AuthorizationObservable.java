@@ -7,6 +7,7 @@ import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 public class AuthorizationObservable {
@@ -34,6 +35,12 @@ public class AuthorizationObservable {
             if (e instanceof RetrofitError &&
                 ((RetrofitError) e).getResponse().getStatus() == 401) {
               Observable prefixObservable = Observable.concat(token.refresh(accessTokenDto.getRefreshToken()), observable)
+                  .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                      subscriber.onError(throwable);
+                    }
+                  })
                   .filter(new Func1<Object, Boolean>() {
                     @Override
                     public Boolean call(Object o) {

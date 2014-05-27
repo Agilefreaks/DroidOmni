@@ -15,7 +15,7 @@ public class GcmWorkaroundSubscriberImpl implements GcmWorkaroundSubscriber {
 
   @Override
   public void start(String deviceIdentifier) {
-    subscriber = Observable.timer(0, 2, TimeUnit.MINUTES, Schedulers.io()).subscribe(new Action1<Long>() {
+    subscriber = Observable.timer(2, 2, TimeUnit.MINUTES, Schedulers.io()).subscribe(new Action1<Long>() {
       @Override
       public void call(Long aLong) {
         new DeviceService().registerToGcm()
