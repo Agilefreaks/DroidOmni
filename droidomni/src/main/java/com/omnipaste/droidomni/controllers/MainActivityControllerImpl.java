@@ -57,8 +57,6 @@ public class MainActivityControllerImpl implements MainActivityController {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(LoginEvent event) {
-    sessionService.login(event.getAccessToken());
-
     setFragment(DeviceInitFragment_.builder().build());
   }
 
@@ -81,7 +79,7 @@ public class MainActivityControllerImpl implements MainActivityController {
       setFragment(LoginFragment_.builder().build());
     }
     else {
-      setFragment(DeviceInitErrorFragment.build(event.getError(), fragmentService));
+      setFragment(DeviceInitErrorFragment.build(event.getError()));
     }
   }
 

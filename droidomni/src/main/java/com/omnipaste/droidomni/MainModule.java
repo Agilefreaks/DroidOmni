@@ -17,6 +17,7 @@ import com.omnipaste.droidomni.controllers.MainActivityController;
 import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
+import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceServiceImpl;
@@ -68,7 +69,8 @@ import dagger.Provides;
         OmniService_.class,
         // others
         ClippingView_.class,
-        ClippingsFragment_.class
+        ClippingsFragment_.class,
+        LoginFragment_.class
     },
     includes = {
         OmniApiModule.class,

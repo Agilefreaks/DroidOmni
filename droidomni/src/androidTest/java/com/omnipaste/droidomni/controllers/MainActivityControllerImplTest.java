@@ -30,7 +30,6 @@ public class MainActivityControllerImplTest extends InstrumentationTestCase {
   private MainActivityControllerImpl mainActivityController;
   private MainActivity mainActivity = new MainActivity();
 
-
   @Mock
   public SessionService mockSessionService;
 
