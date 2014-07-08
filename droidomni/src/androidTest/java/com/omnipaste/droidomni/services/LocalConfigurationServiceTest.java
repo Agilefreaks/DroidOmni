@@ -64,6 +64,6 @@ public class LocalConfigurationServiceTest extends InstrumentationTestCase {
 
     subject.setConfiguration(new Configuration());
 
-    verify(editor).commit();
+    verify(editor).apply();
   }
 }

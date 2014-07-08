@@ -47,7 +47,7 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
     editor.putString(API_CLIENT_ID, configuration.getApiClientId());
     editor.putString(ACCESS_TOKEN, new Gson().toJson(configuration.getAccessToken()));
 
-    editor.commit();
+    editor.apply();
   }
 
   @Override

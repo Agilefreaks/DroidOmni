@@ -19,7 +19,7 @@ import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
-import com.omnipaste.droidomni.services.DeviceService;
+import com.omnipaste.droidomni.services.DeviceServiceImpl;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.NotificationService;
@@ -59,7 +59,7 @@ import dagger.Provides;
         OmniActivityControllerImpl.class,
         ClippingsFragmentControllerImpl.class,
         // services
-        DeviceService.class,
+        DeviceServiceImpl.class,
         LoginService.class,
         SessionServiceImpl.class,
         OmniService_.class,

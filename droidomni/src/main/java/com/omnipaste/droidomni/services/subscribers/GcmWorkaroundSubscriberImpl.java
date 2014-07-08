@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.services.subscribers;
 
-import com.omnipaste.droidomni.services.DeviceService;
+import com.omnipaste.droidomni.services.DeviceServiceImpl;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +18,7 @@ public class GcmWorkaroundSubscriberImpl implements GcmWorkaroundSubscriber {
     subscriber = Observable.timer(2, 2, TimeUnit.MINUTES, Schedulers.io()).subscribe(new Action1<Long>() {
       @Override
       public void call(Long aLong) {
-        new DeviceService().registerToGcm()
+        new DeviceServiceImpl().registerToGcm()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
