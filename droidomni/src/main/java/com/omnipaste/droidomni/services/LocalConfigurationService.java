@@ -2,7 +2,6 @@ package com.omnipaste.droidomni.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.omnipaste.omnicommon.domain.Configuration;
@@ -10,9 +9,6 @@ import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 public class LocalConfigurationService implements ConfigurationService, SharedPreferences.OnSharedPreferenceChangeListener {
-  private final SharedPreferences sharedPreferences;
-  private Configuration configuration;
-
   public static String GCM_SENDER_ID_KEY = "gcmSenderId";
   public static String API_URL_KEY = "apiUrl";
   public static String API_CLIENT_ID = "clientId";
@@ -23,8 +19,13 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
   public static String NOTIFICATIONS_PHONE = "notifications_phone";
   public static String NOTIFICATIONS_GCM_WORKAROUND = "notifications_gcm_workaround";
 
+  public static String LOCAL_CONFIGURATION_FILE_NAME = "com.omnipaste.droidomni";
+
+  private final SharedPreferences sharedPreferences;
+  private Configuration configuration;
+
   public LocalConfigurationService(Context context) {
-    sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    sharedPreferences = context.getSharedPreferences(LOCAL_CONFIGURATION_FILE_NAME, Context.MODE_PRIVATE);
     sharedPreferences.registerOnSharedPreferenceChangeListener(this);
   }
 
@@ -47,7 +48,7 @@ public class LocalConfigurationService implements ConfigurationService, SharedPr
     editor.putString(API_CLIENT_ID, configuration.getApiClientId());
     editor.putString(ACCESS_TOKEN, new Gson().toJson(configuration.getAccessToken()));
 
-    editor.commit();
+    editor.apply();
   }
 
   @Override

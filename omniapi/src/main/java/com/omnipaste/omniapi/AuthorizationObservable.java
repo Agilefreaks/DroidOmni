@@ -3,6 +3,8 @@ package com.omnipaste.omniapi;
 import com.omnipaste.omniapi.resources.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
+import org.apache.http.HttpStatus;
+
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Observer;
@@ -32,8 +34,7 @@ public class AuthorizationObservable {
           @SuppressWarnings("unchecked")
           @Override
           public void onError(Throwable e) {
-            if (e instanceof RetrofitError &&
-                ((RetrofitError) e).getResponse().getStatus() == 401) {
+            if (isUnauthorized(e)) {
               Observable prefixObservable = Observable.concat(token.refresh(accessTokenDto.getRefreshToken()), observable)
                   .doOnError(new Action1<Throwable>() {
                     @Override
@@ -56,6 +57,12 @@ public class AuthorizationObservable {
           @Override
           public void onNext(T args) {
             subscriber.onNext(args);
+          }
+
+          private boolean isUnauthorized(Throwable e) {
+            return e instanceof RetrofitError &&
+                ((RetrofitError) e).getResponse() != null &&
+                ((RetrofitError) e).getResponse().getStatus() == HttpStatus.SC_UNAUTHORIZED;
           }
         });
       }

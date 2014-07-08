@@ -1,6 +1,8 @@
 <component name="ProjectDictionaryState">
   <dictionary name="calin">
     <words>
+      <w>androidannotations</w>
+      <w>astuetz</w>
       <w>checkstyle</w>
       <w>droidomni</w>
       <w>eventbus</w>
@@ -12,6 +14,9 @@
       <w>neenbedankt</w>
       <w>notificationsprovider</w>
       <w>omni</w>
+      <w>omniapi</w>
+      <w>omnicommon</w>
+      <w>pagerslidingtabstrip</w>
       <w>providerclipboard</w>
       <w>providernotifications</w>
       <w>providerphone</w>

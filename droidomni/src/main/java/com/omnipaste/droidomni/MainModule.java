@@ -17,9 +17,12 @@ import com.omnipaste.droidomni.controllers.MainActivityController;
 import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
+import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
-import com.omnipaste.droidomni.services.DeviceService;
+import com.omnipaste.droidomni.services.DeviceServiceImpl;
+import com.omnipaste.droidomni.services.FragmentService;
+import com.omnipaste.droidomni.services.FragmentServiceImpl;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.NotificationService;
@@ -56,16 +59,18 @@ import dagger.Provides;
         MainActivity_.class,
         OmniActivity_.class,
         // controllers
+        MainActivityControllerImpl.class,
         OmniActivityControllerImpl.class,
         ClippingsFragmentControllerImpl.class,
         // services
-        DeviceService.class,
+        DeviceServiceImpl.class,
         LoginService.class,
         SessionServiceImpl.class,
         OmniService_.class,
         // others
         ClippingView_.class,
-        ClippingsFragment_.class
+        ClippingsFragment_.class,
+        LoginFragment_.class
     },
     includes = {
         OmniApiModule.class,
@@ -158,6 +163,12 @@ public class MainModule {
   @Singleton
   public NotificationService providesNotificationService(NotificationServiceImpl notificationService) {
     return notificationService;
+  }
+
+  @Provides
+  @Singleton
+  public FragmentService providesFragmentService() {
+    return new FragmentServiceImpl();
   }
 
   @Provides
