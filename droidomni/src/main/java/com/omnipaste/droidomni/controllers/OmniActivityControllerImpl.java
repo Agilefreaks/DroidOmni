@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.Helpers;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.AboutActivity_;
@@ -18,6 +17,8 @@ import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
+import com.omnipaste.droidomni.services.FragmentService;
+import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
 
 import javax.inject.Inject;
@@ -31,6 +32,9 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @Inject
   public ActionBarController actionBarController;
+
+  @Inject
+  public FragmentService fragmentService;
 
   @Inject
   public OmniActivityControllerImpl(SessionService sessionService) {
@@ -101,7 +105,8 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(SignOutEvent signOutEvent) {
-    Helpers.signOut(activity, sessionService);
+    OmniService.stop(activity);
+    sessionService.logout();
 
     activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
     activity.finish();
@@ -112,6 +117,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   }
 
   private void setFragment(Fragment fragment) {
-    Helpers.setFragment(activity, R.id.omni_container, fragment);
+    fragmentService.setFragment(activity, R.id.omni_container, fragment);
   }
 }
