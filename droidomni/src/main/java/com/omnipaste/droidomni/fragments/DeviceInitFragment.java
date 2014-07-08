@@ -39,7 +39,7 @@ public class DeviceInitFragment extends Fragment {
 
   @AfterViews
   public void afterViews() {
-    deviceService.init()
+    getDeviceService().init()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
