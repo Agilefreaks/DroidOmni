@@ -70,17 +70,21 @@ public class MainActivityControllerImpl implements MainActivityController {
     activity.finish();
   }
 
-  @SuppressWarnings({"UnusedDeclaration", "ThrowableResultOfMethodCallIgnored"})
+  @SuppressWarnings({"UnusedDeclaration"})
   public void onEventMainThread(DeviceInitErrorEvent event) {
-    RetrofitError retrofitError = event.getError() instanceof RetrofitError ? (RetrofitError)event.getError() : null;
-
-    if (retrofitError != null && retrofitError.getResponse().getStatus() == HttpStatus.SC_BAD_REQUEST) {
+    if (isBadRequest(event.getError())) {
       sessionService.logout();
       setFragment(LoginFragment_.builder().build());
     }
     else {
       setFragment(DeviceInitErrorFragment.build(event.getError()));
     }
+  }
+
+  private boolean isBadRequest(Throwable error) {
+    RetrofitError retrofitError = error instanceof RetrofitError ? (RetrofitError)error : null;
+
+    return retrofitError != null && retrofitError.getResponse() != null && retrofitError.getResponse().getStatus() == HttpStatus.SC_BAD_REQUEST;
   }
 
   private void setInitialFragment() {

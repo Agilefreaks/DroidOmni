@@ -62,4 +62,10 @@ public class MainActivityControllerImplTest extends InstrumentationTestCase {
 
     verify(mockFragmentService, times(1)).setFragment(eq(mainActivity), eq(R.id.main_container), isA(DeviceInitErrorFragment_.class));
   }
+
+  public void testOnHandleDeviceInitErrorEventWhenRetrofitErrorWillSetFragment() throws Exception {
+    mainActivityController.onEventMainThread(new DeviceInitErrorEvent(RetrofitError.unexpectedError(null, new Exception())));
+
+    verify(mockFragmentService, times(1)).setFragment(eq(mainActivity), eq(R.id.main_container), isA(DeviceInitErrorFragment_.class));
+  }
 }
