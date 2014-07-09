@@ -1,13 +1,12 @@
 package com.omnipaste.droidomni.controllers;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity;
-import com.omnipaste.droidomni.activities.OmniActivity_;
+import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.DeviceInitErrorEvent;
 import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.events.LoginEvent;
@@ -64,9 +63,7 @@ public class MainActivityControllerImpl implements MainActivityController {
   public void onEventMainThread(DeviceInitEvent event) {
     OmniService.start(event.getRegisteredDeviceDto());
 
-    Intent intent = new Intent(activity, OmniActivity_.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-    activity.startActivity(intent);
+    activity.startActivity(OmniActivity.getIntent(activity));
     activity.finish();
   }
 

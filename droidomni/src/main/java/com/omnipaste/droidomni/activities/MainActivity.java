@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +22,13 @@ public class MainActivity extends FragmentActivity {
 
   @Inject
   public MainActivityController controller;
+
+  public static Intent getIntent(Context context) {
+    Intent intent = new Intent(context, MainActivity_.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+    return intent;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

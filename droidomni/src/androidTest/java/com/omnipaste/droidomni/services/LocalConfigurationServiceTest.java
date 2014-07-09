@@ -37,7 +37,7 @@ public class LocalConfigurationServiceTest extends InstrumentationTestCase {
 
     MockitoAnnotations.initMocks(this);
 
-    when(context.getSharedPreferences("com.omnipaste.droidomni", Context.MODE_PRIVATE)).thenReturn(sharedPreferences);
+    when(context.getSharedPreferences(LocalConfigurationService.LOCAL_CONFIGURATION_FILE_NAME, Context.MODE_PRIVATE)).thenReturn(sharedPreferences);
     Mockito.doNothing().when(sharedPreferences).registerOnSharedPreferenceChangeListener(subject);
     subject = new LocalConfigurationService(context);
   }

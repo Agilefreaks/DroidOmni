@@ -9,7 +9,7 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.AboutActivity_;
-import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.PrivacyPolicyActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
@@ -108,7 +108,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
     OmniService.stop(activity);
     sessionService.logout();
 
-    activity.startActivity(new Intent(activity.getApplicationContext(), MainActivity_.class));
+    activity.startActivity(MainActivity.getIntent(activity));
     activity.finish();
   }
 
