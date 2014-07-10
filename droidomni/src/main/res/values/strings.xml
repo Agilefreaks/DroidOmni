@@ -4,6 +4,7 @@
     <string name="login_hint">Authorization Code</string>
     <string name="login_button">Login</string>
     <string name="login_invalid_code">Invalid Authorization Code</string>
+    <string name="logo_content_description">Omnipaste Logo</string>
 
     <!-- Device init -->
     <string name="device_init_error_retry">Retry</string>
