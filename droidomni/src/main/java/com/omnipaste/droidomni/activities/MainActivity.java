@@ -3,7 +3,7 @@ package com.omnipaste.droidomni.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity;
 import javax.inject.Inject;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends ActionBarActivity {
   private static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
 
   @Inject
@@ -34,6 +34,8 @@ public class MainActivity extends FragmentActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     DroidOmniApplication.inject(this);
+
+    getSupportActionBar().hide();
 
     controller.run(this, savedInstanceState);
   }

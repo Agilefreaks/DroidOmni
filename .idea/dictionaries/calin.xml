@@ -4,6 +4,7 @@
       <w>androidannotations</w>
       <w>astuetz</w>
       <w>checkstyle</w>
+      <w>compat</w>
       <w>droidomni</w>
       <w>eventbus</w>
       <w>functionaljava</w>
@@ -16,6 +17,7 @@
       <w>omni</w>
       <w>omniapi</w>
       <w>omnicommon</w>
+      <w>omnipaste</w>
       <w>pagerslidingtabstrip</w>
       <w>providerclipboard</w>
       <w>providernotifications</w>
