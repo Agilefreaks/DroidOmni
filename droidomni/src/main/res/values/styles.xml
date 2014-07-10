@@ -16,7 +16,7 @@
     <style name="OmniActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
         <item name="android:subtitleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle.Inverse</item>
-        <item name="android:background">@drawable/ab_solid_dark_holo</item>
+        <item name="android:background">@color/base_color</item>
     </style>
 
     <style name="Widget.ListView.NavDrawer" parent="@android:style/Widget.ListView.Menu">
