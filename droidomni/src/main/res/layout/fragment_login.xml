@@ -17,11 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:hint="@string/login_hint"
+        android:textColorHint="@android:color/tertiary_text_dark"
         android:inputType="number"/>
 
     <Button
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_button"/>
+        android:text="@string/login_button"
+        android:textColor="@android:color/primary_text_dark"/>
 </LinearLayout>

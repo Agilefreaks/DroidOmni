@@ -16,6 +16,7 @@
     <string name="clippings_tab_all">All</string>
     <string name="clippings_tab_local">Local</string>
     <string name="clippings_tab_cloud">Cloud</string>
+    <string name="clippings_empty">There are no clippings to display</string>
 
     <!-- Navigation -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

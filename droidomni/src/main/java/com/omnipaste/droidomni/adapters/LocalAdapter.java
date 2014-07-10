@@ -31,6 +31,11 @@ public abstract class LocalAdapter<T, TView extends HasSetup<T>> extends BaseAda
     return position;
   }
 
+  @Override
+  public boolean isEmpty() {
+    return items.isEmpty();
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public View getView(int position, View view, ViewGroup viewGroup) {
