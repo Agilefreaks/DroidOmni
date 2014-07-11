@@ -11,16 +11,14 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.MainActivityController;
+import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
 
 import org.androidannotations.annotations.EActivity;
-
-import javax.inject.Inject;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends ActionBarActivity {
   private static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
 
-  @Inject
   public MainActivityController controller;
 
   public static Intent getIntent(Context context) {
@@ -33,7 +31,9 @@ public class MainActivity extends ActionBarActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    DroidOmniApplication.inject(this);
+
+    controller = new MainActivityControllerImpl();
+    DroidOmniApplication.inject(controller);
 
     getSupportActionBar().hide();
 

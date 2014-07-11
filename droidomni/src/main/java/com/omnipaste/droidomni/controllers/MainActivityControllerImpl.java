@@ -3,7 +3,6 @@ package com.omnipaste.droidomni.controllers;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity;
@@ -27,17 +26,12 @@ import retrofit.RetrofitError;
 public class MainActivityControllerImpl implements MainActivityController {
   private EventBus eventBus = EventBus.getDefault();
   private MainActivity activity;
-  private SessionService sessionService;
 
   @Inject
   public FragmentService fragmentService;
 
   @Inject
-  public MainActivityControllerImpl(SessionService sessionService) {
-    DroidOmniApplication.inject(this);
-
-    this.sessionService = sessionService;
-  }
+  public SessionService sessionService;
 
   @Override
   public void run(MainActivity mainActivity, Bundle savedInstanceState) {

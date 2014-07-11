@@ -3,4 +3,5 @@
     <string name="api_url">https://apistaging.omnipasteapp.com/api</string>
     <string name="tos_url">http://staging.omnipasteapp.com/tos</string>
     <string name="api_client_id">5348cedf61706947ea000000</string>
+    <string name="bugfreak_token">520cca2628e18700b0000004</string>
 </resources>

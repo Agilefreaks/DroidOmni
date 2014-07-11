@@ -15,7 +15,5 @@ public interface ActionBarController {
 
   public void setSubtitle(String subtitle);
 
-  void setSelectedNavigationItem(int position);
-
   ActionBarDrawerToggle setupNavigationDrawer(DrawerLayout drawerLayout, final ActionBarDrawerToggleListener listener);
 }

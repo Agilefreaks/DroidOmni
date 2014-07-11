@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.fragments;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,12 +42,6 @@ public class LoginFragment extends Fragment {
 
   public LoginFragment() {
     DroidOmniApplication.inject(this);
-  }
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setRetainInstance(true);
   }
 
   @Click

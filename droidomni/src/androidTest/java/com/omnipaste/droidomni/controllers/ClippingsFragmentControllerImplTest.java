@@ -35,7 +35,7 @@ public class ClippingsFragmentControllerImplTest extends InstrumentationTestCase
   @SuppressWarnings("unchecked")
   public void testOnEventMainThread() throws Exception {
     ClippingDto clippingDto = new ClippingDto();
-    controller.subscribe(mockObserver);
+    controller.getObservable().subscribe(mockObserver);
 
     controller.setClipping(clippingDto);
 

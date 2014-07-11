@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_url">https://www.omnipasteapp.com/api</string>
+    <string name="api_url">https://api.omnipasteapp.com/api</string>
     <string name="tos_url">https://www.omnipasteapp.com/tos</string>
+    <string name="bugfreak_token">520cca1c28e18700b0000002</string>
 </resources>

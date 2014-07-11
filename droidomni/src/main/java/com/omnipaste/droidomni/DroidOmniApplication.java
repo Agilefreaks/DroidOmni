@@ -11,6 +11,7 @@ import org.androidannotations.annotations.res.StringRes;
 
 import javax.inject.Inject;
 
+import co.bugfreak.BugFreak;
 import dagger.ObjectGraph;
 
 @EApplication
@@ -26,6 +27,9 @@ public class DroidOmniApplication extends Application {
 
   @StringRes(R.string.api_client_id)
   public String apiClientId;
+
+  @StringRes(R.string.bugfreak_token)
+  public String bugFreakToken;
 
   @Inject
   public ConfigurationService configurationService;
@@ -56,5 +60,7 @@ public class DroidOmniApplication extends Application {
     configuration.setGcmSenderId(gcmSenderId);
     configuration.setApiClientId(apiClientId);
     configurationService.setConfiguration(configuration);
+
+    BugFreak.hook("2537eed2-36fd-4d9c-9ca9-54db031126fd", bugFreakToken, this);
   }
 }

@@ -35,11 +35,6 @@ public class ActionBarControllerImpl implements ActionBarController {
   }
 
   @Override
-  public void setSelectedNavigationItem(int position) {
-    getActionBar().setSelectedNavigationItem(position);
-  }
-
-  @Override
   public ActionBarDrawerToggle setupNavigationDrawer(final DrawerLayout drawerLayout, final ActionBarDrawerToggleListener listener) {
     drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 

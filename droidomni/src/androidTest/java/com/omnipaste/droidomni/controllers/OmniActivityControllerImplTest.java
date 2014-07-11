@@ -27,7 +27,8 @@ public class OmniActivityControllerImplTest extends TestCase {
     super.setUp();
     MockitoAnnotations.initMocks(this);
 
-    controller = new OmniActivityControllerImpl(mockSessionService);
+    controller = new OmniActivityControllerImpl();
+    controller.sessionService = mockSessionService;
     controller.actionBarController = mockActionBarController;
   }
 
