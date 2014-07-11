@@ -57,7 +57,7 @@ public class NotificationServiceImpl implements NotificationService {
     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
 
     return new NotificationCompat.Builder(context)
-        .setSmallIcon(R.drawable.ic_stat_clipboard)
+        .setSmallIcon(R.drawable.ic_stat_omni)
         .setContentTitle(appName)
         .setContentText(text)
         .setContentIntent(contentIntent);
