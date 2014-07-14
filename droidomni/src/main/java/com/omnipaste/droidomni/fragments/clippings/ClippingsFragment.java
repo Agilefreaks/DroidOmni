@@ -21,6 +21,8 @@ import rx.Observable;
 @EFragment(R.layout.fragment_clippings)
 public class ClippingsFragment extends Fragment {
 
+  public static final String CLIPPINGS_PARCEL = "clippings";
+
   @ViewById
   public ViewPager clippingsPager;
 
@@ -43,6 +45,12 @@ public class ClippingsFragment extends Fragment {
   public void onDestroy() {
     super.onDestroy();
     controller.stop();
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelableArray(CLIPPINGS_PARCEL, controller.getClippings().toArray(new ClippingDto[controller.getClippings().size()]));
   }
 
   @AfterViews

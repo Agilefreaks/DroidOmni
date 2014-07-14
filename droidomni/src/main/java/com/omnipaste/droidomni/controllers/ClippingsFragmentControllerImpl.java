@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.os.Bundle;
 
+import com.google.common.collect.EvictingQueue;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
@@ -13,16 +14,20 @@ import com.omnipaste.droidomni.services.NotificationService;
 import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import rx.Observable;
-import rx.subjects.PublishSubject;
+import rx.subjects.ReplaySubject;
 
 public class ClippingsFragmentControllerImpl implements ClippingsFragmentController {
   private EventBus eventBus = EventBus.getDefault();
   private ClippingsFragment fragment;
-  private PublishSubject<ClippingDto> clippingsSubject;
+  private ReplaySubject<ClippingDto> clippingsSubject;
+  private EvictingQueue<ClippingDto> clippings;
 
   @Inject
   public NotificationService notificationService;
@@ -34,12 +39,21 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   public ActionBarController actionBarController;
 
   public ClippingsFragmentControllerImpl() {
-    clippingsSubject = PublishSubject.create();
+    clippings = EvictingQueue.create(42);
+    clippingsSubject = ReplaySubject.create();
   }
 
   @Override
   public void run(ClippingsFragment clippingsFragment, Bundle savedInstance) {
     eventBus.register(this);
+
+    if (savedInstance != null) {
+      Collections.addAll(clippings, (ClippingDto[]) savedInstance.getParcelableArray(ClippingsFragment.CLIPPINGS_PARCEL));
+
+      for (ClippingDto clipping : clippings) {
+        clippingsSubject.onNext(clipping);
+      }
+    }
 
     this.fragment = clippingsFragment;
   }
@@ -63,9 +77,15 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
     return clippingsSubject;
   }
 
+  @Override
+  public Collection<ClippingDto> getClippings() {
+    return clippings;
+  }
+
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(ClippingAdded event) {
     ClippingDto clipping = event.getClipping();
+    clippings.add(clipping);
 
     setClipping(clipping);
     notifyClipping(clipping);

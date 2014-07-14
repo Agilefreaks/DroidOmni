@@ -19,42 +19,25 @@ import rx.Subscription;
 
 @EFragment
 public abstract class ClippingsListFragment extends ListFragment implements IListFragment {
-  private final ClippingAdapter clippingAdapter;
-
   private Subscription subscription;
 
   @StringRes
   public String ClippingsEmpty;
-
-  public ClippingsListFragment() {
-    clippingAdapter = new ClippingAdapter();
-  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     return inflater.inflate(R.layout.fragment_clippings_list, null);
   }
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-
-    outState.putInt("curChoice", 1);
-  }
-
   @AfterViews
   public void afterViews() {
-    setListAdapter(clippingAdapter);
+    setListAdapter(new ClippingAdapter());
 
     Fragment parentFragment = getParentFragment();
 
     if (parentFragment instanceof ClippingsFragment) {
-      subscription = observe(((ClippingsFragment) parentFragment).getObservable());
+      ClippingsFragment clippingsFragment = (ClippingsFragment) parentFragment;
+      subscription = observe(clippingsFragment.getObservable());
     }
   }
 
@@ -67,10 +50,10 @@ public abstract class ClippingsListFragment extends ListFragment implements ILis
   }
 
   public ClippingAdapter getActualListAdapter() {
-    return clippingAdapter;
+    return (ClippingAdapter) getListAdapter();
   }
 
   protected void add(ClippingDto clippingDto) {
-    clippingAdapter.add(clippingDto);
+    getActualListAdapter().add(clippingDto);
   }
 }
