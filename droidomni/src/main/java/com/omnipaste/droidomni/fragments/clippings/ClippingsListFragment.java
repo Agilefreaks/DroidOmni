@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.fragments.clippings;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +15,18 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.res.StringRes;
 
-import rx.Observable;
+import rx.Subscription;
 
 @EFragment
-public abstract class ClippingsListFragment extends ListFragment {
+public abstract class ClippingsListFragment extends ListFragment implements IListFragment {
   private final ClippingAdapter clippingAdapter;
-  private String title;
+
+  private Subscription subscription;
 
   @StringRes
   public String ClippingsEmpty;
 
   public ClippingsListFragment() {
-    setRetainInstance(true);
     clippingAdapter = new ClippingAdapter();
   }
 
@@ -34,30 +35,42 @@ public abstract class ClippingsListFragment extends ListFragment {
     return inflater.inflate(R.layout.fragment_clippings_list, null);
   }
 
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
+    outState.putInt("curChoice", 1);
+  }
+
   @AfterViews
   public void afterViews() {
-    getListView().setEmptyView(getActivity().getLayoutInflater().inflate(R.layout.empty, null));
+    setListAdapter(clippingAdapter);
 
-    if (getListAdapter() == null) {
-      setListAdapter(clippingAdapter);
+    Fragment parentFragment = getParentFragment();
+
+    if (parentFragment instanceof ClippingsFragment) {
+      subscription = observe(((ClippingsFragment) parentFragment).getObservable());
     }
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+
+    subscription.unsubscribe();
+    subscription = null;
   }
 
   public ClippingAdapter getActualListAdapter() {
     return clippingAdapter;
   }
 
-  public abstract void observe(Observable<ClippingDto> observable);
-
   protected void add(ClippingDto clippingDto) {
     clippingAdapter.add(clippingDto);
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 }

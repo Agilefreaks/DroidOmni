@@ -9,16 +9,15 @@ import android.support.v7.app.ActionBarActivity;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
+import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
 
-import javax.inject.Inject;
-
 @EActivity(R.layout.activity_omni)
-public class OmniActivity extends ActionBarActivity {
+public class  OmniActivity extends ActionBarActivity {
 
   @ViewById
   public DrawerLayout drawerLayout;
@@ -26,7 +25,6 @@ public class OmniActivity extends ActionBarActivity {
   @FragmentById
   public NavigationDrawerFragment navigationDrawer;
 
-  @Inject
   public OmniActivityController controller;
 
   public static Intent getIntent(Context context) {
@@ -39,7 +37,9 @@ public class OmniActivity extends ActionBarActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    DroidOmniApplication.inject(this);
+
+    controller = new OmniActivityControllerImpl();
+    DroidOmniApplication.inject(controller);
 
     controller.run(this, savedInstanceState);
   }

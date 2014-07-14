@@ -1,10 +1,12 @@
 package com.omnipaste.droidomni.fragments.clippings;
 
+import com.omnipaste.droidomni.R;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import org.androidannotations.annotations.EFragment;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -14,9 +16,12 @@ public class CloudFragment extends ClippingsListFragment {
     super();
   }
 
-  @Override
-  public void observe(Observable<ClippingDto> observable) {
-    observable.filter(new Func1<ClippingDto, Boolean>() {
+  public int getTitle() {
+    return R.string.clippings_tab_cloud;
+  }
+
+  public Subscription observe(Observable<ClippingDto> observable) {
+    return observable.filter(new Func1<ClippingDto, Boolean>() {
       @Override
       public Boolean call(ClippingDto clippingDto) {
         return clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.cloud;

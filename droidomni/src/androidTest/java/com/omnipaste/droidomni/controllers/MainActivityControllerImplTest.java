@@ -42,7 +42,8 @@ public class MainActivityControllerImplTest extends InstrumentationTestCase {
 
     MockitoAnnotations.initMocks(this);
 
-    mainActivityController = new MainActivityControllerImpl(mockSessionService);
+    mainActivityController = new MainActivityControllerImpl();
+    mainActivityController.sessionService = mockSessionService;
     mainActivityController.fragmentService = mockFragmentService;
     mainActivityController.run(mainActivity, new Bundle());
   }

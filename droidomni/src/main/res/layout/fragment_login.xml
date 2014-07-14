@@ -17,8 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:hint="@string/login_hint"
-        android:textColorHint="@android:color/tertiary_text_dark"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:textColorHint="@android:color/tertiary_text_dark">
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/login"

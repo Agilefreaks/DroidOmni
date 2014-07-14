@@ -2,10 +2,8 @@ package com.omnipaste.droidomni.controllers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.AboutActivity_;
@@ -26,7 +24,6 @@ import javax.inject.Inject;
 import de.greenrobot.event.EventBus;
 
 public class OmniActivityControllerImpl implements OmniActivityController, ActionBarDrawerToggleListener {
-  private final SessionService sessionService;
   private EventBus eventBus = EventBus.getDefault();
   private OmniActivity activity;
 
@@ -37,9 +34,9 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   public FragmentService fragmentService;
 
   @Inject
-  public OmniActivityControllerImpl(SessionService sessionService) {
-    DroidOmniApplication.inject(this);
-    this.sessionService = sessionService;
+  public SessionService sessionService;
+
+  public OmniActivityControllerImpl() {
   }
 
   @Override
@@ -113,10 +110,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   }
 
   private void setInitialFragment() {
-    setFragment(ClippingsFragment_.builder().build());
-  }
-
-  private void setFragment(Fragment fragment) {
-    fragmentService.setFragment(activity, R.id.omni_container, fragment);
+    fragmentService.setFragment(activity, R.id.omni_container, ClippingsFragment_.builder().build());
   }
 }

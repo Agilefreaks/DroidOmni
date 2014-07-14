@@ -11,11 +11,8 @@ import com.omnipaste.droidomni.activities.MainActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.controllers.ActionBarController;
 import com.omnipaste.droidomni.controllers.ActionBarControllerImpl;
-import com.omnipaste.droidomni.controllers.ClippingsFragmentController;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
-import com.omnipaste.droidomni.controllers.MainActivityController;
 import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
-import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
@@ -80,7 +77,7 @@ import dagger.Provides;
     }
 )
 public class MainModule {
-  private Context context;
+  private final Context context;
 
   public MainModule(Context context) {
     this.context = context.getApplicationContext();
@@ -123,32 +120,13 @@ public class MainModule {
   }
 
   @Provides
-  public GoogleCloudMessaging providesGoogleCloudMessaging(Context context) {
+  @Singleton
+  public GoogleCloudMessaging providesGoogleCloudMessaging() {
     return GoogleCloudMessaging.getInstance(context);
   }
 
   @Provides
-  public MainActivityController providesMainActivityController(MainActivityControllerImpl mainActivityController) {
-    return mainActivityController;
-  }
-
-  @Provides
-  public OmniActivityController providesOmniActivityController(OmniActivityControllerImpl omniActivityController) {
-    return omniActivityController;
-  }
-
-  @Provides
-  public ClippingsFragmentController providesClippingsFragmentController() {
-    return new ClippingsFragmentControllerImpl();
-  }
-
-  @Provides
   @Singleton
-  public ActionBarController providesActionBarController() {
-    return new ActionBarControllerImpl();
-  }
-
-  @Provides
   public SessionService providesSessionService(SessionServiceImpl sessionService) {
     return sessionService;
   }
@@ -193,5 +171,11 @@ public class MainModule {
   @Singleton
   public GcmWorkaroundSubscriber providesGcmWorkaroundSubscriber() {
     return new GcmWorkaroundSubscriberImpl();
+  }
+
+  @Provides
+  @Singleton
+  public ActionBarController providesActionBarController() {
+    return new ActionBarControllerImpl();
   }
 }

@@ -40,8 +40,6 @@ public class NavigationDrawerFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setRetainInstance(true);
-
     navigationDrawerAdapter = NavigationDrawerAdapter.build(this.getResources());
     secondaryNavigationDrawerAdapter = SecondaryNavigationDrawerAdapter.build(this.getResources());
   }

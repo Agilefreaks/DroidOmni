@@ -31,7 +31,7 @@ public class TestClipboardProvider extends TestIntegration<MainActivity_> {
 
     ViewPager view = (ViewPager) solo.getView(R.id.clippingsPager);
     ClippingsPagerAdapter adapter = (ClippingsPagerAdapter) view.getAdapter();
-    ListFragment listFragment = adapter.getFragment(0);
+    ListFragment listFragment = (ListFragment) adapter.getItem(0);
 
     assertThat(((ClippingDto) listFragment.getListView().getItemAtPosition(0)).getContent(), is("test"));
     assertThat(((ClippingDto) listFragment.getListView().getItemAtPosition(1)).getContent(), is("some"));
