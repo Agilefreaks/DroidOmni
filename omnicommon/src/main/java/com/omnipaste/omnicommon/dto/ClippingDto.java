@@ -13,7 +13,7 @@ public class ClippingDto implements Parcelable {
   private ClippingProvider clippingProvider;
 
   public enum ClippingType {
-    phoneNumber, webSite, address, unknown
+    phoneNumber, url, address, unknown
   }
 
   public enum ClippingProvider {
