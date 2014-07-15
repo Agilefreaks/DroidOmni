@@ -81,5 +81,7 @@ dependencies {
 
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 
+    file('libs/libGoogleAnalyticsServices')
+
     androidTestCompile androidTest
 }

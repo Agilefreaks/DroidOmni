@@ -15,11 +15,16 @@ import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
 import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
+import com.omnipaste.droidomni.fragments.clippings.AllFragment_;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
+import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
+import com.omnipaste.droidomni.fragments.clippings.LocalFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.DeviceServiceImpl;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.FragmentServiceImpl;
+import com.omnipaste.droidomni.services.GoogleAnalyticsService;
+import com.omnipaste.droidomni.services.GoogleAnalyticsServiceImpl;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.NotificationService;
@@ -64,10 +69,14 @@ import dagger.Provides;
         LoginService.class,
         SessionServiceImpl.class,
         OmniService_.class,
-        // others
-        ClippingView_.class,
+        // Fragments
         ClippingsFragment_.class,
-        LoginFragment_.class
+        LoginFragment_.class,
+        AllFragment_.class,
+        LocalFragment_.class,
+        CloudFragment_.class,
+        // others
+        ClippingView_.class
     },
     includes = {
         OmniApiModule.class,
@@ -147,6 +156,12 @@ public class MainModule {
   @Singleton
   public FragmentService providesFragmentService() {
     return new FragmentServiceImpl();
+  }
+
+  @Provides
+  @Singleton
+  public GoogleAnalyticsService providesGoogleAnalyticsService() {
+    return new GoogleAnalyticsServiceImpl();
   }
 
   @Provides
