@@ -13,7 +13,7 @@ import java.util.HashMap;
 public interface SmartActionService {
   public static final HashMap<ClippingDto.ClippingType, SmartAction> SMART_ACTIONS = new HashMap<ClippingDto.ClippingType, SmartAction>() {{
     put(ClippingDto.ClippingType.phoneNumber, new SmartActionPhoneNumber());
-    put(ClippingDto.ClippingType.webSite, new SmartActionWebSite());
+    put(ClippingDto.ClippingType.url, new SmartActionWebSite());
     put(ClippingDto.ClippingType.address, new SmartActionAddress());
   }};
 
