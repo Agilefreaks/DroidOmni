@@ -2,7 +2,7 @@ package com.omnipaste.omniapi;
 
 import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omniapi.resources.v1.Devices;
-import com.omnipaste.omniapi.resources.v1.Notifications;
+import com.omnipaste.omniapi.resources.v1.Events;
 import com.omnipaste.omniapi.resources.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
@@ -11,7 +11,7 @@ public class OmniApiV1 implements OmniApi {
   private final String baseUrl;
   private Devices devices;
   private Clippings clippings;
-  private Notifications notifications;
+  private Events events;
   private Token token;
   private AccessTokenDto accessToken;
 
@@ -36,11 +36,11 @@ public class OmniApiV1 implements OmniApi {
         : clippings;
   }
 
-  public Notifications notifications() {
+  public Events notifications() {
     ensureAccessToken();
-    return notifications == null
-        ? notifications = new Notifications(new AuthorizationObservable(token(), accessToken), accessToken, baseUrl)
-        : notifications;
+    return events == null
+        ? events = new Events(new AuthorizationObservable(token(), accessToken), accessToken, baseUrl)
+        : events;
   }
 
   @Override

@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.services.subscribers;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.notificationsprovider.TelephonyNotificationsProvider;
+import com.omnipaste.eventsprovider.TelephonyNotificationsProvider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 
 import org.mockito.Mock;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class TelephonyNotificationsSubscriberImplTest extends InstrumentationTestCase {
+public class TelephonyEventsSubscriberImplTest extends InstrumentationTestCase {
   @Mock
   public TelephonyNotificationsProvider telephonyNotificationsProvider;
 

@@ -38,7 +38,7 @@ import com.omnipaste.droidomni.services.subscribers.PhoneSubscriberImpl;
 import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
 import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriberImpl;
 import com.omnipaste.droidomni.views.ClippingView_;
-import com.omnipaste.notificationsprovider.NotificationsProviderModule;
+import com.omnipaste.eventsprovider.EventsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.omnicommon.services.ConfigurationService;
@@ -73,7 +73,7 @@ import dagger.Provides;
         OmniApiModule.class,
         ClipboardProviderModule.class,
         PhoneProviderModule.class,
-        NotificationsProviderModule.class
+        EventsProviderModule.class
     }
 )
 public class MainModule {

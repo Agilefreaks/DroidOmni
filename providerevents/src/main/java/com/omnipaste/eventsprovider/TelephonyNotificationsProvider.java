@@ -1,4 +1,4 @@
-package com.omnipaste.notificationsprovider;
+package com.omnipaste.eventsprovider;
 
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
