@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.controllers;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,7 +10,6 @@ import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.AboutActivity_;
 import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity;
-import com.omnipaste.droidomni.activities.PrivacyPolicyActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
@@ -82,21 +82,27 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(NavigationItemClicked event) {
+    Intent intent = null;
+
     switch (event.getNavigationDrawerItem().getNavigationMenu()) {
       case Clippings:
         break;
       case Settings:
         activity.drawerLayout.closeDrawers();
-        activity.startActivity(new Intent(activity, SettingsActivity.class));
+        intent = new Intent(activity, SettingsActivity.class);
         break;
       case About:
         activity.drawerLayout.closeDrawers();
-        activity.startActivity(new Intent(activity, AboutActivity_.class));
+        intent = new Intent(activity, AboutActivity_.class);
         break;
       case PrivacyPolicy:
-        activity.drawerLayout.closeDrawers();
-        activity.startActivity(new Intent(activity, PrivacyPolicyActivity.class));
+        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.tosUrl));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         break;
+    }
+
+    if (intent != null) {
+      activity.startActivity(intent);
     }
   }
 
