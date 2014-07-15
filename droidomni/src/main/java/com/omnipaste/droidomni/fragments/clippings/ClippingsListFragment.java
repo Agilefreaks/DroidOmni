@@ -7,13 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.ClippingAdapter;
+import com.omnipaste.droidomni.services.GoogleAnalyticsService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.res.StringRes;
+
+import javax.inject.Inject;
 
 import rx.Subscription;
 
@@ -24,6 +28,13 @@ public abstract class ClippingsListFragment extends ListFragment implements ILis
   @StringRes
   public String ClippingsEmpty;
 
+  @Inject
+  public GoogleAnalyticsService googleAnalyticsService;
+
+  protected ClippingsListFragment() {
+    DroidOmniApplication.inject(this);
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     return inflater.inflate(R.layout.fragment_clippings_list, null);
@@ -31,6 +42,8 @@ public abstract class ClippingsListFragment extends ListFragment implements ILis
 
   @AfterViews
   public void afterViews() {
+    googleAnalyticsService.trackHit(this.getClass().getName());
+
     setListAdapter(new ClippingAdapter());
 
     Fragment parentFragment = getParentFragment();

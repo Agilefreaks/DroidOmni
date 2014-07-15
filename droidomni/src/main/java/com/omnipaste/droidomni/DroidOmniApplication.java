@@ -3,6 +3,8 @@ package com.omnipaste.droidomni;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
@@ -18,6 +20,7 @@ import dagger.ObjectGraph;
 public class DroidOmniApplication extends Application {
   private static Context context;
   private static ObjectGraph objectGraph;
+  private static Tracker tracker;
 
   @StringRes(R.string.gcm_sender_id)
   public String gcmSenderId;
@@ -40,6 +43,15 @@ public class DroidOmniApplication extends Application {
 
   public static <T> void inject(T instance) {
     objectGraph.inject(instance);
+  }
+
+  public static synchronized Tracker getTracker() {
+    if (tracker == null) {
+      GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
+      tracker = analytics.newTracker(R.xml.app_tracker);
+    }
+
+    return tracker;
   }
 
   @Override

@@ -7,10 +7,12 @@ import android.widget.EditText;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.LoginEvent;
+import com.omnipaste.droidomni.services.GoogleAnalyticsService;
 import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -40,8 +42,16 @@ public class LoginFragment extends Fragment {
   @Inject
   public SessionService sessionService;
 
+  @Inject
+  public GoogleAnalyticsService googleAnalyticsService;
+
   public LoginFragment() {
     DroidOmniApplication.inject(this);
+  }
+
+  @AfterViews
+  public void afterViews() {
+    googleAnalyticsService.trackHit(this.getClass().getName());
   }
 
   @Click
