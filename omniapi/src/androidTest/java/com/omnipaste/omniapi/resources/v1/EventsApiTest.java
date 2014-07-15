@@ -11,8 +11,8 @@ import rx.Observable;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 
-public class NotificationsApiTest extends TestCase {
-  private Notifications notifications;
+public class EventsApiTest extends TestCase {
+  private Events events;
 
   @Override
   public void setUp() throws Exception {
@@ -20,10 +20,10 @@ public class NotificationsApiTest extends TestCase {
 
     OmniApiV1 omniApiV1 = new OmniApiV1("client id", "http://test.omnipasteapp.com/api");
     omniApiV1.setAccessToken(new AccessTokenDto("access"));
-    notifications = omniApiV1.notifications();
+    events = omniApiV1.notifications();
   }
 
   public void testCreateWillReturnAnObservable() throws Exception {
-    assertThat(notifications.create(new TelephonyNotificationDto()), instanceOf(Observable.class));
+    assertThat(events.create(new TelephonyNotificationDto()), instanceOf(Observable.class));
   }
 }

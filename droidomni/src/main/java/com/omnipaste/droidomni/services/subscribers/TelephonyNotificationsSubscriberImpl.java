@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.services.subscribers;
 
-import com.omnipaste.notificationsprovider.TelephonyNotificationsProvider;
+import com.omnipaste.eventsprovider.TelephonyNotificationsProvider;
 
 import javax.inject.Inject;
 

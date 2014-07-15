@@ -12,15 +12,15 @@ import retrofit.http.Header;
 import retrofit.http.POST;
 import rx.Observable;
 
-public class Notifications extends Resource {
+public class Events extends Resource {
   private interface NotificationsApi {
-    @POST("/v1/notifications.json")
+    @POST("/v1/events.json")
     Observable<TelephonyNotificationDto> create(@Header("Authorization") String token, @Body TelephonyNotificationDto telephonyNotificationDto);
   }
 
   private NotificationsApi notificationsApi;
 
-  public Notifications(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
+  public Events(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
     super(authorizationObservable, accessToken, baseUrl);
 
     notificationsApi = restAdapter.create(NotificationsApi.class);

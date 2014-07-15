@@ -7,7 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/omniapi/omniapi.iml" filepath="$PROJECT_DIR$/omniapi/omniapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/omnicommon/omnicommon.iml" filepath="$PROJECT_DIR$/omnicommon/omnicommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/providerclipboard/providerclipboard.iml" filepath="$PROJECT_DIR$/providerclipboard/providerclipboard.iml" />
-      <module fileurl="file://$PROJECT_DIR$/providernotifications/providernotifications.iml" filepath="$PROJECT_DIR$/providernotifications/providernotifications.iml" />
+      <module fileurl="file://$PROJECT_DIR$/providerevents/providerevents.iml" filepath="$PROJECT_DIR$/providerevents/providerevents.iml" />
       <module fileurl="file://$PROJECT_DIR$/providerphone/providerphone.iml" filepath="$PROJECT_DIR$/providerphone/providerphone.iml" />
     </modules>
   </component>

@@ -1,4 +1,4 @@
-package com.omnipaste.notificationsprovider;
+package com.omnipaste.eventsprovider;
 
 import android.telephony.TelephonyManager;
 

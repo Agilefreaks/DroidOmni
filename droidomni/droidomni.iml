@@ -110,8 +110,8 @@
     <orderEntry type="library" exported="" name="slf4j-api-1.7.5" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robotium-solo-5.2.1" level="project" />
-    <orderEntry type="module" module-name="providernotifications" exported="" />
     <orderEntry type="module" module-name="providerclipboard" exported="" />
+    <orderEntry type="module" module-name="providerevents" exported="" />
     <orderEntry type="module" module-name="providerphone" exported="" />
     <orderEntry type="module" module-name="omniapi" exported="" />
     <orderEntry type="module" module-name="omnicommon" exported="" />
