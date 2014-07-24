@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="BugFreak-1.1.7">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/intermediates/exploded-aar/co.bugfreak/BugFreak/1.1.7/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/build/intermediates/exploded-aar/co.bugfreak/BugFreak/1.1.7/res" />
+      <root url="jar://$PROJECT_DIR$/droidomni/build/intermediates/exploded-aar/co.bugfreak/BugFreak/1.1.7/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/droidomni/build/intermediates/exploded-aar/co.bugfreak/BugFreak/1.1.7/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

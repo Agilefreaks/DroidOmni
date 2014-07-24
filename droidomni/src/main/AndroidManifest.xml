@@ -51,15 +51,6 @@
         </activity>
 
         <activity
-                android:name="com.omnipaste.droidomni.activities.PrivacyPolicyActivity"
-                android:label="@string/title_activity_privacy_policy"
-                android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.omnipaste.droidomni.activities.OmniActivity_"/>
-        </activity>
-
-        <activity
                 android:name="com.omnipaste.droidomni.activities.SettingsActivity"
                 android:label="@string/title_activity_settings"
                 android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_">
