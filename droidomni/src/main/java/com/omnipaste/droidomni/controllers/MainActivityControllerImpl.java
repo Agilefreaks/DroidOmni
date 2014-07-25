@@ -1,13 +1,19 @@
 package com.omnipaste.droidomni.controllers;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity;
-import com.omnipaste.droidomni.events.DeviceInitErrorEvent;
-import com.omnipaste.droidomni.events.DeviceInitEvent;
 import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment;
 import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
@@ -26,6 +32,57 @@ import retrofit.RetrofitError;
 public class MainActivityControllerImpl implements MainActivityController {
   private EventBus eventBus = EventBus.getDefault();
   private MainActivity activity;
+  private Messenger omniServiceMessenger;
+
+  private final Messenger messenger = new Messenger(new IncomingHandler());
+
+  private class IncomingHandler extends Handler {
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case OmniService.MSG_CREATE_ERROR:
+          Throwable error = (Throwable) msg.obj;
+
+          activity.unbindService(serviceConnection);
+          activity.stopService(OmniService.getIntent());
+
+          if (isBadRequest(error)) {
+            sessionService.logout();
+            setFragment(LoginFragment_.builder().build());
+          } else {
+            setFragment(DeviceInitErrorFragment.build(error));
+          }
+
+          break;
+        case OmniService.MSG_STARTED:
+          activity.unbindService(serviceConnection);
+          activity.startActivity(OmniActivity.getIntent(activity));
+          activity.finish();
+
+          break;
+      }
+    }
+  }
+
+  private ServiceConnection serviceConnection = new ServiceConnection() {
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder service) {
+      omniServiceMessenger = new Messenger(service);
+
+      Message registerClientMessage = Message.obtain(null, OmniService.MSG_REGISTER_CLIENT);
+      registerClientMessage.replyTo = messenger;
+
+      try {
+        omniServiceMessenger.send(registerClientMessage);
+      } catch (RemoteException ignored) {
+      }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+      omniServiceMessenger = null;
+    }
+  };
 
   @Inject
   public FragmentService fragmentService;
@@ -50,30 +107,11 @@ public class MainActivityControllerImpl implements MainActivityController {
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(LoginEvent event) {
-    setFragment(DeviceInitFragment_.builder().build());
-  }
-
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(DeviceInitEvent event) {
-    OmniService.start(event.getRegisteredDeviceDto());
-
-    activity.startActivity(OmniActivity.getIntent(activity));
-    activity.finish();
-  }
-
-  @SuppressWarnings({"UnusedDeclaration"})
-  public void onEventMainThread(DeviceInitErrorEvent event) {
-    if (isBadRequest(event.getError())) {
-      sessionService.logout();
-      setFragment(LoginFragment_.builder().build());
-    }
-    else {
-      setFragment(DeviceInitErrorFragment.build(event.getError()));
-    }
+    setInitialFragment();
   }
 
   private boolean isBadRequest(Throwable error) {
-    RetrofitError retrofitError = error instanceof RetrofitError ? (RetrofitError)error : null;
+    RetrofitError retrofitError = error instanceof RetrofitError ? (RetrofitError) error : null;
 
     return retrofitError != null && retrofitError.getResponse() != null && retrofitError.getResponse().getStatus() == HttpStatus.SC_BAD_REQUEST;
   }
@@ -83,6 +121,8 @@ public class MainActivityControllerImpl implements MainActivityController {
 
     if (sessionService.login()) {
       fragmentToShow = DeviceInitFragment_.builder().build();
+      activity.startService(OmniService.getIntent());
+      activity.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
     } else {
       fragmentToShow = LoginFragment_.builder().build();
     }

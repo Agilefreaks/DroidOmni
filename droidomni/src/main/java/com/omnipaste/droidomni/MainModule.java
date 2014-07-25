@@ -20,6 +20,7 @@ import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
 import com.omnipaste.droidomni.fragments.clippings.LocalFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
+import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.DeviceServiceImpl;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.FragmentServiceImpl;
@@ -156,6 +157,12 @@ public class MainModule {
   @Singleton
   public FragmentService providesFragmentService() {
     return new FragmentServiceImpl();
+  }
+
+  @Provides
+  @Singleton
+  public DeviceService providesDeviceService() {
+    return new DeviceServiceImpl();
   }
 
   @Provides

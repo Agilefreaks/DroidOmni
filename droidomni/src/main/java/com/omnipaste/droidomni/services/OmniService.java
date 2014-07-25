@@ -3,8 +3,11 @@ package com.omnipaste.droidomni.services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
@@ -24,16 +27,35 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Lazy;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 @EService
 public class OmniService extends Service {
-  public final static String DEVICE_IDENTIFIER_EXTRA_KEY = "device_identifier";
+  public static final int MSG_REGISTER_CLIENT = 1;
+  public static final int MSG_UNREGISTER_CLIENT = 2;
+  public static final int MSG_CREATE_ERROR = 3;
+  public static final int MSG_STARTED = 4;
 
-  private static RegisteredDeviceDto registeredDeviceDto;
-
-  private Boolean started = false;
-  private String deviceIdentifier;
   private List<Subscriber> subscribes = new ArrayList<>();
+  private List<Messenger> clients = new ArrayList<>();
+
+  private final Messenger messenger = new Messenger(new IncomingHandler());
+
+  private class IncomingHandler extends Handler {
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case MSG_REGISTER_CLIENT:
+          clients.add(msg.replyTo);
+          break;
+        case MSG_UNREGISTER_CLIENT:
+          clients.remove(msg.replyTo);
+          break;
+      }
+    }
+  }
 
   @StringRes
   public String appName;
@@ -56,28 +78,63 @@ public class OmniService extends Service {
   @Inject
   public NotificationService notificationService;
 
-  public static void start(final RegisteredDeviceDto registeredDeviceDto) {
-    OmniService.registeredDeviceDto = registeredDeviceDto;
+  @Inject
+  public DeviceService deviceService;
 
-    Intent service = new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
-    service.putExtra(DEVICE_IDENTIFIER_EXTRA_KEY, registeredDeviceDto.getIdentifier());
-    DroidOmniApplication.getAppContext().startService(service);
-  }
-
-  public static boolean stop(final Context context) {
-    return context.stopService(new Intent(context, OmniService_.class));
+  public static Intent getIntent() {
+    return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
   }
 
   public static void restart(final Context context) {
-    if (stop(context) && registeredDeviceDto != null) {
-      start(registeredDeviceDto);
-    }
+    context.stopService(getIntent());
+    context.startService(getIntent());
   }
 
   public OmniService() {
-    super();
-
     DroidOmniApplication.inject(this);
+  }
+
+  @Override
+  public void onCreate() {
+    deviceService.init()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(
+            // OnNext
+            new Action1<RegisteredDeviceDto>() {
+              @Override
+              public void call(RegisteredDeviceDto registeredDeviceDto) {
+                notifyUser();
+                startSubscribers(registeredDeviceDto);
+                sendStartedToClients();
+              }
+            },
+            // OnError
+            new Action1<Throwable>() {
+              @Override
+              public void call(Throwable throwable) {
+                sendErrorToClients(throwable);
+              }
+            }
+        );
+  }
+
+  @Override
+  public IBinder onBind(Intent intent) {
+    return messenger.getBinder();
+  }
+
+  @Override
+  public int onStartCommand(Intent intent, int flags, int startId) {
+    return START_STICKY;
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    stopSubscribers();
+    stopForeground(true);
   }
 
   public List<Subscriber> getSubscribers() {
@@ -102,53 +159,39 @@ public class OmniService extends Service {
     return subscribes;
   }
 
-  @Override
-  public IBinder onBind(Intent intent) {
-    return null;
-  }
-
-  @Override
-  public int onStartCommand(Intent intent, int flags, int startId) {
-    super.onStartCommand(intent, flags, startId);
-
-    Bundle extras = intent.getExtras();
-    if (extras != null) {
-      deviceIdentifier = extras.getString(DEVICE_IDENTIFIER_EXTRA_KEY);
-    }
-
-    start();
-
-    return START_STICKY;
-  }
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-
-    stop();
-  }
-
-  private void start() {
-    if (!started) {
-      notifyUser();
-
-      for (Subscriber subscribe : getSubscribers()) {
-        subscribe.start(deviceIdentifier);
-      }
-
-      started = true;
+  private void startSubscribers(RegisteredDeviceDto registeredDeviceDto) {
+    for (Subscriber subscribe : getSubscribers()) {
+      subscribe.start(registeredDeviceDto.getIdentifier());
     }
   }
 
-  private void stop() {
-    if (started) {
-      started = false;
+  private void stopSubscribers() {
+    for (Subscriber subscribe : getSubscribers()) {
+      subscribe.stop();
+    }
+  }
 
-      for (Subscriber subscribe : getSubscribers()) {
-        subscribe.stop();
+  private void sendErrorToClients(Throwable throwable) {
+    sendMessageToClients(MSG_CREATE_ERROR, throwable);
+  }
+
+  private void sendStartedToClients() {
+    sendMessageToClients(MSG_STARTED);
+  }
+
+  private void sendMessageToClients(int what) {
+    sendMessageToClients(what, null);
+  }
+
+  private void sendMessageToClients(int what, Object obj) {
+    Message message = Message.obtain(null, what);
+    message.obj = obj;
+    for (Messenger client : clients) {
+      try {
+        client.send(message);
+      } catch (RemoteException e) {
+        clients.remove(client);
       }
-
-      stopForeground(true);
     }
   }
 

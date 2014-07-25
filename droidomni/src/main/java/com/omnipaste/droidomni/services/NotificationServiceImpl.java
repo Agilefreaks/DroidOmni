@@ -12,7 +12,7 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
 
-public class NotificationServiceImpl implements NotificationService {
+public class  NotificationServiceImpl implements NotificationService {
   public static final int NOTIFICATION_ID = 42;
 
   private String appName;

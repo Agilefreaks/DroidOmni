@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.ClippingAdapter;
+import com.omnipaste.droidomni.adapters.IClippingAdapter;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
@@ -62,8 +63,8 @@ public abstract class ClippingsListFragment extends ListFragment implements ILis
     subscription = null;
   }
 
-  public ClippingAdapter getActualListAdapter() {
-    return (ClippingAdapter) getListAdapter();
+  public IClippingAdapter getActualListAdapter() {
+    return (IClippingAdapter) getListAdapter();
   }
 
   protected void add(ClippingDto clippingDto) {

@@ -24,7 +24,9 @@ public class TelephonyNotificationsSubscriberImpl implements TelephonyNotificati
 
   @Override
   public void stop() {
-    subscriber.unsubscribe();
-    telephonyNotificationsProvider.destroy();
+    if (subscriber != null) {
+      subscriber.unsubscribe();
+      telephonyNotificationsProvider.destroy();
+    }
   }
 }

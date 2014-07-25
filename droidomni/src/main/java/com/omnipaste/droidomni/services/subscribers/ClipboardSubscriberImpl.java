@@ -16,7 +16,6 @@ public class ClipboardSubscriberImpl implements ClipboardSubscriber {
   private IClipboardProvider clipboardProvider;
   private EventBus eventBus = EventBus.getDefault();
 
-
   @Inject
   public ClipboardSubscriberImpl(IClipboardProvider clipboardProvider) {
     this.clipboardProvider = clipboardProvider;
@@ -37,7 +36,9 @@ public class ClipboardSubscriberImpl implements ClipboardSubscriber {
 
   @Override
   public void stop() {
-    clipboardSubscriber.unsubscribe();
-    clipboardProvider.destroy();
+    if (clipboardSubscriber != null) {
+      clipboardSubscriber.unsubscribe();
+      clipboardProvider.destroy();
+    }
   }
 }

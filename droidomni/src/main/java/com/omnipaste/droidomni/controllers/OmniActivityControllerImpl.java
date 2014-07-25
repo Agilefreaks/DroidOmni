@@ -108,7 +108,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @SuppressWarnings("UnusedDeclaration")
   public void onEventMainThread(SignOutEvent signOutEvent) {
-    OmniService.stop(activity);
+    activity.stopService(OmniService.getIntent());
     sessionService.logout();
 
     activity.startActivity(MainActivity.getIntent(activity));

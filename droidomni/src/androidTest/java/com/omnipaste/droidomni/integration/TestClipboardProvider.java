@@ -5,10 +5,13 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
+import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.adapters.ClippingAdapter;
 import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
+import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,12 +32,10 @@ public class TestClipboardProvider extends TestIntegration<MainActivity_> {
     setTextInClipboard("test");
     solo.waitForText("test");
 
-    ViewPager view = (ViewPager) solo.getView(R.id.clippingsPager);
-    ClippingsPagerAdapter adapter = (ClippingsPagerAdapter) view.getAdapter();
-    ListFragment listFragment = (ListFragment) adapter.getItem(0);
+    ClippingAdapter clippingAdapter = (ClippingAdapter) solo.getCurrentViews(ListView.class).get(0).getAdapter();
 
-    assertThat(((ClippingDto) listFragment.getListView().getItemAtPosition(0)).getContent(), is("test"));
-    assertThat(((ClippingDto) listFragment.getListView().getItemAtPosition(1)).getContent(), is("some"));
+    assertThat(clippingAdapter.getItem(0).getContent(), is("test"));
+    assertThat(clippingAdapter.getItem(1).getContent(), is("some"));
   }
 
   private void setTextInClipboard(String text) {

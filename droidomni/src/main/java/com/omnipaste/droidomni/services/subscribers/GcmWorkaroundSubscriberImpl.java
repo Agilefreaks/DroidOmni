@@ -43,6 +43,8 @@ public class GcmWorkaroundSubscriberImpl implements GcmWorkaroundSubscriber {
 
   @Override
   public void stop() {
-    subscriber.unsubscribe();
+    if (subscriber != null) {
+      subscriber.unsubscribe();
+    }
   }
 }

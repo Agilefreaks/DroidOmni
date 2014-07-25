@@ -7,7 +7,7 @@ import com.omnipaste.droidomni.views.ClippingView;
 import com.omnipaste.droidomni.views.ClippingView_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-public class ClippingAdapter extends LocalAdapter<ClippingDto, ClippingView> {
+public class ClippingAdapter extends LocalAdapter<ClippingDto, ClippingView> implements IClippingAdapter {
   @Override
   protected View buildView(Context context) {
     return ClippingView_.build(context);
@@ -18,6 +18,7 @@ public class ClippingAdapter extends LocalAdapter<ClippingDto, ClippingView> {
     return items.get(this.getCount() - position - 1);
   }
 
+  @Override
   public void add(ClippingDto clippingDto) {
     items.add(clippingDto);
 

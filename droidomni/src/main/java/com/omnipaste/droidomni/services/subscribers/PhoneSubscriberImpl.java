@@ -22,7 +22,9 @@ public class PhoneSubscriberImpl implements PhoneSubscriber {
 
   @Override
   public void stop() {
-    subscriber.unsubscribe();
-    phoneProvider.destroy();
+    if (subscriber != null) {
+      subscriber.unsubscribe();
+      phoneProvider.destroy();
+    }
   }
 }

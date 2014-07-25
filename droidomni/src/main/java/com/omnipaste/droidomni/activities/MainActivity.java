@@ -50,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
   public void onDestroy() {
     super.onDestroy();
     controller.stop();
+    controller = null;
   }
 
   @Override
