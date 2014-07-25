@@ -10,7 +10,7 @@ public class FragmentServiceImpl implements FragmentService {
     FragmentManager supportFragmentManager = fragmentActivity.getSupportFragmentManager();
     supportFragmentManager
         .beginTransaction()
-        .add(container, fragment)
+        .replace(container, fragment)
         .commit();
   }
 }

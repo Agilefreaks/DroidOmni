@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- OmniService -->
+    <string name="service_description">The OmniService provides all the core functionality for Omnipaste</string>
+
     <!-- Login -->
     <string name="login_hint">Authorization Code</string>
     <string name="login_button">Login</string>
