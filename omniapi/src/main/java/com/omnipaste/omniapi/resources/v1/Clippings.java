@@ -21,7 +21,7 @@ public class Clippings extends Resource {
     Observable<ClippingDto> create(@Header("Authorization") String token, @Body ClippingDto content);
   }
 
-  private ClippingsApi clippingsApi;
+  private final ClippingsApi clippingsApi;
 
   public Clippings(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
     super(authorizationObservable, accessToken, baseUrl);

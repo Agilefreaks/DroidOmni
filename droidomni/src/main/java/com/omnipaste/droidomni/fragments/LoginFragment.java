@@ -29,6 +29,7 @@ import rx.schedulers.Schedulers;
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
+  private String authorizationCodeValue;
 
   @ViewById
   public EditText authorizationCode;
@@ -52,6 +53,15 @@ public class LoginFragment extends Fragment {
   @AfterViews
   public void afterViews() {
     googleAnalyticsService.trackHit(this.getClass().getName());
+
+    if (authorizationCodeValue != null) {
+      authorizationCode.setText(authorizationCodeValue);
+      loginClicked();
+    }
+  }
+
+  public void setAuthorizationCode(String authorizationCode) {
+    this.authorizationCodeValue = authorizationCode;
   }
 
   @Click
@@ -61,8 +71,11 @@ public class LoginFragment extends Fragment {
     }
 
     login.setEnabled(false);
+    doLogin(authorizationCode.getText().toString());
+  }
 
-    new LoginService().login(authorizationCode.getText().toString())
+  private void doLogin(String code) {
+    new LoginService().login(code)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
@@ -80,12 +93,6 @@ public class LoginFragment extends Fragment {
               public void call(Throwable throwable) {
                 authorizationCode.setError(loginInvalidCode);
                 login.setEnabled(true);
-              }
-            },
-            // OnComplete
-            new Action0() {
-              @Override
-              public void call() {
               }
             }
         );

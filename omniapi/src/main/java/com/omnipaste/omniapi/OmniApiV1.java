@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi;
 
+import com.omnipaste.omniapi.resources.v1.AuthorizationCodes;
 import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omniapi.resources.v1.Devices;
 import com.omnipaste.omniapi.resources.v1.Events;
@@ -12,6 +13,7 @@ public class OmniApiV1 implements OmniApi {
   private Devices devices;
   private Clippings clippings;
   private Events events;
+  private AuthorizationCodes authorizationCodes;
   private Token token;
   private AccessTokenDto accessToken;
 
@@ -41,6 +43,13 @@ public class OmniApiV1 implements OmniApi {
     return events == null
         ? events = new Events(new AuthorizationObservable(token(), accessToken), accessToken, baseUrl)
         : events;
+  }
+
+  @Override
+  public AuthorizationCodes authorizationCodes() {
+    return authorizationCodes == null
+        ? authorizationCodes = new AuthorizationCodes(baseUrl)
+        : authorizationCodes;
   }
 
   @Override

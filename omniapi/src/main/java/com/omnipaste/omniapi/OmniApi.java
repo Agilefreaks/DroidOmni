@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi;
 
+import com.omnipaste.omniapi.resources.v1.AuthorizationCodes;
 import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omniapi.resources.v1.Devices;
 import com.omnipaste.omniapi.resources.v1.Events;
@@ -14,6 +15,8 @@ public interface OmniApi {
   public Token token();
 
   public Events notifications();
+
+  public AuthorizationCodes authorizationCodes();
 
   public void setAccessToken(AccessTokenDto accessToken);
 }

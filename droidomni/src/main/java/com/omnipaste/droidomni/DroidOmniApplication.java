@@ -31,6 +31,9 @@ public class DroidOmniApplication extends Application {
   @StringRes(R.string.api_client_id)
   public String apiClientId;
 
+  @StringRes(R.string.api_client_token)
+  public static String apiClientToken;
+
   @StringRes(R.string.bugfreak_token)
   public String bugFreakToken;
 

@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni;
 
+import android.accounts.AccountManager;
 import android.app.NotificationManager;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -20,6 +21,8 @@ import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
 import com.omnipaste.droidomni.fragments.clippings.LocalFragment_;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
+import com.omnipaste.droidomni.services.AccountsService;
+import com.omnipaste.droidomni.services.AccountsServiceImpl;
 import com.omnipaste.droidomni.services.DeviceService;
 import com.omnipaste.droidomni.services.DeviceServiceImpl;
 import com.omnipaste.droidomni.services.FragmentService;
@@ -69,6 +72,7 @@ import dagger.Provides;
         DeviceServiceImpl.class,
         LoginService.class,
         SessionServiceImpl.class,
+        AccountsServiceImpl.class,
         OmniService_.class,
         // Fragments
         ClippingsFragment_.class,
@@ -109,6 +113,12 @@ public class MainModule {
   @Singleton
   public NotificationManager providesNotificationManager() {
     return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+  }
+
+  @Provides
+  @Singleton
+  public AccountManager providesAccountManager() {
+    return (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
   }
 
   @Provides
@@ -163,6 +173,12 @@ public class MainModule {
   @Singleton
   public DeviceService providesDeviceService() {
     return new DeviceServiceImpl();
+  }
+
+  @Provides
+  @Singleton
+  public AccountsService providesAccountService() {
+    return new AccountsServiceImpl();
   }
 
   @Provides

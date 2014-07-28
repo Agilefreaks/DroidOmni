@@ -18,7 +18,7 @@ public class Events extends Resource {
     Observable<TelephonyNotificationDto> create(@Header("Authorization") String token, @Body TelephonyNotificationDto telephonyNotificationDto);
   }
 
-  private NotificationsApi notificationsApi;
+  private final NotificationsApi notificationsApi;
 
   public Events(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
     super(authorizationObservable, accessToken, baseUrl);

@@ -45,4 +45,8 @@ public abstract class Resource {
   protected String bearerToken(AccessTokenDto accessTokenDto) {
     return "bearer ".concat(accessTokenDto.getAccessToken());
   }
+
+  protected String bearerToken(String accessToken) {
+    return "bearer ".concat(accessToken);
+  }
 }

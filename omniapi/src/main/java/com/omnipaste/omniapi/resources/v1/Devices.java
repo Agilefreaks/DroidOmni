@@ -19,7 +19,7 @@ public class Devices extends Resource {
     Observable<RegisteredDeviceDto> activate(@Header("Authorization") String token, @Body RegisteredDeviceDto deviceDto);
   }
 
-  private DevicesApi devicesApi;
+  private final DevicesApi devicesApi;
 
   public Devices(AuthorizationObservable authorizationObservable, AccessTokenDto accessToken, String baseUrl) {
     super(authorizationObservable, accessToken, baseUrl);
