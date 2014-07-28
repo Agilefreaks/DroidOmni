@@ -4,6 +4,8 @@ import com.omnipaste.clipboardprovider.androidclipboard.ILocalClipboardManager;
 import com.omnipaste.clipboardprovider.omniclipboard.IOmniClipboardManager;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import dagger.Lazy;
@@ -54,6 +56,7 @@ public class ClipboardProvider implements IClipboardProvider {
 
       localSubscription = currentLocalClipboardManager
           .getObservable()
+          .throttleFirst(256, TimeUnit.MILLISECONDS)
           .subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
