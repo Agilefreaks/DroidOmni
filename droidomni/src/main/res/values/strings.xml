@@ -8,6 +8,7 @@
     <string name="login_button">Login</string>
     <string name="login_invalid_code">Invalid Authorization Code</string>
     <string name="logo_content_description">Omnipaste Logo</string>
+    <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes">Get authorization code here</a>]]></string>
 
     <!-- Device init -->
     <string name="device_init_error_retry">Retry</string>
