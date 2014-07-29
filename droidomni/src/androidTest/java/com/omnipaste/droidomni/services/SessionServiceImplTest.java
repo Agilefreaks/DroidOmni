@@ -2,6 +2,7 @@ package com.omnipaste.droidomni.services;
 
 import android.test.InstrumentationTestCase;
 
+import com.google.android.gms.internal.is;
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
@@ -10,6 +11,13 @@ import com.omnipaste.omnicommon.services.ConfigurationService;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import rx.functions.Action1;
+import rx.schedulers.TestScheduler;
+import rx.subjects.TestSubject;
+
+import static org.hamcrest.core.IsInstanceOf.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

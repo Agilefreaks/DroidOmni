@@ -17,8 +17,8 @@ import com.omnipaste.droidomni.activities.MainActivity;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment;
-import com.omnipaste.droidomni.fragments.DeviceInitFragment;
-import com.omnipaste.droidomni.fragments.DeviceInitFragment_;
+import com.omnipaste.droidomni.fragments.LoadingFragment;
+import com.omnipaste.droidomni.fragments.LoadingFragment_;
 import com.omnipaste.droidomni.fragments.LoginFragment;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.services.AccountsService;
@@ -26,6 +26,7 @@ import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.omniapi.OmniApi;
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.AuthorizationCodeDto;
 
 import org.apache.http.HttpStatus;
@@ -39,7 +40,8 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class MainActivityControllerImpl implements MainActivityController {
-  private EventBus eventBus = EventBus.getDefault();
+  private final EventBus eventBus = EventBus.getDefault();
+
   private MainActivity activity;
   private Messenger omniServiceMessenger;
 
@@ -132,12 +134,12 @@ public class MainActivityControllerImpl implements MainActivityController {
   }
 
   private void setInitialFragment() {
+    LoadingFragment loadingFragment = LoadingFragment_.builder().build();
+    setFragment(loadingFragment);
+
     if (sessionService.login()) {
       activity.startService(OmniService.getIntent());
       activity.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
-
-      DeviceInitFragment deviceInitFragment = DeviceInitFragment_.builder().build();
-      setFragment(deviceInitFragment);
     } else {
       String[] googleEmails = accountsService.getGoogleEmails();
 
@@ -148,11 +150,20 @@ public class MainActivityControllerImpl implements MainActivityController {
               new Action1<AuthorizationCodeDto>() {
                 @Override
                 public void call(AuthorizationCodeDto authorizationCodeDto) {
-                  LoginFragment loginFragment = LoginFragment_.builder().build();
-                  if (authorizationCodeDto != null) {
-                    loginFragment.setAuthorizationCode(authorizationCodeDto.getCode());
-                  }
-                  setFragment(loginFragment);
+                  sessionService.login(authorizationCodeDto.getCode(),
+                      new Action1<AccessTokenDto>() {
+                        @Override
+                        public void call(AccessTokenDto accessTokenDto) {
+                          eventBus.post(new LoginEvent());
+                        }
+                      },
+                      new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                          LoginFragment loginFragment = LoginFragment_.builder().build();
+                          setFragment(loginFragment);
+                        }
+                      });
                 }
               },
               new Action1<Throwable>() {
@@ -163,8 +174,6 @@ public class MainActivityControllerImpl implements MainActivityController {
                 }
               });
     }
-
-
   }
 
   private void setFragment(Fragment fragment) {

@@ -6,6 +6,6 @@ import com.omnipaste.droidomni.R;
 
 import org.androidannotations.annotations.EFragment;
 
-@EFragment(R.layout.fragment_device_init)
-public class DeviceInitFragment extends Fragment {
+@EFragment(R.layout.fragment_loading)
+public class LoadingFragment extends Fragment {
 }

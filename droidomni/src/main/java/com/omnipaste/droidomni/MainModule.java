@@ -30,7 +30,6 @@ import com.omnipaste.droidomni.services.FragmentServiceImpl;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
 import com.omnipaste.droidomni.services.GoogleAnalyticsServiceImpl;
 import com.omnipaste.droidomni.services.LocalConfigurationService;
-import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.NotificationService;
 import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.droidomni.services.OmniService_;
@@ -70,7 +69,6 @@ import dagger.Provides;
         ClippingsFragmentControllerImpl.class,
         // services
         DeviceServiceImpl.class,
-        LoginService.class,
         SessionServiceImpl.class,
         AccountsServiceImpl.class,
         OmniService_.class,

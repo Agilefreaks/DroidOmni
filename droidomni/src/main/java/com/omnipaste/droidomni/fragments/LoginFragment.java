@@ -8,7 +8,6 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
-import com.omnipaste.droidomni.services.LoginService;
 import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
@@ -21,15 +20,11 @@ import org.androidannotations.annotations.res.StringRes;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment {
-  private EventBus eventBus = EventBus.getDefault();
-  private String authorizationCodeValue;
+  private final EventBus eventBus = EventBus.getDefault();
 
   @ViewById
   public EditText authorizationCode;
@@ -53,48 +48,27 @@ public class LoginFragment extends Fragment {
   @AfterViews
   public void afterViews() {
     googleAnalyticsService.trackHit(this.getClass().getName());
-
-    if (authorizationCodeValue != null) {
-      authorizationCode.setText(authorizationCodeValue);
-      loginClicked();
-    }
-  }
-
-  public void setAuthorizationCode(String authorizationCode) {
-    this.authorizationCodeValue = authorizationCode;
   }
 
   @Click
   public void loginClicked() {
-    if (authorizationCode.getText() == null) {
-      return;
-    }
-
     login.setEnabled(false);
     doLogin(authorizationCode.getText().toString());
   }
 
   private void doLogin(String code) {
-    new LoginService().login(code)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(
-            // OnNext
-            new Action1<AccessTokenDto>() {
-              @Override
-              public void call(AccessTokenDto accessTokenDto) {
-                sessionService.login(accessTokenDto);
-                eventBus.post(new LoginEvent());
-              }
-            },
-            // OnError
-            new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-                authorizationCode.setError(loginInvalidCode);
-                login.setEnabled(true);
-              }
-            }
-        );
+    sessionService.login(code,
+        new Action1<AccessTokenDto>() {
+          @Override
+          public void call(AccessTokenDto accessTokenDto) {
+            eventBus.post(new LoginEvent());
+          }
+        }, new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            authorizationCode.setError(loginInvalidCode);
+            login.setEnabled(true);
+          }
+        });
   }
 }
