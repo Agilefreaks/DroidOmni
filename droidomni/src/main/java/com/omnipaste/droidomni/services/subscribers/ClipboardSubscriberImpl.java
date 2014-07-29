@@ -41,4 +41,9 @@ public class ClipboardSubscriberImpl implements ClipboardSubscriber {
       clipboardProvider.destroy();
     }
   }
+
+  @Override
+  public void refreshOmni() {
+    clipboardProvider.refreshOmni();
+  }
 }
