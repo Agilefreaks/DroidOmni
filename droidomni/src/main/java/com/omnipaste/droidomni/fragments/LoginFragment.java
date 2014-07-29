@@ -1,8 +1,11 @@
 package com.omnipaste.droidomni.fragments;
 
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
@@ -32,8 +35,14 @@ public class LoginFragment extends Fragment {
   @ViewById
   public Button login;
 
+  @ViewById
+  public TextView authorizationCodeLink;
+
   @StringRes(R.string.login_invalid_code)
   public String loginInvalidCode;
+
+  @StringRes(R.string.base_url)
+  public String baseUrl;
 
   @Inject
   public SessionService sessionService;
@@ -48,6 +57,9 @@ public class LoginFragment extends Fragment {
   @AfterViews
   public void afterViews() {
     googleAnalyticsService.trackHit(this.getClass().getName());
+
+    authorizationCodeLink.setText(Html.fromHtml(getString(R.string.login_authorization_code_link, baseUrl)));
+    authorizationCodeLink.setMovementMethod(LinkMovementMethod.getInstance());
   }
 
   @Click
