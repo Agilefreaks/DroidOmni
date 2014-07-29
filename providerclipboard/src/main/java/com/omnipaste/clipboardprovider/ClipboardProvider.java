@@ -4,14 +4,13 @@ import com.omnipaste.clipboardprovider.androidclipboard.ILocalClipboardManager;
 import com.omnipaste.clipboardprovider.omniclipboard.IOmniClipboardManager;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
 import dagger.Lazy;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscription;
-import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 public class ClipboardProvider implements IClipboardProvider {
@@ -19,6 +18,48 @@ public class ClipboardProvider implements IClipboardProvider {
   private Boolean subscribed = false;
   private Subscription localSubscription;
   private Subscription omniSubscription;
+  private IOmniClipboardManager currentOmniClipboardManager;
+  private ILocalClipboardManager currentLocalClipboardManager;
+
+  private class OmniClipboardObserver implements Observer<ClippingDto> {
+    @Override
+    public void onNext(ClippingDto clippingDto) {
+      currentLocalClipboardManager.setPrimaryClip(clippingDto);
+      clipboardProviderSubject.onNext(clippingDto);
+    }
+
+    @Override
+    public void onCompleted() {
+    }
+
+    @Override
+    public void onError(Throwable e) {
+    }
+  }
+
+  private class LocalClipboardObserver implements Observer<ClippingDto> {
+    private String identifier;
+
+    private LocalClipboardObserver(String identifier) {
+      this.identifier = identifier;
+    }
+
+    @Override
+    public void onNext(ClippingDto clippingDto) {
+      clippingDto.setIdentifier(identifier);
+      currentOmniClipboardManager.setPrimaryClip(clippingDto);
+      clipboardProviderSubject.onNext(clippingDto);
+    }
+
+    @Override
+    public void onCompleted() {
+    }
+
+    @Override
+    public void onError(Throwable e) {
+    }
+
+  }
 
   @Inject
   public Lazy<IOmniClipboardManager> omniClipboardManager;
@@ -31,53 +72,46 @@ public class ClipboardProvider implements IClipboardProvider {
   }
 
   public Observable<ClippingDto> init(final String identifier) {
-    if (!subscribed)
-    {
-      final IOmniClipboardManager currentOmniClipboardManager = omniClipboardManager.get();
-      final ILocalClipboardManager currentLocalClipboardManager = localClipboardManager.get();
-
-      omniSubscription = currentOmniClipboardManager
-          .getObservable()
-          .subscribe(new Action1<String>() {
-            @Override
-            public void call(String registrationId) {
-              currentOmniClipboardManager
-                  .getPrimaryClip()
-                  .subscribe(new Action1<ClippingDto>() {
-                    @Override
-                    public void call(ClippingDto clippingDto) {
-                      clippingDto = currentLocalClipboardManager.setPrimaryClip(clippingDto);
-
-                      clipboardProviderSubject.onNext(clippingDto);
-                    }
-                  });
-            }
-          });
-
-      localSubscription = currentLocalClipboardManager
-          .getObservable()
-          .throttleFirst(256, TimeUnit.MILLISECONDS)
-          .subscribe(new Action1<String>() {
-            @Override
-            public void call(String s) {
-              currentLocalClipboardManager
-                  .getPrimaryClip()
-                  .subscribe(new Action1<ClippingDto>() {
-                    @Override
-                    public void call(ClippingDto clippingDto) {
-                      clippingDto.setIdentifier(identifier);
-                      clippingDto = currentOmniClipboardManager.setPrimaryClip(clippingDto);
-
-                      clipboardProviderSubject.onNext(clippingDto);
-                    }
-                  });
-            }
-          });
-
-      subscribed = true;
+    if (subscribed) {
+      return clipboardProviderSubject;
     }
 
+    currentOmniClipboardManager = omniClipboardManager.get();
+    currentLocalClipboardManager = localClipboardManager.get();
+
+    OmniClipboardObserver omniClipboardObserver = new OmniClipboardObserver();
+    LocalClipboardObserver localClipboardObserver = new LocalClipboardObserver(identifier);
+
+    Func1<ClippingDto, String> keySelector = new Func1<ClippingDto, String>() {
+      @Override
+      public String call(ClippingDto clippingDto) {
+        return clippingDto.getContent();
+      }
+    };
+
+    omniSubscription = currentOmniClipboardManager
+        .getObservable()
+        .distinctUntilChanged(keySelector)
+        .subscribe(omniClipboardObserver);
+
+    localSubscription = currentLocalClipboardManager
+        .getObservable()
+        .distinctUntilChanged(keySelector)
+        .subscribe(localClipboardObserver);
+
+    subscribed = true;
+
     return clipboardProviderSubject;
+  }
+
+  @Override
+  public void refreshLocal() {
+    currentLocalClipboardManager.onPrimaryClipChanged();
+  }
+
+  @Override
+  public void refreshOmni() {
+    currentOmniClipboardManager.onPrimaryClipChanged();
   }
 
   @Override

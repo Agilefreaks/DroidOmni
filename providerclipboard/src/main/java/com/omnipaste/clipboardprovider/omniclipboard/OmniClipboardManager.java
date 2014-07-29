@@ -14,10 +14,15 @@ import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 public class OmniClipboardManager implements IOmniClipboardManager {
-  private PublishSubject<String> omniClipboardSubject;
+  private PublishSubject<ClippingDto> omniClipboardSubject;
 
   @Inject
   public OmniApi omniApi;
+
+  @Override
+  public Observable<ClippingDto> getObservable() {
+    return omniClipboardSubject;
+  }
 
   @Inject
   public OmniClipboardManager(NotificationProvider notificationProvider) {
@@ -35,26 +40,30 @@ public class OmniClipboardManager implements IOmniClipboardManager {
             new Action1<NotificationDto>() {
               @Override
               public void call(NotificationDto notificationDto) {
-                omniClipboardSubject.onNext(notificationDto.getRegistrationId());
+                onPrimaryClipChanged();
               }
             }
         );
   }
 
   @Override
-  public Observable<String> getObservable() {
-    return omniClipboardSubject;
-  }
-
-  @Override
-  public Observable<ClippingDto> getPrimaryClip() {
-    return omniApi.clippings().last();
-  }
-
-  @Override
   public ClippingDto setPrimaryClip(ClippingDto clippingDto) {
     omniApi.clippings().create(clippingDto).subscribe();
 
-    return new ClippingDto(clippingDto).setClippingProvider(ClippingDto.ClippingProvider.local);
+    return clippingDto;
+  }
+
+  @Override
+  public void onPrimaryClipChanged() {
+    getPrimaryClip().subscribe(new Action1<ClippingDto>() {
+      @Override
+      public void call(ClippingDto clippingDto) {
+        omniClipboardSubject.onNext(clippingDto.setClippingProvider(ClippingDto.ClippingProvider.cloud));
+      }
+    });
+  }
+
+  public Observable<ClippingDto> getPrimaryClip() {
+    return omniApi.clippings().last();
   }
 }

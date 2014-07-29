@@ -102,18 +102,6 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     assertThat(localClipboardManager.hasPrimaryClip(), is(true));
   }
 
-  @SuppressWarnings("unchecked")
-  public void testOnPrimaryClipChangedFiresOnNext() {
-    Observer observer = mock(Observer.class);
-    localClipboardManager.getObservable().subscribe(observer);
-
-    when(clipboardManager.hasPrimaryClip()).thenReturn(true);
-
-    localClipboardManager.onPrimaryClipChanged();
-
-    verify(observer, times(1)).onNext("");
-  }
-
   public void testGetObserverWillReturnTheSameInstanceMultipleTimes() throws Exception {
     assertThat(localClipboardManager.getObservable(), sameInstance(localClipboardManager.getObservable()));
   }
@@ -133,11 +121,5 @@ public class LocalClipboardManagerTest extends InstrumentationTestCase {
     localClipboardManager.onPrimaryClipChanged();
 
     verify(observer, never()).onNext("");
-  }
-
-  public void testSetPrimaryReturnClippingDtoWithCloudSetAsProvider() throws Exception {
-    ClippingDto result = localClipboardManager.setPrimaryClip(new ClippingDto());
-
-    assertThat(result.getClippingProvider(), is(ClippingDto.ClippingProvider.cloud));
   }
 }

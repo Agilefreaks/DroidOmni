@@ -2,16 +2,25 @@ package com.omnipaste.droidomni.controllers;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 
 import com.google.common.collect.EvictingQueue;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
 import com.omnipaste.droidomni.events.ClippingAdded;
+import com.omnipaste.droidomni.events.OmniClipboardRefresh;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
 import com.omnipaste.droidomni.services.NotificationService;
 import com.omnipaste.droidomni.services.NotificationServiceImpl;
+import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import java.util.Collection;
@@ -24,10 +33,23 @@ import rx.Observable;
 import rx.subjects.ReplaySubject;
 
 public class ClippingsFragmentControllerImpl implements ClippingsFragmentController {
-  private EventBus eventBus = EventBus.getDefault();
+  private final EventBus eventBus = EventBus.getDefault();
   private ClippingsFragment fragment;
   private ReplaySubject<ClippingDto> clippingsSubject;
   private EvictingQueue<ClippingDto> clippings;
+  private Messenger omniServiceMessenger;
+
+  private ServiceConnection serviceConnection = new ServiceConnection() {
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder service) {
+      omniServiceMessenger = new Messenger(service);
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+      omniServiceMessenger = null;
+    }
+  };
 
   @Inject
   public NotificationService notificationService;
@@ -46,6 +68,7 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   @Override
   public void run(ClippingsFragment clippingsFragment, Bundle savedInstance) {
     eventBus.register(this);
+    clippingsFragment.getActivity().bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
 
     if (savedInstance != null) {
       Collections.addAll(clippings, (ClippingDto[]) savedInstance.getParcelableArray(ClippingsFragment.CLIPPINGS_PARCEL));
@@ -61,6 +84,7 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   @Override
   public void stop() {
     eventBus.unregister(this);
+    fragment.getActivity().unbindService(serviceConnection);
   }
 
   @Override
@@ -89,6 +113,14 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
 
     setClipping(clipping);
     notifyClipping(clipping);
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(OmniClipboardRefresh event) {
+    try {
+      omniServiceMessenger.send(Message.obtain(null, OmniService.MSG_REFRESH_OMNI_CLIPBOARD));
+    } catch (RemoteException ignored) {
+    }
   }
 
   public void setClipping(ClippingDto clippingDto) {

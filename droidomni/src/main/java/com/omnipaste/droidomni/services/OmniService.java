@@ -37,6 +37,7 @@ public class OmniService extends Service {
   public static final int MSG_UNREGISTER_CLIENT = 2;
   public static final int MSG_CREATE_ERROR = 3;
   public static final int MSG_STARTED = 4;
+  public static final int MSG_REFRESH_OMNI_CLIPBOARD = 5;
 
   private List<Subscriber> subscribes = new ArrayList<>();
   private List<Messenger> clients = new ArrayList<>();
@@ -52,6 +53,11 @@ public class OmniService extends Service {
           break;
         case MSG_UNREGISTER_CLIENT:
           clients.remove(msg.replyTo);
+          break;
+        case MSG_REFRESH_OMNI_CLIPBOARD:
+          if (clipboardSubscriber.get() != null) {
+            clipboardSubscriber.get().refreshOmni();
+          }
           break;
       }
     }
