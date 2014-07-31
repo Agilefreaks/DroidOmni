@@ -2,13 +2,16 @@ package com.omnipaste.omnicommon.dto;
 
 import android.os.Bundle;
 
-import com.omnipaste.omnicommon.Target;
-
 public class NotificationDto {
   private Target target;
   private String registrationId;
   private Bundle extra;
 
+  public enum Target {
+    CLIPBOARD,
+    PHONE,
+    UNKNOWN
+  }
   public NotificationDto() {
   }
 

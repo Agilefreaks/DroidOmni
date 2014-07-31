@@ -29,8 +29,8 @@ public class AllFragmentTest extends TestCase {
     PublishSubject<ClippingDto> publishSubject = PublishSubject.create();
     allFragment.observe(publishSubject);
 
-    publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.cloud));
-    publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.local));
+    publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.CLOUD));
+    publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.LOCAL));
 
     verify(mockClippingsAdapter, times(2)).add(any(ClippingDto.class));
   }

@@ -14,7 +14,7 @@
     <string name="device_init_error_retry">Retry</string>
     <string name="device_init_error_message">We failed master :(, please don\'t kill us!</string>
 
-    <!-- Clippings -->
+    <!-- CLIPPINGS -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>
     <string name="clippings_tab_all">All</string>
@@ -30,7 +30,7 @@
     <string name="navigation_drawer_about">About</string>
     <string name="navigation_drawer_privacy_policy">Privacy Policy</string>
 
-    <!-- About -->
+    <!-- ABOUT -->
     <string name="title_activity_about">About</string>
     <string name="about_version">Version</string>
 

@@ -2,13 +2,13 @@ package com.omnipaste.droidomni.events;
 
 import android.os.Bundle;
 
-import com.omnipaste.omnicommon.Target;
+import com.omnipaste.omnicommon.dto.NotificationDto;
 
 public class GcmNotificationReceived {
   public static String REGISTRATION_ID_KEY = "registrationId";
   public static String PROVIDER_KEY = "provider";
 
-  private Target provider;
+  private NotificationDto.Target provider;
   private String registrationId;
   private Bundle extras;
 
@@ -28,11 +28,11 @@ public class GcmNotificationReceived {
   public GcmNotificationReceived(Bundle extras) {
     this.extras = extras;
     registrationId = extras.getString(REGISTRATION_ID_KEY);
-    provider = valueOfOrDefault(Target.class, extras.getString(PROVIDER_KEY), Target.unknown);
+    provider = valueOfOrDefault(NotificationDto.Target.class, extras.getString(PROVIDER_KEY), NotificationDto.Target.UNKNOWN);
   }
 
 
-  public Target getProvider() {
+  public NotificationDto.Target getProvider() {
     return provider;
   }
 

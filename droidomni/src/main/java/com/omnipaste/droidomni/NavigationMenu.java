@@ -1,9 +1,9 @@
 package com.omnipaste.droidomni;
 
 public enum NavigationMenu {
-  Clippings,
-  Settings,
-  About,
-  PrivacyPolicy,
-  SignOut,
+  CLIPPINGS,
+  SETTINGS,
+  ABOUT,
+  PRIVACY_POLICY,
+  SIGN_OUT,
 }

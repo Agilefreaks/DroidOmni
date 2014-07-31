@@ -16,18 +16,18 @@ public class ClippingTypeDeserializerTest extends TestCase {
   }
 
   public void testDeserializeReturnPhoneNumberType() {
-    assertThat(ClippingDto.ClippingType.phoneNumber, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("phone_number"), null, null)));
+    assertThat(ClippingDto.ClippingType.PHONE_NUMBER, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("phone_number"), null, null)));
   }
 
   public void testDeserializeReturnWebSiteType() {
-    assertThat(ClippingDto.ClippingType.url, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("url"), null, null)));
+    assertThat(ClippingDto.ClippingType.URL, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("URL"), null, null)));
   }
 
   public void testDeserializeReturnAddressType() {
-    assertThat(ClippingDto.ClippingType.address, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("address"), null, null)));
+    assertThat(ClippingDto.ClippingType.ADDRESS, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("ADDRESS"), null, null)));
   }
 
   public void testDeserializeReturnUUnknownType() {
-    assertThat(ClippingDto.ClippingType.unknown, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("something else"), null, null)));
+    assertThat(ClippingDto.ClippingType.UNKNOWN, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("something else"), null, null)));
   }
 }

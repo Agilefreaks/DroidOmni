@@ -7,8 +7,6 @@ import junit.framework.TestCase;
 
 import rx.subjects.PublishSubject;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,13 +23,13 @@ public class CloudFragmentTest extends TestCase {
   }
 
   public void testWillAddCloudClippings() throws Exception {
-    ClippingDto cloudClipping = new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.cloud);
+    ClippingDto cloudClipping = new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.CLOUD);
     IClippingAdapter mockClippingsAdapter = mock(IClippingAdapter.class);
     cloudFragment.setListAdapter(mockClippingsAdapter);
     PublishSubject<ClippingDto> publishSubject = PublishSubject.create();
     cloudFragment.observe(publishSubject);
 
-    publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.local));
+    publishSubject.onNext(new ClippingDto().setClippingProvider(ClippingDto.ClippingProvider.LOCAL));
     publishSubject.onNext(cloudClipping);
 
     verify(mockClippingsAdapter, times(1)).add(cloudClipping);

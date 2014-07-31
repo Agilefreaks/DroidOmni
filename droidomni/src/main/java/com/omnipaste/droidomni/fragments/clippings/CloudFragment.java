@@ -24,7 +24,7 @@ public class CloudFragment extends ClippingsListFragment {
     return observable.filter(new Func1<ClippingDto, Boolean>() {
       @Override
       public Boolean call(ClippingDto clippingDto) {
-        return clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.cloud;
+        return clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.CLOUD;
       }
     }).subscribe(new Action1<ClippingDto>() {
       @Override

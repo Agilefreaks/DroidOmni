@@ -4,7 +4,6 @@ import android.test.InstrumentationTestCase;
 
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omniapi.resources.v1.Clippings;
-import com.omnipaste.omnicommon.Target;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
@@ -64,7 +63,7 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
     ClippingDto clippingDto = new ClippingDto();
     omniClipboardManager.getObservable().subscribe(observer);
 
-    notificationSubject.onNext(new NotificationDto(Target.clipboard, "42"));
+    notificationSubject.onNext(new NotificationDto(NotificationDto.Target.CLIPBOARD, "42"));
     lastObservable.onNext(clippingDto);
     testScheduler.triggerActions();
 
@@ -76,7 +75,7 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
     Observer observer = mock(Observer.class);
     omniClipboardManager.getObservable().subscribe(observer);
 
-    notificationSubject.onNext(new NotificationDto(Target.phone, "42"));
+    notificationSubject.onNext(new NotificationDto(NotificationDto.Target.PHONE, "42"));
     lastObservable.onNext(new ClippingDto());
     testScheduler.triggerActions();
 
