@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.omnipaste.omnicommon.Target;
 import com.omnipaste.omnicommon.dto.EmptyDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
@@ -38,7 +37,7 @@ public class AndroidPhoneProvider implements PhoneProvider {
           .filter(new Func1<NotificationDto, Boolean>() {
             @Override
             public Boolean call(NotificationDto notificationDto) {
-              return notificationDto.getTarget() == Target.phone;
+              return notificationDto.getTarget() == NotificationDto.Target.phone;
             }
           })
           .subscribe(new Action1<NotificationDto>() {
