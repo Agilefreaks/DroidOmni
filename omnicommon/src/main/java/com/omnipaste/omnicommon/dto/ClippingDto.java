@@ -8,16 +8,20 @@ import java.util.Date;
 public class ClippingDto implements Parcelable {
   private String content;
   private Date create_at;
-  private ClippingType type = ClippingType.unknown;
+  private ClippingType type = ClippingType.UNKNOWN;
   private String identifier;
   private ClippingProvider clippingProvider;
 
   public enum ClippingType {
-    phoneNumber, url, address, unknown
+    PHONE_NUMBER,
+    URL,
+    ADDRESS,
+    UNKNOWN
   }
 
   public enum ClippingProvider {
-    local, cloud
+    LOCAL,
+    CLOUD
   }
 
   public static final Parcelable.Creator<ClippingDto> CREATOR = new Parcelable.Creator<ClippingDto>() {

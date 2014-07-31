@@ -13,16 +13,16 @@ import java.util.Map;
 public class ClippingTypeDeserializer implements JsonDeserializer<ClippingDto.ClippingType> {
   private static final Map<String, ClippingDto.ClippingType> MAP = new HashMap<String, ClippingDto.ClippingType>() {
     {
-      put("phone_number", ClippingDto.ClippingType.phoneNumber);
-      put("url", ClippingDto.ClippingType.url);
-      put("address", ClippingDto.ClippingType.address);
-      put("unknown", ClippingDto.ClippingType.unknown);
+      put("phone_number", ClippingDto.ClippingType.PHONE_NUMBER);
+      put("URL", ClippingDto.ClippingType.URL);
+      put("ADDRESS", ClippingDto.ClippingType.ADDRESS);
+      put("UNKNOWN", ClippingDto.ClippingType.UNKNOWN);
     }
   };
 
   @Override
   public ClippingDto.ClippingType deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
     String key = jsonElement.getAsString();
-    return MAP.containsKey(key) ? MAP.get(key) : ClippingDto.ClippingType.unknown;
+    return MAP.containsKey(key) ? MAP.get(key) : ClippingDto.ClippingType.UNKNOWN;
   }
 }

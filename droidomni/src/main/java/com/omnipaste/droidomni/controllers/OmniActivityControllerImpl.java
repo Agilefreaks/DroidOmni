@@ -85,17 +85,17 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
     Intent intent = null;
 
     switch (event.getNavigationDrawerItem().getNavigationMenu()) {
-      case Clippings:
+      case CLIPPINGS:
         break;
-      case Settings:
+      case SETTINGS:
         activity.drawerLayout.closeDrawers();
         intent = new Intent(activity, SettingsActivity.class);
         break;
-      case About:
+      case ABOUT:
         activity.drawerLayout.closeDrawers();
         intent = new Intent(activity, AboutActivity_.class);
         break;
-      case PrivacyPolicy:
+      case PRIVACY_POLICY:
         intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.tosUrl));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         break;

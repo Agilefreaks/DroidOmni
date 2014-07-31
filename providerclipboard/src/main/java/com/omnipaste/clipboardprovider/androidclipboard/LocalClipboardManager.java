@@ -69,7 +69,7 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
           ClippingDto clippingDto = new ClippingDto();
           clippingDto.setContent(getPrimaryClip().getItemAt(0).getText().toString());
           clippingDto.setIdentifier("");
-          clippingDto.setClippingProvider(ClippingDto.ClippingProvider.local);
+          clippingDto.setClippingProvider(ClippingDto.ClippingProvider.LOCAL);
           observer.onNext(clippingDto);
         }
 

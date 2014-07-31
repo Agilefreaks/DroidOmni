@@ -34,11 +34,11 @@ public class SmartActionServiceImplTest extends InstrumentationTestCase {
   }
 
   public void testRunWillCallStartActivity() throws Exception {
-    ClippingDto clippingDto = new ClippingDto().setType(ClippingDto.ClippingType.phoneNumber);
+    ClippingDto clippingDto = new ClippingDto().setType(ClippingDto.ClippingType.PHONE_NUMBER);
     SmartAction smartAction = mock(SmartAction.class);
     Intent intent = new Intent();
 
-    SmartActionService.SMART_ACTIONS.put(ClippingDto.ClippingType.phoneNumber, smartAction);
+    SmartActionService.SMART_ACTIONS.put(ClippingDto.ClippingType.PHONE_NUMBER, smartAction);
     when(smartAction.buildIntent(clippingDto)).thenReturn(intent);
 
     smartActionService.run(clippingDto);

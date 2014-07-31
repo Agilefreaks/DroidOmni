@@ -32,7 +32,7 @@ public class OmniClipboardManager implements IOmniClipboardManager {
         .filter(new Func1<NotificationDto, Boolean>() {
           @Override
           public Boolean call(NotificationDto notificationDto) {
-            return notificationDto.getTarget() == NotificationDto.Target.clipboard;
+            return notificationDto.getTarget() == NotificationDto.Target.CLIPBOARD;
           }
         })
         .subscribe(
@@ -57,7 +57,7 @@ public class OmniClipboardManager implements IOmniClipboardManager {
     getPrimaryClip().subscribe(new Action1<ClippingDto>() {
       @Override
       public void call(ClippingDto clippingDto) {
-        omniClipboardSubject.onNext(clippingDto.setClippingProvider(ClippingDto.ClippingProvider.cloud));
+        omniClipboardSubject.onNext(clippingDto.setClippingProvider(ClippingDto.ClippingProvider.CLOUD));
       }
     });
   }

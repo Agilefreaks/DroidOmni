@@ -20,6 +20,6 @@ public class TelephonyNotificationTypeSerializer implements JsonSerializer<Telep
 
   @Override
   public JsonElement serialize(TelephonyNotificationDto.TelephonyNotificationType src, Type typeOfSrc, JsonSerializationContext context) {
-    return MAP.containsKey(src) ? MAP.get(src) : new JsonPrimitive("unknown");
+    return MAP.containsKey(src) ? MAP.get(src) : new JsonPrimitive("UNKNOWN");
   }
 }

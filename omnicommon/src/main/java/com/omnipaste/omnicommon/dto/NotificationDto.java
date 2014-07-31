@@ -8,9 +8,9 @@ public class NotificationDto {
   private Bundle extra;
 
   public enum Target {
-    clipboard,
-    phone,
-    Target, unknown
+    CLIPBOARD,
+    PHONE,
+    UNKNOWN
   }
   public NotificationDto() {
   }

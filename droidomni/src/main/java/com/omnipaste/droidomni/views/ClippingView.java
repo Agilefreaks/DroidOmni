@@ -22,8 +22,8 @@ import javax.inject.Inject;
 public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> {
   private HashMap<ClippingDto.ClippingProvider, Integer> icon = new HashMap<ClippingDto.ClippingProvider, Integer>() {
     {
-      put(ClippingDto.ClippingProvider.local, R.drawable.ic_local);
-      put(ClippingDto.ClippingProvider.cloud, R.drawable.ic_omni);
+      put(ClippingDto.ClippingProvider.LOCAL, R.drawable.ic_local);
+      put(ClippingDto.ClippingProvider.CLOUD, R.drawable.ic_omni);
     }
   };
 
@@ -49,7 +49,7 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
     textContent.setText(clippingDto.getContent());
     textContent.setCompoundDrawablesWithIntrinsicBounds(icon.get(clippingDto.getClippingProvider()), 0, 0, 0);
 
-    if (clippingDto.getType() != ClippingDto.ClippingType.unknown) {
+    if (clippingDto.getType() != ClippingDto.ClippingType.UNKNOWN) {
       smartActionButton.setVisibility(VISIBLE);
       smartActionButton.setImageResource(SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
     } else {

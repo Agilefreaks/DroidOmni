@@ -16,7 +16,7 @@ public class NavigationDrawerAdapter extends LocalAdapter<NavigationDrawerItem, 
   public static NavigationDrawerAdapter build(Resources resources) {
     return new NavigationDrawerAdapter(new ArrayList<>(
         Arrays.asList(
-            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_clippings), NavigationMenu.Clippings, R.drawable.ic_clippings, true))
+            new NavigationDrawerItem(resources.getString(R.string.navigation_drawer_clippings), NavigationMenu.CLIPPINGS, R.drawable.ic_clippings, true))
     ));
   }
 

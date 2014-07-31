@@ -28,7 +28,7 @@ public class GcmNotificationReceived {
   public GcmNotificationReceived(Bundle extras) {
     this.extras = extras;
     registrationId = extras.getString(REGISTRATION_ID_KEY);
-    provider = valueOfOrDefault(NotificationDto.Target.class, extras.getString(PROVIDER_KEY), NotificationDto.Target.unknown);
+    provider = valueOfOrDefault(NotificationDto.Target.class, extras.getString(PROVIDER_KEY), NotificationDto.Target.UNKNOWN);
   }
 
 

@@ -17,6 +17,7 @@ import rx.functions.Func1;
 
 public class AndroidPhoneProvider implements PhoneProvider {
   private static final String PHONE_NUMBER_KEY = "phone_number";
+  private static final String PHONE_ACTION_KEY = "phone_action";
 
   private NotificationProvider notificationProvider;
   private Context context;
@@ -37,7 +38,7 @@ public class AndroidPhoneProvider implements PhoneProvider {
           .filter(new Func1<NotificationDto, Boolean>() {
             @Override
             public Boolean call(NotificationDto notificationDto) {
-              return notificationDto.getTarget() == NotificationDto.Target.phone;
+              return notificationDto.getTarget() == NotificationDto.Target.PHONE;
             }
           })
           .subscribe(new Action1<NotificationDto>() {

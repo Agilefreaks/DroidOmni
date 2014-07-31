@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.events;
 
 import android.os.Bundle;
 
-import com.omnipaste.omnicommon.Target;
+import com.omnipaste.omnicommon.dto.NotificationDto;
 
 import junit.framework.TestCase;
 
@@ -12,11 +12,11 @@ import static org.hamcrest.core.Is.is;
 public class GcmNotificationReceivedTest extends TestCase {
   public void testCorrectValuesGetSet() throws Exception {
     Bundle bundle = new Bundle();
-    bundle.putString(GcmNotificationReceived.PROVIDER_KEY, "clipboard");
+    bundle.putString(GcmNotificationReceived.PROVIDER_KEY, "CLIPBOARD");
     bundle.putString(GcmNotificationReceived.REGISTRATION_ID_KEY, "42");
     GcmNotificationReceived gcmNotificationReceived = new GcmNotificationReceived(bundle);
 
-    assertThat(gcmNotificationReceived.getProvider(), is(Target.clipboard));
+    assertThat(gcmNotificationReceived.getProvider(), is(NotificationDto.Target.CLIPBOARD));
     assertThat(gcmNotificationReceived.getRegistrationId(), is("42"));
   }
 
@@ -26,6 +26,6 @@ public class GcmNotificationReceivedTest extends TestCase {
 
     GcmNotificationReceived gcmNotificationReceived = new GcmNotificationReceived(bundle);
 
-    assertThat(gcmNotificationReceived.getProvider(), is(Target.unknown));
+    assertThat(gcmNotificationReceived.getProvider(), is(NotificationDto.Target.UNKNOWN));
   }
 }
