@@ -1,9 +1,9 @@
 package com.omnipaste.phoneprovider;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.omnicommon.domain.PhoneAction;
 import com.omnipaste.phoneprovider.actions.Call;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -19,7 +19,7 @@ public class ActionFactoryTest extends InstrumentationTestCase {
 
     System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-    actionFactory = new ActionFactory(mock(Context.class));
+    actionFactory = new ActionFactory(mock(Context.class), mock(TelephonyManager.class));
   }
 
   public void testCreateWithCallWillReturnActionCall() throws Exception {

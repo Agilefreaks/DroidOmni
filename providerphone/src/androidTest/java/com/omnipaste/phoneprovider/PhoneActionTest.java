@@ -1,4 +1,4 @@
-package com.omnipaste.omnicommon.domain;
+package com.omnipaste.phoneprovider;
 
 import junit.framework.TestCase;
 

@@ -1,8 +1,8 @@
 package com.omnipaste.phoneprovider;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 
-import com.omnipaste.omnicommon.domain.PhoneAction;
 import com.omnipaste.phoneprovider.actions.Action;
 import com.omnipaste.phoneprovider.actions.Call;
 import com.omnipaste.phoneprovider.actions.EndCall;
@@ -13,10 +13,12 @@ import javax.inject.Inject;
 
 public class ActionFactory implements Factory {
   private Context context;
+  private TelephonyManager telephonyManager;
 
   @Inject
-  public ActionFactory(Context context) {
+  public ActionFactory(Context context, TelephonyManager telephonyManager) {
     this.context = context;
+    this.telephonyManager = telephonyManager;
   }
 
   @Override
@@ -28,7 +30,7 @@ public class ActionFactory implements Factory {
         result = Action.build(Call.class, context);
         break;
       case END_CALL:
-        result = Action.build(EndCall.class, context);
+        result = Action.build(EndCall.class, context).setTelephonyManager(telephonyManager);
         break;
       case UNKNOWN:
         result = Action.build(Unknown.class, context);

@@ -1,4 +1,4 @@
-package com.omnipaste.omnicommon.domain;
+package com.omnipaste.phoneprovider;
 
 public enum PhoneAction {
   CALL,

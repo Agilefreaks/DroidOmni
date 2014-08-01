@@ -1,6 +1,5 @@
 package com.omnipaste.phoneprovider;
 
-import com.omnipaste.omnicommon.domain.PhoneAction;
 import com.omnipaste.omnicommon.dto.EmptyDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;

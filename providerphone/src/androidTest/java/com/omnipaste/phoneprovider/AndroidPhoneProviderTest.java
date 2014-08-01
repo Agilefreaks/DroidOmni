@@ -3,7 +3,6 @@ package com.omnipaste.phoneprovider;
 import android.os.Bundle;
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.omnicommon.domain.PhoneAction;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.phoneprovider.actions.Action;
