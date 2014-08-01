@@ -20,7 +20,7 @@ public class ActionFactoryTest extends InstrumentationTestCase {
 
     System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-    actionFactory = new ActionFactory(mock(Context.class), mock(TelephonyManager.class), mock(SmsManager.class));
+    actionFactory = new ActionFactory(mock(Context.class), mock(TelephonyManager.class), null);
   }
 
   public void testCreateWithCallWillReturnActionCall() throws Exception {
