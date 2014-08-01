@@ -1,9 +1,18 @@
 package com.omnipaste.omnicommon.domain;
 
 public enum PhoneAction {
-  phone_create,
-  phone_destroy;
+  CALL,
+  END_CALL,
+  UNKNOWN;
 
-  public void parse(String phoneAction) {
+  public static PhoneAction parse(String phoneAction) {
+    PhoneAction result = PhoneAction.UNKNOWN;
+
+    try {
+      result = PhoneAction.valueOf(phoneAction.toUpperCase());
+    } catch (IllegalArgumentException ignore) {
+    }
+
+    return result;
   }
 }
