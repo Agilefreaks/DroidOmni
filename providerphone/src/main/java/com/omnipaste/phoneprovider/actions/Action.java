@@ -2,6 +2,7 @@ package com.omnipaste.phoneprovider.actions;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class Action {
   protected Context context;
   protected TelephonyManager telephonyManager;
+  protected SmsManager smsManager;
 
   public static <T extends Action> T build(Class<T> clazz, Context context) {
     T result = null;
@@ -27,6 +29,11 @@ public abstract class Action {
 
   public Action setTelephonyManager(TelephonyManager telephonyManager) {
     this.telephonyManager = telephonyManager;
+    return this;
+  }
+
+  public Action setSmsManager(SmsManager smsManager) {
+    this.smsManager = smsManager;
     return this;
   }
 

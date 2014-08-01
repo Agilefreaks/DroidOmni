@@ -3,6 +3,7 @@ package com.omnipaste.phoneprovider;
 public enum PhoneAction {
   CALL,
   END_CALL,
+  SMS,
   UNKNOWN;
 
   public static PhoneAction parse(String phoneAction) {

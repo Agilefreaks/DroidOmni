@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.app.NotificationManager;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -105,6 +106,12 @@ public class MainModule {
   @Singleton
   public TelephonyManager providesTelephonyManager() {
     return (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+  }
+
+  @Provides
+  @Singleton
+  public SmsManager providesSmsManager() {
+    return SmsManager.getDefault();
   }
 
   @Provides
