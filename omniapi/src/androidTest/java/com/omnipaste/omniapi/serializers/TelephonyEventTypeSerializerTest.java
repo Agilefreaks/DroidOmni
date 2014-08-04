@@ -7,14 +7,14 @@ import junit.framework.TestCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class TelephonyNotificationTypeSerializerTest extends TestCase {
-  private TelephonyNotificationTypeSerializer serializer;
+public class TelephonyEventTypeSerializerTest extends TestCase {
+  private TelephonyEventTypeSerializer serializer;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
 
-    serializer = new TelephonyNotificationTypeSerializer();
+    serializer = new TelephonyEventTypeSerializer();
   }
 
   public void testSerializeWillReturnTheRightPrimitive() throws Exception {

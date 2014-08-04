@@ -2,8 +2,8 @@ package com.omnipaste.omniapi.resources.v1;
 
 import com.google.gson.GsonBuilder;
 import com.omnipaste.omniapi.AuthorizationObservable;
-import com.omnipaste.omniapi.deserializers.TelephonyNotificationTypeDeserializer;
-import com.omnipaste.omniapi.serializers.TelephonyNotificationTypeSerializer;
+import com.omnipaste.omniapi.deserializers.TelephonyEventTypeDeserializer;
+import com.omnipaste.omniapi.serializers.TelephonyEventTypeSerializer;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
@@ -34,7 +34,7 @@ public class Events extends Resource {
   protected GsonBuilder getGsonBuilder() {
     return super
         .getGsonBuilder()
-        .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyNotificationTypeDeserializer())
-        .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyNotificationTypeSerializer());
+        .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyEventTypeDeserializer())
+        .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyEventTypeSerializer());
   }
 }

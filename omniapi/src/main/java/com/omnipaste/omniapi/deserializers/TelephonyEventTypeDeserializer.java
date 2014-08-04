@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TelephonyNotificationTypeDeserializer implements JsonDeserializer<TelephonyEventDto.TelephonyEventType> {
+public class TelephonyEventTypeDeserializer implements JsonDeserializer<TelephonyEventDto.TelephonyEventType> {
   private static final Map<String, TelephonyEventDto.TelephonyEventType> MAP = new HashMap<String, TelephonyEventDto.TelephonyEventType>() {
     {
       put("incoming_call", TelephonyEventDto.TelephonyEventType.incomingCall);

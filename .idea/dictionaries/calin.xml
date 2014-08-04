@@ -11,6 +11,7 @@
       <w>dexmaker</w>
       <w>droidomni</w>
       <w>eventbus</w>
+      <w>eventsprovider</w>
       <w>functionaljava</w>
       <w>greenrobot</w>
       <w>gson</w>
@@ -24,6 +25,7 @@
       <w>omnicommon</w>
       <w>omnipaste</w>
       <w>pagerslidingtabstrip</w>
+      <w>pdus</w>
       <w>providerclipboard</w>
       <w>providerevents</w>
       <w>providernotifications</w>

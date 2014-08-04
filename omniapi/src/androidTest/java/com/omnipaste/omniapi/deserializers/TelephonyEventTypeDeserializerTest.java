@@ -9,20 +9,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 public class TelephonyEventTypeDeserializerTest extends TestCase {
-  private TelephonyNotificationTypeDeserializer telephonyNotificationTypeDeserializer;
+  private TelephonyEventTypeDeserializer telephonyEventTypeDeserializer;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
 
-    telephonyNotificationTypeDeserializer = new TelephonyNotificationTypeDeserializer();
+    telephonyEventTypeDeserializer = new TelephonyEventTypeDeserializer();
   }
 
   public void testDeserializeReturnsIncomingCallType() throws Exception {
-    assertThat(TelephonyEventDto.TelephonyEventType.incomingCall, is(telephonyNotificationTypeDeserializer.deserialize(new JsonPrimitive("incoming_call"), null, null)));
+    assertThat(TelephonyEventDto.TelephonyEventType.incomingCall, is(telephonyEventTypeDeserializer.deserialize(new JsonPrimitive("incoming_call"), null, null)));
   }
 
   public void testDeserializeReturnsIncomingSmsType() throws Exception {
-    assertThat(TelephonyEventDto.TelephonyEventType.incomingSms, is(telephonyNotificationTypeDeserializer.deserialize(new JsonPrimitive("incoming_sms"), null, null)));
+    assertThat(TelephonyEventDto.TelephonyEventType.incomingSms, is(telephonyEventTypeDeserializer.deserialize(new JsonPrimitive("incoming_sms"), null, null)));
   }
 }
