@@ -1,6 +1,6 @@
 package com.omnipaste.omniapi.serializers;
 
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import junit.framework.TestCase;
 
@@ -20,8 +20,8 @@ public class TelephonyNotificationTypeSerializerTest extends TestCase {
   public void testSerializeWillReturnTheRightPrimitive() throws Exception {
     assertThat(
         serializer.serialize(
-            TelephonyNotificationDto.TelephonyNotificationType.incomingCall,
-            TelephonyNotificationDto.TelephonyNotificationType.class, null)
+            TelephonyEventDto.TelephonyNotificationType.incomingCall,
+            TelephonyEventDto.TelephonyNotificationType.class, null)
             .getAsString(),
         is("incoming_call"));
   }

@@ -1,21 +1,21 @@
-package com.omnipaste.eventsprovider;
+package com.omnipaste.eventsprovider.listeners;
 
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
 public class OmniPhoneStateListener extends PhoneStateListener{
-  private PublishSubject<TelephonyNotificationDto> omniPhoneStateSubject;
+  private PublishSubject<TelephonyEventDto> omniPhoneStateSubject;
 
   public OmniPhoneStateListener() {
     this.omniPhoneStateSubject = PublishSubject.create();
   }
 
-  public Observable<TelephonyNotificationDto> getObservable() {
+  public Observable<TelephonyEventDto> getObservable() {
     return omniPhoneStateSubject;
   }
 
@@ -24,8 +24,8 @@ public class OmniPhoneStateListener extends PhoneStateListener{
     super.onCallStateChanged(state, incomingNumber);
 
     if (state == TelephonyManager.CALL_STATE_RINGING) {
-      TelephonyNotificationDto telephonyNotificationDto = new TelephonyNotificationDto(TelephonyNotificationDto.TelephonyNotificationType.incomingCall, incomingNumber);
-      omniPhoneStateSubject.onNext(telephonyNotificationDto);
+      TelephonyEventDto telephonyEventDto = new TelephonyEventDto(TelephonyEventDto.TelephonyNotificationType.incomingCall, incomingNumber);
+      omniPhoneStateSubject.onNext(telephonyEventDto);
     }
   }
 }

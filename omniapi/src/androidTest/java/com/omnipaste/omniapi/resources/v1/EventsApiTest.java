@@ -2,7 +2,7 @@ package com.omnipaste.omniapi.resources.v1;
 
 import com.omnipaste.omniapi.OmniApiV1;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import junit.framework.TestCase;
 
@@ -24,6 +24,6 @@ public class EventsApiTest extends TestCase {
   }
 
   public void testCreateWillReturnAnObservable() throws Exception {
-    assertThat(events.create(new TelephonyNotificationDto()), instanceOf(Observable.class));
+    assertThat(events.create(new TelephonyEventDto()), instanceOf(Observable.class));
   }
 }

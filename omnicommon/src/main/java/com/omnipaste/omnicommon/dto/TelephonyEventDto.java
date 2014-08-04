@@ -1,7 +1,7 @@
 package com.omnipaste.omnicommon.dto;
 
 @SuppressWarnings("UnusedDeclaration")
-public class TelephonyNotificationDto {
+public class TelephonyEventDto {
   private String identifier;
   private TelephonyNotificationType type;
   private IncomingCallNotificationDto incomingCall;
@@ -10,15 +10,15 @@ public class TelephonyNotificationDto {
     incomingCall, incomingSms, unknown
   }
 
-  public TelephonyNotificationDto() {
+  public TelephonyEventDto() {
   }
 
-  public TelephonyNotificationDto(TelephonyNotificationType type, String phoneNumber) {
+  public TelephonyEventDto(TelephonyNotificationType type, String phoneNumber) {
     this.type = type;
     this.incomingCall = new IncomingCallNotificationDto(phoneNumber);
   }
 
-  public TelephonyNotificationDto(String identifier, TelephonyNotificationType type, String phoneNumber) {
+  public TelephonyEventDto(String identifier, TelephonyNotificationType type, String phoneNumber) {
     this(type, phoneNumber);
     this.identifier = identifier;
   }

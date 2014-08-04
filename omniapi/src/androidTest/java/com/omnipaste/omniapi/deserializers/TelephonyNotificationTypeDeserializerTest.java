@@ -1,7 +1,7 @@
 package com.omnipaste.omniapi.deserializers;
 
 import com.google.gson.JsonPrimitive;
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import junit.framework.TestCase;
 
@@ -19,10 +19,10 @@ public class TelephonyNotificationTypeDeserializerTest extends TestCase {
   }
 
   public void testDeserializeReturnsIncomingCallType() throws Exception {
-    assertThat(TelephonyNotificationDto.TelephonyNotificationType.incomingCall, is(telephonyNotificationTypeDeserializer.deserialize(new JsonPrimitive("incoming_call"), null, null)));
+    assertThat(TelephonyEventDto.TelephonyNotificationType.incomingCall, is(telephonyNotificationTypeDeserializer.deserialize(new JsonPrimitive("incoming_call"), null, null)));
   }
 
   public void testDeserializeReturnsIncomingSmsType() throws Exception {
-    assertThat(TelephonyNotificationDto.TelephonyNotificationType.incomingSms, is(telephonyNotificationTypeDeserializer.deserialize(new JsonPrimitive("incoming_sms"), null, null)));
+    assertThat(TelephonyEventDto.TelephonyNotificationType.incomingSms, is(telephonyNotificationTypeDeserializer.deserialize(new JsonPrimitive("incoming_sms"), null, null)));
   }
 }

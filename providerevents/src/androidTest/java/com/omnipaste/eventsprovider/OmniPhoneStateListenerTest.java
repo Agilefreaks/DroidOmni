@@ -2,7 +2,8 @@ package com.omnipaste.eventsprovider;
 
 import android.telephony.TelephonyManager;
 
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import junit.framework.TestCase;
 
@@ -32,10 +33,10 @@ public class OmniPhoneStateListenerTest extends TestCase {
 
     omniPhoneStateListener.onCallStateChanged(TelephonyManager.CALL_STATE_RINGING, "42");
 
-    ArgumentCaptor<TelephonyNotificationDto> telephonyNotificationDtoArgumentCaptor = ArgumentCaptor.forClass(TelephonyNotificationDto.class);
+    ArgumentCaptor<TelephonyEventDto> telephonyNotificationDtoArgumentCaptor = ArgumentCaptor.forClass(TelephonyEventDto.class);
     verify(observer).onNext(telephonyNotificationDtoArgumentCaptor.capture());
 
     assertThat(telephonyNotificationDtoArgumentCaptor.getValue().getIncomingCall().getPhoneNumber(), is("42"));
-    assertThat(telephonyNotificationDtoArgumentCaptor.getValue().getType(), is(TelephonyNotificationDto.TelephonyNotificationType.incomingCall));
+    assertThat(telephonyNotificationDtoArgumentCaptor.getValue().getType(), is(TelephonyEventDto.TelephonyNotificationType.incomingCall));
   }
 }

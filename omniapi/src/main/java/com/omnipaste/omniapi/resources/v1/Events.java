@@ -5,7 +5,7 @@ import com.omnipaste.omniapi.AuthorizationObservable;
 import com.omnipaste.omniapi.deserializers.TelephonyNotificationTypeDeserializer;
 import com.omnipaste.omniapi.serializers.TelephonyNotificationTypeSerializer;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import retrofit.http.Body;
 import retrofit.http.Header;
@@ -15,7 +15,7 @@ import rx.Observable;
 public class Events extends Resource {
   private interface NotificationsApi {
     @POST("/v1/events.json")
-    Observable<TelephonyNotificationDto> create(@Header("Authorization") String token, @Body TelephonyNotificationDto telephonyNotificationDto);
+    Observable<TelephonyEventDto> create(@Header("Authorization") String token, @Body TelephonyEventDto telephonyEventDto);
   }
 
   private final NotificationsApi notificationsApi;
@@ -26,15 +26,15 @@ public class Events extends Resource {
     notificationsApi = restAdapter.create(NotificationsApi.class);
   }
 
-  public Observable<TelephonyNotificationDto> create(TelephonyNotificationDto telephonyNotificationDto) {
-    return authorizationObservable.authorize(notificationsApi.create(bearerToken(accessToken), telephonyNotificationDto));
+  public Observable<TelephonyEventDto> create(TelephonyEventDto telephonyEventDto) {
+    return authorizationObservable.authorize(notificationsApi.create(bearerToken(accessToken), telephonyEventDto));
   }
 
   @Override
   protected GsonBuilder getGsonBuilder() {
     return super
         .getGsonBuilder()
-        .registerTypeAdapter(TelephonyNotificationDto.TelephonyNotificationType.class, new TelephonyNotificationTypeDeserializer())
-        .registerTypeAdapter(TelephonyNotificationDto.TelephonyNotificationType.class, new TelephonyNotificationTypeSerializer());
+        .registerTypeAdapter(TelephonyEventDto.TelephonyNotificationType.class, new TelephonyNotificationTypeDeserializer())
+        .registerTypeAdapter(TelephonyEventDto.TelephonyNotificationType.class, new TelephonyNotificationTypeSerializer());
   }
 }

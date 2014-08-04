@@ -3,9 +3,10 @@ package com.omnipaste.eventsprovider;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.dto.NotificationDto;
-import com.omnipaste.omnicommon.dto.TelephonyNotificationDto;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import javax.inject.Inject;
 
@@ -32,11 +33,11 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
   public Observable<NotificationDto> init(final String identifier) {
     if (!subscribe) {
       telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-      phoneStateSubscriber = phoneStateListener.getObservable().subscribe(new Action1<TelephonyNotificationDto>() {
+      phoneStateSubscriber = phoneStateListener.getObservable().subscribe(new Action1<TelephonyEventDto>() {
         @Override
-        public void call(TelephonyNotificationDto telephonyNotificationDto) {
-          telephonyNotificationDto.setIdentifier(identifier);
-          omniApi.notifications().create(telephonyNotificationDto).subscribe();
+        public void call(TelephonyEventDto telephonyEventDto) {
+          telephonyEventDto.setIdentifier(identifier);
+          omniApi.notifications().create(telephonyEventDto).subscribe();
         }
       });
 
