@@ -34,7 +34,7 @@ public class Events extends Resource {
   protected GsonBuilder getGsonBuilder() {
     return super
         .getGsonBuilder()
-        .registerTypeAdapter(TelephonyEventDto.TelephonyNotificationType.class, new TelephonyNotificationTypeDeserializer())
-        .registerTypeAdapter(TelephonyEventDto.TelephonyNotificationType.class, new TelephonyNotificationTypeSerializer());
+        .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyNotificationTypeDeserializer())
+        .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyNotificationTypeSerializer());
   }
 }

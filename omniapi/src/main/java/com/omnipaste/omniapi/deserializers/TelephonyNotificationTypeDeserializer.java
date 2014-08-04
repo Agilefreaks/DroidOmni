@@ -10,17 +10,17 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TelephonyNotificationTypeDeserializer implements JsonDeserializer<TelephonyEventDto.TelephonyNotificationType> {
-  private static final Map<String, TelephonyEventDto.TelephonyNotificationType> MAP = new HashMap<String, TelephonyEventDto.TelephonyNotificationType>() {
+public class TelephonyNotificationTypeDeserializer implements JsonDeserializer<TelephonyEventDto.TelephonyEventType> {
+  private static final Map<String, TelephonyEventDto.TelephonyEventType> MAP = new HashMap<String, TelephonyEventDto.TelephonyEventType>() {
     {
-      put("incoming_call", TelephonyEventDto.TelephonyNotificationType.incomingCall);
-      put("incoming_sms", TelephonyEventDto.TelephonyNotificationType.incomingSms);
+      put("incoming_call", TelephonyEventDto.TelephonyEventType.incomingCall);
+      put("incoming_sms", TelephonyEventDto.TelephonyEventType.incomingSms);
     }
   };
 
   @Override
-  public TelephonyEventDto.TelephonyNotificationType deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public TelephonyEventDto.TelephonyEventType deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     String key = jsonElement.getAsString();
-    return MAP.containsKey(key) ? MAP.get(key) : TelephonyEventDto.TelephonyNotificationType.unknown;
+    return MAP.containsKey(key) ? MAP.get(key) : TelephonyEventDto.TelephonyEventType.unknown;
   }
 }

@@ -37,6 +37,6 @@ public class OmniPhoneStateListenerTest extends TestCase {
     verify(observer).onNext(telephonyNotificationDtoArgumentCaptor.capture());
 
     assertThat(telephonyNotificationDtoArgumentCaptor.getValue().getIncomingCall().getPhoneNumber(), is("42"));
-    assertThat(telephonyNotificationDtoArgumentCaptor.getValue().getType(), is(TelephonyEventDto.TelephonyNotificationType.incomingCall));
+    assertThat(telephonyNotificationDtoArgumentCaptor.getValue().getType(), is(TelephonyEventDto.TelephonyEventType.incomingCall));
   }
 }

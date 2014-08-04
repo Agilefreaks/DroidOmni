@@ -10,16 +10,16 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TelephonyNotificationTypeSerializer implements JsonSerializer<TelephonyEventDto.TelephonyNotificationType> {
-  private static final Map<TelephonyEventDto.TelephonyNotificationType, JsonPrimitive> MAP = new HashMap<TelephonyEventDto.TelephonyNotificationType, JsonPrimitive>() {
+public class TelephonyNotificationTypeSerializer implements JsonSerializer<TelephonyEventDto.TelephonyEventType> {
+  private static final Map<TelephonyEventDto.TelephonyEventType, JsonPrimitive> MAP = new HashMap<TelephonyEventDto.TelephonyEventType, JsonPrimitive>() {
     {
-      put(TelephonyEventDto.TelephonyNotificationType.incomingCall, new JsonPrimitive("incoming_call"));
-      put(TelephonyEventDto.TelephonyNotificationType.incomingSms, new JsonPrimitive("incoming_sms"));
+      put(TelephonyEventDto.TelephonyEventType.incomingCall, new JsonPrimitive("incoming_call"));
+      put(TelephonyEventDto.TelephonyEventType.incomingSms, new JsonPrimitive("incoming_sms"));
     }
   };
 
   @Override
-  public JsonElement serialize(TelephonyEventDto.TelephonyNotificationType src, Type typeOfSrc, JsonSerializationContext context) {
+  public JsonElement serialize(TelephonyEventDto.TelephonyEventType src, Type typeOfSrc, JsonSerializationContext context) {
     return MAP.containsKey(src) ? MAP.get(src) : new JsonPrimitive("UNKNOWN");
   }
 }

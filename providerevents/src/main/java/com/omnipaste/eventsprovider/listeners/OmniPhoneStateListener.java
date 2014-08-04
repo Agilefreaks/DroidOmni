@@ -24,7 +24,7 @@ public class OmniPhoneStateListener extends PhoneStateListener{
     super.onCallStateChanged(state, incomingNumber);
 
     if (state == TelephonyManager.CALL_STATE_RINGING) {
-      TelephonyEventDto telephonyEventDto = new TelephonyEventDto(TelephonyEventDto.TelephonyNotificationType.incomingCall, incomingNumber);
+      TelephonyEventDto telephonyEventDto = new TelephonyEventDto(TelephonyEventDto.TelephonyEventType.incomingCall, incomingNumber);
       omniPhoneStateSubject.onNext(telephonyEventDto);
     }
   }

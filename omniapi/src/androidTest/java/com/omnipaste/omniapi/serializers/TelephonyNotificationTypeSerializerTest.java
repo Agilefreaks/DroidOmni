@@ -20,8 +20,8 @@ public class TelephonyNotificationTypeSerializerTest extends TestCase {
   public void testSerializeWillReturnTheRightPrimitive() throws Exception {
     assertThat(
         serializer.serialize(
-            TelephonyEventDto.TelephonyNotificationType.incomingCall,
-            TelephonyEventDto.TelephonyNotificationType.class, null)
+            TelephonyEventDto.TelephonyEventType.incomingCall,
+            TelephonyEventDto.TelephonyEventType.class, null)
             .getAsString(),
         is("incoming_call"));
   }

@@ -1,10 +1,10 @@
 package com.omnipaste.omnicommon.dto;
 
 @SuppressWarnings("UnusedDeclaration")
-public class IncomingCallNotificationDto {
+public class IncomingCallEventDto {
   private String phoneNumber;
 
-  public IncomingCallNotificationDto(String phoneNumber) {
+  public IncomingCallEventDto(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
