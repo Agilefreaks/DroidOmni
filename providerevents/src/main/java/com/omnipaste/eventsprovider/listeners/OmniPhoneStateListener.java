@@ -8,7 +8,7 @@ import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
-public class OmniPhoneStateListener extends PhoneStateListener{
+public class OmniPhoneStateListener extends PhoneStateListener {
   private PublishSubject<TelephonyEventDto> omniPhoneStateSubject;
 
   public OmniPhoneStateListener() {
