@@ -20,7 +20,7 @@ public class EventsApiTest extends TestCase {
 
     OmniApiV1 omniApiV1 = new OmniApiV1("client id", "http://test.omnipasteapp.com/api");
     omniApiV1.setAccessToken(new AccessTokenDto("access"));
-    events = omniApiV1.notifications();
+    events = omniApiV1.events();
   }
 
   public void testCreateWillReturnAnObservable() throws Exception {

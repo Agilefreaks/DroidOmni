@@ -14,7 +14,7 @@ public interface OmniApi {
 
   public Token token();
 
-  public Events notifications();
+  public Events events();
 
   public AuthorizationCodes authorizationCodes();
 

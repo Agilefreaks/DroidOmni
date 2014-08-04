@@ -38,7 +38,7 @@ public class OmniApiV1 implements OmniApi {
         : clippings;
   }
 
-  public Events notifications() {
+  public Events events() {
     ensureAccessToken();
     return events == null
         ? events = new Events(new AuthorizationObservable(token(), accessToken), accessToken, baseUrl)

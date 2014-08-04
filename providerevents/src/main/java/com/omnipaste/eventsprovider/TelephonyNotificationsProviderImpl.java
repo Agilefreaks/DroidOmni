@@ -37,7 +37,7 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
         @Override
         public void call(TelephonyEventDto telephonyEventDto) {
           telephonyEventDto.setIdentifier(identifier);
-          omniApi.notifications().create(telephonyEventDto).subscribe();
+          omniApi.events().create(telephonyEventDto).subscribe();
         }
       });
 
