@@ -80,7 +80,8 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.omnipaste.droidomni.gcm.GcmIntentService_"/>
+        <service android:name="com.omnipaste.droidomni.gcm.GcmIntentService_"
+                 android:exported="false"/>
     </application>
 
 </manifest>
