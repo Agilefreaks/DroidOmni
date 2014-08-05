@@ -3,6 +3,7 @@ package com.omnipaste.eventsprovider;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.omnipaste.eventsprovider.events.TelephonyEvent;
 import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.dto.NotificationDto;
@@ -10,14 +11,14 @@ import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
 import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action1;
 
 public class TelephonyNotificationsProviderImpl implements TelephonyNotificationsProvider {
+
   private TelephonyManager telephonyManager;
   private OmniPhoneStateListener phoneStateListener;
-  private Subscription phoneStateSubscriber;
+  private String identifier;
   private boolean subscribe = false;
 
   @Inject
@@ -25,21 +26,18 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
 
   @Inject
   public TelephonyNotificationsProviderImpl(TelephonyManager telephonyManager) {
+    EventBus eventBus = EventBus.getDefault();
+    eventBus.register(this);
+
     this.telephonyManager = telephonyManager;
     this.phoneStateListener = new OmniPhoneStateListener();
   }
 
   @Override
-  public Observable<NotificationDto> init(final String identifier) {
+  public Observable<NotificationDto> init(String identifier) {
     if (!subscribe) {
+      this.identifier = identifier;
       telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-      phoneStateSubscriber = phoneStateListener.getObservable().subscribe(new Action1<TelephonyEventDto>() {
-        @Override
-        public void call(TelephonyEventDto telephonyEventDto) {
-          telephonyEventDto.setIdentifier(identifier);
-          omniApi.events().create(telephonyEventDto).subscribe();
-        }
-      });
 
       subscribe = true;
     }
@@ -47,10 +45,16 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
     return Observable.empty();
   }
 
+  @SuppressWarnings("UnusedDeclaration")
+  public void onEventMainThread(TelephonyEvent event) {
+    TelephonyEventDto telephonyEventDto = event.getTelephonyEventDto();
+    telephonyEventDto.setIdentifier(identifier);
+    omniApi.events().create(telephonyEventDto).subscribe();
+  }
+
   @Override
   public void destroy() {
     telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-    phoneStateSubscriber.unsubscribe();
 
     subscribe = false;
   }

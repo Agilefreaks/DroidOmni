@@ -4,15 +4,15 @@ package com.omnipaste.omnicommon.dto;
 public class IncomingCallEventDto {
   private String phoneNumber;
 
-  public IncomingCallEventDto(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
+  public IncomingCallEventDto() {
   }
 
   public String getPhoneNumber() {
     return phoneNumber;
   }
 
-  public void setPhoneNumber(String phoneNumber) {
+  public IncomingCallEventDto setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+    return this;
   }
 }

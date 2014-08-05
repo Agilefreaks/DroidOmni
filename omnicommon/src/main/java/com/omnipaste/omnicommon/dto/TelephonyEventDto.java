@@ -5,6 +5,7 @@ public class TelephonyEventDto {
   private String identifier;
   private TelephonyEventType type;
   private IncomingCallEventDto incomingCall;
+  private IncomingSmsEventDto incomingSms;
 
   public enum TelephonyEventType {
     incomingCall, incomingSms, unknown
@@ -13,14 +14,14 @@ public class TelephonyEventDto {
   public TelephonyEventDto() {
   }
 
-  public TelephonyEventDto(TelephonyEventType type, String phoneNumber) {
+  public TelephonyEventDto(TelephonyEventType type, IncomingCallEventDto incomingCallEventDto) {
     this.type = type;
-    this.incomingCall = new IncomingCallEventDto(phoneNumber);
+    this.incomingCall = incomingCallEventDto;
   }
 
-  public TelephonyEventDto(String identifier, TelephonyEventType type, String phoneNumber) {
-    this(type, phoneNumber);
-    this.identifier = identifier;
+  public TelephonyEventDto(TelephonyEventType type, IncomingSmsEventDto incomingSmsEventDto) {
+    this.type = type;
+    this.incomingSms = incomingSmsEventDto;
   }
 
   public String getIdentifier() {
@@ -45,5 +46,13 @@ public class TelephonyEventDto {
 
   public void setIncomingCall(IncomingCallEventDto incomingCall) {
     this.incomingCall = incomingCall;
+  }
+
+  public IncomingSmsEventDto getIncomingSms() {
+    return incomingSms;
+  }
+
+  public void setIncomingSms(IncomingSmsEventDto incomingSms) {
+    this.incomingSms = incomingSms;
   }
 }
