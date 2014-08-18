@@ -41,6 +41,7 @@ public class OmniService extends Service {
 
   private List<Subscriber> subscribes = new ArrayList<>();
   private List<Messenger> clients = new ArrayList<>();
+  private boolean started = false;
 
   private final Messenger messenger = new Messenger(new IncomingHandler());
 
@@ -50,6 +51,11 @@ public class OmniService extends Service {
       switch (msg.what) {
         case MSG_REGISTER_CLIENT:
           clients.add(msg.replyTo);
+
+          if (started) {
+            sendStartedToClient(msg.replyTo);
+          }
+
           break;
         case MSG_UNREGISTER_CLIENT:
           clients.remove(msg.replyTo);
@@ -113,6 +119,8 @@ public class OmniService extends Service {
                 notifyUser();
                 startSubscribers(registeredDeviceDto);
                 sendStartedToClients();
+
+                started = true;
               }
             },
             // OnError
@@ -141,6 +149,7 @@ public class OmniService extends Service {
 
     stopSubscribers();
     stopForeground(true);
+    started = false;
   }
 
   public List<Subscriber> getSubscribers() {
@@ -183,6 +192,14 @@ public class OmniService extends Service {
 
   private void sendStartedToClients() {
     sendMessageToClients(MSG_STARTED);
+  }
+
+  private void sendStartedToClient(Messenger client) {
+    Message message = Message.obtain(null, MSG_STARTED);
+    try {
+      client.send(message);
+    } catch (RemoteException ignored) {
+    }
   }
 
   private void sendMessageToClients(int what) {

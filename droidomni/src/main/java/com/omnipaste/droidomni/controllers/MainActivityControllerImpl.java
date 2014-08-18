@@ -66,7 +66,6 @@ public class MainActivityControllerImpl implements MainActivityController {
 
           break;
         case OmniService.MSG_STARTED:
-          activity.unbindService(serviceConnection);
           activity.startActivity(OmniActivity.getIntent(activity));
           activity.finish();
 
@@ -79,14 +78,7 @@ public class MainActivityControllerImpl implements MainActivityController {
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder service) {
       omniServiceMessenger = new Messenger(service);
-
-      Message registerClientMessage = Message.obtain(null, OmniService.MSG_REGISTER_CLIENT);
-      registerClientMessage.replyTo = messenger;
-
-      try {
-        omniServiceMessenger.send(registerClientMessage);
-      } catch (RemoteException ignored) {
-      }
+      sendMessageToOmniService(OmniService.MSG_REGISTER_CLIENT);
     }
 
     @Override
@@ -119,6 +111,11 @@ public class MainActivityControllerImpl implements MainActivityController {
 
   @Override
   public void stop() {
+    if (omniServiceMessenger != null) {
+      sendMessageToOmniService(OmniService.MSG_UNREGISTER_CLIENT);
+      activity.unbindService(serviceConnection);
+    }
+
     eventBus.unregister(this);
   }
 
@@ -178,5 +175,15 @@ public class MainActivityControllerImpl implements MainActivityController {
 
   private void setFragment(Fragment fragment) {
     fragmentService.setFragment(activity, R.id.main_container, fragment);
+  }
+
+  private void sendMessageToOmniService(int message) {
+    Message registerClientMessage = Message.obtain(null, message);
+    registerClientMessage.replyTo = messenger;
+
+    try {
+      omniServiceMessenger.send(registerClientMessage);
+    } catch (RemoteException ignored) {
+    }
   }
 }
