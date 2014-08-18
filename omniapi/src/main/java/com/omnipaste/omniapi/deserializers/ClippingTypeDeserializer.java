@@ -14,9 +14,9 @@ public class ClippingTypeDeserializer implements JsonDeserializer<ClippingDto.Cl
   private static final Map<String, ClippingDto.ClippingType> MAP = new HashMap<String, ClippingDto.ClippingType>() {
     {
       put("phone_number", ClippingDto.ClippingType.PHONE_NUMBER);
-      put("URL", ClippingDto.ClippingType.URL);
-      put("ADDRESS", ClippingDto.ClippingType.ADDRESS);
-      put("UNKNOWN", ClippingDto.ClippingType.UNKNOWN);
+      put("url", ClippingDto.ClippingType.URL);
+      put("address", ClippingDto.ClippingType.ADDRESS);
+      put("unknown", ClippingDto.ClippingType.UNKNOWN);
     }
   };
 

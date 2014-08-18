@@ -3,7 +3,7 @@
     <string name="base_url">https://www.omnipasteapp.com</string>
     <string name="api_url">https://api.omnipasteapp.com/api</string>
     <string name="tos_url">https://www.omnipasteapp.com/tos</string>
-    <string name="api_client_id">TODO</string>
-    <string name="api_client_token">TODO</string>
+    <string name="api_client_id">53e3e5586170695c90020000</string>
+    <string name="api_client_token">3OYdWTFhtgi1lBro3P55Xi4AogtXEMBS2QBobksNPV6H1mk2Zw6wXDC2VJ85FgZKPSXD0aCIFLyXgNIO2hG3BA==</string>
     <string name="bugfreak_token">520cca1c28e18700b0000002</string>
 </resources>

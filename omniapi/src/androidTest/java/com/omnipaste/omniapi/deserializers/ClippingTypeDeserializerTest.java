@@ -20,11 +20,11 @@ public class ClippingTypeDeserializerTest extends TestCase {
   }
 
   public void testDeserializeReturnWebSiteType() {
-    assertThat(ClippingDto.ClippingType.URL, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("URL"), null, null)));
+    assertThat(ClippingDto.ClippingType.URL, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("url"), null, null)));
   }
 
   public void testDeserializeReturnAddressType() {
-    assertThat(ClippingDto.ClippingType.ADDRESS, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("ADDRESS"), null, null)));
+    assertThat(ClippingDto.ClippingType.ADDRESS, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("address"), null, null)));
   }
 
   public void testDeserializeReturnUUnknownType() {
