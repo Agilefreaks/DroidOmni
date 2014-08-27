@@ -1,5 +1,7 @@
 package com.omnipaste.phoneprovider;
 
+import java.util.Locale;
+
 public enum PhoneAction {
   CALL,
   END_CALL,
@@ -10,7 +12,7 @@ public enum PhoneAction {
     PhoneAction result = PhoneAction.UNKNOWN;
 
     try {
-      result = PhoneAction.valueOf(phoneAction.toUpperCase());
+      result = PhoneAction.valueOf(phoneAction.toUpperCase(Locale.getDefault()));
     } catch (IllegalArgumentException ignore) {
     }
 

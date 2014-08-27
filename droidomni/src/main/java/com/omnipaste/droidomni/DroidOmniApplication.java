@@ -77,14 +77,5 @@ public class DroidOmniApplication extends Application {
     configurationService.setConfiguration(configuration);
 
     BugFreak.hook("2537eed2-36fd-4d9c-9ca9-54db031126fd", bugFreakToken, this);
-
-    // Set this up once when your application launches
-    //    Config config = new Config("omnipasteapp.uservoice.com");
-    //    config.setForumId(263483);
-    // config.identifyUser("USER_ID", "User Name", "email@example.com");
-    //    UserVoice.init(config, this);
-
-    // Call this wherever you want to launch UserVoice
-    //    UserVoice.launchUserVoice(this);
   }
 }

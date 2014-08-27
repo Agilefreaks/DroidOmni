@@ -37,13 +37,14 @@ public class MainActivity extends ActionBarActivity {
 
     getSupportActionBar().hide();
 
-    controller.run(this, savedInstanceState);
+    if (checkPlayServices()) {
+      controller.run(this, savedInstanceState);
+    }
   }
 
   @Override
   public void onResume() {
     super.onResume();
-    checkPlayServices();
   }
 
   @Override
