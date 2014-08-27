@@ -74,7 +74,7 @@ dependencies {
     compile project(':providerphone')
     compile project(':providerevents')
 
-    compile 'com.google.android.gms:play-services:5.2.08'
+    compile 'com.google.android.gms:play-services:5.1.0'
     compile 'org.androidannotations:androidannotations-api:3.0.1'
     compile 'co.bugfreak:BugFreak:1.1.7'
 
