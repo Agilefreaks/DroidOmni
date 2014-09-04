@@ -5,7 +5,6 @@ import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omniapi.resources.v1.Devices;
 import com.omnipaste.omniapi.resources.v1.Events;
 import com.omnipaste.omniapi.resources.v1.Token;
-import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 public interface OmniApi {
   public Devices devices();
@@ -17,6 +16,4 @@ public interface OmniApi {
   public Events events();
 
   public AuthorizationCodes authorizationCodes();
-
-  public void setAccessToken(AccessTokenDto accessToken);
 }

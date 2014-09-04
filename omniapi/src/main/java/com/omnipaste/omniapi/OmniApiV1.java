@@ -5,7 +5,9 @@ import com.omnipaste.omniapi.resources.v1.Clippings;
 import com.omnipaste.omniapi.resources.v1.Devices;
 import com.omnipaste.omniapi.resources.v1.Events;
 import com.omnipaste.omniapi.resources.v1.Token;
+import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
+import com.omnipaste.omnicommon.services.ConfigurationService;
 
 public class OmniApiV1 implements OmniApi {
   private String apiClientId;
@@ -16,10 +18,14 @@ public class OmniApiV1 implements OmniApi {
   private AuthorizationCodes authorizationCodes;
   private Token token;
   private AccessTokenDto accessToken;
+  private ConfigurationService configurationService;
 
-  public OmniApiV1(String apiClientId, String baseUrl) {
-    this.apiClientId = apiClientId;
-    this.baseUrl = baseUrl;
+  public OmniApiV1(ConfigurationService configurationService) {
+    Configuration configuration = configurationService.getConfiguration();
+
+    this.apiClientId = configuration.getApiClientId();
+    this.baseUrl = configuration.getApiUrl();
+    this.configurationService = configurationService;
   }
 
   @Override
@@ -57,16 +63,23 @@ public class OmniApiV1 implements OmniApi {
     return token == null ? token = new Token(apiClientId, baseUrl) : token;
   }
 
-  @Override
-  public void setAccessToken(AccessTokenDto accessToken) {
-    this.accessToken = accessToken;
-    devices = null;
-    clippings = null;
-  }
-
   private void ensureAccessToken() {
+    AccessTokenDto configurationAccessToken = configurationService.getConfiguration().getAccessToken();
+
+    if (accessToken != configurationAccessToken) {
+      setAccessToken(configurationAccessToken);
+    }
+
     if (accessToken == null) {
       throw new IllegalArgumentException("You need to set the Access Token on the API before using this endpoint.");
     }
+  }
+
+  private void setAccessToken(AccessTokenDto accessToken) {
+    this.accessToken = accessToken;
+    devices = null;
+    clippings = null;
+    authorizationCodes = null;
+    events = null;
   }
 }

@@ -1,7 +1,6 @@
 package com.omnipaste.droidomni.services;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
@@ -44,8 +43,6 @@ public class SessionServiceImpl implements SessionService {
     Configuration configuration = configurationService.getConfiguration();
     configuration.setAccessToken(accessTokenDto);
     configurationService.setConfiguration(configuration);
-
-    omniApi.setAccessToken(accessTokenDto);
   }
 
   @Override

@@ -1,25 +1,15 @@
 package com.omnipaste.omniapi;
 
-import com.omnipaste.omnicommon.dto.AccessTokenDto;
-
-import junit.framework.TestCase;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.sameInstance;
 
-public class OmniApiV1Test extends TestCase {
-  private OmniApiV1 subject;
-
-  public void setUp() throws Exception {
-    super.setUp();
-
-    subject = new OmniApiV1("client id", "http://test.omnipasteapp.com/api");
-  }
+public class OmniApiV1Test extends OmniApiTestCase {
 
   public void testDevicesWithNoAccessTokenThrowsIllegalArgumentException() throws Exception {
+    configuration.setAccessToken(null);
     Boolean throwsException = false;
     try {
-      subject.devices();
+      omniApiV1.devices();
     } catch (IllegalArgumentException ex) {
       throwsException = true;
     }
@@ -28,7 +18,6 @@ public class OmniApiV1Test extends TestCase {
   }
 
   public void testDevicesWillReturnTheSameInstance() throws Exception {
-    subject.setAccessToken(new AccessTokenDto());
-    assertThat(subject.devices(), sameInstance(subject.devices()));
+    assertThat(omniApiV1.devices(), sameInstance(omniApiV1.devices()));
   }
 }
