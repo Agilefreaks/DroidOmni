@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Parcelable;
 import android.os.RemoteException;
 
 import com.google.common.collect.EvictingQueue;
@@ -68,13 +69,20 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   @Override
   public void run(ClippingsFragment clippingsFragment, Bundle savedInstance) {
     eventBus.register(this);
-    clippingsFragment.getActivity().bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
+
+    if (clippingsFragment.getActivity() != null) {
+      clippingsFragment.getActivity().bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
+    }
 
     if (savedInstance != null) {
-      Collections.addAll(clippings, (ClippingDto[]) savedInstance.getParcelableArray(ClippingsFragment.CLIPPINGS_PARCEL));
+      Parcelable[] parcelableArray = savedInstance.getParcelableArray(ClippingsFragment.CLIPPINGS_PARCEL);
 
-      for (ClippingDto clipping : clippings) {
-        clippingsSubject.onNext(clipping);
+      if (parcelableArray != null && parcelableArray instanceof ClippingDto[]) {
+        Collections.addAll(clippings, (ClippingDto[]) parcelableArray);
+
+        for (ClippingDto clipping : clippings) {
+          clippingsSubject.onNext(clipping);
+        }
       }
     }
 
