@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
       if (GooglePlayServicesUtil.isUserRecoverableError(status)) {
         showErrorDialog(status);
       } else {
-        Toast.makeText(this, "This device is not supported.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.main_activity_device_not_supported, Toast.LENGTH_LONG).show();
         finish();
       }
       return false;

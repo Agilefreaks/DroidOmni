@@ -14,6 +14,9 @@
     <string name="device_init_error_retry">Retry</string>
     <string name="device_init_error_message">We failed master :(, please don\'t kill us!</string>
 
+    <!-- Main Activity -->
+    <string name='main_activity_device_not_supported'>This device is not supported.</string>
+
     <!-- CLIPPINGS -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>

@@ -3,4 +3,5 @@
     <string name="smart_action_call">Call</string>
     <string name="smart_action_browse">Browse</string>
     <string name="smart_action_navigate">Navigate</string>
+    <string name="smart_action_not_supported">There no app installed that can open this.</string>
 </resources>
