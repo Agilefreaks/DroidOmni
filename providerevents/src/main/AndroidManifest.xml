@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_launcher">
 
         <receiver android:name="com.omnipaste.eventsprovider.listeners.OmniSmsListener">
-            <intent-filter>
+            <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
