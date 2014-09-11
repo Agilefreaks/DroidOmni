@@ -30,8 +30,8 @@ public class  NotificationServiceImpl implements NotificationService {
   }
 
   @Override
-  public Notification buildSimpleNotification(Context context, String text) {
-    return basicBuilder(context, text).build();
+  public Notification buildSimpleNotification(Context context, ClippingDto clippingDto) {
+    return basicBuilder(context, clippingDto.getContent()).build();
   }
 
   @Override

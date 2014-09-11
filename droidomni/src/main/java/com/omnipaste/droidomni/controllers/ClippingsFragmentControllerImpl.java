@@ -130,7 +130,7 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   public void notifyClipping(ClippingDto clipping) {
     Notification notification;
     if (clipping.getType() == ClippingDto.ClippingType.UNKNOWN) {
-      notification = notificationService.buildSimpleNotification(DroidOmniApplication.getAppContext(), clipping.getContent());
+      notification = notificationService.buildSimpleNotification(DroidOmniApplication.getAppContext(), clipping);
     } else {
       notification = notificationService.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clipping);
     }
