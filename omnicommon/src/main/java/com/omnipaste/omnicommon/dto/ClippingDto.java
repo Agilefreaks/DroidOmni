@@ -87,6 +87,10 @@ public class ClippingDto implements Parcelable {
     return content;
   }
 
+  public int getContentLength() {
+    return content != null ? content.length() : 0;
+  }
+
   public ClippingDto setContent(String content) {
     this.content = content;
 

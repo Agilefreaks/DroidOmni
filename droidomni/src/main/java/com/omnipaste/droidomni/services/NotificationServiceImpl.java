@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 public class  NotificationServiceImpl implements NotificationService {
   public static final int NOTIFICATION_ID = 42;
+  public static final int LARGE_TEXT = 128;
 
   private String appName;
   private SmartActionService smartActionService;
@@ -40,11 +41,14 @@ public class  NotificationServiceImpl implements NotificationService {
         basicBuilder(context, clippingDto.getContent())
             .setWhen(0)
             .setPriority(Notification.PRIORITY_MAX)
-            .setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()))
             .addAction(
                 smartActionService.getIcon(clippingDto),
                 smartActionService.getTitle(clippingDto),
                 smartActionService.buildPendingIntent(clippingDto));
+
+    if (clippingDto.getContentLength() > LARGE_TEXT) {
+      builder = builder.setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()));
+    }
 
     return builder.build();
   }

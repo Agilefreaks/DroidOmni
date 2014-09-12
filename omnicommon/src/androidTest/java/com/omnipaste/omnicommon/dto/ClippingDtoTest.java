@@ -12,4 +12,16 @@ public class ClippingDtoTest extends TestCase {
 
     assertThat(new ClippingDto(origin).getIdentifier(), is("42"));
   }
+
+  public void testGetContentLengthWhenContentIsNotNullReturnsTheLength() throws Exception {
+    ClippingDto origin = new ClippingDto().setContent("some text");
+
+    assertThat(origin.getContentLength(), is(9));
+  }
+
+  public void testGetContentLengthWhenContentIsNullReturnsZero() throws Exception {
+    ClippingDto origin = new ClippingDto();
+
+    assertThat(origin.getContentLength(), is(0));
+  }
 }
