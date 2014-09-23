@@ -9,4 +9,6 @@
           android:drawablePadding="?attr/drawablePadding"
           android:paddingStart="?attr/listPreferredItemPaddingStart"
           android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+          android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+          android:paddingRight="?attr/listPreferredItemPaddingRight"
           android:minHeight="?android:attr/listPreferredItemHeightSmall"/>

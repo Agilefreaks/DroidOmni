@@ -1,0 +1,22 @@
+<resources>
+    <string name="title_activity_settings">Definições</string>
+
+    <!-- SETTINGS for Notifications -->
+    <string name="pref_header_notifications">Notificações</string>
+
+    <string name="pref_title_clipboard">Activar partilha de Área de Transferência</string>
+    <string name="pref_description_clipboard">A partilha da Área de Transferência permite-lhe copiar e colar a partir de qualquer dispositivo</string>
+
+    <string name="pref_title_notifications">Activar notificações do Telefone</string>
+    <string name="pref_description_notifications">Envie eventos telefónicos para os seus outros dispositivos</string>
+
+    <string name="pref_title_phone">Activar serviços do Telefone</string>
+    <string name="pref_description_phone">Permitir a outras aplicações que usem o telefone (clicar para chamar)</string>
+
+    <string name="pref_title_never_miss_a_beat">Não perca nada</string>
+    <string name="pref_description_never_miss_a_beat">Certifique-se que tudo está sincronizado (poderá gastar um pouco mais de bateria)</string>
+
+    <string name="pref_category_session">Sessão</string>
+    <string name="pref_title_logout">Terminar Sessão</string>
+    <string name="pref_description_logout">Fechar a aplicação e terminar sessão, ao abrir a aplicação novamente ser-lhe-á pedido um novo código de autorização</string>
+</resources>

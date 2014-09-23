@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smart_action_call">Chamar</string>
+    <string name="smart_action_browse">Explorar</string>
+    <string name="smart_action_navigate">Navegar</string>
+    <string name="smart_action_not_supported">Não existe nenhuma aplicação instalada que possa abrir isto.</string>
+</resources>

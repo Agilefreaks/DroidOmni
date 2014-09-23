@@ -7,4 +7,7 @@
           android:textAppearance="?android:attr/textAppearanceSmall"
           android:gravity="center_vertical"
           android:paddingStart="?attr/listPreferredItemPaddingStart"
+          android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+          android:paddingEnd="?attr/listPreferredItemPaddingEnd"
+          android:paddingRight="?attr/listPreferredItemPaddingRight"
           android:minHeight="?android:attr/listPreferredItemHeightSmall"/>

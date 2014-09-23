@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- OmniService -->
+    <string name="service_description">O OmniService fornece todas as principais funcionalidades para o Omnipaste</string>
+
+    <!-- Login -->
+    <string name="login_hint">Código de Autorização</string>
+    <string name="login_button">Iniciar Sessão</string>
+    <string name="login_invalid_code">Código de Autorização Inválido</string>
+    <string name="logo_content_description">Logótipo Omnipaste</string>
+    <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes/new">Tenha o seu código de autorização aqui</a>]]></string>
+
+    <!-- Device init -->
+    <string name="device_init_error_retry">Tentar novamente</string>
+    <string name="device_init_error_message">Mestre, nós falhámos :(, por favor não nos mate!</string>
+
+    <!-- Main Activity -->
+    <string name='main_activity_device_not_supported'>Este aparelho não é suportado.</string>
+
+    <!-- CLIPPINGS -->
+    <string name="clippings_title">Cortes</string>
+    <string name="clipping_smart_action_description">Acção inteligente</string>
+    <string name="clippings_tab_all">Todos</string>
+    <string name="clippings_tab_local">Dispositivo</string>
+    <string name="clippings_tab_cloud">Nuvem</string>
+    <string name="clippings_empty">Não existem cortes para mostrar</string>
+
+    <!-- Navigation -->
+    <string name="navigation_drawer_open">Abrir navegador</string>
+    <string name="navigation_drawer_close">Fechar navegador</string>
+    <string name="navigation_drawer_clippings">Cortes</string>
+    <string name="navigation_drawer_settings">Definições</string>
+    <string name="navigation_drawer_about">Sobre</string>
+    <string name="navigation_drawer_privacy_policy">Política de Privacidade</string>
+
+    <!-- ABOUT -->
+    <string name="title_activity_about">Sobre</string>
+    <string name="about_version">Versão</string>
+
+    <!-- Privacy Policy -->
+    <string name="title_activity_privacy_policy">Política de Privacidade</string>
+</resources>
