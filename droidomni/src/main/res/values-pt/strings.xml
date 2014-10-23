@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Omnipaste</string>
+    <string name="motto">Troque entre o seu computador e os seus dispositivos móveis facilmente.</string>
+
     <!-- OmniService -->
     <string name="service_description">O OmniService fornece todas as principais funcionalidades para o Omnipaste</string>
 
