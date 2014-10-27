@@ -11,11 +11,11 @@ buildscript {
 }
 
 ext {
-    compileSdkVersion = 20
-    buildToolsVersion = "20.0.0"
+    compileSdkVersion = 21
+    buildToolsVersion = "21.0.2"
 
     minSdkVersion = 16
-    targetSdkVersion = '20'
+    targetSdkVersion = '21'
     versionCode = 40
     versionName = "1.4.5"
 }
