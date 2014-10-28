@@ -10,6 +10,7 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply from: 'strip_play_services.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -37,13 +38,37 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2:3000"'
+            buildConfigField 'String', 'API_URL', '"http://10.0.2.2:9292/api"'
+            buildConfigField 'String', 'TOS_URL', '"http://10.0.2.2:3000/tos"'
+            buildConfigField 'String', 'API_CLIENT_ID', '"53633f1262616c160d000000"'
+            buildConfigField 'String', 'API_CLIENT_TOKEN', '"/fIzBJiOeFMmt0FGuel8qfIHFF/yI4EENtPKJJqaS5tC1wMGADfJgvF0IWX5zliy2KEECA8luy+iVTRTRrmsGg=="'
+            buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca3028e18700b0000006"'
+            buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
+        }
+
+        staging {
+            buildConfigField 'String', 'BASE_URL', '"https://webstaging.omnipasteapp.com"'
+            buildConfigField 'String', 'API_URL', '"https://apistaging.omnipasteapp.com/api"'
+            buildConfigField 'String', 'TOS_URL', '"http://webstaging.omnipasteapp.com/tos"'
+            buildConfigField 'String', 'API_CLIENT_ID', '"5348cedf61706947ea000000"'
+            buildConfigField 'String', 'API_CLIENT_TOKEN', '"xXQQhOqPhuCXzkqd6k4MAeM+fTctERC0c9guLjhqzNjcGj9kE61DvJgl1wx67oYECmEtpoBuTfQ+3GoLdY7lww=="'
+            buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca2628e18700b0000004"'
+
             signingConfig signingConfigs.release
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
 
-        staging {
+        release {
+            buildConfigField 'String', 'BASE_URL', '"https://www.omnipasteapp.com"'
+            buildConfigField 'String', 'API_URL', '"https://api.omnipasteapp.com/api"'
+            buildConfigField 'String', 'TOS_URL', '"https://www.omnipasteapp.com/tos"'
+            buildConfigField 'String', 'API_CLIENT_ID', '"53e3e5586170695c90020000"'
+            buildConfigField 'String', 'API_CLIENT_TOKEN', '"3OYdWTFhtgi1lBro3P55Xi4AogtXEMBS2QBobksNPV6H1mk2Zw6wXDC2VJ85FgZKPSXD0aCIFLyXgNIO2hG3BA=="'
+            buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca1c28e18700b0000002"'
+
             signingConfig signingConfigs.release
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
@@ -74,7 +99,7 @@ dependencies {
     compile project(':providerphone')
     compile project(':providerevents')
 
-    compile 'com.google.android.gms:play-services:5.0.89'
+    compile 'com.google.android.gms:play-services:6.1.11'
     compile 'org.androidannotations:androidannotations-api:3.1'
     compile 'co.bugfreak:BugFreak:1.1.7'
 

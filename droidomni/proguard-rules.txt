@@ -19,3 +19,5 @@
 -keepclassmembers class ** {
     public void onEvent*(**);
 }
+
+-dontwarn com.google.android.gms.**

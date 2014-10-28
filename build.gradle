@@ -6,9 +6,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.2'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
+        classpath 'com.android.tools.build:gradle:0.13.3'
     }
 }
+
+apply plugin: 'com.github.ben-manes.versions'
 
 ext {
     compileSdkVersion = 21

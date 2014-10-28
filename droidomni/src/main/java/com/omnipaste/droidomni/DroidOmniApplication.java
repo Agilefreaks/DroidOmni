@@ -9,7 +9,6 @@ import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.services.ConfigurationService;
 
 import org.androidannotations.annotations.EApplication;
-import org.androidannotations.annotations.res.StringRes;
 
 import javax.inject.Inject;
 
@@ -22,20 +21,15 @@ public class DroidOmniApplication extends Application {
   private static ObjectGraph objectGraph;
   private static Tracker tracker;
 
-  @StringRes(R.string.gcm_sender_id)
-  public String gcmSenderId;
+  public String gcmSenderId = BuildConfig.GMC_SENDER_ID;
 
-  @StringRes(R.string.api_url)
-  public String apiUrl;
+  public String apiUrl = BuildConfig.API_URL;
 
-  @StringRes(R.string.api_client_id)
-  public String apiClientId;
+  public String apiClientId = BuildConfig.API_CLIENT_ID;
 
-  @StringRes(R.string.api_client_token)
-  public static String apiClientToken;
+  public static String apiClientToken = BuildConfig.API_CLIENT_TOKEN;
 
-  @StringRes(R.string.bugfreak_token)
-  public String bugFreakToken;
+  public String bugFreakToken = BuildConfig.BUGFREAK_TOKEN;
 
   @Inject
   public ConfigurationService configurationService;
