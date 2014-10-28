@@ -55,6 +55,7 @@ android {
             buildConfigField 'String', 'API_CLIENT_ID', '"5348cedf61706947ea000000"'
             buildConfigField 'String', 'API_CLIENT_TOKEN', '"xXQQhOqPhuCXzkqd6k4MAeM+fTctERC0c9guLjhqzNjcGj9kE61DvJgl1wx67oYECmEtpoBuTfQ+3GoLdY7lww=="'
             buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca2628e18700b0000004"'
+            buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
 
             signingConfig signingConfigs.release
             runProguard false
@@ -68,6 +69,7 @@ android {
             buildConfigField 'String', 'API_CLIENT_ID', '"53e3e5586170695c90020000"'
             buildConfigField 'String', 'API_CLIENT_TOKEN', '"3OYdWTFhtgi1lBro3P55Xi4AogtXEMBS2QBobksNPV6H1mk2Zw6wXDC2VJ85FgZKPSXD0aCIFLyXgNIO2hG3BA=="'
             buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca1c28e18700b0000002"'
+            buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
 
             signingConfig signingConfigs.release
             runProguard false

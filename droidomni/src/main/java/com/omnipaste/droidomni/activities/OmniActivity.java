@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 
+import com.omnipaste.droidomni.BuildConfig;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
@@ -15,7 +16,6 @@ import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 
 @EActivity(R.layout.activity_omni)
 public class  OmniActivity extends ActionBarActivity {
@@ -26,8 +26,7 @@ public class  OmniActivity extends ActionBarActivity {
   @FragmentById
   public NavigationDrawerFragment navigationDrawer;
 
-  @StringRes(R.string.tos_url)
-  public String tosUrl;
+  public String tosUrl = BuildConfig.TOS_URL;
 
   public OmniActivityController controller;
 

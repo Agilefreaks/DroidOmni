@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.omnipaste.droidomni.BuildConfig;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.LoginEvent;
@@ -41,8 +42,7 @@ public class LoginFragment extends Fragment {
   @StringRes(R.string.login_invalid_code)
   public String loginInvalidCode;
 
-  @StringRes(R.string.base_url)
-  public String baseUrl;
+  public String baseUrl = BuildConfig.BASE_URL;
 
   @Inject
   public SessionService sessionService;
