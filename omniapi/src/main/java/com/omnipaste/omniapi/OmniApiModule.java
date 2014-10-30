@@ -1,17 +1,20 @@
 package com.omnipaste.omniapi;
 
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omniapi.prefs.PrefsModule;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 
-@Module(complete = false, library = true)
+@Module(
+    includes = PrefsModule.class,
+    complete = false,
+    library = true
+)
 public class OmniApiModule {
-  @Singleton
-  @Provides
-  public OmniApi providesOmniApi(ConfigurationService configurationService) {
-    return new OmniApiV1(configurationService);
+  @Provides @Singleton
+  public OmniApi providesOmniApi() {
+    return new OmniApiV1(null);
   }
 }

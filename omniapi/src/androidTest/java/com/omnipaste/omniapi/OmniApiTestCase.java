@@ -2,7 +2,7 @@ package com.omnipaste.omniapi;
 
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 
 import junit.framework.TestCase;
 

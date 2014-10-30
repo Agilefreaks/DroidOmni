@@ -7,7 +7,7 @@ import com.omnipaste.omniapi.resources.v1.Events;
 import com.omnipaste.omniapi.resources.v1.Token;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 
 public class OmniApiV1 implements OmniApi {
   private String apiClientId;

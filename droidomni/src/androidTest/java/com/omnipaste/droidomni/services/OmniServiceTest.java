@@ -2,11 +2,10 @@ package com.omnipaste.droidomni.services;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

@@ -3,7 +3,6 @@ package com.omnipaste.droidomni.fragments;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,7 +15,6 @@ import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
@@ -32,9 +30,6 @@ public class LoginFragment extends Fragment {
 
   @ViewById
   public EditText authorizationCode;
-
-  @ViewById
-  public Button login;
 
   @ViewById
   public TextView authorizationCodeLink;
@@ -62,9 +57,9 @@ public class LoginFragment extends Fragment {
     authorizationCodeLink.setMovementMethod(LinkMovementMethod.getInstance());
   }
 
-  @Click
+//  @Click
   public void loginClicked() {
-    login.setEnabled(false);
+//    login.setEnabled(false);
     doLogin(authorizationCode.getText().toString());
   }
 
@@ -79,7 +74,7 @@ public class LoginFragment extends Fragment {
           @Override
           public void call(Throwable throwable) {
             authorizationCode.setError(loginInvalidCode);
-            login.setEnabled(true);
+//            login.setEnabled(true);
           }
         });
   }

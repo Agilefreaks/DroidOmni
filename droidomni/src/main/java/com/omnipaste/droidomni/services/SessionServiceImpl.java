@@ -4,7 +4,7 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 
 import javax.inject.Inject;
 

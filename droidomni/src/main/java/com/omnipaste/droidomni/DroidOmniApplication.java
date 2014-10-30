@@ -5,14 +5,19 @@ import android.content.Context;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.omnipaste.omnicommon.domain.Configuration;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.droidomni.di.RootModule;
+import com.omnipaste.omniapi.prefs.ApiAccessToken;
+import com.omnipaste.omniapi.prefs.ApiClientId;
+import com.omnipaste.omniapi.prefs.ApiUrl;
+import com.omnipaste.omnicommon.prefs.GcmSenderId;
+import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import org.androidannotations.annotations.EApplication;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
-import co.bugfreak.BugFreak;
 import dagger.ObjectGraph;
 
 @EApplication
@@ -21,18 +26,17 @@ public class DroidOmniApplication extends Application {
   private static ObjectGraph objectGraph;
   private static Tracker tracker;
 
-  public String gcmSenderId = BuildConfig.GMC_SENDER_ID;
+  @Inject @GcmSenderId
+  public StringPreference gcmSenderId;
 
-  public String apiUrl = BuildConfig.API_URL;
+  @Inject @ApiUrl
+  public StringPreference apiUrl;
 
-  public String apiClientId = BuildConfig.API_CLIENT_ID;
+  @Inject @ApiClientId
+  public StringPreference apiClientId;
 
-  public static String apiClientToken = BuildConfig.API_CLIENT_TOKEN;
-
-  public String bugFreakToken = BuildConfig.BUGFREAK_TOKEN;
-
-  @Inject
-  public ConfigurationService configurationService;
+  @Inject @ApiAccessToken
+  public StringPreference apiClientToken;
 
   public static Context getAppContext() {
     return DroidOmniApplication.context;
@@ -55,21 +59,28 @@ public class DroidOmniApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    objectGraph = ObjectGraph.create(new MainModule(this));
+    objectGraph = ObjectGraph.create(new RootModule(this));
     inject(this);
 
-    context = getApplicationContext();
+    context = this;
 
     init();
   }
 
-  private void init() {
-    Configuration configuration = configurationService.getConfiguration();
-    configuration.setApiUrl(apiUrl);
-    configuration.setGcmSenderId(gcmSenderId);
-    configuration.setApiClientId(apiClientId);
-    configurationService.setConfiguration(configuration);
+  public ObjectGraph plus(List<Object> modules) {
+    if (modules == null) {
+      throw new IllegalArgumentException(
+          "You can't plus a null module, review your getModules() implementation");
+    }
+    return objectGraph.plus(modules.toArray());
+  }
 
-    BugFreak.hook("2537eed2-36fd-4d9c-9ca9-54db031126fd", bugFreakToken, this);
+  private void init() {
+    gcmSenderId.set(BuildConfig.GMC_SENDER_ID);
+    apiUrl.set(BuildConfig.API_URL);
+    apiClientId.set(BuildConfig.API_CLIENT_ID);
+    apiClientToken.set(BuildConfig.API_CLIENT_TOKEN);
+
+//    BugFreak.hook("2537eed2-36fd-4d9c-9ca9-54db031126fd", BuildConfig.BUGFREAK_TOKEN, this);
   }
 }

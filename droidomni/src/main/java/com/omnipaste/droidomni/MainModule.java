@@ -1,3 +1,4 @@
+
 package com.omnipaste.droidomni;
 
 import android.accounts.AccountManager;
@@ -9,18 +10,19 @@ import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
-import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.activities.LauncherActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.controllers.ActionBarController;
 import com.omnipaste.droidomni.controllers.ActionBarControllerImpl;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
-import com.omnipaste.droidomni.controllers.MainActivityControllerImpl;
+import com.omnipaste.droidomni.controllers.LauncherActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.clippings.AllFragment_;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
 import com.omnipaste.droidomni.fragments.clippings.LocalFragment_;
+import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.AccountsService;
 import com.omnipaste.droidomni.services.AccountsServiceImpl;
@@ -49,8 +51,9 @@ import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscr
 import com.omnipaste.droidomni.views.ClippingView_;
 import com.omnipaste.eventsprovider.EventsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
+import com.omnipaste.omnicommon.OmniCommonModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 import com.omnipaste.phoneprovider.PhoneProviderModule;
 
 import javax.inject.Singleton;
@@ -62,10 +65,10 @@ import dagger.Provides;
     injects = {
         DroidOmniApplication_.class,
         // activities
-        MainActivity_.class,
+        LauncherActivity_.class,
         OmniActivity_.class,
         // controllers
-        MainActivityControllerImpl.class,
+        LauncherActivityControllerImpl.class,
         OmniActivityControllerImpl.class,
         ClippingsFragmentControllerImpl.class,
         // services
@@ -86,14 +89,21 @@ import dagger.Provides;
         OmniApiModule.class,
         ClipboardProviderModule.class,
         PhoneProviderModule.class,
-        EventsProviderModule.class
+        EventsProviderModule.class,
+        OmniCommonModule.class,
+        PrefsModule.class
     }
 )
 public class MainModule {
   private final Context context;
 
   public MainModule(Context context) {
-    this.context = context.getApplicationContext();
+    this.context = context;
+  }
+
+  @Provides
+  public Context providesContext() {
+    return context;
   }
 
   @Provides
@@ -124,12 +134,6 @@ public class MainModule {
   @Singleton
   public AccountManager providesAccountManager() {
     return (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
-  }
-
-  @Provides
-  @Singleton
-  public Context providesContext() {
-    return context;
   }
 
   @Singleton

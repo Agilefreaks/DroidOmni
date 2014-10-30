@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="base_color">#4e5ca9</color>
-    <color name="complementary_base_color">#a99b4e</color>
+    <color name="primary_color">#717cba</color>
+    <color name="primary_color_dark">#4e5ca9</color>
 </resources>

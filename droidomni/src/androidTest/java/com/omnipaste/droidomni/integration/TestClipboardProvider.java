@@ -3,23 +3,18 @@ package com.omnipaste.droidomni.integration;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
 import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.activities.MainActivity_;
+import com.omnipaste.droidomni.activities.LauncherActivity_;
 import com.omnipaste.droidomni.adapters.ClippingAdapter;
-import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
-import com.omnipaste.omniapi.resources.v1.Clippings;
-import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class TestClipboardProvider extends TestIntegration<MainActivity_> {
+public class TestClipboardProvider extends TestIntegration<LauncherActivity_> {
   public TestClipboardProvider() {
-    super(MainActivity_.class);
+    super(LauncherActivity_.class);
   }
 
   @SuppressWarnings("ConstantConditions")

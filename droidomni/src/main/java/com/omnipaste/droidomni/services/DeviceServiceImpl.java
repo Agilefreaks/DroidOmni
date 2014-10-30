@@ -9,7 +9,7 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omnicommon.domain.Configuration;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 
 import java.io.IOException;
 

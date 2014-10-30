@@ -16,7 +16,7 @@ import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
 import com.omnipaste.droidomni.services.subscribers.Subscriber;
 import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
-import com.omnipaste.omnicommon.services.ConfigurationService;
+import com.omnipaste.omnicommon.service.ConfigurationService;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
