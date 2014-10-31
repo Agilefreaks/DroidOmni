@@ -3,7 +3,7 @@ package com.omnipaste.clipboardprovider.omniclipboard;
 import android.test.InstrumentationTestCase;
 
 import com.omnipaste.omniapi.OmniApi;
-import com.omnipaste.omniapi.resources.v1.Clippings;
+import com.omnipaste.omniapi.resource.v1.Clippings;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;

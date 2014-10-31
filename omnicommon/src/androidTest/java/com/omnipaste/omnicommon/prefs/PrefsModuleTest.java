@@ -2,16 +2,15 @@ package com.omnipaste.omnicommon.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
-
-import junit.framework.TestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PrefsModuleTest extends TestCase {
+public class PrefsModuleTest extends InstrumentationTestCase {
   private PrefsModule subject;
 
   public void setUp() throws Exception {

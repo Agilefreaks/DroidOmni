@@ -6,10 +6,10 @@ import android.content.Context;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.omnipaste.droidomni.di.RootModule;
+import com.omnipaste.droidomni.prefs.GcmSenderId;
 import com.omnipaste.omniapi.prefs.ApiAccessToken;
 import com.omnipaste.omniapi.prefs.ApiClientId;
 import com.omnipaste.omniapi.prefs.ApiUrl;
-import com.omnipaste.omnicommon.prefs.GcmSenderId;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import org.androidannotations.annotations.EApplication;
