@@ -8,9 +8,6 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.phoneprovider.actions.Action;
 import com.omnipaste.phoneprovider.actions.Factory;
 
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import rx.subjects.BehaviorSubject;
 
 import static org.mockito.Matchers.any;
@@ -24,22 +21,18 @@ public class AndroidPhoneProviderTest extends InstrumentationTestCase {
   private AndroidPhoneProvider androidPhoneProvider;
   private BehaviorSubject<NotificationDto> notificationSubject = BehaviorSubject.create(new NotificationDto());
 
-  @Mock
-  public Factory factory;
+  public Factory mockFactory;
 
   @Override
   @SuppressWarnings("ConstantConditions")
   public void setUp() throws Exception {
     super.setUp();
 
-    System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
-    MockitoAnnotations.initMocks(this);
-
+    mockFactory = mock(Factory.class);
     NotificationProvider notificationProvider = mock(NotificationProvider.class);
     when(notificationProvider.getObservable()).thenReturn(notificationSubject);
 
-    androidPhoneProvider = new AndroidPhoneProvider(notificationProvider, factory);
+    androidPhoneProvider = new AndroidPhoneProvider(notificationProvider, mockFactory);
   }
 
   public void testGetObservableDoesNotSubscribeToClipboardNotifications() throws Exception {
@@ -47,14 +40,14 @@ public class AndroidPhoneProviderTest extends InstrumentationTestCase {
 
     notificationSubject.onNext(new NotificationDto(NotificationDto.Target.CLIPBOARD, "42"));
 
-    verify(factory, never()).create(any(PhoneAction.class));
+    verify(mockFactory, never()).create(any(PhoneAction.class));
   }
 
   public void testGetObservableSubscribesToPhoneNotificationTargetOnly() throws Exception {
     Action callAction = mock(Action.class);
     androidPhoneProvider.init("smart watch");
 
-    when(factory.create(PhoneAction.CALL)).thenReturn(callAction);
+    when(mockFactory.create(PhoneAction.CALL)).thenReturn(callAction);
     Bundle extra = new Bundle();
     extra.putString("phone_number", "123");
     extra.putString("phone_action", "call");

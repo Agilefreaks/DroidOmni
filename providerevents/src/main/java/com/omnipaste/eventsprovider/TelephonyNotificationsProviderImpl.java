@@ -5,7 +5,7 @@ import android.telephony.TelephonyManager;
 
 import com.omnipaste.eventsprovider.events.TelephonyEvent;
 import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
-import com.omnipaste.omniapi.OmniApi;
+import com.omnipaste.omniapi.resource.v1.Events;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
@@ -22,7 +22,7 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
   private boolean subscribe = false;
 
   @Inject
-  public OmniApi omniApi;
+  public Events events;
 
   @Inject
   public TelephonyNotificationsProviderImpl(TelephonyManager telephonyManager) {
@@ -49,7 +49,7 @@ public class TelephonyNotificationsProviderImpl implements TelephonyNotification
   public void onEventMainThread(TelephonyEvent event) {
     TelephonyEventDto telephonyEventDto = event.getTelephonyEventDto();
     telephonyEventDto.setIdentifier(identifier);
-    omniApi.events().create(telephonyEventDto).subscribe();
+    events.create(telephonyEventDto).subscribe();
   }
 
   @Override

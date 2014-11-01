@@ -2,7 +2,6 @@ package com.omnipaste.clipboardprovider.omniclipboard;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omniapi.resource.v1.Clippings;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
@@ -31,37 +30,32 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
   private final TestSubject<ClippingDto> lastObservable = TestSubject.create(testScheduler);
   private final TestSubject<NotificationDto> notificationSubject = TestSubject.create(testScheduler);
 
-  private OmniClipboardManager omniClipboardManager;
-  private OmniApi mockOmniApi;
+  private OmniClipboardManager subject;
 
   @SuppressWarnings("ConstantConditions")
   @Override
   public void setUp() throws Exception {
     super.setUp();
 
-    System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
     NotificationProvider notificationProvider = mock(NotificationProvider.class);
     when(notificationProvider.getObservable()).thenReturn(notificationSubject);
 
-    mockOmniApi = mock(OmniApi.class);
     Clippings mockClippings = mock(Clippings.class);
-    when(mockOmniApi.clippings()).thenReturn(mockClippings);
     when(mockClippings.last()).thenReturn(lastObservable);
 
-    omniClipboardManager = new OmniClipboardManager(notificationProvider);
-    omniClipboardManager.omniApi = mockOmniApi;
+    subject = new OmniClipboardManager(notificationProvider);
+    subject.clippings = mockClippings;
   }
 
   public void testGetObservableWillReturnTheCorrectType() throws Exception {
-    assertThat(omniClipboardManager.getObservable(), isA(Observable.class));
+    assertThat(subject.getObservable(), isA(Observable.class));
   }
 
   @SuppressWarnings("unchecked")
   public void testWillEmitEventsWhenProviderIsClipboard() {
     Observer observer = mock(Observer.class);
     ClippingDto clippingDto = new ClippingDto();
-    omniClipboardManager.getObservable().subscribe(observer);
+    subject.getObservable().subscribe(observer);
 
     notificationSubject.onNext(new NotificationDto(NotificationDto.Target.CLIPBOARD, "42"));
     lastObservable.onNext(clippingDto);
@@ -73,7 +67,7 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
   @SuppressWarnings("unchecked")
   public void testWillNotEmitEventsWhenProviderIsNotClipboard() {
     Observer observer = mock(Observer.class);
-    omniClipboardManager.getObservable().subscribe(observer);
+    subject.getObservable().subscribe(observer);
 
     notificationSubject.onNext(new NotificationDto(NotificationDto.Target.PHONE, "42"));
     lastObservable.onNext(new ClippingDto());
@@ -83,15 +77,15 @@ public class OmniClipboardManagerTest extends InstrumentationTestCase {
   }
 
   public void testGetObservableWillReturnTheSameInstanceOnMultipleCalls() throws Exception {
-    assertThat(omniClipboardManager.getObservable(), sameInstance(omniClipboardManager.getObservable()));
+    assertThat(subject.getObservable(), sameInstance(subject.getObservable()));
   }
 
   public void testOnPrimaryChangedWillGetPrimaryAgain() throws Exception {
     TestObserver<ClippingDto> testObserver = new TestObserver<>();
     ClippingDto clippingDto = new ClippingDto();
-    omniClipboardManager.getObservable().subscribe(testObserver);
+    subject.getObservable().subscribe(testObserver);
 
-    omniClipboardManager.onPrimaryClipChanged();
+    subject.onPrimaryClipChanged();
     lastObservable.onNext(clippingDto);
     testScheduler.triggerActions();
 
