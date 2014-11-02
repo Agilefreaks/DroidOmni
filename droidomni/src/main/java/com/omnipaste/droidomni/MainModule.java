@@ -27,17 +27,14 @@ import com.omnipaste.droidomni.providers.GcmNotificationProvider;
 import com.omnipaste.droidomni.services.AccountsService;
 import com.omnipaste.droidomni.services.AccountsServiceImpl;
 import com.omnipaste.droidomni.services.DeviceService;
-import com.omnipaste.droidomni.services.DeviceServiceImpl;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.FragmentServiceImpl;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
 import com.omnipaste.droidomni.services.GoogleAnalyticsServiceImpl;
-import com.omnipaste.droidomni.services.LocalConfigurationService;
 import com.omnipaste.droidomni.services.NotificationService;
 import com.omnipaste.droidomni.services.NotificationServiceImpl;
 import com.omnipaste.droidomni.services.OmniService_;
 import com.omnipaste.droidomni.services.SessionService;
-import com.omnipaste.droidomni.services.SessionServiceImpl;
 import com.omnipaste.droidomni.services.SmartActionService;
 import com.omnipaste.droidomni.services.SmartActionServiceImpl;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
@@ -53,7 +50,6 @@ import com.omnipaste.eventsprovider.EventsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.OmniCommonModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
-import com.omnipaste.omnicommon.service.ConfigurationService;
 import com.omnipaste.phoneprovider.PhoneProviderModule;
 
 import javax.inject.Singleton;
@@ -72,8 +68,8 @@ import dagger.Provides;
         OmniActivityControllerImpl.class,
         ClippingsFragmentControllerImpl.class,
         // services
-        DeviceServiceImpl.class,
-        SessionServiceImpl.class,
+        DeviceService.class,
+        SessionService.class,
         AccountsServiceImpl.class,
         OmniService_.class,
         // Fragments
@@ -138,12 +134,6 @@ public class MainModule {
 
   @Singleton
   @Provides
-  public ConfigurationService providesConfigurationService(Context context) {
-    return new LocalConfigurationService(context);
-  }
-
-  @Singleton
-  @Provides
   public NotificationProvider providesNotificationProvider() {
     return new GcmNotificationProvider();
   }
@@ -152,12 +142,6 @@ public class MainModule {
   @Singleton
   public GoogleCloudMessaging providesGoogleCloudMessaging() {
     return GoogleCloudMessaging.getInstance(context);
-  }
-
-  @Provides
-  @Singleton
-  public SessionService providesSessionService(SessionServiceImpl sessionService) {
-    return sessionService;
   }
 
   @Singleton
@@ -176,12 +160,6 @@ public class MainModule {
   @Singleton
   public FragmentService providesFragmentService() {
     return new FragmentServiceImpl();
-  }
-
-  @Provides
-  @Singleton
-  public DeviceService providesDeviceService() {
-    return new DeviceServiceImpl();
   }
 
   @Provides

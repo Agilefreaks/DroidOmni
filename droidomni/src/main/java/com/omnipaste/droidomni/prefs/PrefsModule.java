@@ -23,7 +23,7 @@ public class PrefsModule {
     return new StringPreference(preferences, GCM_SENDER_ID_KEY);
   }
 
-  @Provides @Singleton @GcmSenderId
+  @Provides @Singleton @GcmWorkaround
   public BooleanPreference provideGcmWorkaround(SharedPreferences preferences) {
     return new BooleanPreference(preferences, GCM_WORKAROUND_KEY, true);
   }

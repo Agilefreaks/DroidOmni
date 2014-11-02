@@ -10,13 +10,17 @@ import android.os.Messenger;
 import android.os.RemoteException;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
+import com.omnipaste.droidomni.prefs.GcmWorkaround;
+import com.omnipaste.droidomni.prefs.NotificationsClipboard;
+import com.omnipaste.droidomni.prefs.NotificationsPhone;
+import com.omnipaste.droidomni.prefs.NotificationsTelephony;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
 import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriber;
 import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
 import com.omnipaste.droidomni.services.subscribers.Subscriber;
 import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
-import com.omnipaste.omnicommon.service.ConfigurationService;
+import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -73,9 +77,6 @@ public class OmniService extends Service {
   public String appName;
 
   @Inject
-  public ConfigurationService configurationService;
-
-  @Inject
   public Lazy<ClipboardSubscriber> clipboardSubscriber;
 
   @Inject
@@ -92,6 +93,18 @@ public class OmniService extends Service {
 
   @Inject
   public DeviceService deviceService;
+
+  @Inject @NotificationsClipboard
+  public BooleanPreference isClipboardNotificationEnabled;
+
+  @Inject @NotificationsTelephony
+  public BooleanPreference isTelephonyNotificationEnabled;
+
+  @Inject @NotificationsPhone
+  public BooleanPreference isPhoneNotificationEnabled;
+
+  @Inject @GcmWorkaround
+  public BooleanPreference isGcmWorkAroundEnabled;
 
   public static Intent getIntent() {
     return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
@@ -154,19 +167,19 @@ public class OmniService extends Service {
 
   public List<Subscriber> getSubscribers() {
     if (subscribes.isEmpty()) {
-      if (configurationService.isClipboardNotificationEnabled()) {
+      if (isClipboardNotificationEnabled.get()) {
         subscribes.add(clipboardSubscriber.get());
       }
 
-      if (configurationService.isTelephonyServiceEnabled()) {
+      if (isPhoneNotificationEnabled.get()) {
         subscribes.add(phoneSubscribe.get());
       }
 
-      if (configurationService.isTelephonyNotificationEnabled()) {
+      if (isTelephonyNotificationEnabled.get()) {
         subscribes.add(telephonyNotificationsSubscriber.get());
       }
 
-      if (configurationService.isGcmWorkAroundEnabled()) {
+      if (isGcmWorkAroundEnabled.get()) {
         subscribes.add(gcmWorkaroundSubscriber.get());
       }
     }

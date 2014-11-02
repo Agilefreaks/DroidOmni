@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.SignOutEvent;
-import com.omnipaste.droidomni.services.LocalConfigurationService;
+import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.services.OmniService;
 
 import de.greenrobot.event.EventBus;
@@ -56,10 +56,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    if (key.equals(LocalConfigurationService.NOTIFICATIONS_CLIPBOARD) ||
-        key.equals(LocalConfigurationService.NOTIFICATIONS_PHONE) ||
-        key.equals(LocalConfigurationService.NOTIFICATIONS_TELEPHONY) ||
-        key.equals(LocalConfigurationService.NOTIFICATIONS_GCM_WORKAROUND)) {
+    if (key.equals(PrefsModule.NOTIFICATIONS_CLIPBOARD_KEY) ||
+        key.equals(PrefsModule.NOTIFICATIONS_PHONE_KEY) ||
+        key.equals(PrefsModule.NOTIFICATIONS_TELEPHONY_KEY) ||
+        key.equals(PrefsModule.GCM_WORKAROUND_KEY)) {
       OmniService.restart(DroidOmniApplication.getAppContext());
     }
   }

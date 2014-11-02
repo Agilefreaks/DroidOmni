@@ -23,8 +23,8 @@ import com.omnipaste.droidomni.services.AccountsService;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.droidomni.services.SessionService;
-import com.omnipaste.omniapi.OmniApi;
 import com.omnipaste.omniapi.prefs.ApiClientToken;
+import com.omnipaste.omniapi.resource.v1.AuthorizationCodes;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.AuthorizationCodeDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
@@ -94,10 +94,10 @@ public class LauncherActivityControllerImpl implements MainActivityController {
   public SessionService sessionService;
 
   @Inject
-  public OmniApi omniApi;
+  public AccountsService accountsService;
 
   @Inject
-  public AccountsService accountsService;
+  public AuthorizationCodes authorizationCodes;
 
   @Inject @ApiClientToken
   public StringPreference apiClientToken;
@@ -137,13 +137,13 @@ public class LauncherActivityControllerImpl implements MainActivityController {
     LoadingFragment loadingFragment = LoadingFragment_.builder().build();
     setFragment(loadingFragment);
 
-    if (sessionService.login()) {
+    if (sessionService.isLogged()) {
       activity.startService(OmniService.getIntent());
       activity.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
     } else {
       String[] googleEmails = accountsService.getGoogleEmails();
 
-      omniApi.authorizationCodes().get(apiClientToken.get(), googleEmails)
+      authorizationCodes.get(apiClientToken.get(), googleEmails)
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(
