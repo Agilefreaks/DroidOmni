@@ -64,7 +64,7 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver, times(1)).onError(e);
   }
 
-  public void testOnErrorWhenErrorIs401WillNotCallOnError() throws Exception {
+  public void testOnErrorWhenErrorIs401AndRefreshTokenIsNotNullWillNotCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     subject.authorize(observable).subscribe(mockObserver);
     RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpStatus.SC_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
@@ -72,6 +72,28 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     observable.onError(retrofitError);
 
     verify(mockObserver, never()).onError(retrofitError);
+  }
+
+  public void testOnErrorWhenErrorIs401AndRefreshTokenIsNullWillCallOnError() throws Exception {
+    PublishSubject<String> observable = PublishSubject.create();
+    subject.getAccessTokenDto().setRefreshToken(null);
+    subject.authorize(observable).subscribe(mockObserver);
+    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpStatus.SC_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
+
+    observable.onError(retrofitError);
+
+    verify(mockObserver).onError(retrofitError);
+  }
+
+  public void testOnErrorWhenErrorIs401AndRefreshTokenIsEmptyWillCallOnError() throws Exception {
+    PublishSubject<String> observable = PublishSubject.create();
+    subject.getAccessTokenDto().setRefreshToken("");
+    subject.authorize(observable).subscribe(mockObserver);
+    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpStatus.SC_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
+
+    observable.onError(retrofitError);
+
+    verify(mockObserver).onError(retrofitError);
   }
 
   public void testOnErrorWhenErrorRetrofitErrorWillCallOnError() throws Exception {

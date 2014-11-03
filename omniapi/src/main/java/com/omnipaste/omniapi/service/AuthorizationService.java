@@ -43,7 +43,7 @@ public class AuthorizationService {
           @SuppressWarnings("unchecked")
           @Override
           public void onError(Throwable e) {
-            if (isUnauthorized(e)) {
+            if (isUnauthorized(e) && hasRefreshToken()) {
               Observable prefixObservable = Observable.concat(token.refresh(accessTokenDto.getRefreshToken()), observable)
                   .doOnError(new Action1<Throwable>() {
                     @Override
@@ -76,5 +76,10 @@ public class AuthorizationService {
         });
       }
     });
+  }
+
+  private boolean hasRefreshToken() {
+    String refreshToken = accessTokenDto.getRefreshToken();
+    return refreshToken != null && !refreshToken.isEmpty();
   }
 }
