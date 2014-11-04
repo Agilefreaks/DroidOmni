@@ -2,6 +2,7 @@ package com.omnipaste.droidomni.services;
 
 import android.test.InstrumentationTestCase;
 
+import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
@@ -89,6 +90,6 @@ public class SessionServiceTest extends InstrumentationTestCase {
 
   private void setImmediatSchedulers(Schedulable schedulable) {
     schedulable.setScheduler(Schedulers.immediate());
-    schedulable.setObserveOn(Schedulers.immediate());
+    schedulable.setObserveOnScheduler(Schedulers.immediate());
   }
 }

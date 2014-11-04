@@ -15,9 +15,9 @@ import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
+import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.OmniService;
-import com.omnipaste.droidomni.services.SessionService;
 
 import javax.inject.Inject;
 

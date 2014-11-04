@@ -6,14 +6,13 @@ import rx.schedulers.Schedulers;
 
 public abstract class Schedulable {
   protected Scheduler scheduler = Schedulers.io();
-  protected Scheduler observeOn = AndroidSchedulers.mainThread();
+  protected Scheduler observeOnScheduler = AndroidSchedulers.mainThread();
 
   public void setScheduler(Scheduler scheduler) {
     this.scheduler = scheduler;
   }
 
-  public void setObserveOn(Scheduler observeOn) {
-    this.observeOn = observeOn;
+  public void setObserveOnScheduler(Scheduler observeOnScheduler) {
+    this.observeOnScheduler = observeOnScheduler;
   }
-
 }

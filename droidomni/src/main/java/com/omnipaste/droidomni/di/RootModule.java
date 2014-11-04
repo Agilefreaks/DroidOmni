@@ -2,10 +2,13 @@ package com.omnipaste.droidomni.di;
 
 import android.content.Context;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.droidomni.DroidOmniApplication_;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.OmniCommonModule;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,7 +21,10 @@ import dagger.Provides;
     },
     injects = {
         DroidOmniApplication_.class
-    }, library = true)
+    },
+    complete = false,
+    library = true
+)
 public class RootModule {
   private final Context context;
 
@@ -26,8 +32,13 @@ public class RootModule {
     this.context = context;
   }
 
-  @Provides
-  Context provideApplicationContext() {
+  @Provides Context provideApplicationContext() {
     return context;
+  }
+
+  @Provides
+  @Singleton
+  public GoogleCloudMessaging providesGoogleCloudMessaging() {
+    return GoogleCloudMessaging.getInstance(context);
   }
 }

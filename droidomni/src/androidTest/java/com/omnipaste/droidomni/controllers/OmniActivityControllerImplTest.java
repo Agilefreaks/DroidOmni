@@ -3,7 +3,7 @@ package com.omnipaste.droidomni.controllers;
 import android.os.Bundle;
 
 import com.omnipaste.droidomni.activities.OmniActivity;
-import com.omnipaste.droidomni.services.SessionService;
+import com.omnipaste.droidomni.service.SessionService;
 
 import junit.framework.TestCase;
 

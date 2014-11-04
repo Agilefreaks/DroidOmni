@@ -13,7 +13,7 @@ public class GcmWorkaroundSubscriberImpl implements GcmWorkaroundSubscriber {
 //      public void call(Long aLong) {
 //        new DeviceService().registerToGcm()
 //            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
+//            .observeOnScheduler(AndroidSchedulers.mainThread())
 //            .subscribe(
 //                // onNext
 //                new Action1<String>() {

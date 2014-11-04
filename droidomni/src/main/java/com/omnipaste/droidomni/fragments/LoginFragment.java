@@ -10,8 +10,8 @@ import com.omnipaste.droidomni.BuildConfig;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.events.LoginEvent;
+import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
-import com.omnipaste.droidomni.services.SessionService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import org.androidannotations.annotations.AfterViews;

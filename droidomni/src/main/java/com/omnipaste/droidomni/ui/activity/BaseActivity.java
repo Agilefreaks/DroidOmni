@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.activity;
+package com.omnipaste.droidomni.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.di.ActivityModule;
+import com.omnipaste.droidomni.ui.UiModule;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -32,16 +33,20 @@ public abstract class BaseActivity extends ActionBarActivity {
 
   @AfterViews
   public void setupToolbar() {
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    if (toolbar != null) {
+      setSupportActionBar(toolbar);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
   }
 
-  public void inject(Object object) {
+  protected void inject(Object object) {
     activityScopeGraph.inject(object);
   }
 
   protected List<Object> getModules() {
-    return new LinkedList<>();
+    LinkedList<Object> modules = new LinkedList<>();
+    modules.add(new UiModule());
+    return modules;
   }
 
   private void injectDependencies() {

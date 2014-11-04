@@ -6,7 +6,9 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 
-@Module(library = true)
+@Module(
+    library = true
+)
 public class ActivityModule {
   private final Activity activity;
 
@@ -14,9 +16,9 @@ public class ActivityModule {
     this.activity = activity;
   }
 
-  @ActivityContext
   @Provides
-  Context provideActivityContext() {
+  @ActivityContext
+  public Context provideActivityContext() {
     return activity;
   }
 }

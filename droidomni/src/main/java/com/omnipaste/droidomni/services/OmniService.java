@@ -14,6 +14,7 @@ import com.omnipaste.droidomni.prefs.GcmWorkaround;
 import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
 import com.omnipaste.droidomni.prefs.NotificationsTelephony;
+import com.omnipaste.droidomni.service.DeviceService;
 import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
 import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriber;
 import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;

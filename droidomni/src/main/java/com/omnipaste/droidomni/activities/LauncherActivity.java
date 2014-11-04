@@ -8,9 +8,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.activity.BaseActivity;
 import com.omnipaste.droidomni.controllers.LauncherActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.MainActivityController;
+import com.omnipaste.droidomni.ui.activity.BaseActivity;
 
 import org.androidannotations.annotations.EActivity;
 

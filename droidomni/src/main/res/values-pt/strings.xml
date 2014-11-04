@@ -6,6 +6,9 @@
     <!-- OmniService -->
     <string name="service_description">O OmniService fornece todas as principais funcionalidades para o Omnipaste</string>
 
+    <!-- Launcher -->
+    <string name="loading_explainer">Conectando-se a outros dispositivos.</string>
+
     <!-- Login -->
     <string name="login_hint">Código de Autorização</string>
     <string name="login_button">Iniciar Sessão</string>

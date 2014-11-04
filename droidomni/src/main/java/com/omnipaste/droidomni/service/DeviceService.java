@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipaste.droidomni.service;
 
 import android.content.Context;
 import android.os.Build;
@@ -19,7 +19,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
 
-// TODO: this should be a command or a interaction
 @Singleton
 public class DeviceService {
   private Devices devices;
@@ -50,11 +49,11 @@ public class DeviceService {
     });
   }
 
-  public Observable<RegisteredDeviceDto> createDevice() {
+  private Observable<RegisteredDeviceDto> createDevice() {
     return devices.create(getIdentifier());
   }
 
-  public Observable<String> registerToGcm() {
+  private Observable<String> registerToGcm() {
     return Observable.create(new Observable.OnSubscribe<String>() {
       @Override
       public void call(Subscriber<? super String> subscriber) {

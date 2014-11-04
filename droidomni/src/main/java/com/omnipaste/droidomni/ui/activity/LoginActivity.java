@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.activity;
+package com.omnipaste.droidomni.ui.activity;
 
 import com.omnipaste.droidomni.R;
 
