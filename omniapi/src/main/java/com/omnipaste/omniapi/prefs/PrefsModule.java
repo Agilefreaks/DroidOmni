@@ -2,6 +2,7 @@ package com.omnipaste.omniapi.prefs;
 
 import android.content.SharedPreferences;
 
+import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import javax.inject.Singleton;
@@ -14,7 +15,6 @@ public class PrefsModule {
   public static String API_URL_KEY = "apiUrl";
   public static String API_CLIENT_ID_KEY = "clientId";
   public static String ACCESS_TOKEN_KEY = "accessToken";
-  public static String REFRESH_TOKEN_KEY = "refreshToken";
   public static String CLIENT_TOKEN_KEY = "clientToken";
 
   @Provides @Singleton @ApiUrl
@@ -28,13 +28,8 @@ public class PrefsModule {
   }
 
   @Provides @Singleton @ApiAccessToken
-  public StringPreference provideApiAccessToken(SharedPreferences preferences) {
-    return new StringPreference(preferences, ACCESS_TOKEN_KEY);
-  }
-
-  @Provides @Singleton @ApiRefreshToken
-  public StringPreference provideApiRefreshToken(SharedPreferences preferences) {
-    return new StringPreference(preferences, REFRESH_TOKEN_KEY);
+  public AccessTokenPreference provideApiAccessToken(SharedPreferences preferences) {
+    return new AccessTokenPreference(preferences, ACCESS_TOKEN_KEY);
   }
 
   @Provides @Singleton @ApiClientToken

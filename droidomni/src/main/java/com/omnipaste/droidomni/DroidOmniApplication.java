@@ -7,8 +7,8 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.omnipaste.droidomni.di.RootModule;
 import com.omnipaste.droidomni.prefs.GcmSenderId;
-import com.omnipaste.omniapi.prefs.ApiAccessToken;
 import com.omnipaste.omniapi.prefs.ApiClientId;
+import com.omnipaste.omniapi.prefs.ApiClientToken;
 import com.omnipaste.omniapi.prefs.ApiUrl;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
@@ -35,7 +35,7 @@ public class DroidOmniApplication extends Application {
   @Inject @ApiClientId
   public StringPreference apiClientId;
 
-  @Inject @ApiAccessToken
+  @Inject @ApiClientToken
   public StringPreference apiClientToken;
 
   public static Context getAppContext() {

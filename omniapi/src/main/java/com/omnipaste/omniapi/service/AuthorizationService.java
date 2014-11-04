@@ -1,7 +1,9 @@
 package com.omnipaste.omniapi.service;
 
+import com.omnipaste.omniapi.prefs.ApiAccessToken;
 import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
+import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 
 import org.apache.http.HttpStatus;
 
@@ -21,9 +23,9 @@ public class AuthorizationService {
   private final AccessTokenDto accessTokenDto;
 
   @Inject
-  public AuthorizationService(Token token, AccessTokenDto accessTokenDto) {
+  public AuthorizationService(Token token, @ApiAccessToken AccessTokenPreference accessTokenPreference) {
     this.token = token;
-    this.accessTokenDto = accessTokenDto;
+    this.accessTokenDto = accessTokenPreference.get();
   }
 
   public AccessTokenDto getAccessTokenDto() {

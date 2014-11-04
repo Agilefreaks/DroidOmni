@@ -8,12 +8,8 @@ public class AccessTokenDto {
   public AccessTokenDto() {
   }
 
-  public AccessTokenDto(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
   public AccessTokenDto(String accessToken, String refreshToken) {
-    this(accessToken);
+    this.accessToken = accessToken;
     this.refreshToken = refreshToken;
   }
 

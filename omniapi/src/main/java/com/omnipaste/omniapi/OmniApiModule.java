@@ -4,12 +4,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.omnipaste.omniapi.deserializer.ClippingTypeDeserializer;
 import com.omnipaste.omniapi.deserializer.TelephonyEventTypeDeserializer;
-import com.omnipaste.omniapi.prefs.ApiAccessToken;
-import com.omnipaste.omniapi.prefs.ApiRefreshToken;
 import com.omnipaste.omniapi.prefs.ApiUrl;
 import com.omnipaste.omniapi.prefs.PrefsModule;
 import com.omnipaste.omniapi.serializer.TelephonyEventTypeSerializer;
-import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
@@ -32,11 +29,6 @@ import retrofit.converter.GsonConverter;
     library = true
 )
 public class OmniApiModule {
-  @Provides
-  public AccessTokenDto provideAccessTokenDto(@ApiAccessToken StringPreference apiAccessToken, @ApiRefreshToken StringPreference refreshToken) {
-    return new AccessTokenDto(apiAccessToken.get(), refreshToken.get());
-  }
-
   @Provides @Singleton
   public Endpoint provideEndpoint(@ApiUrl StringPreference apiUrl) {
     return Endpoints.newFixedEndpoint(apiUrl.get());
