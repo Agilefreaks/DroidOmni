@@ -9,10 +9,8 @@ import android.widget.TextView;
 import com.omnipaste.droidomni.BuildConfig;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
-import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -22,7 +20,6 @@ import org.androidannotations.annotations.res.StringRes;
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import rx.functions.Action1;
 
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends Fragment {
@@ -64,18 +61,18 @@ public class LoginFragment extends Fragment {
   }
 
   private void doLogin(String code) {
-    sessionService.login(code,
-        new Action1<AccessTokenDto>() {
-          @Override
-          public void call(AccessTokenDto accessTokenDto) {
-            eventBus.post(new LoginEvent());
-          }
-        }, new Action1<Throwable>() {
-          @Override
-          public void call(Throwable throwable) {
-            authorizationCode.setError(loginInvalidCode);
+//    sessionService.login(code,
+//        new Action1<AccessTokenDto>() {
+//          @Override
+//          public void call(AccessTokenDto accessTokenDto) {
+//            eventBus.post(new LoginEvent());
+//          }
+//        }, new Action1<Throwable>() {
+//          @Override
+//          public void call(Throwable throwable) {
+//            authorizationCode.setError(loginInvalidCode);
 //            login.setEnabled(true);
-          }
-        });
+//          }
+//        });
   }
 }

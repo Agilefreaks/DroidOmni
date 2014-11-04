@@ -1,7 +1,4 @@
 <resources>
     <declare-styleable name="AppTheme">
-        <attr name="listPreferredItemPaddingStart" format="reference"/>
-        <attr name="listPreferredItemPaddingEnd" format="reference"/>
-        <attr name="drawablePadding" format="reference"/>
     </declare-styleable>
 </resources>

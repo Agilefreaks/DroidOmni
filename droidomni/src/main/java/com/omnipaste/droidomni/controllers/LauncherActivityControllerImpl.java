@@ -17,7 +17,6 @@ import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment;
 import com.omnipaste.droidomni.fragments.LoadingFragment;
 import com.omnipaste.droidomni.fragments.LoadingFragment_;
-import com.omnipaste.droidomni.fragments.LoginFragment;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.services.AccountsService;
@@ -25,8 +24,6 @@ import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.omniapi.prefs.ApiClientToken;
 import com.omnipaste.omniapi.resource.v1.AuthorizationCodes;
-import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.dto.AuthorizationCodeDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import org.apache.http.HttpStatus;
@@ -35,9 +32,6 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import retrofit.RetrofitError;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class LauncherActivityControllerImpl implements MainActivityController {
   private final EventBus eventBus = EventBus.getDefault();
@@ -143,36 +137,36 @@ public class LauncherActivityControllerImpl implements MainActivityController {
     } else {
       String[] googleEmails = accountsService.getGoogleEmails();
 
-      authorizationCodes.get(apiClientToken.get(), googleEmails)
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(
-              new Action1<AuthorizationCodeDto>() {
-                @Override
-                public void call(AuthorizationCodeDto authorizationCodeDto) {
-                  sessionService.login(authorizationCodeDto.getCode(),
-                      new Action1<AccessTokenDto>() {
-                        @Override
-                        public void call(AccessTokenDto accessTokenDto) {
-                          eventBus.post(new LoginEvent());
-                        }
-                      },
-                      new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                          LoginFragment loginFragment = LoginFragment_.builder().build();
-                          setFragment(loginFragment);
-                        }
-                      });
-                }
-              },
-              new Action1<Throwable>() {
-                @Override
-                public void call(Throwable throwable) {
-                  LoginFragment loginFragment = LoginFragment_.builder().build();
-                  setFragment(loginFragment);
-                }
-              });
+//      authorizationCodes.get(apiClientToken.get(), googleEmails)
+//          .subscribeOn(Schedulers.io())
+//          .observeOn(AndroidSchedulers.mainThread())
+//          .subscribe(
+//              new Action1<AuthorizationCodeDto>() {
+//                @Override
+//                public void call(AuthorizationCodeDto authorizationCodeDto) {
+//                  sessionService.login(authorizationCodeDto.getCode(),
+//                      new Action1<AccessTokenDto>() {
+//                        @Override
+//                        public void call(AccessTokenDto accessTokenDto) {
+//                          eventBus.post(new LoginEvent());
+//                        }
+//                      },
+//                      new Action1<Throwable>() {
+//                        @Override
+//                        public void call(Throwable throwable) {
+//                          LoginFragment loginFragment = LoginFragment_.builder().build();
+//                          setFragment(loginFragment);
+//                        }
+//                      });
+//                }
+//              },
+//              new Action1<Throwable>() {
+//                @Override
+//                public void call(Throwable throwable) {
+//                  LoginFragment loginFragment = LoginFragment_.builder().build();
+//                  setFragment(loginFragment);
+//                }
+//              });
     }
   }
 

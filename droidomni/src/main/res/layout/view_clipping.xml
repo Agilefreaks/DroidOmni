@@ -14,11 +14,10 @@
             android:id="@+id/textContent"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:gravity="center_vertical"
-            android:drawablePadding="?attr/drawablePadding"
             android:minHeight="?android:attr/listPreferredItemHeightLarge"
             android:lines="2"
             android:ellipsize="end"/>
@@ -26,7 +25,6 @@
     <ImageButton
             style="@style/Widget.Holo.ActionImageButton"
             android:src="@drawable/ic_smart_action_phone_number"
-            android:padding="?attr/listPreferredItemPaddingStart"
             android:visibility="gone"
             android:layout_margin="8dip"
             android:id="@+id/smart_action_button"

@@ -4,6 +4,8 @@ import com.omnipaste.omniapi.prefs.ApiClientId;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -70,7 +72,7 @@ public class Token extends Resource<Token.TokenApi> {
   }
 
   public Observable<AccessTokenDto> create(String code) {
-    return api.create(new AuthorizationRequest(clientId, AUTHORIZATION_CODE).setCode(code));
+    return api.create(new AuthorizationRequest(clientId, AUTHORIZATION_CODE).setCode(code)).delay(5, TimeUnit.SECONDS);
   }
 
   public Observable<AccessTokenDto> refresh(String refreshToken) {

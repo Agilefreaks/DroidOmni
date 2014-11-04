@@ -8,9 +8,4 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <dimen name="tab_strip_height">48dip</dimen>
-
-    <!-- List dimensions -->
-    <dimen name="listPreferredItemPaddingStart">?android:listPreferredItemPaddingStart</dimen>
-    <dimen name="listPreferredItemPaddingEnd">?android:listPreferredItemPaddingEnd</dimen>
-    <dimen name="drawablePadding">?android:drawablePadding</dimen>
 </resources>

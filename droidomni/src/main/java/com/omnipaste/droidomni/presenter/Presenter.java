@@ -20,7 +20,7 @@ public abstract class Presenter<T> extends Schedulable {
   }
 
   public T getView() {
-    return view.get();
+    return view != null ? view.get() : null;
   }
 
   /**

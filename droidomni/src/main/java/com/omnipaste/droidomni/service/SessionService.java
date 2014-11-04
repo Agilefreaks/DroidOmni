@@ -29,7 +29,7 @@ public class SessionService extends Schedulable {
     return apiAccessToken.get() != null;
   }
 
-  public Observable login(String code) {
+  public Observable<AccessTokenDto> login(String code) {
     return token.create(code).doOnNext(new Action1<AccessTokenDto>() {
       @Override public void call(AccessTokenDto accessTokenDto) {
         apiAccessToken.set(accessTokenDto);

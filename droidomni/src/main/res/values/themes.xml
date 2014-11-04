@@ -13,12 +13,7 @@
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light">-->
         <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
 
-        <!--&lt;!&ndash; List attributes &ndash;&gt;-->
-        <!--<item name="listPreferredItemPaddingStart">@dimen/listPreferredItemPaddingStart</item>-->
-        <!--<item name="listPreferredItemPaddingEnd">@dimen/listPreferredItemPaddingEnd</item>-->
-        <!--<item name="drawablePadding">@dimen/drawablePadding</item>-->
-
-        <!--&lt;!&ndash; Actionbar styles &ndash;&gt;-->
+        <!-- Actionbar styles -->
         <!--<item name="android:actionBarStyle">@style/OmniActionBar</item>-->
         <!--<item name="android:homeAsUpIndicator">@drawable/ic_ab_back_holo_dark_am</item>-->
     <!--</style>-->

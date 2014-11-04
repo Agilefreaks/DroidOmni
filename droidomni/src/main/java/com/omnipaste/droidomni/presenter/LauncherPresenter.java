@@ -45,7 +45,7 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
                 @Override public void call(RegisteredDeviceDto registeredDeviceDto) {
                   sessionService.setRegisteredDeviceDto(registeredDeviceDto);
                   navigator.openOmniActivity();
-                  getView().finish();
+//                  finishView();
                 }
               },
               // onError
@@ -58,6 +58,15 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
     } else {
       navigator.openLoginActivity();
     }
+  }
+
+  private void finishView() {
+    View view = getView();
+    if (view == null) {
+      return;
+    }
+
+    view.finish();
   }
 
   @Override
