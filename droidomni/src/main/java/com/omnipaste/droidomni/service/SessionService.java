@@ -10,6 +10,7 @@ import com.omnipaste.omnicommon.rx.Schedulable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.Observable;
 import rx.functions.Action1;
 
 @Singleton
@@ -28,21 +29,12 @@ public class SessionService extends Schedulable {
     return apiAccessToken.get() != null;
   }
 
-  public void login(String code, final Action1<AccessTokenDto> onSuccess, final Action1<Throwable> onError) {
-    token.create(code)
-        .subscribeOn(scheduler)
-        .observeOn(observeOnScheduler)
-        .subscribe(
-            // OnNext
-            new Action1<AccessTokenDto>() {
-              @Override
-              public void call(AccessTokenDto accessTokenDto) {
-                apiAccessToken.set(accessTokenDto);
-                onSuccess.call(accessTokenDto);
-              }
-            },
-            onError
-        );
+  public Observable login(String code) {
+    return token.create(code).doOnNext(new Action1<AccessTokenDto>() {
+      @Override public void call(AccessTokenDto accessTokenDto) {
+        apiAccessToken.set(accessTokenDto);
+      }
+    });
   }
 
   public void logout() {

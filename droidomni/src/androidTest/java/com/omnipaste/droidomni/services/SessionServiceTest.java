@@ -8,7 +8,7 @@ import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 import com.omnipaste.omnicommon.rx.Schedulable;
 
-import rx.functions.Action1;
+import rx.Observer;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
@@ -54,33 +54,32 @@ public class SessionServiceTest extends InstrumentationTestCase {
 
   @SuppressWarnings("unchecked")
   public void testLoginWillCallOnErrorOnFailed() throws Exception {
-    Action1<Throwable> onError = (Action1<Throwable>) mock(Action1.class);
+    Observer mockObserver = mock(Observer.class);
     Throwable error = mock(Throwable.class);
 
     PublishSubject<AccessTokenDto> tokenCreate = PublishSubject.create();
     when(mockToken.create("wrong code")).thenReturn(tokenCreate);
 
     setImmediateSchedulers(subject);
-    subject.login("wrong code", null, onError);
+    subject.login("wrong code").subscribe(mockObserver);
     tokenCreate.onError(error);
 
-    verify(onError).call(error);
+    verify(mockObserver).onError(error);
   }
 
   @SuppressWarnings("unchecked")
   public void testWillSetAccessTokenAndRefreshTokenOnSuccess() throws Exception {
-    Action1<AccessTokenDto> onSuccess = (Action1<AccessTokenDto>) mock(Action1.class);
-    Action1<Throwable> onError = (Action1<Throwable>) mock(Action1.class);
+    Observer mockObserver = mock(Observer.class);
     AccessTokenDto accessTokenDto = new AccessTokenDto("access", "refresh");
 
     PublishSubject<AccessTokenDto> tokenCreate = PublishSubject.create();
     when(mockToken.create("helpless")).thenReturn(tokenCreate);
 
     setImmediateSchedulers(subject);
-    subject.login("helpless", onSuccess, onError);
+    subject.login("helpless").subscribe(mockObserver);
     tokenCreate.onNext(accessTokenDto);
 
-    verify(onSuccess).call(accessTokenDto);
+    verify(mockObserver).onNext(accessTokenDto);
     verify(mockApiAccessToken).set(accessTokenDto);
   }
 
