@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.omnipaste.omnicommon.rx.Schedulable;
 
+import java.lang.ref.WeakReference;
+
 public abstract class Presenter<T> extends Schedulable {
-  private T view;
+  private WeakReference<T> view;
 
   protected Context context;
 
@@ -14,11 +16,11 @@ public abstract class Presenter<T> extends Schedulable {
   }
 
   public void setView(T view) {
-    this.view = view;
+    this.view = new WeakReference<>(view);
   }
 
   public T getView() {
-    return view;
+    return view.get();
   }
 
   /**
