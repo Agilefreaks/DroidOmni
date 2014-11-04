@@ -24,10 +24,9 @@ import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
 import com.omnipaste.droidomni.fragments.clippings.LocalFragment_;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.providers.GcmNotificationProvider;
+import com.omnipaste.droidomni.service.AccountsService;
 import com.omnipaste.droidomni.service.DeviceService;
 import com.omnipaste.droidomni.service.SessionService;
-import com.omnipaste.droidomni.services.AccountsService;
-import com.omnipaste.droidomni.services.AccountsServiceImpl;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.FragmentServiceImpl;
 import com.omnipaste.droidomni.services.GoogleAnalyticsService;
@@ -70,7 +69,7 @@ import dagger.Provides;
         // services
         DeviceService.class,
         SessionService.class,
-        AccountsServiceImpl.class,
+        AccountsService.class,
         OmniService_.class,
         // Fragments
         ClippingsFragment_.class,
@@ -165,7 +164,7 @@ public class MainModule {
   @Provides
   @Singleton
   public AccountsService providesAccountService() {
-    return new AccountsServiceImpl();
+    return new AccountsService();
   }
 
   @Provides

@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.di;
 
+import android.accounts.AccountManager;
 import android.content.Context;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -40,5 +41,11 @@ public class RootModule {
   @Singleton
   public GoogleCloudMessaging providesGoogleCloudMessaging() {
     return GoogleCloudMessaging.getInstance(context);
+  }
+
+  @Provides
+  @Singleton
+  public AccountManager providesAccountManager() {
+    return (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
   }
 }

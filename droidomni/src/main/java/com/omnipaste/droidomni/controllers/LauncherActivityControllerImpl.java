@@ -19,7 +19,6 @@ import com.omnipaste.droidomni.fragments.LoadingFragment;
 import com.omnipaste.droidomni.fragments.LoadingFragment_;
 import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.service.SessionService;
-import com.omnipaste.droidomni.services.AccountsService;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.OmniService;
 import com.omnipaste.omniapi.prefs.ApiClientToken;
@@ -88,9 +87,6 @@ public class LauncherActivityControllerImpl implements MainActivityController {
   public SessionService sessionService;
 
   @Inject
-  public AccountsService accountsService;
-
-  @Inject
   public AuthorizationCodes authorizationCodes;
 
   @Inject @ApiClientToken
@@ -135,7 +131,7 @@ public class LauncherActivityControllerImpl implements MainActivityController {
       activity.startService(OmniService.getIntent());
       activity.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
     } else {
-      String[] googleEmails = accountsService.getGoogleEmails();
+//      String[] googleEmails = accountsService.getGoogleEmails();
 
 //      authorizationCodes.get(apiClientToken.get(), googleEmails)
 //          .subscribeOn(Schedulers.io())

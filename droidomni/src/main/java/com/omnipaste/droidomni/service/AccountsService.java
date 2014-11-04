@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipaste.droidomni.service;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -9,16 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class AccountsServiceImpl implements AccountsService {
+@Singleton
+public class AccountsService {
   @Inject
   public AccountManager accountManager;
 
-  public AccountsServiceImpl() {
+  public AccountsService() {
     DroidOmniApplication.inject(this);
   }
 
-  @Override
   public String[] getGoogleEmails() {
     List<String> emails = new ArrayList<>();
     Account[] accountsByType = accountManager.getAccountsByType("com.google");

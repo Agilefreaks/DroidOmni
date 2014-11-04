@@ -3,11 +3,15 @@ package com.omnipaste.droidomni.services;
 import android.test.InstrumentationTestCase;
 
 import com.omnipaste.droidomni.service.SessionService;
+import com.omnipaste.omniapi.resource.v1.AuthorizationCodes;
 import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
+import com.omnipaste.omnicommon.dto.AuthorizationCodeDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
+import com.omnipaste.omnicommon.prefs.StringPreference;
 import com.omnipaste.omnicommon.rx.Schedulable;
 
+import rx.Observable;
 import rx.Observer;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
@@ -21,7 +25,9 @@ import static org.mockito.Mockito.when;
 public class SessionServiceTest extends InstrumentationTestCase {
   private SessionService subject;
   private Token mockToken;
+  private AuthorizationCodes mockAuthorizationCodes;
   private AccessTokenPreference mockApiAccessToken;
+  private StringPreference mockApiClientToken;
 
   @SuppressWarnings("ConstantConditions")
   @Override
@@ -29,9 +35,11 @@ public class SessionServiceTest extends InstrumentationTestCase {
     super.setUp();
 
     mockToken = mock(Token.class);
+    mockAuthorizationCodes = mock(AuthorizationCodes.class);
     mockApiAccessToken = mock(AccessTokenPreference.class);
+    mockApiClientToken = mock(StringPreference.class);
 
-    subject = new SessionService(mockToken, mockApiAccessToken);
+    subject = new SessionService(mockToken, mockAuthorizationCodes, mockApiAccessToken, mockApiClientToken);
   }
 
   public void testIsLoggedWillReturnFalseWithNoAccessToken() throws Exception {
@@ -68,7 +76,7 @@ public class SessionServiceTest extends InstrumentationTestCase {
   }
 
   @SuppressWarnings("unchecked")
-  public void testWillSetAccessTokenAndRefreshTokenOnSuccess() throws Exception {
+  public void testLoginWillSetAccessTokenAndRefreshTokenOnSuccess() throws Exception {
     Observer mockObserver = mock(Observer.class);
     AccessTokenDto accessTokenDto = new AccessTokenDto("access", "refresh");
 
@@ -81,6 +89,20 @@ public class SessionServiceTest extends InstrumentationTestCase {
 
     verify(mockObserver).onNext(accessTokenDto);
     verify(mockApiAccessToken).set(accessTokenDto);
+  }
+
+  public void testLoginWithEmailsOnFailWillCallTokenCreate() {
+    PublishSubject<AuthorizationCodeDto> authorizationCodes = PublishSubject.create();
+    String[] emails = {"city@is.deing"};
+    when(mockApiClientToken.get()).thenReturn("client token");
+    when(mockAuthorizationCodes.get("client token", emails)).thenReturn(authorizationCodes);
+    when(mockToken.create("code")).thenReturn(Observable.<AccessTokenDto>empty());
+
+    setImmediateSchedulers(subject);
+    subject.login(emails).subscribe();
+    authorizationCodes.onNext(new AuthorizationCodeDto("code"));
+
+    verify(mockToken).create("code");
   }
 
   private void setImmediateSchedulers(Schedulable schedulable) {

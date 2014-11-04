@@ -3,9 +3,11 @@ package com.omnipaste.droidomni.presenter;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
+import com.omnipaste.droidomni.interactions.GetAccounts;
 import com.omnipaste.droidomni.service.DeviceService;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
 import rx.schedulers.Schedulers;
@@ -20,6 +22,7 @@ public class LauncherPresenterTest extends InstrumentationTestCase {
   private SessionService mockSessionService;
   private Navigator mockNavigator;
   private DeviceService mockDeviceService;
+  private GetAccounts mockGetAccounts;
 
   @Override public void setUp() throws Exception {
     super.setUp();
@@ -27,15 +30,13 @@ public class LauncherPresenterTest extends InstrumentationTestCase {
     mockSessionService = mock(SessionService.class);
     mockNavigator = mock(Navigator.class);
     mockDeviceService = mock(DeviceService.class);
-    subject = new LauncherPresenter(mock(Context.class), mockNavigator, mockSessionService, mockDeviceService);
-  }
-
-  public void testInitializeWhenNotLoggedItWillNavigateToLoginView() throws Exception {
-    when(mockSessionService.isLogged()).thenReturn(false);
-
-    subject.initialize();
-
-    verify(mockNavigator).openLoginActivity();
+    mockGetAccounts = mock(GetAccounts.class);
+    subject = new LauncherPresenter(
+        mock(Context.class),
+        mockNavigator,
+        mockSessionService,
+        mockDeviceService,
+        mockGetAccounts);
   }
 
   public void testInitializeWhenLoggedInWillSetRegisteredDeviceOnSession() {
@@ -56,5 +57,18 @@ public class LauncherPresenterTest extends InstrumentationTestCase {
     verify(mockSessionService).setRegisteredDeviceDto(registeredDeviceDto);
     verify(mockNavigator).openOmniActivity();
     verify(mockView).finish();
+  }
+
+  public void testInitializeWhenNotLoggedInWillTryEmails() {
+    String[] emails = new String[] { "matei@calin.com", "tudor@email.com" };
+    PublishSubject<AccessTokenDto> publishSubject = PublishSubject.create();
+    when(mockSessionService.isLogged()).thenReturn(false);
+    when(mockGetAccounts.fromGoogle()).thenReturn(emails);
+    when(mockSessionService.login(emails)).thenReturn(publishSubject);
+
+    subject.initialize();
+    publishSubject.onError(new Exception());
+
+    verify(mockSessionService).login(emails);
   }
 }
