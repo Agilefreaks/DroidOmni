@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:divider="?android:dividerHorizontal"
         android:showDividers="middle"
-        tools:context="com.omnipaste.droidomni.fragments.NavigationDrawerFragment">
+        tools:context="com.omnipaste.droidomni.ui.fragment.NavigationDrawerFragment">
 
     <ListView
             android:id="@+id/navigation_drawer_list"

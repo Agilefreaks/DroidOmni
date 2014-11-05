@@ -8,4 +8,6 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <dimen name="tab_strip_height">48dip</dimen>
+
+    <dimen name="action_bar_elevation">5dp</dimen>
 </resources>

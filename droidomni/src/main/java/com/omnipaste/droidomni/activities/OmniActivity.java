@@ -11,7 +11,7 @@ import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.OmniActivityController;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
-import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
+import com.omnipaste.droidomni.ui.fragment.NavigationDrawerFragment;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;

@@ -31,7 +31,9 @@ public abstract class BaseActivity<TPresenter extends Presenter> extends ActionB
   public void setupToolbar() {
     if (toolbar != null) {
       setSupportActionBar(toolbar);
+
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setHomeButtonEnabled(true);
     }
   }
 

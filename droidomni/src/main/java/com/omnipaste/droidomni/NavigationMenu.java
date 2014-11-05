@@ -1,7 +1,7 @@
 package com.omnipaste.droidomni;
 
 public enum NavigationMenu {
-  CLIPPINGS,
+  ACTIVITY,
   SETTINGS,
   ABOUT,
   PRIVACY_POLICY,

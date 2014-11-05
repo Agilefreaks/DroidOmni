@@ -24,7 +24,7 @@
     <!-- Main Activity -->
     <string name='main_activity_device_not_supported'>Este aparelho não é suportado.</string>
 
-    <!-- CLIPPINGS -->
+    <!-- ACTIVITY -->
     <string name="clippings_title">Cortes</string>
     <string name="clipping_smart_action_description">Acção inteligente</string>
     <string name="clippings_tab_all">Todos</string>
@@ -35,7 +35,7 @@
     <!-- Navigation -->
     <string name="navigation_drawer_open">Abrir navegador</string>
     <string name="navigation_drawer_close">Fechar navegador</string>
-    <string name="navigation_drawer_clippings">Cortes</string>
+    <string name="navigation_drawer_activity">Atividade</string>
     <string name="navigation_drawer_settings">Definições</string>
     <string name="navigation_drawer_about">Sobre</string>
     <string name="navigation_drawer_privacy_policy">Política de Privacidade</string>

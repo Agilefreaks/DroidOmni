@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.omnipaste.droidomni.ui.activity.ConnectingActivity_;
 import com.omnipaste.droidomni.ui.activity.ErrorActivity;
 import com.omnipaste.droidomni.ui.activity.ErrorActivity_;
 import com.omnipaste.droidomni.ui.activity.LauncherActivity_;
 import com.omnipaste.droidomni.ui.activity.LoginActivity_;
+import com.omnipaste.droidomni.ui.activity.OmniActivity_;
 
 import javax.inject.Inject;
 
@@ -32,7 +34,14 @@ public class Navigator {
     startActivityNoHistory(intent);
   }
 
+  public void openConnectingActivity() {
+    Intent intent = new Intent(context, ConnectingActivity_.class);
+    startActivityNoHistory(intent);
+  }
+
   public void openOmniActivity() {
+    Intent intent = new Intent(context, OmniActivity_.class);
+    startActivityNoHistory(intent);
   }
 
   public void openErrorActivity(Throwable throwable) {

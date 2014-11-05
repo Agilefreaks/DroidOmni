@@ -1,10 +1,7 @@
-package com.omnipaste.droidomni.fragments;
+package com.omnipaste.droidomni.ui.fragment;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
@@ -25,7 +22,6 @@ public class NavigationDrawerFragment extends Fragment {
   private EventBus eventBus = EventBus.getDefault();
   private NavigationDrawerAdapter navigationDrawerAdapter;
   private SecondaryNavigationDrawerAdapter secondaryNavigationDrawerAdapter;
-  private ActionBarDrawerToggle drawerToggle;
 
   @ViewById
   public ListView navigationDrawerList;
@@ -59,21 +55,6 @@ public class NavigationDrawerFragment extends Fragment {
     if (secondaryNavigationDrawerList.getAdapter() == null) {
       secondaryNavigationDrawerList.setAdapter(secondaryNavigationDrawerAdapter);
     }
-  }
-
-  public void setUp(ActionBarDrawerToggle drawerToggle) {
-    this.drawerToggle = drawerToggle;
-  }
-
-  @Override
-  public void onConfigurationChanged(Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    drawerToggle.onConfigurationChanged(newConfig);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
   }
 
   @ItemClick

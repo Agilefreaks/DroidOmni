@@ -41,6 +41,10 @@ public class SessionService extends Schedulable {
     return apiAccessToken.get() != null;
   }
 
+  public Boolean isConnected() {
+    return isLogged() && getRegisteredDeviceDto() != null;
+  }
+
   public Observable<AccessTokenDto> login(String code) {
     return token.create(code).doOnNext(new Action1<AccessTokenDto>() {
       @Override public void call(AccessTokenDto accessTokenDto) {

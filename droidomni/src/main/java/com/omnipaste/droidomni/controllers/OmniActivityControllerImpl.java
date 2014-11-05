@@ -13,11 +13,11 @@ import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
-import com.omnipaste.droidomni.fragments.NavigationDrawerFragment;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.services.OmniService;
+import com.omnipaste.droidomni.ui.fragment.NavigationDrawerFragment;
 
 import javax.inject.Inject;
 
@@ -59,7 +59,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
 
   @Override
   public void setUpNavigationDrawer(NavigationDrawerFragment navigationDrawer) {
-    navigationDrawer.setUp(actionBarController.setupNavigationDrawer(activity.drawerLayout, this));
+//    navigationDrawer.setUp(actionBarController.setupNavigationDrawer(activity.drawerLayout, this));
   }
 
   @Override
@@ -85,7 +85,7 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
     Intent intent = null;
 
     switch (event.getNavigationDrawerItem().getNavigationMenu()) {
-      case CLIPPINGS:
+      case ACTIVITY:
         break;
       case SETTINGS:
         activity.drawerLayout.closeDrawers();

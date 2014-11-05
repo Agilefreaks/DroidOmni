@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Omnipaste</string>
     <string name="motto">Make it simple and quick to switch between your computer and your mobile devices.</string>
 
@@ -22,9 +23,9 @@
     <string name="device_init_error_message">We failed master :(, please don\'t kill us!</string>
 
     <!-- Main Activity -->
-    <string name='main_activity_device_not_supported'>This device is not supported.</string>
+    <string name="main_activity_device_not_supported">This device is not supported.</string>
 
-    <!-- CLIPPINGS -->
+    <!-- ACTIVITY -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>
     <string name="clippings_tab_all">All</string>
@@ -35,7 +36,7 @@
     <!-- Navigation -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="navigation_drawer_clippings">Clippings</string>
+    <string name="navigation_drawer_activity">Activity</string>
     <string name="navigation_drawer_settings">Settings</string>
     <string name="navigation_drawer_about">About</string>
     <string name="navigation_drawer_privacy_policy">Privacy Policy</string>
