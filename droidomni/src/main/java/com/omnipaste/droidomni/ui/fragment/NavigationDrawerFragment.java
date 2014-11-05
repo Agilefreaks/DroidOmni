@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.adapters.NavigationDrawerAdapter;
-import com.omnipaste.droidomni.adapters.NavigationDrawerItem;
-import com.omnipaste.droidomni.adapters.SecondaryNavigationDrawerAdapter;
+import com.omnipaste.droidomni.adapter.NavigationDrawerAdapter;
+import com.omnipaste.droidomni.adapter.SecondaryNavigationDrawerAdapter;
+import com.omnipaste.droidomni.domain.NavigationDrawerItem;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 
 import org.androidannotations.annotations.AfterViews;

@@ -1,11 +1,12 @@
-package com.omnipaste.droidomni.views;
+package com.omnipaste.droidomni.ui.view;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.adapters.NavigationDrawerItem;
+import com.omnipaste.droidomni.domain.NavigationDrawerItem;
+import com.omnipaste.droidomni.views.HasSetup;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;

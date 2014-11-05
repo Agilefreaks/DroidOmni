@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.events;
 
-import com.omnipaste.droidomni.adapters.NavigationDrawerItem;
+import com.omnipaste.droidomni.domain.NavigationDrawerItem;
 
 public class NavigationItemClicked {
   private NavigationDrawerItem navigationDrawerItem;

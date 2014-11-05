@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.adapters;
+package com.omnipaste.droidomni.domain;
 
 import com.omnipaste.droidomni.NavigationMenu;
 

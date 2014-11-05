@@ -14,9 +14,7 @@ import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.controllers.ActionBarController;
 import com.omnipaste.droidomni.controllers.ActionBarControllerImpl;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
-import com.omnipaste.droidomni.controllers.LauncherActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
-import com.omnipaste.droidomni.fragments.LoginFragment_;
 import com.omnipaste.droidomni.fragments.clippings.AllFragment_;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.fragments.clippings.CloudFragment_;
@@ -61,7 +59,6 @@ import dagger.Provides;
         // activities
         OmniActivity_.class,
         // controllers
-        LauncherActivityControllerImpl.class,
         OmniActivityControllerImpl.class,
         ClippingsFragmentControllerImpl.class,
         // services
@@ -71,7 +68,6 @@ import dagger.Provides;
         OmniService_.class,
         // Fragments
         ClippingsFragment_.class,
-        LoginFragment_.class,
         AllFragment_.class,
         LocalFragment_.class,
         CloudFragment_.class,

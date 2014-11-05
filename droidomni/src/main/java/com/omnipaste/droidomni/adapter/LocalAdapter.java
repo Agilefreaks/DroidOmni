@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.adapters;
+package com.omnipaste.droidomni.adapter;
 
 import android.content.Context;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.adapters;
+package com.omnipaste.droidomni.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,8 +6,9 @@ import android.view.View;
 
 import com.omnipaste.droidomni.NavigationMenu;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.views.NavigationDrawerItemView;
-import com.omnipaste.droidomni.views.NavigationDrawerItemView_;
+import com.omnipaste.droidomni.domain.NavigationDrawerItem;
+import com.omnipaste.droidomni.ui.view.NavigationDrawerItemView;
+import com.omnipaste.droidomni.ui.view.NavigationDrawerItemView_;
 
 import java.util.ArrayList;
 import java.util.Arrays;

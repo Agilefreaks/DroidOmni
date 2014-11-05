@@ -10,4 +10,6 @@
     <dimen name="tab_strip_height">48dip</dimen>
 
     <dimen name="action_bar_elevation">5dp</dimen>
+
+    <dimen name="margin_left">16dp</dimen>
 </resources>

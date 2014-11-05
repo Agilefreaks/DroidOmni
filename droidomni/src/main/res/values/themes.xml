@@ -21,6 +21,20 @@
         <item name="android:background">@android:color/background_light</item>
     </style>
 
+    <style name="NavLinearItem" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/margin_left</item>
+    </style>
+
+    <style name="NavLinearItemPrimary" parent="NavLinearItem">
+        <item name="android:drawablePadding">@dimen/margin_left</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+    </style>
+
+    <style name="NavLinearItemSecondary" parent="NavLinearItem">
+        <item name="android:minHeight">?android:attr/listPreferredItemHeightSmall</item>
+    </style>
+
     <style name="Widget.Holo.ActionImageButton" parent="@android:style/Widget.Holo.ImageButton">
         <item name="android:background">@drawable/btn_smart_action</item>
     </style>

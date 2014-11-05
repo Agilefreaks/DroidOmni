@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.adapters;
 import android.content.Context;
 import android.view.View;
 
+import com.omnipaste.droidomni.adapter.LocalAdapter;
 import com.omnipaste.droidomni.views.AboutItemView;
 import com.omnipaste.droidomni.views.AboutItemView_;
 

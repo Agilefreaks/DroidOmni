@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/textTitle"
-          android:background="@drawable/nav_list_item"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:textAppearance="?android:attr/textAppearanceSmall"
-          android:gravity="center_vertical"
-          android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+<TextView
+    android:id="@+id/textTitle"
+    style="@style/NavLinearItemSecondary"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
