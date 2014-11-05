@@ -1,9 +1,7 @@
 package com.omnipaste.droidomni.controllers;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -11,8 +9,6 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 
-import com.omnipaste.droidomni.activities.LauncherActivity;
-import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.LoginEvent;
 import com.omnipaste.droidomni.fragments.DeviceInitErrorFragment;
 import com.omnipaste.droidomni.fragments.LoadingFragment;
@@ -35,7 +31,6 @@ import retrofit.RetrofitError;
 public class LauncherActivityControllerImpl implements MainActivityController {
   private final EventBus eventBus = EventBus.getDefault();
 
-  private LauncherActivity activity;
   private Messenger omniServiceMessenger;
 
   private final Messenger messenger = new Messenger(new IncomingHandler());
@@ -47,8 +42,8 @@ public class LauncherActivityControllerImpl implements MainActivityController {
         case OmniService.MSG_CREATE_ERROR:
           Throwable error = (Throwable) msg.obj;
 
-          activity.unbindService(serviceConnection);
-          activity.stopService(OmniService.getIntent());
+//          activity.unbindService(serviceConnection);
+//          activity.stopService(OmniService.getIntent());
 
           if (isBadRequest(error)) {
             sessionService.logout();
@@ -59,8 +54,8 @@ public class LauncherActivityControllerImpl implements MainActivityController {
 
           break;
         case OmniService.MSG_STARTED:
-          activity.startActivity(OmniActivity.getIntent(activity));
-          activity.finish();
+//          activity.startActivity(OmniActivity.getIntent(activity));
+//          activity.finish();
 
           break;
       }
@@ -93,20 +88,10 @@ public class LauncherActivityControllerImpl implements MainActivityController {
   public StringPreference apiClientToken;
 
   @Override
-  public void run(LauncherActivity launcherActivity, Bundle savedInstanceState) {
-    eventBus.register(this);
-    activity = launcherActivity;
-
-    if (savedInstanceState == null) {
-      setInitialFragment();
-    }
-  }
-
-  @Override
   public void stop() {
     if (omniServiceMessenger != null) {
       sendMessageToOmniService(OmniService.MSG_UNREGISTER_CLIENT);
-      activity.unbindService(serviceConnection);
+//      activity.unbindService(serviceConnection);
     }
 
     eventBus.unregister(this);
@@ -128,8 +113,8 @@ public class LauncherActivityControllerImpl implements MainActivityController {
     setFragment(loadingFragment);
 
     if (sessionService.isLogged()) {
-      activity.startService(OmniService.getIntent());
-      activity.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
+//      activity.startService(OmniService.getIntent());
+//      activity.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
     } else {
 //      String[] googleEmails = accountsService.getGoogleEmails();
 

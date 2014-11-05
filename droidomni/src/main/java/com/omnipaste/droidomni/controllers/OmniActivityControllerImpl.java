@@ -8,7 +8,6 @@ import android.view.View;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.AboutActivity_;
-import com.omnipaste.droidomni.activities.LauncherActivity;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
@@ -110,9 +109,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   public void onEventMainThread(SignOutEvent signOutEvent) {
     activity.stopService(OmniService.getIntent());
     sessionService.logout();
-
-    activity.startActivity(LauncherActivity.getIntent(activity));
-    activity.finish();
   }
 
   private void setInitialFragment() {

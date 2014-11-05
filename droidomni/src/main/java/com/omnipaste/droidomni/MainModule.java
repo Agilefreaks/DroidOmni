@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
-import com.omnipaste.droidomni.activities.LauncherActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.droidomni.controllers.ActionBarController;
 import com.omnipaste.droidomni.controllers.ActionBarControllerImpl;
@@ -60,7 +59,6 @@ import dagger.Provides;
     injects = {
         DroidOmniApplication_.class,
         // activities
-        LauncherActivity_.class,
         OmniActivity_.class,
         // controllers
         LauncherActivityControllerImpl.class,

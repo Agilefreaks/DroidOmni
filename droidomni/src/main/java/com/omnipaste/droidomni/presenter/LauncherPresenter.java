@@ -2,6 +2,8 @@ package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.omnipaste.droidomni.service.PlayService;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 
@@ -10,16 +12,20 @@ import javax.inject.Singleton;
 
 @Singleton
 public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
+  private PlayService playService;
 
   public interface View {
     void finish();
+
+    void showPlayServiceErrorDialog(int status);
   }
 
   private Navigator navigator;
   private SessionService sessionService;
 
   @Inject
-  protected LauncherPresenter(Navigator navigator, SessionService sessionService) {
+  protected LauncherPresenter(PlayService playService, Navigator navigator, SessionService sessionService) {
+    this.playService = playService;
     this.navigator = navigator;
     this.sessionService = sessionService;
   }
@@ -35,6 +41,12 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
 
   @Override
   public void initialize() {
+    int status = playService.status();
+    if (status != ConnectionResult.SUCCESS) {
+      showPlayServiceErrorDialog(status);
+      return;
+    }
+
     if (sessionService.isConnected()) {
       navigator.openOmniActivity();
       finishView();
@@ -51,6 +63,15 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
 
   @Override
   public void pause() {
+  }
+
+  private void showPlayServiceErrorDialog(int status) {
+    View view = getView();
+    if (view == null) {
+      return;
+    }
+
+    view.showPlayServiceErrorDialog(status);
   }
 
   private void finishView() {
