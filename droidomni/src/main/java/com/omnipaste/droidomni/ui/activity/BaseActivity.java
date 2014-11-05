@@ -5,30 +5,26 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.di.ActivityModule;
-import com.omnipaste.droidomni.ui.UiModule;
+import com.omnipaste.droidomni.presenter.Presenter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import dagger.ObjectGraph;
-
 @EActivity
-public abstract class BaseActivity extends ActionBarActivity {
-
-  private ObjectGraph activityScopeGraph;
+public abstract class BaseActivity<TPresenter extends Presenter> extends ActionBarActivity {
 
   @ViewById
   protected Toolbar toolbar;
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     injectDependencies();
+    getPresenter().attachView(this);
+    getPresenter().initialize();
   }
 
   @AfterViews
@@ -39,21 +35,19 @@ public abstract class BaseActivity extends ActionBarActivity {
     }
   }
 
-  protected void inject(Object object) {
-    activityScopeGraph.inject(object);
+  @Override protected void onPause() {
+    super.onPause();
+    getPresenter().pause();
   }
 
-  protected List<Object> getModules() {
-    LinkedList<Object> modules = new LinkedList<>();
-    modules.add(new UiModule());
-    return modules;
+  @Override protected void onPostResume() {
+    super.onPostResume();
+    getPresenter().resume();
   }
+
+  protected abstract TPresenter getPresenter();
 
   private void injectDependencies() {
-    DroidOmniApplication droidOmniApplication = (DroidOmniApplication) getApplication();
-    List<Object> activityScopeModules = getModules();
-    activityScopeModules.add(new ActivityModule(this));
-    activityScopeGraph = droidOmniApplication.plus(activityScopeModules);
-    inject(this);
+    DroidOmniApplication.inject(this);
   }
 }

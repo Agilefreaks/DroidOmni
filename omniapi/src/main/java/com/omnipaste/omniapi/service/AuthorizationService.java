@@ -20,16 +20,16 @@ import rx.functions.Func1;
 @Singleton
 public class AuthorizationService {
   private final Token token;
-  private final AccessTokenDto accessTokenDto;
+  private final AccessTokenPreference accessToken;
 
   @Inject
-  public AuthorizationService(Token token, @ApiAccessToken AccessTokenPreference accessTokenPreference) {
+  public AuthorizationService(Token token, @ApiAccessToken AccessTokenPreference accessToken) {
     this.token = token;
-    this.accessTokenDto = accessTokenPreference.get();
+    this.accessToken = accessToken;
   }
 
   public AccessTokenDto getAccessTokenDto() {
-    return accessTokenDto;
+    return accessToken.get();
   }
 
   public <T> Observable<T> authorize(final Observable<T> observable) {
@@ -46,7 +46,7 @@ public class AuthorizationService {
           @Override
           public void onError(Throwable e) {
             if (isUnauthorized(e) && hasRefreshToken()) {
-              Observable prefixObservable = Observable.concat(token.refresh(accessTokenDto.getRefreshToken()), observable)
+              Observable prefixObservable = Observable.concat(token.refresh(getAccessTokenDto().getRefreshToken()), observable)
                   .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
@@ -81,7 +81,7 @@ public class AuthorizationService {
   }
 
   private boolean hasRefreshToken() {
-    String refreshToken = accessTokenDto.getRefreshToken();
+    String refreshToken = getAccessTokenDto().getRefreshToken();
     return refreshToken != null && !refreshToken.isEmpty();
   }
 }

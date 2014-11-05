@@ -1,9 +1,8 @@
 package com.omnipaste.droidomni.ui.activity;
 
-import android.os.Bundle;
-
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.presenter.LauncherPresenter;
+import com.omnipaste.droidomni.presenter.Presenter;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -13,18 +12,7 @@ import javax.inject.Inject;
 public class LauncherActivity extends BaseActivity implements LauncherPresenter.View {
   @Inject LauncherPresenter presenter;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    presenter.setView(this);
-    presenter.initialize();
-  }
-
-  @Override protected void onPause() {
-    super.onPause();
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
+  @Override protected Presenter getPresenter() {
+    return presenter;
   }
 }

@@ -3,12 +3,10 @@ package com.omnipaste.omniapi;
 import android.content.Context;
 
 import com.omnipaste.omniapi.prefs.PrefsModule;
-import com.omnipaste.omniapi.resource.v1.AuthorizationCodesTest;
 import com.omnipaste.omniapi.resource.v1.ClippingsTest;
 import com.omnipaste.omniapi.resource.v1.DevicesTest;
 import com.omnipaste.omniapi.resource.v1.EventsApiTest;
 import com.omnipaste.omnicommon.OmniCommonModule;
-import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,7 +18,6 @@ import dagger.Provides;
         PrefsModule.class
     },
     injects = {
-        AuthorizationCodesTest.class,
         ClippingsTest.class,
         DevicesTest.class,
         EventsApiTest.class,
@@ -40,10 +37,5 @@ public class OmniApiTestModule {
   @Provides
   public Context provideContext() {
     return context;
-  }
-
-  @Provides
-  public AccessTokenDto provideAccessTokenDto() {
-    return new AccessTokenDto("access token", "refresh token");
   }
 }

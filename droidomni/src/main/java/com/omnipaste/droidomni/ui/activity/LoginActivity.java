@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.ui.activity;
 
-import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.omnipaste.droidomni.BuildConfig;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.presenter.LoginPresenter;
+import com.omnipaste.droidomni.presenter.Presenter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -27,23 +27,16 @@ import javax.inject.Inject;
 public class LoginActivity extends BaseActivity implements LoginPresenter.View {
   public final String baseUrl = BuildConfig.BASE_URL;
 
-  @ViewById public TextView authorizationCodeLink;
-
-  @ViewById(R.id.authorization_code) public EditText authorizationCode;
+  @Inject LoginPresenter presenter;
 
   @OptionsMenuItem public MenuItem actionLogin;
-
-  @Inject LoginPresenter presenter;
 
   @StringRes(R.string.login_invalid_code)
   public String loginInvalidCode;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  @ViewById public TextView authorizationCodeLink;
 
-    presenter.setView(this);
-    presenter.initialize();
-  }
+  @ViewById(R.id.authorization_code) public EditText authorizationCode;
 
   @Override
   public void setupToolbar() {
@@ -67,5 +60,10 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.View {
   public void loginFailed() {
     actionLogin.setActionView(null);
     authorizationCode.setError(loginInvalidCode);
+  }
+
+  @Override
+  protected Presenter getPresenter() {
+    return presenter;
   }
 }

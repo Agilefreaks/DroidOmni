@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.omnipaste.droidomni.interactions.GetAccounts;
@@ -32,7 +31,6 @@ public class LauncherPresenterTest extends InstrumentationTestCase {
     mockDeviceService = mock(DeviceService.class);
     mockGetAccounts = mock(GetAccounts.class);
     subject = new LauncherPresenter(
-        mock(Context.class),
         mockNavigator,
         mockSessionService,
         mockDeviceService,
@@ -47,7 +45,7 @@ public class LauncherPresenterTest extends InstrumentationTestCase {
     when(mockDeviceService.init()).thenReturn(publishSubject);
 
     LauncherPresenter.View mockView = mock(LauncherPresenter.View.class);
-    subject.setView(mockView);
+    subject.attachView(mockView);
 
     subject.setScheduler(Schedulers.immediate());
     subject.setObserveOnScheduler(Schedulers.immediate());

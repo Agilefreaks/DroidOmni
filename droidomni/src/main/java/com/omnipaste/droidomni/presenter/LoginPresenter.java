@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
@@ -24,10 +24,17 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
   }
 
   @Inject
-  protected LoginPresenter(Context activityContext, SessionService sessionService, Navigator navigator) {
-    super(activityContext);
+  protected LoginPresenter(SessionService sessionService, Navigator navigator) {
     this.sessionService = sessionService;
     this.navigator = navigator;
+  }
+
+  @Override public void attachView(View view) {
+    super.attachView(view);
+
+    if (view instanceof Activity) {
+      navigator.attachView((Activity) view);
+    }
   }
 
   @Override public void initialize() {

@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.omnipaste.droidomni.service.SessionService;
@@ -22,10 +21,9 @@ public class LoginPresenterTest extends InstrumentationTestCase {
   @Override public void setUp() throws Exception {
     super.setUp();
 
-    Context mockContext = mock(Context.class);
     mockSessionService = mock(SessionService.class);
     mockNavigator = mock(Navigator.class);
-    subject = new LoginPresenter(mockContext, mockSessionService, mockNavigator);
+    subject = new LoginPresenter(mockSessionService, mockNavigator);
   }
 
   public void testLoginWhenLoginSuccessWillNavigateToLauncherActivity() throws Exception {
@@ -45,7 +43,7 @@ public class LoginPresenterTest extends InstrumentationTestCase {
     when(mockSessionService.login("code")).thenReturn(publishSubject);
     LoginPresenter.View mockView = mock(LoginPresenter.View.class);
 
-    subject.setView(mockView);
+    subject.attachView(mockView);
     subject.setScheduler(Schedulers.immediate());
     subject.setObserveOnScheduler(Schedulers.immediate());
     subject.login("code");

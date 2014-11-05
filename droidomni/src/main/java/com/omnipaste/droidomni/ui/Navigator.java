@@ -1,9 +1,11 @@
 package com.omnipaste.droidomni.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.omnipaste.droidomni.di.ActivityContext;
+import com.omnipaste.droidomni.ui.activity.ErrorActivity;
+import com.omnipaste.droidomni.ui.activity.ErrorActivity_;
 import com.omnipaste.droidomni.ui.activity.LauncherActivity_;
 import com.omnipaste.droidomni.ui.activity.LoginActivity_;
 
@@ -13,8 +15,11 @@ public class Navigator {
   private Context context;
 
   @Inject
-  public Navigator(@ActivityContext Context activityContext) {
-    this.context = activityContext;
+  public Navigator() {
+  }
+
+  public void attachView(Activity view) {
+    context = view;
   }
 
   public void openLoginActivity() {
@@ -28,6 +33,12 @@ public class Navigator {
   }
 
   public void openOmniActivity() {
+  }
+
+  public void openErrorActivity(Throwable throwable) {
+    Intent intent = new Intent(context, ErrorActivity_.class);
+    intent.putExtra(ErrorActivity.ERROR_EXTRA_KEY, throwable);
+    startActivity(intent);
   }
 
   private void startActivityNoHistory(Intent intent) {

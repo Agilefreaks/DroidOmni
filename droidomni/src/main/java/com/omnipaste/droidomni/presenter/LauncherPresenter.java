@@ -1,8 +1,7 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.content.Context;
+import android.app.Activity;
 
-import com.omnipaste.droidomni.di.ActivityContext;
 import com.omnipaste.droidomni.interactions.GetAccounts;
 import com.omnipaste.droidomni.service.DeviceService;
 import com.omnipaste.droidomni.service.SessionService;
@@ -26,60 +25,104 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
   private SessionService sessionService;
   private DeviceService deviceService;
   private GetAccounts getAccounts;
+  private Boolean isInitiating = false;
 
   @Inject
-  protected LauncherPresenter(@ActivityContext Context activityContext,
-                              Navigator navigator,
+  protected LauncherPresenter(Navigator navigator,
                               SessionService sessionService,
                               DeviceService deviceService,
                               GetAccounts getAccounts) {
-    super(activityContext);
     this.navigator = navigator;
     this.sessionService = sessionService;
     this.deviceService = deviceService;
     this.getAccounts = getAccounts;
   }
 
+  @Override public void attachView(View view) {
+    super.attachView(view);
+
+    if (view instanceof Activity) {
+      navigator.attachView((Activity) view);
+    }
+  }
+
   @Override
   public void initialize() {
-    if (sessionService.isLogged()) {
-      deviceService.init()
-          .subscribeOn(scheduler)
-          .observeOn(observeOnScheduler)
-          .subscribe(
-              // onNext
-              new Action1<RegisteredDeviceDto>() {
-                @Override public void call(RegisteredDeviceDto registeredDeviceDto) {
-                  sessionService.setRegisteredDeviceDto(registeredDeviceDto);
-                  navigator.openOmniActivity();
-                  // finishView();
-                }
-              },
-              // onError
-              new Action1<Throwable>() {
-                @Override public void call(Throwable throwable) {
-                }
-              }
-          );
-    } else {
-      sessionService
-          .login(getAccounts.fromGoogle())
-          .subscribe(
-              // onNext
-              new Action1<AccessTokenDto>() {
-                @Override public void call(AccessTokenDto accessTokenDto) {
-                  initialize();
-                }
-              },
-              // onError
-              new Action1<Throwable>() {
-                @Override public void call(Throwable throwable) {
-                  navigator.openLoginActivity();
-                  finishView();
-                }
-              }
-          );
+    if (isInitiating) {
+      return;
     }
+    isInitiating = true;
+
+    if (sessionService.isLogged()) {
+      initDevice();
+    } else {
+      initSession();
+    }
+  }
+
+  @Override
+  public void resume() {
+  }
+
+  @Override
+  public void pause() {
+  }
+
+  private void initSession() {
+    sessionService
+        .login(getAccounts.fromGoogle())
+        .subscribe(
+            // onNext
+            new Action1<AccessTokenDto>() {
+              @Override public void call(AccessTokenDto accessTokenDto) {
+                initDevice();
+              }
+            },
+            // onError
+            new Action1<Throwable>() {
+              @Override public void call(Throwable throwable) {
+                openLogin();
+              }
+            }
+        );
+  }
+
+  private void initDevice() {
+    deviceService.init()
+        .subscribeOn(scheduler)
+        .observeOn(observeOnScheduler)
+        .subscribe(
+            // onNext
+            new Action1<RegisteredDeviceDto>() {
+              @Override public void call(RegisteredDeviceDto registeredDeviceDto) {
+                sessionService.setRegisteredDeviceDto(registeredDeviceDto);
+                openOmni();
+              }
+            },
+            // onError
+            new Action1<Throwable>() {
+              @Override public void call(Throwable throwable) {
+                openError(throwable);
+              }
+            }
+        );
+  }
+
+  private void openLogin() {
+    navigator.openLoginActivity();
+    isInitiating = false;
+    finishView();
+  }
+
+  private void openOmni() {
+    navigator.openOmniActivity();
+    isInitiating = false;
+    // finishView();
+  }
+
+  private void openError(Throwable throwable) {
+    navigator.openErrorActivity(throwable);
+    isInitiating = false;
   }
 
   private void finishView() {
@@ -89,13 +132,5 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
     }
 
     view.finish();
-  }
-
-  @Override
-  public void resume() {
-  }
-
-  @Override
-  public void pause() {
   }
 }

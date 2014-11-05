@@ -1,25 +1,17 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.content.Context;
-
 import com.omnipaste.omnicommon.rx.Schedulable;
 
 import java.lang.ref.WeakReference;
 
-public abstract class Presenter<T> extends Schedulable {
-  private WeakReference<T> view;
+public abstract class Presenter<TView> extends Schedulable {
+  private WeakReference<TView> view;
 
-  protected Context context;
-
-  protected Presenter(Context activityContext) {
-    this.context = activityContext;
-  }
-
-  public void setView(T view) {
+  public void attachView(TView view) {
     this.view = new WeakReference<>(view);
   }
 
-  public T getView() {
+  public TView getView() {
     return view != null ? view.get() : null;
   }
 

@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -10,12 +11,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.controllers.LauncherActivityControllerImpl;
 import com.omnipaste.droidomni.controllers.MainActivityController;
-import com.omnipaste.droidomni.ui.activity.BaseActivity;
 
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_launcher)
-public class LauncherActivity extends BaseActivity {
+public class LauncherActivity extends ActionBarActivity {
   private static final int REQUEST_CODE_RECOVER_PLAY_SERVICES = 1001;
 
   public MainActivityController controller;
