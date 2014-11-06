@@ -24,7 +24,7 @@ public class ErrorPresenter extends Presenter<ErrorPresenter.View> {
     super.attachView(view);
 
     if (view instanceof Activity) {
-      navigator.attachView((Activity) view);
+      navigator.attachActivity((Activity) view);
     }
   }
 

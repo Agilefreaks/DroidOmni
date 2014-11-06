@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.omnipaste.droidomni.ui.activity.AboutActivity_;
 import com.omnipaste.droidomni.ui.activity.ConnectingActivity_;
 import com.omnipaste.droidomni.ui.activity.ErrorActivity;
 import com.omnipaste.droidomni.ui.activity.ErrorActivity_;
@@ -20,7 +21,7 @@ public class Navigator {
   public Navigator() {
   }
 
-  public void attachView(Activity view) {
+  public void attachActivity(Activity view) {
     context = view;
   }
 
@@ -42,6 +43,11 @@ public class Navigator {
   public void openOmniActivity() {
     Intent intent = new Intent(context, OmniActivity_.class);
     startActivityNoHistory(intent);
+  }
+
+  public void openAbout() {
+    Intent intent = new Intent(context, AboutActivity_.class);
+    startActivity(intent);
   }
 
   public void openErrorActivity(Throwable throwable) {

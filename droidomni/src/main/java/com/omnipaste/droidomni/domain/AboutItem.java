@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.adapters;
+package com.omnipaste.droidomni.domain;
 
 public class AboutItem {
   private String title;

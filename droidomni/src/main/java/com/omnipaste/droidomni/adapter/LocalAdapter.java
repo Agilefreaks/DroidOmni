@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.omnipaste.droidomni.views.HasSetup;
+import com.omnipaste.droidomni.ui.view.HasSetup;
 
 import java.util.ArrayList;
 

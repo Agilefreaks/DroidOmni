@@ -43,7 +43,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     super.attachView(view);
 
     if (view instanceof Activity) {
-      navigator.attachView((Activity) view);
+      navigator.attachActivity((Activity) view);
     }
   }
 

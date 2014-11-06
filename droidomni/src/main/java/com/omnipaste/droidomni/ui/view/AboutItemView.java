@@ -1,10 +1,10 @@
-package com.omnipaste.droidomni.views;
+package com.omnipaste.droidomni.ui.view;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.omnipaste.droidomni.adapters.AboutItem;
+import com.omnipaste.droidomni.domain.AboutItem;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;

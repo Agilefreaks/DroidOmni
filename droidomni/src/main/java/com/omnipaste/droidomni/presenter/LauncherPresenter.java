@@ -35,7 +35,7 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
     super.attachView(view);
 
     if (view instanceof Activity) {
-      navigator.attachView((Activity) view);
+      navigator.attachActivity((Activity) view);
     }
   }
 

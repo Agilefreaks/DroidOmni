@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
-import com.omnipaste.droidomni.activities.AboutActivity_;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
@@ -92,7 +91,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
         break;
       case ABOUT:
         activity.drawerLayout.closeDrawers();
-        intent = new Intent(activity, AboutActivity_.class);
         break;
       case PRIVACY_POLICY:
         intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.tosUrl));

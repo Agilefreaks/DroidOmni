@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.services.SmartActionService;
+import com.omnipaste.droidomni.ui.view.HasSetup;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import org.androidannotations.annotations.Click;

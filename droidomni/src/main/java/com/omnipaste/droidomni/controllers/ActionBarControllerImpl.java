@@ -36,7 +36,7 @@ public class ActionBarControllerImpl implements ActionBarController {
 
   @Override
   public ActionBarDrawerToggle setupNavigationDrawer(final DrawerLayout drawerLayout, final ActionBarDrawerToggleListener listener) {
-    drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+    drawerLayout.setDrawerShadow(null, GravityCompat.START);
 
     final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
         actionBarActivity,
