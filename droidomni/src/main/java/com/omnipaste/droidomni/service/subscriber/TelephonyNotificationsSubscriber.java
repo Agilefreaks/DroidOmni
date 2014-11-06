@@ -1,17 +1,19 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
 import com.omnipaste.eventsprovider.TelephonyNotificationsProvider;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Subscription;
 
-public class TelephonyNotificationsSubscriberImpl implements TelephonyNotificationsSubscriber {
+@Singleton
+public class TelephonyNotificationsSubscriber implements Subscriber {
   private TelephonyNotificationsProvider telephonyNotificationsProvider;
   private Subscription subscriber;
 
   @Inject
-  public TelephonyNotificationsSubscriberImpl(TelephonyNotificationsProvider telephonyNotificationsProvider) {
+  public TelephonyNotificationsSubscriber(TelephonyNotificationsProvider telephonyNotificationsProvider) {
     this.telephonyNotificationsProvider = telephonyNotificationsProvider;
   }
 

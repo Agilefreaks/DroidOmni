@@ -1,10 +1,18 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Subscription;
 
-// TODO: FIX this should propably be a service
-public class GcmWorkaroundSubscriberImpl implements GcmWorkaroundSubscriber {
+// TODO: FIX this should probably be a service
+@Singleton
+public class GcmWorkaroundSubscriber implements Subscriber {
   private Subscription subscriber;
+
+  @Inject
+  public GcmWorkaroundSubscriber() {
+  }
 
   @Override
   public void start(String deviceIdentifier) {

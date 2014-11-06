@@ -1,8 +1,8 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.clipboardprovider.IClipboardProvider;
+import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import org.mockito.Mock;
@@ -16,9 +16,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ClipboardSubscriberImplTest extends InstrumentationTestCase {
+public class ClipboardSubscriberTest extends InstrumentationTestCase {
   @Mock
-  public IClipboardProvider clipboardProvider;
+  public ClipboardProvider clipboardProvider;
 
   @SuppressWarnings("ConstantConditions")
   @Override
@@ -31,7 +31,7 @@ public class ClipboardSubscriberImplTest extends InstrumentationTestCase {
   }
 
   public void testStartWillCallInitWithTheDeviceIdentifier() throws Exception {
-    ClipboardSubscriberImpl subscriber = new ClipboardSubscriberImpl(clipboardProvider);
+    ClipboardSubscriber subscriber = new ClipboardSubscriber(clipboardProvider);
     when(clipboardProvider.init(any(String.class))).thenReturn(Observable.create(new Observable.OnSubscribe<ClippingDto>() {
       @Override
       public void call(Subscriber<? super ClippingDto> subscriber) {

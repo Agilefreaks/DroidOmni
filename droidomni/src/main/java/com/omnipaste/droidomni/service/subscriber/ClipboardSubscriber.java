@@ -1,23 +1,25 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
-import com.omnipaste.clipboardprovider.IClipboardProvider;
+import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.greenrobot.event.EventBus;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-public class ClipboardSubscriberImpl implements ClipboardSubscriber {
+@Singleton
+public class ClipboardSubscriber implements Subscriber {
   private Subscription clipboardSubscriber;
-  private IClipboardProvider clipboardProvider;
+  private ClipboardProvider clipboardProvider;
   private EventBus eventBus = EventBus.getDefault();
 
   @Inject
-  public ClipboardSubscriberImpl(IClipboardProvider clipboardProvider) {
+  public ClipboardSubscriber(ClipboardProvider clipboardProvider) {
     this.clipboardProvider = clipboardProvider;
   }
 
@@ -42,7 +44,6 @@ public class ClipboardSubscriberImpl implements ClipboardSubscriber {
     }
   }
 
-  @Override
   public void refreshOmni() {
     clipboardProvider.refreshOmni();
   }

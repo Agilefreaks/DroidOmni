@@ -1,10 +1,11 @@
 package com.omnipaste.clipboardprovider;
 
-import com.omnipaste.clipboardprovider.androidclipboard.ILocalClipboardManager;
-import com.omnipaste.clipboardprovider.omniclipboard.IOmniClipboardManager;
+import com.omnipaste.clipboardprovider.androidclipboard.LocalClipboardManager;
+import com.omnipaste.clipboardprovider.omniclipboard.OmniClipboardManager;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import dagger.Lazy;
 import rx.Observable;
@@ -13,13 +14,14 @@ import rx.Subscription;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
-public class ClipboardProvider implements IClipboardProvider {
+@Singleton
+public class ClipboardProvider {
   private PublishSubject<ClippingDto> clipboardProviderSubject;
   private Boolean subscribed = false;
   private Subscription localSubscription;
   private Subscription omniSubscription;
-  private IOmniClipboardManager currentOmniClipboardManager;
-  private ILocalClipboardManager currentLocalClipboardManager;
+  private OmniClipboardManager currentOmniClipboardManager;
+  private LocalClipboardManager currentLocalClipboardManager;
 
   private class OmniClipboardObserver implements Observer<ClippingDto> {
     @Override
@@ -62,11 +64,12 @@ public class ClipboardProvider implements IClipboardProvider {
   }
 
   @Inject
-  public Lazy<IOmniClipboardManager> omniClipboardManager;
+  public Lazy<OmniClipboardManager> omniClipboardManager;
 
   @Inject
-  public Lazy<ILocalClipboardManager> localClipboardManager;
+  public Lazy<LocalClipboardManager> localClipboardManager;
 
+  @Inject
   public ClipboardProvider() {
     clipboardProviderSubject = PublishSubject.create();
   }
@@ -104,17 +107,14 @@ public class ClipboardProvider implements IClipboardProvider {
     return clipboardProviderSubject;
   }
 
-  @Override
   public void refreshLocal() {
     currentLocalClipboardManager.onPrimaryClipChanged();
   }
 
-  @Override
   public void refreshOmni() {
     currentOmniClipboardManager.onPrimaryClipChanged();
   }
 
-  @Override
   public void destroy() {
     subscribed = false;
     localSubscription.unsubscribe();

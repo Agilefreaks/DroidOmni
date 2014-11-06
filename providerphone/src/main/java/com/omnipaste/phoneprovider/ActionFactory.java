@@ -7,13 +7,14 @@ import android.telephony.TelephonyManager;
 import com.omnipaste.phoneprovider.actions.Action;
 import com.omnipaste.phoneprovider.actions.Call;
 import com.omnipaste.phoneprovider.actions.EndCall;
-import com.omnipaste.phoneprovider.actions.Factory;
 import com.omnipaste.phoneprovider.actions.Sms;
 import com.omnipaste.phoneprovider.actions.Unknown;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class ActionFactory implements Factory {
+@Singleton
+public class ActionFactory {
   private Context context;
   private TelephonyManager telephonyManager;
   private SmsManager smsManager;
@@ -25,7 +26,6 @@ public class ActionFactory implements Factory {
     this.smsManager = smsManager;
   }
 
-  @Override
   public Action create(PhoneAction phoneAction) {
     Action result = null;
 

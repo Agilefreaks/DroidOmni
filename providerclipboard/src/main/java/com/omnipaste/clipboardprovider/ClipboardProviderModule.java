@@ -1,11 +1,8 @@
 package com.omnipaste.clipboardprovider;
 
-import com.omnipaste.clipboardprovider.androidclipboard.ILocalClipboardManager;
 import com.omnipaste.clipboardprovider.androidclipboard.LocalClipboardManager;
-import com.omnipaste.clipboardprovider.omniclipboard.IOmniClipboardManager;
 import com.omnipaste.clipboardprovider.omniclipboard.OmniClipboardManager;
-
-import javax.inject.Singleton;
+import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,18 +10,12 @@ import dagger.Provides;
 @Module(complete = false, library = true)
 public class ClipboardProviderModule {
   @Provides
-  public IOmniClipboardManager providesOmniClipboardManager(OmniClipboardManager omniClipboardManager) {
-    return omniClipboardManager;
+  public OmniClipboardManager providesOmniClipboardManager(NotificationProvider notificationProvider) {
+    return new OmniClipboardManager(notificationProvider);
   }
 
   @Provides
-  public ILocalClipboardManager providesLocalClipboardManager(LocalClipboardManager localClipboardManager) {
-    return localClipboardManager;
-  }
-
-  @Singleton
-  @Provides
-  public IClipboardProvider providesClipboardProvider(ClipboardProvider clipboardProvider) {
-    return clipboardProvider;
+  public LocalClipboardManager providesLocalClipboardManager(android.content.ClipboardManager clipboardManager) {
+    return new LocalClipboardManager(clipboardManager);
   }
 }

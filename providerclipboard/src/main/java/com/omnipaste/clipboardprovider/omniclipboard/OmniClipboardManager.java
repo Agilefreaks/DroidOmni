@@ -12,13 +12,12 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
-public class OmniClipboardManager implements IOmniClipboardManager {
+public class OmniClipboardManager {
   private PublishSubject<ClippingDto> omniClipboardSubject;
 
   @Inject
   public Clippings clippings;
 
-  @Override
   public Observable<ClippingDto> getObservable() {
     return omniClipboardSubject;
   }
@@ -45,14 +44,12 @@ public class OmniClipboardManager implements IOmniClipboardManager {
         );
   }
 
-  @Override
   public ClippingDto setPrimaryClip(ClippingDto clippingDto) {
     clippings.create(clippingDto).subscribe();
 
     return clippingDto;
   }
 
-  @Override
   public void onPrimaryClipChanged() {
     getPrimaryClip().subscribe(new Action1<ClippingDto>() {
       @Override

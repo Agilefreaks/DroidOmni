@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipaste.droidomni.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -11,8 +11,10 @@ import com.omnipaste.droidomni.activities.OmniActivity_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class  NotificationServiceImpl implements NotificationService {
+@Singleton
+public class NotificationService {
   public static final int NOTIFICATION_ID = 42;
   public static final int LARGE_TEXT = 128;
 
@@ -20,22 +22,19 @@ public class  NotificationServiceImpl implements NotificationService {
   private SmartActionService smartActionService;
 
   @Inject
-  public NotificationServiceImpl(SmartActionService smartActionService) {
+  public NotificationService(SmartActionService smartActionService) {
     this.smartActionService = smartActionService;
   }
 
-  @Override
   public Notification buildUserNotification(Context context, String appName, String text) {
     this.appName = appName;
     return basicBuilder(context, text).build();
   }
 
-  @Override
   public Notification buildSimpleNotification(Context context, ClippingDto clippingDto) {
     return basicBuilder(context, clippingDto.getContent()).build();
   }
 
-  @Override
   public Notification buildSmartActionNotification(Context context, ClippingDto clippingDto) {
     NotificationCompat.Builder builder =
         basicBuilder(context, clippingDto.getContent())

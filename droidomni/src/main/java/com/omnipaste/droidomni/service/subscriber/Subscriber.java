@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
 public interface Subscriber {
   public void start(String deviceIdentifier);

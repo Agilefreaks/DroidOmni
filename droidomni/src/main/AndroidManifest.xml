@@ -80,7 +80,7 @@
         </activity>
 
         <service
-            android:name="com.omnipaste.droidomni.services.OmniService_"
+            android:name="com.omnipaste.droidomni.service.OmniService_"
             android:description="@string/service_description"
             android:exported="false"
             android:icon="@drawable/ic_stat_omni"/>

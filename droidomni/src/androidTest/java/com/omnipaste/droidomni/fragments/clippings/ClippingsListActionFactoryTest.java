@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ClippingsListFactoryTest extends TestCase {
+public class ClippingsListActionFactoryTest extends TestCase {
   public IClippingsListFactory subject;
 
   public void setUp() throws Exception {

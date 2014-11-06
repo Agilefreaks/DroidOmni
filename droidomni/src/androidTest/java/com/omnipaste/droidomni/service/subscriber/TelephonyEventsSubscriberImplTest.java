@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
 import android.test.InstrumentationTestCase;
 
@@ -31,7 +31,7 @@ public class TelephonyEventsSubscriberImplTest extends InstrumentationTestCase {
   }
 
   public void testStartWillCallInitWithTheDeviceIdentifier() throws Exception {
-    TelephonyNotificationsSubscriberImpl subscriber = new TelephonyNotificationsSubscriberImpl(telephonyNotificationsProvider);
+    TelephonyNotificationsSubscriber subscriber = new TelephonyNotificationsSubscriber(telephonyNotificationsProvider);
     when(telephonyNotificationsProvider.init(any(String.class))).thenReturn(Observable.create(new Observable.OnSubscribe<NotificationDto>() {
       @Override
       public void call(Subscriber<? super NotificationDto> subscriber) {

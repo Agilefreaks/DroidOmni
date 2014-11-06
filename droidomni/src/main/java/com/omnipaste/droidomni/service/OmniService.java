@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipaste.droidomni.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -14,12 +14,11 @@ import com.omnipaste.droidomni.prefs.GcmWorkaround;
 import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
 import com.omnipaste.droidomni.prefs.NotificationsTelephony;
-import com.omnipaste.droidomni.service.DeviceService;
-import com.omnipaste.droidomni.services.subscribers.ClipboardSubscriber;
-import com.omnipaste.droidomni.services.subscribers.GcmWorkaroundSubscriber;
-import com.omnipaste.droidomni.services.subscribers.PhoneSubscriber;
-import com.omnipaste.droidomni.services.subscribers.Subscriber;
-import com.omnipaste.droidomni.services.subscribers.TelephonyNotificationsSubscriber;
+import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
+import com.omnipaste.droidomni.service.subscriber.GcmWorkaroundSubscriber;
+import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
+import com.omnipaste.droidomni.service.subscriber.Subscriber;
+import com.omnipaste.droidomni.service.subscriber.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -90,9 +89,6 @@ public class OmniService extends Service {
   public Lazy<TelephonyNotificationsSubscriber> telephonyNotificationsSubscriber;
 
   @Inject
-  public NotificationService notificationService;
-
-  @Inject
   public DeviceService deviceService;
 
   @Inject @NotificationsClipboard
@@ -106,6 +102,9 @@ public class OmniService extends Service {
 
   @Inject @GcmWorkaround
   public BooleanPreference isGcmWorkAroundEnabled;
+
+  @Inject
+  public NotificationService notificationService;
 
   public static Intent getIntent() {
     return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
@@ -233,6 +232,6 @@ public class OmniService extends Service {
   }
 
   private void notifyUser() {
-    startForeground(NotificationServiceImpl.NOTIFICATION_ID, notificationService.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
+    startForeground(NotificationService.NOTIFICATION_ID, notificationService.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
   }
 }

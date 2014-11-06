@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.droidomni.services.smartaction.SmartAction;
+import com.omnipaste.droidomni.service.SmartActionService;
+import com.omnipaste.droidomni.service.smartaction.SmartAction;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import org.mockito.Mock;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SmartActionServiceImplTest extends InstrumentationTestCase {
-  private SmartActionServiceImpl smartActionService;
+  private SmartActionService smartActionService;
 
   @Mock
   public Context context;
@@ -33,7 +34,7 @@ public class SmartActionServiceImplTest extends InstrumentationTestCase {
 
     MockitoAnnotations.initMocks(this);
 
-    smartActionService = new SmartActionServiceImpl(context);
+    smartActionService = new SmartActionService(context);
   }
 
   public void testRunWillCallStartActivity() throws Exception {

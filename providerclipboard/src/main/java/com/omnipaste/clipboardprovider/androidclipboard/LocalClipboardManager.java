@@ -15,7 +15,7 @@ import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class LocalClipboardManager implements ILocalClipboardManager, ClipboardManager.OnPrimaryClipChangedListener {
+public class LocalClipboardManager implements ClipboardManager.OnPrimaryClipChangedListener {
   private PublishSubject<ClippingDto> localClipboardSubject;
   private ClipboardManager clipboardManager;
   private boolean skipNext = false;
@@ -28,12 +28,10 @@ public class LocalClipboardManager implements ILocalClipboardManager, ClipboardM
     localClipboardSubject = PublishSubject.create();
   }
 
-  @Override
   public Observable<ClippingDto> getObservable() {
     return localClipboardSubject;
   }
 
-  @Override
   public ClippingDto setPrimaryClip(ClippingDto clippingDto) {
     skipNext = true;
     clipboardManager.setPrimaryClip(ClipData.newPlainText("", clippingDto.getContent()));

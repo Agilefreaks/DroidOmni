@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
 import android.test.InstrumentationTestCase;
 
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class PhoneSubscriberImplTest extends InstrumentationTestCase {
+public class PhoneSubscriberTest extends InstrumentationTestCase {
   @Mock
   public PhoneProvider phoneProvider;
 
@@ -31,7 +31,7 @@ public class PhoneSubscriberImplTest extends InstrumentationTestCase {
   }
 
   public void testStartWillCallInitWithTheDeviceIdentifier() throws Exception {
-    PhoneSubscriberImpl subscriber = new PhoneSubscriberImpl(phoneProvider);
+    PhoneSubscriber subscriber = new PhoneSubscriber(phoneProvider);
     when(phoneProvider.init(any(String.class))).thenReturn(Observable.create(new Observable.OnSubscribe<EmptyDto>() {
       @Override
       public void call(Subscriber<? super EmptyDto> subscriber) {

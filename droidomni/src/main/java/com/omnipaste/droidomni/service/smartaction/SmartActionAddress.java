@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services.smartaction;
+package com.omnipaste.droidomni.service.smartaction;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,15 +6,15 @@ import android.net.Uri;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-public class SmartActionWebSite extends SmartAction {
+public class SmartActionAddress extends SmartAction {
   @Override
   public int getTitle() {
-    return R.string.smart_action_browse;
+    return R.string.smart_action_navigate;
   }
 
   @Override
   public int[] getIcon() {
-    return new int[] { R.drawable.ic_smart_action_uri_light, R.drawable.ic_smart_action_uri };
+    return new int[] { R.drawable.ic_smart_action_address_light, R.drawable.ic_smart_action_address } ;
   }
 
   @Override
@@ -24,6 +24,6 @@ public class SmartActionWebSite extends SmartAction {
 
   @Override
   protected Uri getURI(ClippingDto clippingDto) {
-    return Uri.parse(clippingDto.getContent());
+    return Uri.parse("google.navigation:q=" + clippingDto.getContent());
   }
 }

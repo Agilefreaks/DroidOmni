@@ -1,7 +1,7 @@
 package com.omnipaste.clipboardprovider;
 
-import com.omnipaste.clipboardprovider.androidclipboard.ILocalClipboardManager;
-import com.omnipaste.clipboardprovider.omniclipboard.IOmniClipboardManager;
+import com.omnipaste.clipboardprovider.androidclipboard.LocalClipboardManager;
+import com.omnipaste.clipboardprovider.omniclipboard.OmniClipboardManager;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import junit.framework.TestCase;
@@ -35,13 +35,13 @@ public class ClipboardProviderTest extends TestCase {
     clipboardProvider = new ClipboardProvider();
 
     Lazy mockLazyLocal = mock(Lazy.class);
-    ILocalClipboardManager mockLocalClipboardManager = mock(ILocalClipboardManager.class);
+    LocalClipboardManager mockLocalClipboardManager = mock(LocalClipboardManager.class);
     when(mockLazyLocal.get()).thenReturn(mockLocalClipboardManager);
     when(mockLocalClipboardManager.getObservable()).thenReturn(localObservable);
     clipboardProvider.localClipboardManager = mockLazyLocal;
 
     Lazy mockLazyOmni = mock(Lazy.class);
-    IOmniClipboardManager mockOmniClipboardManager = mock(IOmniClipboardManager.class);
+    OmniClipboardManager mockOmniClipboardManager = mock(OmniClipboardManager.class);
     when(mockLazyOmni.get()).thenReturn(mockOmniClipboardManager);
     when(mockOmniClipboardManager.getObservable()).thenReturn(omniObservable);
     clipboardProvider.omniClipboardManager = mockLazyOmni;

@@ -1,17 +1,19 @@
-package com.omnipaste.droidomni.services.subscribers;
+package com.omnipaste.droidomni.service.subscriber;
 
 import com.omnipaste.phoneprovider.PhoneProvider;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Subscription;
 
-public class PhoneSubscriberImpl implements PhoneSubscriber {
+@Singleton
+public class PhoneSubscriber implements Subscriber {
   private PhoneProvider phoneProvider;
   private Subscription subscriber;
 
   @Inject
-  public PhoneSubscriberImpl(PhoneProvider phoneProvider) {
+  public PhoneSubscriber(PhoneProvider phoneProvider) {
     this.phoneProvider = phoneProvider;
   }
 

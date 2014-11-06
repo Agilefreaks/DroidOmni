@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services.smartaction;
+package com.omnipaste.droidomni.service.smartaction;
 
 import android.content.Intent;
 import android.net.Uri;

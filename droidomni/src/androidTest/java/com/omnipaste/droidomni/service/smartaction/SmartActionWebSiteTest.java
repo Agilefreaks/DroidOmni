@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services.smartaction;
+package com.omnipaste.droidomni.service.smartaction;
 
 import android.content.Intent;
 
@@ -9,23 +9,23 @@ import junit.framework.TestCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class SmartActionAddressTest extends TestCase {
-  public SmartActionAddress smartActionAddress;
+public class SmartActionWebSiteTest extends TestCase {
+  public SmartActionWebSite smartActionWebSite;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
 
-    smartActionAddress = new SmartActionAddress();
+    smartActionWebSite = new SmartActionWebSite();
   }
 
   public void testBuildIntentWillReturnTheCorrectIntent() throws Exception {
-    ClippingDto clippingDto = new ClippingDto().setContent("str Avram Iancu, nr. 1 - 3, ap. 5");
+    ClippingDto clippingDto = new ClippingDto().setContent("http://www.omnipasteapp.com");
 
-    Intent intent = smartActionAddress.buildIntent(clippingDto);
+    Intent intent = smartActionWebSite.buildIntent(clippingDto);
 
     assertThat(intent.getAction(), is(Intent.ACTION_VIEW));
-    assertThat(intent.getDataString(), is("google.navigation:q=str Avram Iancu, nr. 1 - 3, ap. 5"));
+    assertThat(intent.getDataString(), is("http://www.omnipasteapp.com"));
     assertThat(intent.getFlags(), is(Intent.FLAG_ACTIVITY_NEW_TASK));
   }
 }
