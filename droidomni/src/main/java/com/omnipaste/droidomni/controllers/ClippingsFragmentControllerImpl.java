@@ -13,7 +13,6 @@ import android.os.RemoteException;
 
 import com.google.common.collect.EvictingQueue;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
 import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.droidomni.events.OmniClipboardRefresh;
@@ -57,9 +56,6 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   @Inject
   public NotificationManager notificationManager;
 
-  @Inject
-  public ActionBarController actionBarController;
-
   public ClippingsFragmentControllerImpl() {
     clippings = EvictingQueue.create(42);
     clippingsSubject = ReplaySubject.create();
@@ -92,8 +88,6 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
     ClippingsPagerAdapter clippingsPagerAdapter = new ClippingsPagerAdapter(fragment.getChildFragmentManager(), fragment.getActivity());
     fragment.setAdapter(clippingsPagerAdapter);
     fragment.setViewPager();
-
-    actionBarController.setTitle(R.string.clippings_title);
   }
 
   @Override

@@ -25,9 +25,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   private OmniActivity activity;
 
   @Inject
-  public ActionBarController actionBarController;
-
-  @Inject
   public FragmentService fragmentService;
 
   @Inject
@@ -41,8 +38,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
     eventBus.register(this);
     activity = omniActivity;
 
-    actionBarController.run(omniActivity);
-
     if (savedInstance == null) {
       setInitialFragment();
     }
@@ -51,7 +46,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   @Override
   public void stop() {
     eventBus.unregister(this);
-    actionBarController.stop();
   }
 
   @Override

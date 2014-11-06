@@ -11,8 +11,6 @@ import android.telephony.TelephonyManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.activities.OmniActivity_;
-import com.omnipaste.droidomni.controllers.ActionBarController;
-import com.omnipaste.droidomni.controllers.ActionBarControllerImpl;
 import com.omnipaste.droidomni.controllers.ClippingsFragmentControllerImpl;
 import com.omnipaste.droidomni.controllers.OmniActivityControllerImpl;
 import com.omnipaste.droidomni.fragments.clippings.AllFragment_;
@@ -189,11 +187,5 @@ public class MainModule {
   @Singleton
   public GcmWorkaroundSubscriber providesGcmWorkaroundSubscriber() {
     return new GcmWorkaroundSubscriberImpl();
-  }
-
-  @Provides
-  @Singleton
-  public ActionBarController providesActionBarController() {
-    return new ActionBarControllerImpl();
   }
 }
