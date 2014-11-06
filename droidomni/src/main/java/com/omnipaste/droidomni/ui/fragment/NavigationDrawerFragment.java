@@ -14,7 +14,7 @@ import org.androidannotations.annotations.ViewById;
 import javax.inject.Inject;
 
 @EFragment(R.layout.fragment_navigation_drawer)
-public class NavigationDrawerFragment extends BaseFragment<NavigationDrawerPresenter> {
+public class NavigationDrawerFragment extends BaseFragment<NavigationDrawerPresenter> implements NavigationDrawerPresenter.View {
   @Inject
   public NavigationDrawerPresenter presenter;
 

@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.omnipaste.droidomni.ui.activity.AboutActivity_;
 import com.omnipaste.droidomni.ui.activity.ConnectingActivity_;
@@ -59,6 +60,12 @@ public class Navigator {
   public void openErrorActivity(Throwable throwable) {
     Intent intent = new Intent(context, ErrorActivity_.class);
     intent.putExtra(ErrorActivity.ERROR_EXTRA_KEY, throwable);
+    startActivity(intent);
+  }
+
+  public void openUri(Uri uri) {
+    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     startActivity(intent);
   }
 

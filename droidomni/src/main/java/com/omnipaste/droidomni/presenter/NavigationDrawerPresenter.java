@@ -1,7 +1,9 @@
 package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
+import android.net.Uri;
 
+import com.omnipaste.droidomni.BuildConfig;
 import com.omnipaste.droidomni.adapter.NavigationDrawerAdapter;
 import com.omnipaste.droidomni.adapter.SecondaryNavigationDrawerAdapter;
 import com.omnipaste.droidomni.domain.NavigationDrawerItem;
@@ -64,8 +66,7 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
         navigator.openAbout();
         break;
       case PRIVACY_POLICY:
-//        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.tosUrl));
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        navigator.openUri(Uri.parse(BuildConfig.TOS_URL));
         break;
     }
   }
