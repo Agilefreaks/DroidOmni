@@ -70,14 +70,14 @@
                 android:value="com.omnipaste.droidomni.ui.activity.OmniActivity_"/>
         </activity>
 
-        <!-- <activity -->
-        <!-- android:name="com.omnipaste.droidomni.activities.SettingsActivity" -->
-        <!-- android:label="@string/title_activity_settings" -->
-        <!-- android:parentActivityName="com.omnipaste.droidomni.activities.OmniActivity_"> -->
-        <!-- <meta-data -->
-        <!-- android:name="android.support.PARENT_ACTIVITY" -->
-        <!-- android:value="com.omnipaste.droidomni.activities.OmniActivity_"/> -->
-        <!-- </activity> -->
+        <activity
+            android:name="com.omnipaste.droidomni.ui.activity.SettingsActivity_"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.omnipaste.droidomni.ui.activity.OmniActivity_">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.omnipaste.droidomni.ui.activity.OmniActivity_"/>
+        </activity>
 
         <service
             android:name="com.omnipaste.droidomni.services.OmniService_"

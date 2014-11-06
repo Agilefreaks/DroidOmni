@@ -58,8 +58,7 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
       case ACTIVITY:
         break;
       case SETTINGS:
-//        activity.drawerLayout.closeDrawers();
-//        intent = new Intent(activity, SettingsActivity.class);
+        navigator.openSettings();
         break;
       case ABOUT:
         navigator.openAbout();

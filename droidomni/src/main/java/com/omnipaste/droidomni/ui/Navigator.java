@@ -11,6 +11,7 @@ import com.omnipaste.droidomni.ui.activity.ErrorActivity_;
 import com.omnipaste.droidomni.ui.activity.LauncherActivity_;
 import com.omnipaste.droidomni.ui.activity.LoginActivity_;
 import com.omnipaste.droidomni.ui.activity.OmniActivity_;
+import com.omnipaste.droidomni.ui.activity.SettingsActivity_;
 
 import javax.inject.Inject;
 
@@ -43,6 +44,11 @@ public class Navigator {
   public void openOmniActivity() {
     Intent intent = new Intent(context, OmniActivity_.class);
     startActivityNoHistory(intent);
+  }
+
+  public void openSettings() {
+    Intent intent = new Intent(context, SettingsActivity_.class);
+    startActivity(intent);
   }
 
   public void openAbout() {

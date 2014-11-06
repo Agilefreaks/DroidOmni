@@ -8,7 +8,6 @@ import android.view.View;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.OmniActivity;
-import com.omnipaste.droidomni.activities.SettingsActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
 import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
@@ -87,7 +86,6 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
         break;
       case SETTINGS:
         activity.drawerLayout.closeDrawers();
-        intent = new Intent(activity, SettingsActivity.class);
         break;
       case ABOUT:
         activity.drawerLayout.closeDrawers();

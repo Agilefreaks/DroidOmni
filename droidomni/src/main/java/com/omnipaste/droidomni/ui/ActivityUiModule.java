@@ -6,6 +6,7 @@ import com.omnipaste.droidomni.ui.activity.ErrorActivity_;
 import com.omnipaste.droidomni.ui.activity.LauncherActivity_;
 import com.omnipaste.droidomni.ui.activity.LoginActivity_;
 import com.omnipaste.droidomni.ui.activity.OmniActivity_;
+import com.omnipaste.droidomni.ui.activity.SettingsActivity_;
 
 import dagger.Module;
 
@@ -16,7 +17,8 @@ import dagger.Module;
         LoginActivity_.class,
         ErrorActivity_.class,
         OmniActivity_.class,
-        AboutActivity_.class
+        AboutActivity_.class,
+        SettingsActivity_.class
     },
     complete = false,
     library = true
