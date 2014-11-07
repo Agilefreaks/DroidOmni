@@ -47,6 +47,9 @@ android {
             buildConfigField 'String', 'API_CLIENT_TOKEN', '"/fIzBJiOeFMmt0FGuel8qfIHFF/yI4EENtPKJJqaS5tC1wMGADfJgvF0IWX5zliy2KEECA8luy+iVTRTRrmsGg=="'
             buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca3028e18700b0000006"'
             buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
+
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
         }
 
         staging {
@@ -57,6 +60,9 @@ android {
             buildConfigField 'String', 'API_CLIENT_TOKEN', '"xXQQhOqPhuCXzkqd6k4MAeM+fTctERC0c9guLjhqzNjcGj9kE61DvJgl1wx67oYECmEtpoBuTfQ+3GoLdY7lww=="'
             buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca2628e18700b0000004"'
             buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
+
+            applicationIdSuffix '.staging'
+            versionNameSuffix '-staging'
 
             signingConfig signingConfigs.release
             runProguard false
