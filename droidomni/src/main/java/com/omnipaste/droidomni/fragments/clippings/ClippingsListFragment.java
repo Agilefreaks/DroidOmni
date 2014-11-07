@@ -12,7 +12,7 @@ import com.omnipaste.droidomni.adapters.ClippingAdapter;
 import com.omnipaste.droidomni.adapters.IClippingAdapter;
 import com.omnipaste.droidomni.events.OmniClipboardRefresh;
 import com.omnipaste.droidomni.fragments.SwipeRefreshListFragment;
-import com.omnipaste.droidomni.services.GoogleAnalyticsService;
+import com.omnipaste.droidomni.service.GoogleAnalyticsService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import org.androidannotations.annotations.AfterViews;

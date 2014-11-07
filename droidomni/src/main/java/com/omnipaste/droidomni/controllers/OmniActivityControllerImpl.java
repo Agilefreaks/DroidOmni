@@ -5,15 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
-import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.actionbar.ActionBarDrawerToggleListener;
 import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.events.NavigationItemClicked;
 import com.omnipaste.droidomni.events.SignOutEvent;
-import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment_;
 import com.omnipaste.droidomni.service.OmniService;
 import com.omnipaste.droidomni.service.SessionService;
-import com.omnipaste.droidomni.services.FragmentService;
 import com.omnipaste.droidomni.ui.fragment.NavigationDrawerFragment;
 
 import javax.inject.Inject;
@@ -23,9 +20,6 @@ import de.greenrobot.event.EventBus;
 public class OmniActivityControllerImpl implements OmniActivityController, ActionBarDrawerToggleListener {
   private EventBus eventBus = EventBus.getDefault();
   private OmniActivity activity;
-
-  @Inject
-  public FragmentService fragmentService;
 
   @Inject
   public SessionService sessionService;
@@ -102,6 +96,5 @@ public class OmniActivityControllerImpl implements OmniActivityController, Actio
   }
 
   private void setInitialFragment() {
-    fragmentService.setFragment(activity, R.id.omni_container, ClippingsFragment_.builder().build());
   }
 }

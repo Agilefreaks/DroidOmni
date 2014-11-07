@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
 
-import com.omnipaste.droidomni.interactions.GetAccounts;
+import com.omnipaste.droidomni.interaction.GetAccounts;
 import com.omnipaste.droidomni.service.DeviceService;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;

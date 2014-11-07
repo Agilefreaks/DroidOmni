@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.interactions;
+package com.omnipaste.droidomni.interaction;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

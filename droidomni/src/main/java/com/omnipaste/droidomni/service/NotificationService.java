@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.activities.OmniActivity_;
+import com.omnipaste.droidomni.ui.activity.OmniActivity_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
