@@ -27,6 +27,7 @@
     <!-- ACTIVITY -->
     <string name="clippings_title">Cortes</string>
     <string name="clipping_smart_action_description">Acção inteligente</string>
+    <string name="clipping_delete">Remover</string>
     <string name="clippings_tab_all">Todos</string>
     <string name="clippings_tab_local">Dispositivo</string>
     <string name="clippings_tab_cloud">Nuvem</string>

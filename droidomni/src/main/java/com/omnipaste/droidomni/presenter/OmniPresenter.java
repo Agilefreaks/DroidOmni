@@ -7,8 +7,10 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.support.v4.app.Fragment;
 
 import com.omnipaste.droidomni.service.OmniService;
+import com.omnipaste.droidomni.ui.fragment.ActivityFragment_;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,6 +33,7 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
   private Context context;
 
   public interface View {
+    void setFragment(Fragment activityFragment);
   }
 
   @Inject
@@ -41,6 +44,7 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
   @Override
   public void initialize() {
     context.bindService(OmniService.getIntent(), serviceConnection, Context.BIND_AUTO_CREATE);
+    setActivityFragment();
   }
 
   @Override
@@ -63,4 +67,12 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
     }
   }
 
+  private void setActivityFragment() {
+   View view = getView();
+    if (view == null) {
+      return;
+    }
+
+    view.setFragment(ActivityFragment_.builder().build());
+  }
 }

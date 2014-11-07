@@ -1,7 +1,6 @@
 package com.omnipaste.droidomni.views;
 
 import android.content.Context;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,7 +10,6 @@ import com.omnipaste.droidomni.service.SmartActionService;
 import com.omnipaste.droidomni.ui.view.HasSetup;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
@@ -31,8 +29,8 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
   @ViewById
   public TextView textContent;
 
-  @ViewById
-  public ImageButton smartActionButton;
+//  @ViewById
+//  public ImageButton smartActionButton;
 
   @Inject
   public SmartActionService smartActionService;
@@ -50,16 +48,16 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
     textContent.setText(clippingDto.getContent());
     textContent.setCompoundDrawablesWithIntrinsicBounds(icon.get(clippingDto.getClippingProvider()), 0, 0, 0);
 
-    if (clippingDto.getType() != ClippingDto.ClippingType.UNKNOWN) {
-      smartActionButton.setVisibility(VISIBLE);
-      smartActionButton.setImageResource(SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
-    } else {
-      smartActionButton.setVisibility(GONE);
-    }
+//    if (clippingDto.getType() != ClippingDto.ClippingType.UNKNOWN) {
+//      smartActionButton.setVisibility(VISIBLE);
+//      smartActionButton.setImageResource(SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
+//    } else {
+//      smartActionButton.setVisibility(GONE);
+//    }
   }
 
-  @Click
-  public void smartActionButtonClicked() {
-    smartActionService.run(clippingDto);
-  }
+//  @Click
+//  public void smartActionButtonClicked() {
+//    smartActionService.run(clippingDto);
+//  }
 }

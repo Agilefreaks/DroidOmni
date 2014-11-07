@@ -66,7 +66,7 @@ public class OmniService extends Service {
           break;
         case MSG_REFRESH_OMNI_CLIPBOARD:
           if (clipboardSubscriber.get() != null) {
-            clipboardSubscriber.get().refreshOmni();
+            // clipboardSubscriber.get().refreshOmni();
           }
           break;
       }

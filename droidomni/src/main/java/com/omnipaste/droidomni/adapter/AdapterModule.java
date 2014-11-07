@@ -30,4 +30,10 @@ public class AdapterModule {
   public AboutAdapter provideAboutAdapter(Resources resources, Context context) {
     return AboutAdapter.build(resources, context);
   }
+
+  @Provides
+  @Singleton
+  public ClippingAdapter provideClippingAdapter() {
+    return ClippingAdapter.build();
+  }
 }

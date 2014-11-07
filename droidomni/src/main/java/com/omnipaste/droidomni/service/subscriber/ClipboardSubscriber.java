@@ -1,26 +1,27 @@
 package com.omnipaste.droidomni.service.subscriber;
 
 import com.omnipaste.clipboardprovider.ClipboardProvider;
-import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import de.greenrobot.event.EventBus;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.subjects.ReplaySubject;
 
 @Singleton
 public class ClipboardSubscriber implements Subscriber {
   private Subscription clipboardSubscriber;
   private ClipboardProvider clipboardProvider;
-  private EventBus eventBus = EventBus.getDefault();
+  private ReplaySubject<ClippingDto> subject;
 
   @Inject
   public ClipboardSubscriber(ClipboardProvider clipboardProvider) {
     this.clipboardProvider = clipboardProvider;
+    subject = ReplaySubject.create();
   }
 
   @Override
@@ -31,7 +32,7 @@ public class ClipboardSubscriber implements Subscriber {
         .subscribe(new Action1<ClippingDto>() {
           @Override
           public void call(ClippingDto clippingDto) {
-            eventBus.post(new ClippingAdded(clippingDto));
+            subject.onNext(clippingDto);
           }
         });
   }
@@ -44,7 +45,7 @@ public class ClipboardSubscriber implements Subscriber {
     }
   }
 
-  public void refreshOmni() {
-    clipboardProvider.refreshOmni();
+  public void subscribe(Observer<ClippingDto> observer) {
+    subject.subscribe(observer);
   }
 }

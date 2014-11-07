@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 
@@ -41,5 +42,13 @@ public class OmniActivity extends BaseActivity<OmniPresenter> implements OmniPre
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
     drawerToggle.syncState();
+  }
+
+  @Override
+  public void setFragment(Fragment fragment) {
+    getSupportFragmentManager()
+        .beginTransaction()
+        .replace(R.id.omni_container, fragment)
+        .commit();
   }
 }

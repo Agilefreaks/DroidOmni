@@ -28,6 +28,7 @@
     <!-- ACTIVITY -->
     <string name="clippings_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>
+    <string name="clipping_delete">Remove</string>
     <string name="clippings_tab_all">All</string>
     <string name="clippings_tab_local">Local</string>
     <string name="clippings_tab_cloud">Cloud</string>

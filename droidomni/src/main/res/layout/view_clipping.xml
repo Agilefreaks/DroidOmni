@@ -1,38 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="8dp"
+                                    android:orientation="horizontal">
 
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:divider="?android:dividerVertical"
-        android:showDividers="middle"
-        android:dividerPadding="12dip"
-        android:descendantFocusability="blocksDescendants">
+        android:layout_height="match_parent">
 
-    <TextView
-            android:id="@+id/textContent"
-            android:layout_width="0dip"
+        <LinearLayout
+            android:id="@+id/clipping_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:gravity="center_vertical"
-            android:minHeight="?android:attr/listPreferredItemHeightLarge"
-            android:lines="2"
-            android:ellipsize="end"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <ImageButton
-            style="@style/Widget.Holo.ActionImageButton"
-            android:src="@drawable/ic_smart_action_phone_number"
-            android:visibility="gone"
-            android:layout_margin="8dip"
-            android:id="@+id/smart_action_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:contentDescription="@string/clipping_smart_action_description"/>
+            <TextView
+                android:id="@+id/text_source"
+                style="@android:style/TextAppearance.DeviceDefault.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"/>
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/text_content"
+                style="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"/>
 
+        </LinearLayout>
 
+        <View
+            android:id="@+id/divider"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/clipping_content"
+            android:background="?android:attr/dividerHorizontal"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/smart_action"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/delete"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clipping_delete"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

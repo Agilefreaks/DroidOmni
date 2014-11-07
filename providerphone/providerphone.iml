@@ -108,7 +108,6 @@
     <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
     <orderEntry type="module" module-name="omniapi" exported="" />
     <orderEntry type="module" module-name="omnicommon" exported="" />
-    <orderEntry type="library" name="hamcrest-core-1.4-atlassian-1" level="project" />
   </component>
 </module>
 
