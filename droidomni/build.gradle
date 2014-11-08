@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
-//apply from: 'strip_play_services.gradle'
+apply from: 'strip_play_services.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion

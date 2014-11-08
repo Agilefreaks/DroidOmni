@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.omnipaste.droidomni.di.RootModule;
 import com.omnipaste.droidomni.prefs.GcmSenderId;
 import com.omnipaste.omniapi.prefs.ApiClientId;
 import com.omnipaste.omniapi.prefs.ApiClientToken;
@@ -59,7 +58,7 @@ public class DroidOmniApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
-    objectGraph = ObjectGraph.create(new RootModule(this));
+    objectGraph = ObjectGraph.create(Modules.list(this));
     inject(this);
 
     context = this;
