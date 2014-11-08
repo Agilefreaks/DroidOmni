@@ -6,8 +6,9 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.5'
-        classpath 'com.android.tools.build:gradle:0.14.0'
+        classpath 'com.android.tools.build:gradle:0.14.1'
     }
 }
 
@@ -37,6 +38,7 @@ allprojects {
     ]
 }
 
+// http://tools.android.com/tech-docs/new-build-system/tips
 subprojects {
     project.plugins.whenPluginAdded { plugin ->
         if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {

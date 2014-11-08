@@ -2,19 +2,15 @@ package com.omnipaste.droidomni.controllers;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.os.Bundle;
 
 import com.google.common.collect.EvictingQueue;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.adapters.ClippingsPagerAdapter;
 import com.omnipaste.droidomni.events.ClippingAdded;
 import com.omnipaste.droidomni.events.OmniClipboardRefresh;
-import com.omnipaste.droidomni.fragments.clippings.ClippingsFragment;
 import com.omnipaste.droidomni.service.NotificationService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -24,7 +20,6 @@ import rx.subjects.ReplaySubject;
 
 public class ClippingsFragmentControllerImpl implements ClippingsFragmentController {
   private final EventBus eventBus = EventBus.getDefault();
-  private ClippingsFragment fragment;
   private ReplaySubject<ClippingDto> clippingsSubject;
   private EvictingQueue<ClippingDto> clippings;
 
@@ -40,30 +35,12 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   }
 
   @Override
-  public void run(ClippingsFragment clippingsFragment, Bundle savedInstance) {
-    eventBus.register(this);
-
-    if (savedInstance != null) {
-      Collections.addAll(clippings, (ClippingDto[]) savedInstance.getParcelableArray(ClippingsFragment.CLIPPINGS_PARCEL));
-
-      for (ClippingDto clipping : clippings) {
-        clippingsSubject.onNext(clipping);
-      }
-    }
-
-    this.fragment = clippingsFragment;
-  }
-
-  @Override
   public void stop() {
     eventBus.unregister(this);
   }
 
-  @Override
-  public void afterView() {
-    ClippingsPagerAdapter clippingsPagerAdapter = new ClippingsPagerAdapter(fragment.getChildFragmentManager(), fragment.getActivity());
-    fragment.setAdapter(clippingsPagerAdapter);
-    fragment.setViewPager();
+  @Override public void afterView() {
+
   }
 
   @Override
