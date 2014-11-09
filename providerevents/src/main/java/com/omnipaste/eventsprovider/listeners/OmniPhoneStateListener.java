@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class OmniPhoneStateListener extends PhoneStateListener {
+public class OmniPhoneStateListener extends PhoneStateListener implements Listener {
   private TelephonyManager telephonyManager;
   private EventsReceiver receiver;
 

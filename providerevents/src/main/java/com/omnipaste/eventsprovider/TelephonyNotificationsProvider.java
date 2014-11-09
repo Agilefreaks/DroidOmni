@@ -2,6 +2,7 @@ package com.omnipaste.eventsprovider;
 
 import com.omnipaste.eventsprovider.listeners.EventsReceiver;
 import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
+import com.omnipaste.eventsprovider.listeners.OmniSmsListener;
 import com.omnipaste.omniapi.resource.v1.Events;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
@@ -19,6 +20,7 @@ public class TelephonyNotificationsProvider implements Provider<NotificationDto>
 
   private String identifier;
   private OmniPhoneStateListener omniPhoneStateListener;
+  private OmniSmsListener smsListener;
   private boolean subscribed = false;
   private Events events;
 
@@ -28,9 +30,11 @@ public class TelephonyNotificationsProvider implements Provider<NotificationDto>
 
   @Inject
   public TelephonyNotificationsProvider(Events events,
-                                        OmniPhoneStateListener omniPhoneStateListener) {
+                                        OmniPhoneStateListener omniPhoneStateListener,
+                                        OmniSmsListener smsListener) {
     this.events = events;
     this.omniPhoneStateListener = omniPhoneStateListener;
+    this.smsListener = smsListener;
 
     instance = this;
   }
@@ -40,6 +44,7 @@ public class TelephonyNotificationsProvider implements Provider<NotificationDto>
     if (!subscribed) {
       this.identifier = identifier;
       omniPhoneStateListener.start(this);
+      smsListener.start(this);
       subscribed = true;
     }
 
@@ -55,6 +60,7 @@ public class TelephonyNotificationsProvider implements Provider<NotificationDto>
   @Override
   public void destroy() {
     omniPhoneStateListener.stop();
+    smsListener.stop();
     subscribed = false;
   }
 }

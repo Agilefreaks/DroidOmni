@@ -3,17 +3,39 @@ package com.omnipaste.eventsprovider.listeners;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.omnipaste.eventsprovider.TelephonyNotificationsProvider;
 import com.omnipaste.omnicommon.dto.IncomingSmsEventDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
-public class  OmniSmsListener extends BroadcastReceiver {
-  private final static String EXTRAS_KEY = "pdus";
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-  public OmniSmsListener() {}
+@Singleton
+public class OmniSmsListener extends BroadcastReceiver implements Listener {
+  private final static String EXTRAS_KEY = "pdus";
+  private EventsReceiver receiver;
+  private Context context;
+
+  @Inject
+  public OmniSmsListener(Context context) {
+    this.context = context;
+  }
+
+  public void start(EventsReceiver receiver) {
+    this.receiver = receiver;
+    IntentFilter filter = new IntentFilter();
+    filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+    filter.setPriority(999);
+
+    context.registerReceiver(this, filter);
+  }
+
+  public void stop() {
+    context.unregisterReceiver(this);
+  }
 
   @Override
   public void onReceive(Context context, Intent intent) {
@@ -32,14 +54,6 @@ public class  OmniSmsListener extends BroadcastReceiver {
           new IncomingSmsEventDto()
               .setPhoneNumber(fromAddress)
               .setContent(message.getMessageBody()));
-      post(telephonyEventDto);
-    }
-  }
-
-  private void post(TelephonyEventDto telephonyEventDto) {
-    TelephonyNotificationsProvider receiver = TelephonyNotificationsProvider.getInstance();
-
-    if (receiver != null) {
       receiver.post(telephonyEventDto);
     }
   }

@@ -3,6 +3,7 @@ package com.omnipaste.eventsprovider;
 import android.test.InstrumentationTestCase;
 
 import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
+import com.omnipaste.eventsprovider.listeners.OmniSmsListener;
 import com.omnipaste.omniapi.resource.v1.Events;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
@@ -16,6 +17,7 @@ public class TelephonyNotificationsProviderTest extends InstrumentationTestCase 
   private TelephonyNotificationsProvider subject;
   private Events mockEvents;
   private OmniPhoneStateListener mockOmniPhoneStateListener;
+  private OmniSmsListener mockOmniSmsListener;
 
   @Override
   public void setUp() throws Exception {
@@ -23,13 +25,15 @@ public class TelephonyNotificationsProviderTest extends InstrumentationTestCase 
 
     mockEvents = mock(Events.class);
     mockOmniPhoneStateListener = mock(OmniPhoneStateListener.class);
-    subject = new TelephonyNotificationsProvider(mockEvents, mockOmniPhoneStateListener);
+    mockOmniSmsListener = mock(OmniSmsListener.class);
+    subject = new TelephonyNotificationsProvider(mockEvents, mockOmniPhoneStateListener, mockOmniSmsListener);
   }
 
   public void testInitItCallsStartOnBothListeners() throws Exception {
     subject.init("Muchen");
 
     verify(mockOmniPhoneStateListener).start(subject);
+    verify(mockOmniSmsListener).start(subject);
   }
 
   public void testPostWillCallCreateOnEvents() throws Exception {
