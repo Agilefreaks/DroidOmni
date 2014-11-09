@@ -1,10 +1,10 @@
-package com.omnipaste.droidomni.events;
+package com.omnipaste.droidomni.domain;
 
 import android.os.Bundle;
 
 import com.omnipaste.omnicommon.dto.NotificationDto;
 
-public class GcmNotificationReceived {
+public class GcmNotification {
   public static String REGISTRATION_ID_KEY = "registrationId";
   public static String PROVIDER_KEY = "provider";
 
@@ -22,10 +22,7 @@ public class GcmNotificationReceived {
     return defaultValue;
   }
 
-  public GcmNotificationReceived() {
-  }
-
-  public GcmNotificationReceived(Bundle extras) {
+  public GcmNotification(Bundle extras) {
     this.extras = extras;
     registrationId = extras.getString(REGISTRATION_ID_KEY);
     provider = valueOfOrDefault(NotificationDto.Target.class, extras.getString(PROVIDER_KEY), NotificationDto.Target.UNKNOWN);

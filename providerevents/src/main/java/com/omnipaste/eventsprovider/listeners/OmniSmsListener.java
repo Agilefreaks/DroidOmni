@@ -6,15 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.omnipaste.eventsprovider.events.TelephonyEvent;
+import com.omnipaste.eventsprovider.TelephonyNotificationsProvider;
 import com.omnipaste.omnicommon.dto.IncomingSmsEventDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
-import de.greenrobot.event.EventBus;
-
-public class OmniSmsListener extends BroadcastReceiver {
-  private final EventBus eventBus = EventBus.getDefault();
+public class  OmniSmsListener extends BroadcastReceiver {
   private final static String EXTRAS_KEY = "pdus";
+
+  public OmniSmsListener() {}
 
   @Override
   public void onReceive(Context context, Intent intent) {
@@ -33,7 +32,15 @@ public class OmniSmsListener extends BroadcastReceiver {
           new IncomingSmsEventDto()
               .setPhoneNumber(fromAddress)
               .setContent(message.getMessageBody()));
-      eventBus.post(new TelephonyEvent(telephonyEventDto));
+      post(telephonyEventDto);
+    }
+  }
+
+  private void post(TelephonyEventDto telephonyEventDto) {
+    TelephonyNotificationsProvider receiver = TelephonyNotificationsProvider.getInstance();
+
+    if (receiver != null) {
+      receiver.post(telephonyEventDto);
     }
   }
 }

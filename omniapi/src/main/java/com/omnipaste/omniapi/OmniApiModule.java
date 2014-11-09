@@ -44,7 +44,7 @@ public class OmniApiModule {
     return new RestAdapter.Builder()
         .setClient(client)
         .setEndpoint(endpoint)
-        .setLogLevel(RestAdapter.LogLevel.FULL)
+        .setLogLevel(RestAdapter.LogLevel.NONE)
         .setConverter(new GsonConverter(
                 getGsonBuilder()
                     .registerTypeAdapter(ClippingDto.ClippingType.class, new ClippingTypeDeserializer())

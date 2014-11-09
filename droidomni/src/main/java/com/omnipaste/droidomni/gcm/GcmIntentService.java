@@ -6,19 +6,24 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.omnipaste.droidomni.events.GcmNotificationReceived;
+import com.omnipaste.droidomni.DroidOmniApplication;
+import com.omnipaste.droidomni.domain.GcmNotification;
+import com.omnipaste.droidomni.provider.GcmNotificationProvider;
 
 import org.androidannotations.annotations.EService;
 
-import de.greenrobot.event.EventBus;
+import javax.inject.Inject;
 
 @EService
 public class GcmIntentService extends IntentService {
-  private EventBus eventBus = EventBus.getDefault();
   private static final String TAG = "GCMIntentService";
+
+  @Inject
+  public GcmNotificationProvider gcmNotificationProvider;
 
   public GcmIntentService() {
     super(TAG);
+    DroidOmniApplication.inject(this);
   }
 
   @Override
@@ -36,7 +41,7 @@ public class GcmIntentService extends IntentService {
           Log.i(TAG, "Deleted messages on server: " + (extras == null ? "" : extras.toString()));
           break;
         case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
-          eventBus.post(new GcmNotificationReceived(extras));
+          gcmNotificationProvider.post(new GcmNotification(extras));
           break;
       }
     }

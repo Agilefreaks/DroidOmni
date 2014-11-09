@@ -91,7 +91,6 @@
     <orderEntry type="library" exported="" name="dagger-compiler-1.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-mockito-1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.10" level="project" />
-    <orderEntry type="library" exported="" name="eventbus-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="objenesis-2.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />

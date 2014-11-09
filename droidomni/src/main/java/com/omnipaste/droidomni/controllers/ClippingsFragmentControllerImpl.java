@@ -5,8 +5,6 @@ import android.app.NotificationManager;
 
 import com.google.common.collect.EvictingQueue;
 import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.events.ClippingAdded;
-import com.omnipaste.droidomni.events.OmniClipboardRefresh;
 import com.omnipaste.droidomni.service.NotificationService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
@@ -14,12 +12,10 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import de.greenrobot.event.EventBus;
 import rx.Observable;
 import rx.subjects.ReplaySubject;
 
 public class ClippingsFragmentControllerImpl implements ClippingsFragmentController {
-  private final EventBus eventBus = EventBus.getDefault();
   private ReplaySubject<ClippingDto> clippingsSubject;
   private EvictingQueue<ClippingDto> clippings;
 
@@ -36,7 +32,7 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
 
   @Override
   public void stop() {
-    eventBus.unregister(this);
+
   }
 
   @Override public void afterView() {
@@ -51,19 +47,6 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   @Override
   public Collection<ClippingDto> getClippings() {
     return clippings;
-  }
-
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(ClippingAdded event) {
-    ClippingDto clipping = event.getClipping();
-    clippings.add(clipping);
-
-    setClipping(clipping);
-    notifyClipping(clipping);
-  }
-
-  @SuppressWarnings("UnusedDeclaration")
-  public void onEventMainThread(OmniClipboardRefresh event) {
   }
 
   public void setClipping(ClippingDto clippingDto) {

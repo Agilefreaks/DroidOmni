@@ -1,0 +1,43 @@
+package com.omnipaste.eventsprovider;
+
+import android.test.InstrumentationTestCase;
+
+import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
+import com.omnipaste.omniapi.resource.v1.Events;
+import com.omnipaste.omnicommon.dto.TelephonyEventDto;
+
+import rx.Observable;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+public class TelephonyNotificationsProviderTest extends InstrumentationTestCase {
+  private TelephonyNotificationsProvider subject;
+  private Events mockEvents;
+  private OmniPhoneStateListener mockOmniPhoneStateListener;
+
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+
+    mockEvents = mock(Events.class);
+    mockOmniPhoneStateListener = mock(OmniPhoneStateListener.class);
+    subject = new TelephonyNotificationsProvider(mockEvents, mockOmniPhoneStateListener);
+  }
+
+  public void testInitItCallsStartOnBothListeners() throws Exception {
+    subject.init("Muchen");
+
+    verify(mockOmniPhoneStateListener).start(subject);
+  }
+
+  public void testPostWillCallCreateOnEvents() throws Exception {
+    TelephonyEventDto telephonyEventDto = new TelephonyEventDto();
+    when(mockEvents.create(telephonyEventDto)).thenReturn(Observable.<TelephonyEventDto>empty());
+
+    subject.post(telephonyEventDto);
+
+    verify(mockEvents).create(telephonyEventDto);
+  }
+}

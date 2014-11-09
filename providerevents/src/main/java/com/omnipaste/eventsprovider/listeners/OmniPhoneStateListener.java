@@ -3,14 +3,31 @@ package com.omnipaste.eventsprovider.listeners;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.omnipaste.eventsprovider.events.TelephonyEvent;
 import com.omnipaste.omnicommon.dto.IncomingCallEventDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
-import de.greenrobot.event.EventBus;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class OmniPhoneStateListener extends PhoneStateListener {
-  private final EventBus eventBus = EventBus.getDefault();
+  private TelephonyManager telephonyManager;
+  private EventsReceiver receiver;
+
+  @Inject
+  public OmniPhoneStateListener(TelephonyManager telephonyManager) {
+    this.telephonyManager = telephonyManager;
+  }
+
+  public void start(EventsReceiver receiver) {
+    telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
+    this.receiver = receiver;
+  }
+
+  public void stop() {
+    telephonyManager.listen(this, PhoneStateListener.LISTEN_NONE);
+    receiver = null;
+  }
 
   @Override
   public void onCallStateChanged(int state, java.lang.String incomingNumber) {
@@ -20,7 +37,7 @@ public class OmniPhoneStateListener extends PhoneStateListener {
       TelephonyEventDto telephonyEventDto = new TelephonyEventDto(
           TelephonyEventDto.TelephonyEventType.incomingCall,
           new IncomingCallEventDto().setPhoneNumber(incomingNumber));
-      eventBus.post(new TelephonyEvent(telephonyEventDto));
+      receiver.post(telephonyEventDto);
     }
   }
 }
