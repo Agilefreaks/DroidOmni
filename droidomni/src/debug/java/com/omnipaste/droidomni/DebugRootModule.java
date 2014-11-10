@@ -1,7 +1,6 @@
-package com.omnipaste.droidomni.di;
+package com.omnipaste.droidomni;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.omnipaste.droidomni.DebugGoogleCloudMessaging;
 
 import javax.inject.Singleton;
 
@@ -10,7 +9,8 @@ import dagger.Provides;
 
 @Module(
     addsTo = RootModule.class,
-    overrides = true
+    overrides = true,
+    library = true
 )
 public class DebugRootModule {
   @Provides

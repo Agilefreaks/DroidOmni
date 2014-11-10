@@ -1,7 +1,6 @@
-package com.omnipaste.droidomni.di;
+package com.omnipaste.droidomni;
 
 import android.accounts.AccountManager;
-import android.app.NotificationManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,7 +9,6 @@ import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
-import com.omnipaste.droidomni.DroidOmniApplication_;
 import com.omnipaste.droidomni.gcm.GcmIntentService_;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.provider.GcmNotificationProvider;
@@ -41,18 +39,17 @@ import dagger.Provides;
         PhoneProviderModule.class,
         EventsProviderModule.class,
         GcmIntentService_.class
-    },
-    complete = false,
-    library = true
+    }
 )
-public class RootModule {
+public final class RootModule {
   private final Context context;
 
   public RootModule(Context context) {
     this.context = context;
   }
 
-  @Provides Context provideApplicationContext() {
+  @Provides
+  public Context provideApplicationContext() {
     return context;
   }
 
@@ -80,11 +77,11 @@ public class RootModule {
     return SmsManager.getDefault();
   }
 
-  @Provides
-  @Singleton
-  public NotificationManager providesNotificationManager() {
-    return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-  }
+//  @Provides
+//  @Singleton
+//  public NotificationManager providesNotificationManager() {
+//    return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//  }
 
   @Provides
   @Singleton

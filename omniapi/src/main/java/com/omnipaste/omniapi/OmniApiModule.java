@@ -40,11 +40,16 @@ public class OmniApiModule {
   }
 
   @Provides @Singleton
-  public RestAdapter provideRestAdapter(Endpoint endpoint, Client client, ApiHeaders apiHeaders) {
+  public RestAdapter.LogLevel provideLogLevel() {
+    return BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE;
+  }
+
+  @Provides @Singleton
+  public RestAdapter provideRestAdapter(Endpoint endpoint, Client client, ApiHeaders apiHeaders, RestAdapter.LogLevel logLevel) {
     return new RestAdapter.Builder()
         .setClient(client)
         .setEndpoint(endpoint)
-        .setLogLevel(RestAdapter.LogLevel.NONE)
+        .setLogLevel(logLevel)
         .setConverter(new GsonConverter(
                 getGsonBuilder()
                     .registerTypeAdapter(ClippingDto.ClippingType.class, new ClippingTypeDeserializer())

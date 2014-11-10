@@ -18,9 +18,11 @@ android {
     }
 
     buildTypes {
+        staging {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
 

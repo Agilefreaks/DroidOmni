@@ -3,7 +3,6 @@ package com.omnipaste.droidomni.controllers;
 import android.app.Notification;
 import android.app.NotificationManager;
 
-import com.google.common.collect.EvictingQueue;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.service.NotificationService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -17,7 +16,6 @@ import rx.subjects.ReplaySubject;
 
 public class ClippingsFragmentControllerImpl implements ClippingsFragmentController {
   private ReplaySubject<ClippingDto> clippingsSubject;
-  private EvictingQueue<ClippingDto> clippings;
 
   @Inject
   public NotificationService notificationService;
@@ -26,13 +24,11 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   public NotificationManager notificationManager;
 
   public ClippingsFragmentControllerImpl() {
-    clippings = EvictingQueue.create(42);
     clippingsSubject = ReplaySubject.create();
   }
 
   @Override
   public void stop() {
-
   }
 
   @Override public void afterView() {
@@ -46,7 +42,7 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
 
   @Override
   public Collection<ClippingDto> getClippings() {
-    return clippings;
+    return null;
   }
 
   public void setClipping(ClippingDto clippingDto) {

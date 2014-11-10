@@ -16,6 +16,9 @@
 #   public *;
 #}
 
+# please KEEP ALL THE NAMES
+-keepnames class ** { *; }
+
 # google play services
 -keep class * extends java.util.ListResourceBundle {
     protected Object[][] getContents();
