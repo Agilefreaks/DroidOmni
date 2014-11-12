@@ -6,4 +6,6 @@ import rx.Observable;
 
 public interface NotificationProvider {
   public Observable<NotificationDto> getObservable();
+
+  public void post(NotificationDto notificationDto);
 }

@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.provider;
 
-import com.omnipaste.droidomni.domain.GcmNotification;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
@@ -17,11 +16,8 @@ public class GcmNotificationProvider implements  NotificationProvider {
     notificationSubject = PublishSubject.create();
   }
 
-  public void post(GcmNotification gcmNotification) {
-    notificationSubject.onNext(new NotificationDto(
-        gcmNotification.getProvider(),
-        gcmNotification.getRegistrationId(),
-        gcmNotification.getExtras()));
+  public void post(NotificationDto notificationDto) {
+    notificationSubject.onNext(notificationDto);
   }
 
   @Override

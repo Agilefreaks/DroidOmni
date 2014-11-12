@@ -77,12 +77,6 @@ public final class RootModule {
     return SmsManager.getDefault();
   }
 
-//  @Provides
-//  @Singleton
-//  public NotificationManager providesNotificationManager() {
-//    return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//  }
-
   @Provides
   @Singleton
   public AccountManager provideAccountManager() {

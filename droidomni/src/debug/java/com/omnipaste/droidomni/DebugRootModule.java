@@ -1,11 +1,6 @@
 package com.omnipaste.droidomni;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-import javax.inject.Singleton;
-
 import dagger.Module;
-import dagger.Provides;
 
 @Module(
     addsTo = RootModule.class,
@@ -13,9 +8,9 @@ import dagger.Provides;
     library = true
 )
 public class DebugRootModule {
-  @Provides
-  @Singleton
-  public GoogleCloudMessaging provideGoogleCloudMessaging() {
-    return new DebugGoogleCloudMessaging();
-  }
+//  @Provides
+//  @Singleton
+//  public GoogleCloudMessaging provideGoogleCloudMessaging() {
+//    return new DebugGoogleCloudMessaging();
+//  }
 }

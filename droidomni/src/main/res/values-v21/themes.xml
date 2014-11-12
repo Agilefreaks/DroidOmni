@@ -12,4 +12,7 @@
         <item name="android:background">?attr/colorPrimaryDark</item>
         <item name="android:elevation">@dimen/action_bar_elevation</item>
     </style>
+
+    <style name="TransparentButton" parent="@android:style/Widget.Material.Button.Borderless">
+    </style>
 </resources>
