@@ -25,12 +25,9 @@
     <string name='main_activity_device_not_supported'>Este aparelho não é suportado.</string>
 
     <!-- ACTIVITY -->
-    <string name="clippings_title">Cortes</string>
+    <string name="activity_title">Cortes</string>
     <string name="clipping_smart_action_description">Acção inteligente</string>
     <string name="clipping_delete">Remover</string>
-    <string name="clippings_tab_all">Todos</string>
-    <string name="clippings_tab_local">Dispositivo</string>
-    <string name="clippings_tab_cloud">Nuvem</string>
     <string name="clippings_empty">Não existem cortes para mostrar</string>
 
     <!-- Navigation -->

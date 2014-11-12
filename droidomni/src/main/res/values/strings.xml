@@ -26,12 +26,9 @@
     <string name="main_activity_device_not_supported">This device is not supported.</string>
 
     <!-- ACTIVITY -->
-    <string name="clippings_title">Clippings</string>
+    <string name="activity_title">Clippings</string>
     <string name="clipping_smart_action_description">Smart action</string>
     <string name="clipping_delete">Remove</string>
-    <string name="clippings_tab_all">All</string>
-    <string name="clippings_tab_local">Local</string>
-    <string name="clippings_tab_cloud">Cloud</string>
     <string name="clippings_empty">There are no clippings to display</string>
 
     <!-- Navigation -->

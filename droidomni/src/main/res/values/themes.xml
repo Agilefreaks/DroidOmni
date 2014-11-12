@@ -35,7 +35,8 @@
         <item name="android:minHeight">?android:attr/listPreferredItemHeightSmall</item>
     </style>
 
-    <style name="Widget.Holo.ActionImageButton" parent="@android:style/Widget.Holo.ImageButton">
-        <item name="android:background">@drawable/btn_smart_action</item>
+    <style name="TransparentButton" parent="@style/Widget.AppCompat.Light.ActionButton">
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 </resources>
