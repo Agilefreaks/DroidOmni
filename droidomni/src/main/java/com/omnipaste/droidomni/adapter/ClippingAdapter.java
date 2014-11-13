@@ -42,6 +42,11 @@ public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHo
     notifyDataSetChanged();
   }
 
+  public void remove(ClippingDto clippingDto) {
+    items.remove(clippingDto);
+    notifyDataSetChanged();
+  }
+
   public static class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View itemView) {
       super(itemView);

@@ -15,4 +15,7 @@
 
     <style name="TransparentButton" parent="@android:style/Widget.Material.Button.Borderless">
     </style>
+
+    <style name="SmartActionTransparentButton" parent="@android:style/Widget.Material.Button.Borderless.Colored">
+    </style>
 </resources>

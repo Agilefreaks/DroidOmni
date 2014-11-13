@@ -10,17 +10,13 @@ import javax.inject.Singleton;
 import rx.Observer;
 
 @Singleton
-public class ActivityPresenter extends FragmentPresenter implements Observer<ClippingDto> {
+public class ActivityPresenter extends FragmentPresenter {
 
-  private final ClippingAdapter clippingAdapter;
+  private ClippingPresenter clippingPresenter;
 
   @Inject
-  public ActivityPresenter(
-      ClipboardSubscriber clipboardSubscriber,
-      ClippingAdapter clippingAdapter
-  ) {
-    clipboardSubscriber.subscribe(this);
-    this.clippingAdapter = clippingAdapter;
+  public ActivityPresenter(ClippingPresenter clippingPresenter) {
+    this.clippingPresenter = clippingPresenter;
   }
 
   @Override
@@ -35,19 +31,7 @@ public class ActivityPresenter extends FragmentPresenter implements Observer<Cli
   public void pause() {
   }
 
-  @Override
-  public void onCompleted() {
-  }
-
-  @Override
-  public void onError(Throwable e) {
-  }
-
-  @Override public void onNext(ClippingDto clippingDto) {
-    clippingAdapter.add(clippingDto);
-  }
-
   public ClippingAdapter getClippingAdapter() {
-    return clippingAdapter;
+    return clippingPresenter.getClippingAdapter();
   }
 }

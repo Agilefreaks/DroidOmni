@@ -8,7 +8,8 @@ import dagger.Module;
     includes = {
         AdapterModule.class,
         ActivityUiModule.class,
-        FragmentUiModule.class
+        FragmentUiModule.class,
+        ViewUiModule.class
     },
     complete = false,
     library = true

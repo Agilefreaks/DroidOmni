@@ -39,4 +39,8 @@
         <item name="android:paddingLeft">16dip</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="SmartActionTransparentButton" parent="TransparentButton">
+        <item name="android:textColor">@color/primary_color</item>
+    </style>
 </resources>
