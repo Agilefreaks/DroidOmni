@@ -3,14 +3,12 @@ package com.omnipaste.droidomni.controllers;
 import android.os.Bundle;
 import android.view.View;
 
-import com.omnipaste.droidomni.activities.OmniActivity;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.fragment.NavigationDrawerFragment;
 
 import javax.inject.Inject;
 
 public class OmniActivityControllerImpl implements OmniActivityController {
-  private OmniActivity activity;
 
   @Inject
   public SessionService sessionService;
@@ -19,9 +17,7 @@ public class OmniActivityControllerImpl implements OmniActivityController {
   }
 
   @Override
-  public void run(OmniActivity omniActivity, Bundle savedInstance) {
-    activity = omniActivity;
-
+  public void run(Bundle savedInstance) {
     if (savedInstance == null) {
       setInitialFragment();
     }
@@ -38,19 +34,9 @@ public class OmniActivityControllerImpl implements OmniActivityController {
   }
 
   public void onDrawerOpened(View drawerView) {
-    if (!activity.navigationDrawer.isAdded()) {
-      return;
-    }
-
-    activity.supportInvalidateOptionsMenu();
   }
 
   public void onDrawerClosed(View drawerView) {
-    if (!activity.navigationDrawer.isAdded()) {
-      return;
-    }
-
-    activity.supportInvalidateOptionsMenu();
   }
 
   private void setInitialFragment() {

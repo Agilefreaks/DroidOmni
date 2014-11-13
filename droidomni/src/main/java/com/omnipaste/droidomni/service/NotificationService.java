@@ -31,8 +31,15 @@ public class NotificationService {
     return basicBuilder(context, text).build();
   }
 
+  public Notification buildSimpleNotification(Context context) {
+    return basicBuilder(context, "").build();
+  }
+
   public Notification buildSimpleNotification(Context context, ClippingDto clippingDto) {
-    return basicBuilder(context, clippingDto.getContent()).build();
+    return
+        basicBuilder(context, clippingDto.getContent())
+            .addAction(smartActionService.getRemoveAction())
+            .build();
   }
 
   public Notification buildSmartActionNotification(Context context, ClippingDto clippingDto) {
@@ -40,10 +47,8 @@ public class NotificationService {
         basicBuilder(context, clippingDto.getContent())
             .setWhen(0)
             .setPriority(Notification.PRIORITY_MAX)
-            .addAction(
-                smartActionService.getIcon(clippingDto),
-                smartActionService.getTitle(clippingDto),
-                smartActionService.buildPendingIntent(clippingDto));
+            .addAction(smartActionService.getAction(clippingDto))
+            .addAction(smartActionService.getRemoveAction());
 
     if (clippingDto.getContentLength() > LARGE_TEXT) {
       builder = builder.setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()));

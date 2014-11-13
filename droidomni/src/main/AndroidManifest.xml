@@ -90,6 +90,11 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="com.omnipaste.droidomni.service.smartaction.SmartActionRemove"
+            android:enabled="true"
+            android:exported="false"/>
+
         <service
             android:name="com.omnipaste.droidomni.gcm.GcmIntentService_"
             android:exported="false"/>

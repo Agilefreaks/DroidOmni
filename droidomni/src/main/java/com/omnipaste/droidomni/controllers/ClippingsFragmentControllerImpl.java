@@ -1,9 +1,7 @@
 package com.omnipaste.droidomni.controllers;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.service.NotificationService;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
@@ -32,7 +30,6 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
   }
 
   @Override public void afterView() {
-
   }
 
   @Override
@@ -47,16 +44,5 @@ public class ClippingsFragmentControllerImpl implements ClippingsFragmentControl
 
   public void setClipping(ClippingDto clippingDto) {
     clippingsSubject.onNext(clippingDto);
-  }
-
-  public void notifyClipping(ClippingDto clipping) {
-    Notification notification;
-    if (clipping.getType() == ClippingDto.ClippingType.UNKNOWN) {
-      notification = notificationService.buildSimpleNotification(DroidOmniApplication.getAppContext(), clipping);
-    } else {
-      notification = notificationService.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clipping);
-    }
-
-    notificationManager.notify(NotificationService.NOTIFICATION_ID, notification);
   }
 }

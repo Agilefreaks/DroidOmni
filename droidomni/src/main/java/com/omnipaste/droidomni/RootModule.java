@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
@@ -13,6 +14,7 @@ import com.omnipaste.droidomni.gcm.GcmIntentService_;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.provider.GcmNotificationProvider;
 import com.omnipaste.droidomni.service.OmniService_;
+import com.omnipaste.droidomni.service.smartaction.SmartActionRemove;
 import com.omnipaste.droidomni.ui.UiModule;
 import com.omnipaste.eventsprovider.EventsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
@@ -38,7 +40,8 @@ import dagger.Provides;
         ClipboardProviderModule.class,
         PhoneProviderModule.class,
         EventsProviderModule.class,
-        GcmIntentService_.class
+        GcmIntentService_.class,
+        SmartActionRemove.class
     }
 )
 public final class RootModule {
@@ -87,6 +90,11 @@ public final class RootModule {
   @Singleton
   public Resources provideResources() {
     return context.getResources();
+  }
+
+  @Provides
+  public NotificationManagerCompat provideNotificationManagerCompat() {
+    return NotificationManagerCompat.from(context);
   }
 
   @Provides
