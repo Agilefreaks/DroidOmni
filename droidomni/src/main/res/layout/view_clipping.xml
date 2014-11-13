@@ -72,6 +72,8 @@
                     style="@style/TransparentButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_smart_action_remove"
+                    android:drawableStart="@drawable/ic_smart_action_remove"
                     android:text="@string/clipping_delete"/>
 
             </LinearLayout>

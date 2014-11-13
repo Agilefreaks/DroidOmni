@@ -62,6 +62,7 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
     if (item.getType() != ClippingDto.ClippingType.UNKNOWN) {
       smartAction.setVisibility(VISIBLE);
       smartAction.setText(SmartActionService.SMART_ACTIONS.get(item.getType()).getTitle());
+      smartAction.setCompoundDrawablesWithIntrinsicBounds(SmartActionService.SMART_ACTIONS.get(item.getType()).getIcon()[1], 0, 0, 0);
     } else {
       smartAction.setVisibility(GONE);
     }
