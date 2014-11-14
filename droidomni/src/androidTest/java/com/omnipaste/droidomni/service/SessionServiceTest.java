@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.services;
+package com.omnipaste.droidomni.service;
 
 import android.test.InstrumentationTestCase;
 

@@ -37,7 +37,7 @@ public class GcmNotificationProviderTest extends TestCase {
     Observer observer = mock(Observer.class);
     notificationProvider.getObservable().subscribe(observer);
 
-    notificationProvider.post(new GcmNotification(new Bundle()));
+    notificationProvider.post(new NotificationDto());
 
     verify(observer, times(1)).onNext(isA(NotificationDto.class));
   }

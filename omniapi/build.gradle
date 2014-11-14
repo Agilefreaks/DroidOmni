@@ -43,8 +43,9 @@ dependencies {
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'
 
     compile 'com.squareup.retrofit:retrofit:1.7.1'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.1.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
 
     androidTestCompile androidTest
+    androidTestCompile 'com.squareup.dagger:dagger-compiler:1.2.2'
 }

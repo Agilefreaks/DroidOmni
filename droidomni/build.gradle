@@ -88,8 +88,8 @@ apt {
 }
 
 dependencies {
-    apt 'org.androidannotations:androidannotations:3.1'
-    compile 'org.androidannotations:androidannotations-api:3.1'
+    apt 'org.androidannotations:androidannotations:3.2'
+    compile 'org.androidannotations:androidannotations-api:3.2'
 
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'

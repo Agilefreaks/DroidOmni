@@ -11,6 +11,8 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import java.util.ArrayList;
 
 public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHolder> {
+  private final int LIST_SIZE = 42;
+
   public static ClippingAdapter build() {
     return new ClippingAdapter(new ArrayList<ClippingDto>());
   }
@@ -39,12 +41,21 @@ public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHo
 
   public void add(ClippingDto clippingDto) {
     items.add(0, clippingDto);
+
+    if (items.size() >= LIST_SIZE + 10) {
+      items.subList(LIST_SIZE, items.size()).clear();
+    }
+
     notifyDataSetChanged();
   }
 
   public void remove(ClippingDto clippingDto) {
     items.remove(clippingDto);
     notifyDataSetChanged();
+  }
+
+  public int getCount() {
+    return items.size();
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
