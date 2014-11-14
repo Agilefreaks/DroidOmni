@@ -18,10 +18,6 @@ public class PrefsModule {
 
   @Provides @Singleton
   public SharedPreferences provideSharedPreferences(Context context) {
-    return context.getSharedPreferences(getConfigurationFileName(BuildConfig.BUILD_TYPE), MODE_PRIVATE);
-  }
-
-  public String getConfigurationFileName(String buildType) {
-    return buildType.equals("release") ? LOCAL_CONFIGURATION_FILE_NAME : LOCAL_CONFIGURATION_FILE_NAME + "." + buildType;
+    return context.getSharedPreferences(LOCAL_CONFIGURATION_FILE_NAME, MODE_PRIVATE);
   }
 }

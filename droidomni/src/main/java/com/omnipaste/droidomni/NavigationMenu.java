@@ -5,5 +5,6 @@ public enum NavigationMenu {
   SETTINGS,
   ABOUT,
   PRIVACY_POLICY,
-  SIGN_OUT,
+  EXIT,
+  SIGN_OUT
 }

@@ -110,11 +110,6 @@ public class OmniService extends Service {
     return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
   }
 
-  public static void restart(final Context context) {
-    context.stopService(getIntent());
-    context.startService(getIntent());
-  }
-
   public OmniService() {
     DroidOmniApplication.inject(this);
   }

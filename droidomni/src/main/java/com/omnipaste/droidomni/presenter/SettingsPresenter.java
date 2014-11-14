@@ -3,7 +3,10 @@ package com.omnipaste.droidomni.presenter;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.prefs.PrefsModule;
+import com.omnipaste.droidomni.service.OmniService;
+import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.droidomni.ui.fragment.NotificationPreferenceFragment;
@@ -16,6 +19,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
 
   private Navigator navigator;
   private SessionService sessionService;
+  private OmniServiceConnection omniServiceConnection;
   private SharedPreferences sharedPreferences;
 
   public interface View {
@@ -28,10 +32,12 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   public SettingsPresenter(
       SharedPreferences sharedPreferences,
       Navigator navigator,
-      SessionService sessionService) {
+      SessionService sessionService,
+      OmniServiceConnection omniServiceConnection) {
     this.sharedPreferences = sharedPreferences;
     this.navigator = navigator;
     this.sessionService = sessionService;
+    this.omniServiceConnection = omniServiceConnection;
   }
 
   @Override
@@ -64,8 +70,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
         key.equals(PrefsModule.NOTIFICATIONS_PHONE_KEY) ||
         key.equals(PrefsModule.NOTIFICATIONS_TELEPHONY_KEY) ||
         key.equals(PrefsModule.GCM_WORKAROUND_KEY)) {
-      // TODO: restart omniservice
-      // OmniService.restart(DroidOmniApplication.getAppContext());
+      omniServiceConnection.restartOmniService();
     }
   }
 

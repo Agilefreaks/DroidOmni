@@ -37,6 +37,7 @@
     <string name="navigation_drawer_settings">Definições</string>
     <string name="navigation_drawer_about">Sobre</string>
     <string name="navigation_drawer_privacy_policy">Política de Privacidade</string>
+    <string name="navigation_drawer_exit">Saída</string>
 
     <!-- ABOUT -->
     <string name="title_activity_about">Sobre</string>

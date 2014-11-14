@@ -8,6 +8,9 @@ import android.preference.PreferenceScreen;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.presenter.SettingsPresenter;
+import com.omnipaste.omnicommon.prefs.PrefsModule;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class NotificationPreferenceFragment extends PreferenceFragment {
   private SettingsPresenter settingsPresenter;
@@ -23,6 +26,9 @@ public class NotificationPreferenceFragment extends PreferenceFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    getPreferenceManager().setSharedPreferencesName(PrefsModule.LOCAL_CONFIGURATION_FILE_NAME);
+    getPreferenceManager().setSharedPreferencesMode(MODE_PRIVATE);
 
     addPreferencesFromResource(R.xml.pref_notification);
   }
