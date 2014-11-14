@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.omnipaste.droidomni.R;
@@ -28,18 +29,25 @@ public class NotificationService {
 
   public Notification buildUserNotification(Context context, String appName, String text) {
     this.appName = appName;
-    return basicBuilder(context, text).build();
+    NotificationCompat.Builder builder = basicBuilder(context, text);
+    builder = setSecretVisibility(builder);
+
+    return builder.build();
   }
 
   public Notification buildSimpleNotification(Context context) {
-    return basicBuilder(context, "").build();
+    NotificationCompat.Builder builder = basicBuilder(context, "");
+    builder = setSecretVisibility(builder);
+
+    return builder.build();
   }
 
   public Notification buildSimpleNotification(Context context, ClippingDto clippingDto) {
-    return
-        basicBuilder(context, clippingDto.getContent())
-            .addAction(smartActionService.getRemoveAction())
-            .build();
+    NotificationCompat.Builder builder = basicBuilder(context, clippingDto.getContent())
+        .addAction(smartActionService.getRemoveAction());
+    builder = setPublicVisibility(builder);
+
+    return builder.build();
   }
 
   public Notification buildSmartActionNotification(Context context, ClippingDto clippingDto) {
@@ -54,6 +62,8 @@ public class NotificationService {
       builder = builder.setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()));
     }
 
+    builder = setPublicVisibility(builder);
+
     return builder.build();
   }
 
@@ -66,5 +76,21 @@ public class NotificationService {
         .setContentTitle(appName)
         .setContentText(text)
         .setContentIntent(contentIntent);
+  }
+
+  public NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      return builder.setVisibility(Notification.VISIBILITY_SECRET);
+    }
+
+    return builder;
+  }
+
+  public NotificationCompat.Builder setPublicVisibility(NotificationCompat.Builder builder) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      return builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+    }
+
+    return builder;
   }
 }
