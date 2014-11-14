@@ -2,7 +2,6 @@ package com.omnipaste.droidomni;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.v4.app.NotificationManagerCompat;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import co.bugfreak.BugFreak;
 import dagger.ObjectGraph;
 
 @EApplication
@@ -81,6 +81,6 @@ public class DroidOmniApplication extends Application {
     apiClientId.set(BuildConfig.API_CLIENT_ID);
     apiClientToken.set(BuildConfig.API_CLIENT_TOKEN);
 
-//    BugFreak.hook("2537eed2-36fd-4d9c-9ca9-54db031126fd", BuildConfig.BUGFREAK_TOKEN, this);
+    BugFreak.hook("2537eed2-36fd-4d9c-9ca9-54db031126fd", BuildConfig.BUGFREAK_TOKEN, this);
   }
 }
