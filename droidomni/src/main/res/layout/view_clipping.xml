@@ -15,7 +15,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight=".4"/>
+            android:layout_weight=".4"
+            android:contentDescription="@string/clippings_location"/>
 
         <RelativeLayout
             android:id="@+id/content"

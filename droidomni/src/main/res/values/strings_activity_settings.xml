@@ -2,8 +2,6 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- SETTINGS for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
-
     <string name="pref_title_clipboard">Enable Clipboard sharing</string>
     <string name="pref_description_clipboard">Clipboard sharing allows you to copy paste stuff from any of your devices</string>
 

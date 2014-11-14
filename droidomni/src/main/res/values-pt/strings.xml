@@ -13,7 +13,6 @@
     <string name="login_hint">Código de Autorização</string>
     <string name="login_button">Iniciar Sessão</string>
     <string name="login_invalid_code">Código de Autorização Inválido</string>
-    <string name="logo_content_description">Logótipo Omnipaste</string>
     <string name="login_authorization_code_explainer">Para obter um código de autorização , basta clicar no link abaixo e copie o código de autorização 6 dígitos aqui.</string>
     <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes/new">Tenha o seu código de autorização aqui</a>]]></string>
 
@@ -25,14 +24,10 @@
     <string name='main_activity_device_not_supported'>Este aparelho não é suportado.</string>
 
     <!-- ACTIVITY -->
-    <string name="activity_title">Cortes</string>
-    <string name="clipping_smart_action_description">Acção inteligente</string>
     <string name="clipping_delete">Remover</string>
-    <string name="clippings_empty">Não existem cortes para mostrar</string>
+    <string name="clippings_location">Location</string>
 
     <!-- Navigation -->
-    <string name="navigation_drawer_open">Abrir navegador</string>
-    <string name="navigation_drawer_close">Fechar navegador</string>
     <string name="navigation_drawer_activity">Atividade</string>
     <string name="navigation_drawer_settings">Definições</string>
     <string name="navigation_drawer_about">Sobre</string>
@@ -42,7 +37,4 @@
     <!-- ABOUT -->
     <string name="title_activity_about">Sobre</string>
     <string name="about_version">Versão</string>
-
-    <!-- Privacy Policy -->
-    <string name="title_activity_privacy_policy">Política de Privacidade</string>
 </resources>

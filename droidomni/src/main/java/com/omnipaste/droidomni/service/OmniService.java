@@ -1,9 +1,7 @@
 package com.omnipaste.droidomni.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -37,41 +35,11 @@ import rx.schedulers.Schedulers;
 
 @EService
 public class OmniService extends Service {
-  public static final int MSG_REGISTER_CLIENT = 1;
-  public static final int MSG_UNREGISTER_CLIENT = 2;
-  public static final int MSG_CREATE_ERROR = 3;
-  public static final int MSG_STARTED = 4;
-  public static final int MSG_REFRESH_OMNI_CLIPBOARD = 5;
-
   private List<Subscriber> subscribes = new ArrayList<>();
   private List<Messenger> clients = new ArrayList<>();
   private boolean started = false;
 
-  private final Messenger messenger = new Messenger(new IncomingHandler());
-
-  private class IncomingHandler extends Handler {
-    @Override
-    public void handleMessage(Message msg) {
-      switch (msg.what) {
-        case MSG_REGISTER_CLIENT:
-          clients.add(msg.replyTo);
-
-          if (started) {
-            sendStartedToClient(msg.replyTo);
-          }
-
-          break;
-        case MSG_UNREGISTER_CLIENT:
-          clients.remove(msg.replyTo);
-          break;
-        case MSG_REFRESH_OMNI_CLIPBOARD:
-          if (clipboardSubscriber.get() != null) {
-            // clipboardSubscriber.get().refreshOmni();
-          }
-          break;
-      }
-    }
-  }
+  private final Messenger messenger = new Messenger(new OmniIncomingHandler(this));
 
   @StringRes
   public String appName;
@@ -182,6 +150,14 @@ public class OmniService extends Service {
     return subscribes;
   }
 
+  public void addClient(Messenger replyTo) {
+    this.clients.add(replyTo);
+  }
+
+  public void removeClient(Messenger replyTo) {
+    this.clients.remove(replyTo);
+  }
+
   private void startSubscribers(RegisteredDeviceDto registeredDeviceDto) {
     for (Subscriber subscribe : getSubscribers()) {
       subscribe.start(registeredDeviceDto.getIdentifier());
@@ -195,19 +171,11 @@ public class OmniService extends Service {
   }
 
   private void sendErrorToClients(Throwable throwable) {
-    sendMessageToClients(MSG_CREATE_ERROR, throwable);
+    sendMessageToClients(OmniIncomingHandler.MSG_CREATE_ERROR, throwable);
   }
 
   private void sendStartedToClients() {
-    sendMessageToClients(MSG_STARTED);
-  }
-
-  private void sendStartedToClient(Messenger client) {
-    Message message = Message.obtain(null, MSG_STARTED);
-    try {
-      client.send(message);
-    } catch (RemoteException ignored) {
-    }
+    sendMessageToClients(OmniIncomingHandler.MSG_STARTED);
   }
 
   private void sendMessageToClients(int what) {
@@ -228,5 +196,9 @@ public class OmniService extends Service {
 
   private void notifyUser() {
     startForeground(NotificationService.NOTIFICATION_ID, notificationService.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
+  }
+
+  public boolean isStarted() {
+    return started;
   }
 }

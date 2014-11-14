@@ -1,10 +1,7 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.os.Message;
-import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 
-import com.omnipaste.droidomni.service.OmniService;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.ui.fragment.ActivityFragment_;
 
@@ -37,14 +34,6 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
 
   @Override
   public void pause() {
-  }
-
-  // TODO: this does not belong here
-  public void refreshClippings() {
-    try {
-      omniServiceConnection.getOmniServiceMessenger().send(Message.obtain(null, OmniService.MSG_REFRESH_OMNI_CLIPBOARD));
-    } catch (RemoteException ignored) {
-    }
   }
 
   private void setActivityFragment() {

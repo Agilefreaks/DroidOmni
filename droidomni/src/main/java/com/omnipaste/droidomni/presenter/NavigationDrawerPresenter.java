@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.net.Uri;
 
 import com.omnipaste.droidomni.BuildConfig;
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.adapter.NavigationDrawerAdapter;
 import com.omnipaste.droidomni.adapter.SecondaryNavigationDrawerAdapter;
 import com.omnipaste.droidomni.domain.NavigationDrawerItem;
-import com.omnipaste.droidomni.service.OmniService;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.ui.Navigator;
 
@@ -74,6 +72,7 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
         break;
       case PRIVACY_POLICY:
         navigator.openUri(Uri.parse(BuildConfig.TOS_URL));
+        break;
       case EXIT:
         omniServiceConnection.stopOmniService();
         finishActivity();

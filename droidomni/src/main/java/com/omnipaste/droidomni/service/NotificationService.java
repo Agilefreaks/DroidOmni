@@ -1,5 +1,6 @@
 package com.omnipaste.droidomni.service;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -78,6 +79,7 @@ public class NotificationService {
         .setContentIntent(contentIntent);
   }
 
+  @TargetApi(21)
   public NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return builder.setVisibility(Notification.VISIBILITY_SECRET);
@@ -86,6 +88,7 @@ public class NotificationService {
     return builder;
   }
 
+  @TargetApi(21)
   public NotificationCompat.Builder setPublicVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return builder.setVisibility(Notification.VISIBILITY_PUBLIC);

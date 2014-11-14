@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -56,7 +57,7 @@ public class ClippingView extends LinearLayout implements HasSetup<ClippingDto> 
   public void setUp(ClippingDto item) {
     this.item = item;
     textContent.setText(item.getContent());
-    textSource.setText(item.getClippingProvider().toString().toLowerCase());
+    textSource.setText(item.getClippingProvider().toString().toLowerCase(Locale.getDefault()));
     sourceImage.setImageResource(icon.get(item.getClippingProvider()));
 
     if (item.getType() != ClippingDto.ClippingType.UNKNOWN) {
