@@ -25,6 +25,7 @@ import org.androidannotations.annotations.res.StringRes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -35,11 +36,12 @@ import rx.schedulers.Schedulers;
 
 @EService
 public class OmniService extends Service {
+  private final Messenger messenger = new Messenger(new OmniIncomingHandler(this));
+
   private List<Subscriber> subscribes = new ArrayList<>();
   private List<Messenger> clients = new ArrayList<>();
-  private boolean started = false;
 
-  private final Messenger messenger = new Messenger(new OmniIncomingHandler(this));
+  public AtomicBoolean started = new AtomicBoolean(false);
 
   @StringRes
   public String appName;
@@ -96,7 +98,7 @@ public class OmniService extends Service {
                 startSubscribers(registeredDeviceDto);
                 sendStartedToClients();
 
-                started = true;
+                started.set(true);
               }
             },
             // OnError
@@ -123,9 +125,13 @@ public class OmniService extends Service {
   public void onDestroy() {
     super.onDestroy();
 
+    if (!started.get()) {
+      return;
+    }
+
     stopSubscribers();
     stopForeground(true);
-    started = false;
+    started.set(false);
   }
 
   public List<Subscriber> getSubscribers() {
@@ -156,6 +162,10 @@ public class OmniService extends Service {
 
   public void removeClient(Messenger replyTo) {
     this.clients.remove(replyTo);
+  }
+
+  public boolean isStarted() {
+    return started.get();
   }
 
   private void startSubscribers(RegisteredDeviceDto registeredDeviceDto) {
@@ -196,9 +206,5 @@ public class OmniService extends Service {
 
   private void notifyUser() {
     startForeground(NotificationService.NOTIFICATION_ID, notificationService.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
-  }
-
-  public boolean isStarted() {
-    return started;
   }
 }
