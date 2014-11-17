@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Omnipaste.debug</string>
+    <string name="motto">Mută-te între computer și smartphone simplu și rapid.</string>
+
+    <!-- OmniService -->
+    <string name="service_description">OmniService oferă toată funcționalitățile de care are nevoie aplicația Omnipaste</string>
+
+    <!-- Launcher -->
+    <string name="loading_explainer">Mă conectez la celelate dispozitive.</string>
+
+    <!-- Login -->
+    <string name="login_hint">Cod de autorizare</string>
+    <string name="login_button">Conectare</string>
+    <string name="login_invalid_code">Code de autorizare invalid</string>
+    <string name="login_authorization_code_explainer">Pentru a obține codul de autorizare urmează linkul de mai jos și copiază codul de 6 cifre aici.</string>
+    <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes/new">Obține codul de autorizare</a>]]></string>
+
+    <!-- Device init -->
+    <string name="device_init_error_retry">Apasă săgeata din coluțul stânga sus pentru a reîncearca</string>
+    <string name="device_init_error_message">Îmi pare rău stăpâne, nu am reușit. Te rog să nu mă omori!</string>
+
+    <!-- Main Activity -->
+    <string name='main_activity_device_not_supported'>Acest dispozitiv nu este suportat.</string>
+
+    <!-- ACTIVITY -->
+    <string name="clipping_delete">Șterge</string>
+    <string name="clippings_location">Locație</string>
+
+    <!-- Navigation -->
+    <string name="navigation_drawer_activity">Activitate</string>
+    <string name="navigation_drawer_settings">Setări</string>
+    <string name="navigation_drawer_about">Despre</string>
+    <string name="navigation_drawer_privacy_policy">Politică de confidențialitate</string>
+    <string name="navigation_drawer_exit">Ieșire</string>
+
+    <!-- ABOUT -->
+    <string name="title_activity_about">Despre</string>
+    <string name="about_version">Versiune</string>
+</resources>

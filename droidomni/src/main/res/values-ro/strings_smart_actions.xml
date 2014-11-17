@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smart_action_call">Apelează</string>
+    <string name="smart_action_browse">Browse</string>
+    <string name="smart_action_navigate">Navighează</string>
+    <string name="smart_action_remove">Șterge</string>
+    <string name="smart_action_not_supported">Nu există nicio aplicație instalată care să poată executa această acțiune.</string>
+</resources>
