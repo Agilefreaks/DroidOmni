@@ -19,6 +19,7 @@ import rx.Observer;
 public class ClippingPresenter extends Presenter<ClippingPresenter.View> implements Observer<ClippingDto> {
 
   private final ClippingAdapter clippingAdapter;
+  private final ClipboardSubscriber clipboardSubscriber;
   private final SmartActionService smartActionService;
   private final NotificationService notificationService;
   private final NotificationManagerCompat notificationManager;
@@ -34,6 +35,7 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> impleme
       NotificationService notificationService,
       NotificationManagerCompat notificationManager
   ) {
+    this.clipboardSubscriber = clipboardSubscriber;
     this.smartActionService = smartActionService;
     this.notificationService = notificationService;
     this.notificationManager = notificationManager;
@@ -86,5 +88,9 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> impleme
 
   public void smartAction(ClippingDto item) {
     smartActionService.run(item);
+  }
+
+  public void refresh() {
+    clipboardSubscriber.refresh();
   }
 }

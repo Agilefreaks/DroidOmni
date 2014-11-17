@@ -101,7 +101,6 @@
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.4-atlassian-1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="robotium-solo-5.2.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="functionaljava-4.2-beta-1" level="project" />

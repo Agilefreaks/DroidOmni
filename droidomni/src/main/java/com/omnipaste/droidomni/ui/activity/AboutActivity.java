@@ -1,5 +1,7 @@
 package com.omnipaste.droidomni.ui.activity;
 
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.omnipaste.droidomni.R;

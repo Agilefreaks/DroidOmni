@@ -1,18 +1,22 @@
 package com.omnipaste.droidomni.presenter;
 
 import com.omnipaste.droidomni.adapter.ClippingAdapter;
-import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
-import com.omnipaste.omnicommon.dto.ClippingDto;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.Observer;
+import rx.functions.Action1;
 
 @Singleton
-public class ActivityPresenter extends FragmentPresenter {
+public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View> {
 
-  private ClippingPresenter clippingPresenter;
+  private final ClippingPresenter clippingPresenter;
+
+  public interface View {
+    public void setRefreshing(boolean refreshing);
+  }
 
   @Inject
   public ActivityPresenter(ClippingPresenter clippingPresenter) {
@@ -33,5 +37,21 @@ public class ActivityPresenter extends FragmentPresenter {
 
   public ClippingAdapter getClippingAdapter() {
     return clippingPresenter.getClippingAdapter();
+  }
+
+  public void refresh() {
+    getView().setRefreshing(true);
+
+    clippingPresenter.refresh();
+
+    rx.Observable
+        .timer(3, TimeUnit.SECONDS)
+        .subscribeOn(scheduler)
+        .observeOn(observeOnScheduler)
+        .subscribe(new Action1<Long>() {
+          @Override public void call(Long aLong) {
+            getView().setRefreshing(false);
+          }
+        });
   }
 }

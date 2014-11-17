@@ -4,6 +4,7 @@ project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
@@ -18,14 +19,14 @@ apply plugin: 'com.github.ben-manes.versions'
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 
     ext.androidTest = [
             'org.hamcrest:hamcrest-library:1.4-atlassian-1',
             'org.objenesis:objenesis:2.1',
             'com.google.dexmaker:dexmaker-mockito:1.1',
-            'org.mockito:mockito-core:1.10.10',
-            'com.jayway.android.robotium:robotium-solo:5.2.1'
+            'org.mockito:mockito-core:1.10.10'
     ]
 }
 

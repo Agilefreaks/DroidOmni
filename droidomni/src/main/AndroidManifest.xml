@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <application
-        android:name="com.omnipaste.droidomni.DroidOmniApplication_"
+        android:name=".DroidOmniApplication_"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -24,7 +24,7 @@
             android:value="@integer/google_play_services_version"/>
 
         <activity
-            android:name="com.omnipaste.droidomni.ui.activity.LauncherActivity_"
+            android:name=".ui.activity.LauncherActivity_"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -45,44 +45,44 @@
         <activity
             android:name=".ui.activity.ErrorActivity_"
             android:label="@string/app_name"
-            android:parentActivityName="com.omnipaste.droidomni.ui.activity.ConnectingActivity_">
+            android:parentActivityName=".ui.activity.ConnectingActivity_">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.omnipaste.droidomni.ui.activity.ConnectingActivity_"/>
+                android:value=".ui.activity.ConnectingActivity_"/>
         </activity>
 
         <activity
             android:name=".ui.activity.OmniActivity_"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:label="@string/app_name">
         </activity>
 
         <activity
-            android:name="com.omnipaste.droidomni.ui.activity.AboutActivity_"
+            android:name=".ui.activity.AboutActivity_"
             android:label="@string/title_activity_about"
-            android:parentActivityName="com.omnipaste.droidomni.ui.activity.OmniActivity_">
+            android:parentActivityName=".ui.activity.OmniActivity_">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.omnipaste.droidomni.ui.activity.OmniActivity_"/>
+                android:value=".ui.activity.OmniActivity_"/>
         </activity>
 
         <activity
-            android:name="com.omnipaste.droidomni.ui.activity.SettingsActivity_"
+            android:name=".ui.activity.SettingsActivity_"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.omnipaste.droidomni.ui.activity.OmniActivity_">
+            android:parentActivityName=".ui.activity.OmniActivity_">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.omnipaste.droidomni.ui.activity.OmniActivity_"/>
+                android:value=".ui.activity.OmniActivity_"/>
         </activity>
 
         <service
-            android:name="com.omnipaste.droidomni.service.OmniService_"
+            android:name=".service.OmniService_"
             android:description="@string/service_description"
             android:exported="false"
             android:icon="@drawable/ic_stat_omni"/>
 
         <receiver
-            android:name="com.omnipaste.droidomni.gcm.GcmBroadcastReceiver"
+            android:name=".gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
@@ -93,12 +93,12 @@
         </receiver>
 
         <receiver
-            android:name="com.omnipaste.droidomni.service.smartaction.SmartActionRemove"
+            android:name=".service.smartaction.SmartActionRemove"
             android:enabled="true"
             android:exported="false"/>
 
         <service
-            android:name="com.omnipaste.droidomni.gcm.GcmIntentService_"
+            android:name=".gcm.GcmIntentService_"
             android:exported="false"/>
     </application>
 

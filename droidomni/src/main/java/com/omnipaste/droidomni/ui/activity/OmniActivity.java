@@ -20,9 +20,11 @@ import javax.inject.Inject;
 public class OmniActivity extends BaseActivity<OmniPresenter> implements OmniPresenter.View {
   private ActionBarDrawerToggle drawerToggle;
 
-  @Inject public OmniPresenter presenter;
+  @Inject
+  public OmniPresenter presenter;
 
-  @ViewById DrawerLayout drawerLayout;
+  @ViewById
+  public DrawerLayout drawerLayout;
 
   @FragmentById
   public NavigationDrawerFragment navigationDrawer;
