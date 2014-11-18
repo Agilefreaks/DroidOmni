@@ -12,7 +12,6 @@ public class OmniIncomingHandler extends Handler {
   public static final int MSG_UNREGISTER_CLIENT = 2;
   public static final int MSG_CREATE_ERROR = 3;
   public static final int MSG_STARTED = 4;
-  public static final int MSG_REFRESH_OMNI_CLIPBOARD = 5;
 
   private WeakReference<OmniService> omniService;
 
@@ -34,10 +33,11 @@ public class OmniIncomingHandler extends Handler {
       case MSG_UNREGISTER_CLIENT:
         omniService.get().removeClient(msg.replyTo);
         break;
-      case MSG_REFRESH_OMNI_CLIPBOARD:
-        break;
+      default:
+        super.handleMessage(msg);
     }
   }
+
   private void sendStartedToClient(Messenger client) {
     Message message = Message.obtain(null, OmniIncomingHandler.MSG_STARTED);
     try {

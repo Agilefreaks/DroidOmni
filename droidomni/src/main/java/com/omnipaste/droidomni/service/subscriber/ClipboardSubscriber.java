@@ -48,4 +48,8 @@ public class ClipboardSubscriber implements Subscriber {
   public void subscribe(Observer<ClippingDto> observer) {
     subject.subscribe(observer);
   }
+
+  public void refresh() {
+    clipboardProvider.refreshOmni();
+  }
 }

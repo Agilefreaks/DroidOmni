@@ -11,8 +11,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class OmniServiceConnection implements ServiceConnection {
+  private final Context context;
   private Messenger omniServiceMessenger;
-  private Context context;
 
   @Inject
   public OmniServiceConnection(Context context) {

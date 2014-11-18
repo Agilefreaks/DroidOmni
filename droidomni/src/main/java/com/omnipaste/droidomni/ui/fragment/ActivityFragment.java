@@ -12,17 +12,10 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-
 @EFragment(R.layout.fragment_activity)
-public class ActivityFragment extends BaseFragment<ActivityPresenter> {
+public class ActivityFragment extends BaseFragment<ActivityPresenter> implements ActivityPresenter.View {
   @Inject
   public ActivityPresenter presenter;
 
@@ -47,22 +40,16 @@ public class ActivityFragment extends BaseFragment<ActivityPresenter> {
         R.color.refresh_progress_1,
         R.color.refresh_progress_2,
         R.color.refresh_progress_3);
+
     swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
-
-        Observable
-            .timer(10, TimeUnit.SECONDS, Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                // onNext
-                new Action1<Long>() {
-                  @Override public void call(Long aLong) {
-                    swipeRefreshLayout.setRefreshing(false);
-                  }
-                });
+        presenter.refresh();
       }
     });
+  }
 
+  @Override
+  public void setRefreshing(boolean refreshing) {
+    swipeRefreshLayout.setRefreshing(refreshing);
   }
 }
