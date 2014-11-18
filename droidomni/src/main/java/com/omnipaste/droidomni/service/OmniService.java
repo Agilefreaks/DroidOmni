@@ -15,6 +15,7 @@ import com.omnipaste.droidomni.prefs.NotificationsTelephony;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.droidomni.service.subscriber.GcmWorkaroundSubscriber;
 import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
+import com.omnipaste.droidomni.service.subscriber.ScreenOnSubscriber;
 import com.omnipaste.droidomni.service.subscriber.Subscriber;
 import com.omnipaste.droidomni.service.subscriber.TelephonyNotificationsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
@@ -57,6 +58,9 @@ public class OmniService extends Service {
 
   @Inject
   public Lazy<TelephonyNotificationsSubscriber> telephonyNotificationsSubscriber;
+
+  @Inject
+  public Lazy<ScreenOnSubscriber> screenOnSubscriber;
 
   @Inject
   public DeviceService deviceService;
@@ -151,6 +155,8 @@ public class OmniService extends Service {
       if (isGcmWorkAroundEnabled.get()) {
         subscribes.add(gcmWorkaroundSubscriber.get());
       }
+
+      subscribes.add(screenOnSubscriber.get());
     }
 
     return subscribes;
