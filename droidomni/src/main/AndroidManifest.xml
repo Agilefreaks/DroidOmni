@@ -33,17 +33,17 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.ConnectingActivity_"
+            android:name="com.omnipaste.droidomni.ui.activity.ConnectingActivity_"
             android:label="@string/app_name">
         </activity>
 
         <activity
-            android:name=".ui.activity.LoginActivity_"
+            android:name="com.omnipaste.droidomni.ui.activity.LoginActivity_"
             android:label="@string/app_name">
         </activity>
 
         <activity
-            android:name=".ui.activity.ErrorActivity_"
+            android:name="com.omnipaste.droidomni.ui.activity.ErrorActivity_"
             android:label="@string/app_name"
             android:parentActivityName="com.omnipaste.droidomni.ui.activity.ConnectingActivity_">
             <meta-data
@@ -52,8 +52,8 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.OmniActivity_"
-            android:launchMode="singleTop"
+            android:name="com.omnipaste.droidomni.ui.activity.OmniActivity_"
+            android:launchMode="singleTask"
             android:label="@string/app_name">
         </activity>
 
@@ -76,7 +76,7 @@
         </activity>
 
         <service
-            android:name="com.omnipaste.droidomni.service.OmniService_"
+            android:name=".service.OmniService_"
             android:description="@string/service_description"
             android:exported="false"
             android:icon="@drawable/ic_stat_omni"/>

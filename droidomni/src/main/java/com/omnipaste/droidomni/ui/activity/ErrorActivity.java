@@ -1,6 +1,8 @@
 package com.omnipaste.droidomni.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.omnipaste.droidomni.R;
@@ -18,15 +20,19 @@ public class ErrorActivity extends BaseActivity<ErrorPresenter> implements Error
 
   private Throwable throwable;
 
-  @Inject public ErrorPresenter presenter;
+  @Inject
+  public ErrorPresenter presenter;
 
-  @ViewById public TextView errorContent;
+  @ViewById
+  public TextView errorContent;
 
-  @Override protected ErrorPresenter getPresenter() {
+  @Override
+  protected ErrorPresenter getPresenter() {
     return presenter;
   }
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     Bundle extras = getIntent().getExtras();

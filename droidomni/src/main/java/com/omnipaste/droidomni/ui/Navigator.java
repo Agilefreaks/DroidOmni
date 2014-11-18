@@ -44,6 +44,7 @@ public class Navigator {
 
   public void openOmniActivity() {
     Intent intent = new Intent(context, OmniActivity_.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivityNoHistory(intent);
   }
 
