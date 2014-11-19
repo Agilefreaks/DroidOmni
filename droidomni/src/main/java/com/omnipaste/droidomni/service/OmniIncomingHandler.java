@@ -2,47 +2,32 @@ package com.omnipaste.droidomni.service;
 
 import android.os.Handler;
 import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 
-import java.lang.ref.WeakReference;
+import rx.subjects.PublishSubject;
 
 public class OmniIncomingHandler extends Handler {
-  public static final int MSG_REGISTER_CLIENT = 1;
-  public static final int MSG_UNREGISTER_CLIENT = 2;
   public static final int MSG_CREATE_ERROR = 3;
   public static final int MSG_STARTED = 4;
+  public static final int MSG_STOPPED = 5;
 
-  private WeakReference<OmniService> omniService;
+  private final PublishSubject connectionSubject;
 
-  public OmniIncomingHandler(OmniService omniService) {
-    this.omniService = new WeakReference<>(omniService);
+  public OmniIncomingHandler(PublishSubject connectionSubject) {
+    this.connectionSubject = connectionSubject;
   }
 
   @Override
   public void handleMessage(Message msg) {
     switch (msg.what) {
-      case MSG_REGISTER_CLIENT:
-        omniService.get().addClient(msg.replyTo);
-
-        if (omniService.get().isStarted()) {
-          sendStartedToClient(msg.replyTo);
-        }
-
+      case MSG_STARTED:
+      case MSG_STOPPED:
+        connectionSubject.onCompleted();
         break;
-      case MSG_UNREGISTER_CLIENT:
-        omniService.get().removeClient(msg.replyTo);
+      case MSG_CREATE_ERROR:
+        connectionSubject.onError((Throwable) msg.obj);
         break;
       default:
         super.handleMessage(msg);
-    }
-  }
-
-  private void sendStartedToClient(Messenger client) {
-    Message message = Message.obtain(null, OmniIncomingHandler.MSG_STARTED);
-    try {
-      client.send(message);
-    } catch (RemoteException ignored) {
     }
   }
 }

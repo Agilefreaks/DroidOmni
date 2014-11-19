@@ -17,7 +17,7 @@
     <string name="login_authorization_code_explainer">To get an authorization code simply click on the link bellow and copy the 6 digit authorization code over here.</string>
     <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes/new">Get authorization code here</a>]]></string>
 
-    <!-- Device init -->
+    <!-- Device activate -->
     <string name="device_init_error_retry">Press back to retry</string>
     <string name="device_init_error_message">We failed master :(, please don\'t kill us!</string>
 

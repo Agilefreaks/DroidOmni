@@ -21,6 +21,9 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
 
     @PUT("/v1/devices/activate.json")
     Observable<RegisteredDeviceDto> activate(@Header("Authorization") String token, @Body RegisteredDeviceDto deviceDto);
+
+    @PUT("/v1/devices/deactivate.json")
+    Observable<RegisteredDeviceDto> deactivate(@Header("Authorization") String token, @Body String identifier);
   }
 
   @Inject
@@ -43,5 +46,9 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
     deviceDto.setProvider("gcm");
 
     return authorizationService.authorize(api.activate(bearerAccessToken(), deviceDto));
+  }
+
+  public Observable<RegisteredDeviceDto> deactivate(final String identifier) {
+    return authorizationService.authorize(api.deactivate(bearerAccessToken(), identifier));
   }
 }

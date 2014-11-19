@@ -11,20 +11,16 @@ import javax.inject.Singleton;
 @Singleton
 public class OmniPresenter extends Presenter<OmniPresenter.View> {
 
-  private OmniServiceConnection omniServiceConnection;
-
   public interface View {
     void setFragment(Fragment activityFragment);
   }
 
   @Inject
-  public OmniPresenter(OmniServiceConnection omniServiceConnection) {
-    this.omniServiceConnection = omniServiceConnection;
+  public OmniPresenter() {
   }
 
   @Override
   public void initialize() {
-    omniServiceConnection.startOmniService();
     setActivityFragment();
   }
 
@@ -37,7 +33,7 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
   }
 
   private void setActivityFragment() {
-   View view = getView();
+    View view = getView();
     if (view == null) {
       return;
     }

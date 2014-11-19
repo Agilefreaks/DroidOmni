@@ -4,6 +4,8 @@ import android.accounts.AccountManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
@@ -11,6 +13,7 @@ import android.telephony.TelephonyManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.gcm.GcmIntentService_;
+import com.omnipaste.droidomni.interaction.DeviceIdentifier;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.provider.GcmNotificationProvider;
 import com.omnipaste.droidomni.service.OmniService_;
@@ -101,5 +104,13 @@ public final class RootModule {
   @Singleton
   public NotificationProvider provideNotificationProvider() {
     return new GcmNotificationProvider();
+  }
+
+  @Provides
+  @Singleton
+  @DeviceIdentifier
+  public String provideDeviceIdentifier(Context context) {
+    String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    return String.format("%s-%s", Build.MODEL, android_id);
   }
 }

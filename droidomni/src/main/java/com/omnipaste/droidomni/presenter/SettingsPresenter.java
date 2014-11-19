@@ -14,6 +14,9 @@ import com.omnipaste.droidomni.ui.fragment.NotificationPreferenceFragment;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.functions.Action0;
+import rx.functions.Action1;
+
 @Singleton
 public class SettingsPresenter extends Presenter<SettingsPresenter.View> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -75,9 +78,18 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   }
 
   public void logout() {
-    sessionService.logout();
-    navigator.openLauncherActivity();
-    finishView();
+    omniServiceConnection
+        .stopOmniService()
+        .subscribeOn(scheduler)
+        .observeOn(observeOnScheduler)
+        .doOnCompleted(new Action0() {
+          @Override public void call() {
+            sessionService.logout();
+            navigator.openLauncherActivity();
+            finishView();
+          }
+        })
+        .subscribe();
   }
 
   private void finishView() {

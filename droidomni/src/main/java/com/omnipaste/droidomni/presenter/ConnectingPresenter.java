@@ -3,24 +3,24 @@ package com.omnipaste.droidomni.presenter;
 import android.app.Activity;
 
 import com.omnipaste.droidomni.interaction.GetAccounts;
-import com.omnipaste.droidomni.service.DeviceService;
+import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.functions.Action0;
 import rx.functions.Action1;
 
 @Singleton
 public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
 
-  private Navigator navigator;
-  private SessionService sessionService;
-  private DeviceService deviceService;
-  private GetAccounts getAccounts;
+  private final Navigator navigator;
+  private final SessionService sessionService;
+  private final GetAccounts getAccounts;
+  private final OmniServiceConnection omniServiceConnection;
   private boolean isInitiating = false;
 
   public interface View {
@@ -30,12 +30,12 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   @Inject
   public ConnectingPresenter(Navigator navigator,
                              SessionService sessionService,
-                             DeviceService deviceService,
-                             GetAccounts getAccounts) {
+                             GetAccounts getAccounts,
+                             OmniServiceConnection omniServiceConnection) {
     this.navigator = navigator;
     this.sessionService = sessionService;
-    this.deviceService = deviceService;
     this.getAccounts = getAccounts;
+    this.omniServiceConnection = omniServiceConnection;
   }
 
   @Override
@@ -55,7 +55,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     isInitiating = true;
 
     if (sessionService.isLogged()) {
-      initDevice();
+      startOmniService();
     } else {
       initSession();
     }
@@ -75,7 +75,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
             // onNext
             new Action1<AccessTokenDto>() {
               @Override public void call(AccessTokenDto accessTokenDto) {
-                initDevice();
+                startOmniService();
               }
             },
             // onError
@@ -87,22 +87,30 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
         );
   }
 
-  private void initDevice() {
-    deviceService.init()
+  private void startOmniService() {
+    omniServiceConnection
+        .startOmniService()
         .subscribeOn(scheduler)
         .observeOn(observeOnScheduler)
         .subscribe(
             // onNext
-            new Action1<RegisteredDeviceDto>() {
-              @Override public void call(RegisteredDeviceDto registeredDeviceDto) {
-                sessionService.setRegisteredDeviceDto(registeredDeviceDto);
-                openOmni();
+            new Action1<Object>() {
+              @Override
+              public void call(Object o) {
               }
             },
             // onError
             new Action1<Throwable>() {
-              @Override public void call(Throwable throwable) {
+              @Override
+              public void call(Throwable throwable) {
                 openError(throwable);
+              }
+            },
+            // onComplete
+            new Action0() {
+              @Override
+              public void call() {
+                openOmni();
               }
             }
         );

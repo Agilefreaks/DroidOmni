@@ -17,7 +17,7 @@
     <string name="login_authorization_code_explainer">Pentru a obține codul de autorizare urmează linkul de mai jos și copiază codul de 6 cifre aici.</string>
     <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes/new">Obține codul de autorizare</a>]]></string>
 
-    <!-- Device init -->
+    <!-- Device activate -->
     <string name="device_init_error_retry">Apasă săgeata din coluțul stânga sus pentru a reîncearca</string>
     <string name="device_init_error_message">Îmi pare rău stăpâne, nu am reușit. Te rog să nu mă omori!</string>
 

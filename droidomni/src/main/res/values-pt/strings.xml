@@ -16,7 +16,7 @@
     <string name="login_authorization_code_explainer">Para obter um código de autorização , basta clicar no link abaixo e copie o código de autorização 6 dígitos aqui.</string>
     <string name="login_authorization_code_link"><![CDATA[<a href="%s/authorization_codes/new">Tenha o seu código de autorização aqui</a>]]></string>
 
-    <!-- Device init -->
+    <!-- Device activate -->
     <string name="device_init_error_retry">Pressione de volta para tentar novamente</string>
     <string name="device_init_error_message">Mestre, nós falhámos :(, por favor não nos mate!</string>
 

@@ -13,6 +13,9 @@ import com.omnipaste.droidomni.ui.Navigator;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.functions.Action0;
+import rx.functions.Action1;
+
 @Singleton
 public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawerPresenter.View> {
   private Navigator navigator;
@@ -74,8 +77,28 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
         navigator.openUri(Uri.parse(BuildConfig.TOS_URL));
         break;
       case EXIT:
-        omniServiceConnection.stopOmniService();
-        finishActivity();
+        // TODO: add a disconnecting activity
+        omniServiceConnection
+            .stopOmniService()
+            .subscribeOn(scheduler)
+            .observeOn(observeOnScheduler)
+            .subscribe(
+                new Action1<Object>() {
+                  @Override public void call(Object o) {
+                    // do nothing
+                  }
+                },
+                new Action1<Throwable>() {
+                  @Override public void call(Throwable throwable) {
+                    // consider doing something
+                  }
+                },
+                new Action0() {
+                  @Override public void call() {
+                    finishActivity();
+                  }
+                }
+            );
         break;
     }
   }

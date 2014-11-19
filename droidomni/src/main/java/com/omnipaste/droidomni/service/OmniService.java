@@ -8,6 +8,8 @@ import android.os.Messenger;
 import android.os.RemoteException;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
+import com.omnipaste.droidomni.interaction.ActivateDevice;
+import com.omnipaste.droidomni.interaction.DeactivateDevice;
 import com.omnipaste.droidomni.prefs.GcmWorkaround;
 import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
@@ -32,15 +34,16 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 @EService
 public class OmniService extends Service {
-  private final Messenger messenger = new Messenger(new OmniIncomingHandler(this));
+  private final OmniServiceIncomingHandler omniServiceIncomingHandler = new OmniServiceIncomingHandler(this);
+  private final Messenger messenger = new Messenger(omniServiceIncomingHandler);
 
   private List<Subscriber> subscribes = new ArrayList<>();
-  private List<Messenger> clients = new ArrayList<>();
 
   public AtomicBoolean started = new AtomicBoolean(false);
 
@@ -63,7 +66,13 @@ public class OmniService extends Service {
   public Lazy<ScreenOnSubscriber> screenOnSubscriber;
 
   @Inject
-  public DeviceService deviceService;
+  public SessionService sessionService;
+
+  @Inject
+  public ActivateDevice activateDevice;
+
+  @Inject
+  public DeactivateDevice deactivateDevice;
 
   @Inject @NotificationsClipboard
   public BooleanPreference isClipboardNotificationEnabled;
@@ -90,7 +99,7 @@ public class OmniService extends Service {
 
   @Override
   public void onCreate() {
-    deviceService.init()
+    activateDevice.run()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
@@ -98,6 +107,7 @@ public class OmniService extends Service {
             new Action1<RegisteredDeviceDto>() {
               @Override
               public void call(RegisteredDeviceDto registeredDeviceDto) {
+                sessionService.setRegisteredDeviceDto(registeredDeviceDto);
                 notifyUser();
                 startSubscribers(registeredDeviceDto);
                 sendStartedToClients();
@@ -133,9 +143,27 @@ public class OmniService extends Service {
       return;
     }
 
-    stopSubscribers();
-    stopForeground(true);
-    started.set(false);
+    deactivateDevice.run()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(
+            // onNext
+            new Action1<Object>() {
+              @Override
+              public void call(Object param) {
+                cleanup();
+                sendStoppedToClients();
+              }
+            },
+            // OnError
+            new Action1<Throwable>() {
+              @Override
+              public void call(Throwable throwable) {
+                cleanup();
+                sendErrorToClients(throwable);
+              }
+            }
+        );
   }
 
   public List<Subscriber> getSubscribers() {
@@ -162,16 +190,16 @@ public class OmniService extends Service {
     return subscribes;
   }
 
-  public void addClient(Messenger replyTo) {
-    this.clients.add(replyTo);
-  }
-
-  public void removeClient(Messenger replyTo) {
-    this.clients.remove(replyTo);
-  }
-
   public boolean isStarted() {
     return started.get();
+  }
+
+  private void cleanup() {
+    sessionService.setRegisteredDeviceDto(null);
+    stopForeground(true);
+    stopSubscribers();
+
+    started.set(false);
   }
 
   private void startSubscribers(RegisteredDeviceDto registeredDeviceDto) {
@@ -187,27 +215,15 @@ public class OmniService extends Service {
   }
 
   private void sendErrorToClients(Throwable throwable) {
-    sendMessageToClients(OmniIncomingHandler.MSG_CREATE_ERROR, throwable);
+    omniServiceIncomingHandler.sendErrorToClients(throwable);
   }
 
   private void sendStartedToClients() {
-    sendMessageToClients(OmniIncomingHandler.MSG_STARTED);
+    omniServiceIncomingHandler.sendStartedToClients();
   }
 
-  private void sendMessageToClients(int what) {
-    sendMessageToClients(what, null);
-  }
-
-  private void sendMessageToClients(int what, Object obj) {
-    Message message = Message.obtain(null, what);
-    message.obj = obj;
-    for (Messenger client : clients) {
-      try {
-        client.send(message);
-      } catch (RemoteException e) {
-        clients.remove(client);
-      }
-    }
+  private void sendStoppedToClients() {
+    omniServiceIncomingHandler.sendStoppedToClients();
   }
 
   private void notifyUser() {

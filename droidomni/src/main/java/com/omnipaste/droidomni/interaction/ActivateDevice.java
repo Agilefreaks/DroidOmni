@@ -1,8 +1,4 @@
-package com.omnipaste.droidomni.service;
-
-import android.content.Context;
-import android.os.Build;
-import android.provider.Settings;
+package com.omnipaste.droidomni.interaction;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.droidomni.prefs.GcmSenderId;
@@ -20,22 +16,24 @@ import rx.Subscriber;
 import rx.functions.Func1;
 
 @Singleton
-public class DeviceService {
-  private Devices devices;
-  private StringPreference gcmSenderId;
-  private GoogleCloudMessaging googleCloudMessaging;
-  private Context applicationContext;
+public class ActivateDevice {
+  private final Devices devices;
+  private final StringPreference gcmSenderId;
+  private final GoogleCloudMessaging googleCloudMessaging;
+  private String identifier;
 
   @Inject
-  public DeviceService(Devices devices, @GcmSenderId StringPreference gcmSenderId,
-                       GoogleCloudMessaging googleCloudMessaging, Context applicationContext) {
+  public ActivateDevice(Devices devices,
+                        @GcmSenderId StringPreference gcmSenderId,
+                        GoogleCloudMessaging googleCloudMessaging,
+                        @DeviceIdentifier String identifier) {
     this.devices = devices;
     this.gcmSenderId = gcmSenderId;
     this.googleCloudMessaging = googleCloudMessaging;
-    this.applicationContext = applicationContext;
+    this.identifier = identifier;
   }
 
-  public Observable<RegisteredDeviceDto> init() {
+  public Observable<RegisteredDeviceDto> run() {
     return createDevice().flatMap(new Func1<RegisteredDeviceDto, Observable<RegisteredDeviceDto>>() {
       @Override
       public Observable<RegisteredDeviceDto> call(final RegisteredDeviceDto deviceDto) {
@@ -50,7 +48,7 @@ public class DeviceService {
   }
 
   private Observable<RegisteredDeviceDto> createDevice() {
-    return devices.create(getIdentifier());
+    return devices.create(identifier);
   }
 
   private Observable<String> registerToGcm() {
@@ -69,11 +67,6 @@ public class DeviceService {
   }
 
   private Observable<RegisteredDeviceDto> activateDevice(String registrationId) {
-    return devices.activate(getIdentifier(), registrationId);
-  }
-
-  private String getIdentifier() {
-    String android_id = Settings.Secure.getString(applicationContext.getContentResolver(), Settings.Secure.ANDROID_ID);
-    return String.format("%s-%s", Build.MODEL, android_id);
+    return devices.activate(identifier, registrationId);
   }
 }
