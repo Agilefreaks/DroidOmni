@@ -11,7 +11,7 @@ import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.functions.Action0;
+import rx.Subscription;
 import rx.functions.Action1;
 
 @Singleton
@@ -22,6 +22,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   private final GetAccounts getAccounts;
   private final OmniServiceConnection omniServiceConnection;
   private boolean isInitiating = false;
+  private Subscription subscription;
 
   public interface View {
     void finish();
@@ -88,29 +89,20 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   }
 
   private void startOmniService() {
-    omniServiceConnection
+    subscription = omniServiceConnection
         .startOmniService()
-        .subscribeOn(scheduler)
-        .observeOn(observeOnScheduler)
         .subscribe(
             // onNext
-            new Action1<Object>() {
-              @Override
-              public void call(Object o) {
-              }
-            },
-            // onError
-            new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-                openError(throwable);
-              }
-            },
-            // onComplete
-            new Action0() {
-              @Override
-              public void call() {
-                openOmni();
+            new Action1<OmniServiceConnection.State>() {
+              @Override public void call(OmniServiceConnection.State code) {
+                if (code == OmniServiceConnection.State.error) {
+                  openError(omniServiceConnection.getLastError());
+                } else {
+                  openOmni();
+                }
+
+                subscription.unsubscribe();
+                subscription = null;
               }
             }
         );

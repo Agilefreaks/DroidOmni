@@ -43,7 +43,7 @@ dependencies {
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'
 
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'org.functionaljava:functionaljava:4.2-beta-1'
     compile 'com.netflix.rxjava:rxjava-android:0.20.7'
 

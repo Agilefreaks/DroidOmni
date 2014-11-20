@@ -17,9 +17,16 @@ import rx.subjects.PublishSubject;
 @Singleton
 public class OmniServiceConnection implements ServiceConnection {
   private final Context context;
-  private final PublishSubject<Object> connectionSubject = PublishSubject.create();
+  private final Messenger omniMessenger = new Messenger(new OmniIncomingHandler(this));
+  private final PublishSubject<State> serviceStateObservable = PublishSubject.create();
   private Messenger omniServiceMessenger;
-  private Messenger omniMessenger = new Messenger(new OmniIncomingHandler(connectionSubject));
+  private Throwable lastError;
+
+  public enum State {
+    started,
+    stopped,
+    error
+  }
 
   @Inject
   public OmniServiceConnection(Context context) {
@@ -43,18 +50,41 @@ public class OmniServiceConnection implements ServiceConnection {
     omniServiceMessenger = null;
   }
 
-  public Observable<Object> startOmniService() {
+  public Observable<State> startOmniService() {
     context.bindService(OmniService.getIntent(), this, Context.BIND_AUTO_CREATE);
-    return connectionSubject;
+    context.startService(OmniService.getIntent());
+
+    return serviceStateObservable;
   }
 
-  public Observable<Object> stopOmniService() {
+  public Observable<State> stopOmniService() {
+    context.stopService(OmniService.getIntent());
     context.unbindService(this);
-    return connectionSubject;
+
+    return serviceStateObservable;
   }
 
-  public void restartOmniService() {
+  public Observable<State> restartOmniService() {
     stopOmniService();
     startOmniService();
+
+    return serviceStateObservable;
+  }
+
+  public Throwable getLastError() {
+    return lastError;
+  }
+
+  public void serviceStarted() {
+    serviceStateObservable.onNext(State.started);
+  }
+
+  public void serviceStopped() {
+    serviceStateObservable.onNext(State.stopped);
+  }
+
+  public void serviceError(Throwable obj) {
+    lastError = obj;
+    serviceStateObservable.onNext(State.error);
   }
 }

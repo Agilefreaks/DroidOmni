@@ -6,6 +6,8 @@
     <color name="theme_accent_1">#a94e5c</color>
     <color name="theme_accent_2">#5ca94e</color>
 
+    <color name="incoming_clipping">#e56e1f</color>
+
     <color name="refresh_progress_1">@color/theme_accent_2</color>
     <color name="refresh_progress_2">@color/theme_accent_1</color>
     <color name="refresh_progress_3">@color/primary_color</color>

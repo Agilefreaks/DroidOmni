@@ -3,28 +3,27 @@ package com.omnipaste.droidomni.service;
 import android.os.Handler;
 import android.os.Message;
 
-import rx.subjects.PublishSubject;
-
 public class OmniIncomingHandler extends Handler {
   public static final int MSG_CREATE_ERROR = 3;
   public static final int MSG_STARTED = 4;
   public static final int MSG_STOPPED = 5;
+  private OmniServiceConnection omniServiceConnection;
 
-  private final PublishSubject connectionSubject;
-
-  public OmniIncomingHandler(PublishSubject connectionSubject) {
-    this.connectionSubject = connectionSubject;
+  public OmniIncomingHandler(OmniServiceConnection omniServiceConnection) {
+    this.omniServiceConnection = omniServiceConnection;
   }
 
   @Override
   public void handleMessage(Message msg) {
     switch (msg.what) {
       case MSG_STARTED:
+        omniServiceConnection.serviceStarted();
+        break;
       case MSG_STOPPED:
-        connectionSubject.onCompleted();
+        omniServiceConnection.serviceStopped();
         break;
       case MSG_CREATE_ERROR:
-        connectionSubject.onError((Throwable) msg.obj);
+        omniServiceConnection.serviceError((Throwable) msg.obj);
         break;
       default:
         super.handleMessage(msg);

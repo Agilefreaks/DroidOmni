@@ -41,7 +41,7 @@ public class OmniApiModule {
 
   @Provides @Singleton
   public RestAdapter.LogLevel provideLogLevel() {
-    return BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE;
+    return RestAdapter.LogLevel.FULL;
   }
 
   @Provides @Singleton

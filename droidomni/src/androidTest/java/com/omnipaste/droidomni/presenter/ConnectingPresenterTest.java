@@ -8,10 +8,13 @@ import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 
 import junit.framework.TestCase;
 
+import rx.Observer;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +24,7 @@ public class ConnectingPresenterTest extends TestCase {
   private Navigator mockNavigator;
   private GetAccounts mockGetAccounts;
 
-//  @Override
+  //  @Override
 //  public void setUp() throws Exception {
 //    super.setUp();
 //

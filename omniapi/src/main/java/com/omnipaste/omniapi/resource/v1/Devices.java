@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 
 import retrofit.RestAdapter;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -22,8 +24,9 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
     @PUT("/v1/devices/activate.json")
     Observable<RegisteredDeviceDto> activate(@Header("Authorization") String token, @Body RegisteredDeviceDto deviceDto);
 
+    @FormUrlEncoded
     @PUT("/v1/devices/deactivate.json")
-    Observable<RegisteredDeviceDto> deactivate(@Header("Authorization") String token, @Body String identifier);
+    Observable<RegisteredDeviceDto> deactivate(@Header("Authorization") String token, @Field("identifier") String identifier);
   }
 
   @Inject

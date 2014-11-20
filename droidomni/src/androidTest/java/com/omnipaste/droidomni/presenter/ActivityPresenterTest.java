@@ -2,24 +2,26 @@ package com.omnipaste.droidomni.presenter;
 
 import android.test.InstrumentationTestCase;
 
+import com.omnipaste.droidomni.interaction.Refresh;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class ActivityPresenterTest extends InstrumentationTestCase {
   private ActivityPresenter subject;
-  private ClippingPresenter mockClippingPresenter;
+  private Refresh mockRefresh;
 
   public void setUp() throws Exception {
     super.setUp();
 
-    mockClippingPresenter = mock(ClippingPresenter.class);
-    subject = new ActivityPresenter(mockClippingPresenter);
+    mockRefresh = mock(Refresh.class);
+    subject = new ActivityPresenter(mock(ClippingPresenter.class), mockRefresh);
     subject.attachView(mock(ActivityPresenter.View.class));
   }
 
-  public void testRefreshWillCallRefresOnClippings() throws Exception {
+  public void testRefreshWillCallRefreshOnClippings() throws Exception {
     subject.refresh();
 
-    verify(mockClippingPresenter).refresh();
+    verify(mockRefresh).all();
   }
 }

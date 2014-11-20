@@ -3,9 +3,7 @@ package com.omnipaste.droidomni.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteException;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.interaction.ActivateDevice;
@@ -34,7 +32,6 @@ import javax.inject.Inject;
 
 import dagger.Lazy;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -98,7 +95,12 @@ public class OmniService extends Service {
   }
 
   @Override
-  public void onCreate() {
+  public IBinder onBind(Intent intent) {
+    return messenger.getBinder();
+  }
+
+  @Override
+  public int onStartCommand(Intent intent, int flags, int startId) {
     activateDevice.run()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -123,15 +125,7 @@ public class OmniService extends Service {
               }
             }
         );
-  }
 
-  @Override
-  public IBinder onBind(Intent intent) {
-    return messenger.getBinder();
-  }
-
-  @Override
-  public int onStartCommand(Intent intent, int flags, int startId) {
     return START_STICKY;
   }
 

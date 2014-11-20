@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="4">
+
+    <LinearLayout
+        android:id="@+id/clipping_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/text_content"
+            style="@android:style/TextAppearance.DeviceDefault.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/clipping_content"
+        android:background="?android:attr/dividerHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/smart_action"
+            style="@style/SmartActionTransparentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/delete"
+            style="@style/TransparentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_smart_action_remove"
+            android:drawableStart="@drawable/ic_smart_action_remove"
+            android:text="@string/clipping_delete"/>
+
+    </LinearLayout>
+</RelativeLayout>

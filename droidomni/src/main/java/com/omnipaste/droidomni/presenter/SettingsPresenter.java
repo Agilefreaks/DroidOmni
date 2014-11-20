@@ -3,9 +3,7 @@ package com.omnipaste.droidomni.presenter;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.prefs.PrefsModule;
-import com.omnipaste.droidomni.service.OmniService;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
@@ -14,7 +12,6 @@ import com.omnipaste.droidomni.ui.fragment.NotificationPreferenceFragment;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.functions.Action0;
 import rx.functions.Action1;
 
 @Singleton
@@ -80,16 +77,19 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   public void logout() {
     omniServiceConnection
         .stopOmniService()
-        .subscribeOn(scheduler)
-        .observeOn(observeOnScheduler)
-        .doOnCompleted(new Action0() {
-          @Override public void call() {
-            sessionService.logout();
-            navigator.openLauncherActivity();
-            finishView();
-          }
-        })
-        .subscribe();
+        .subscribe(
+            new Action1<OmniServiceConnection.State>() {
+              @Override public void call(OmniServiceConnection.State integer) {
+                cleanUp();
+              }
+            }
+        );
+  }
+
+  private void cleanUp() {
+    sessionService.logout();
+    navigator.openLauncherActivity();
+    finishView();
   }
 
   private void finishView() {

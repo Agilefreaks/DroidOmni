@@ -4,14 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.omnipaste.droidomni.ui.view.ClippingView_;
 import com.omnipaste.droidomni.ui.view.HasSetup;
+import com.omnipaste.droidomni.ui.view.clipping.LocalClippingView_;
+import com.omnipaste.droidomni.ui.view.clipping.OmniClippingView_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import java.util.ArrayList;
 
 public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHolder> {
-  private final int LIST_SIZE = 42;
+  public final int LIST_SIZE = 42;
 
   public static ClippingAdapter build() {
     return new ClippingAdapter(new ArrayList<ClippingDto>());
@@ -24,8 +25,17 @@ public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHo
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
-    return new ViewHolder(ClippingView_.build(viewGroup.getContext()));
+  public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    ViewHolder viewHolder;
+
+    if (viewType == 1) {
+      viewHolder = new ViewHolder(OmniClippingView_.build(viewGroup.getContext()));
+    }
+    else {
+      viewHolder = new ViewHolder(LocalClippingView_.build(viewGroup.getContext()));
+    }
+
+    return viewHolder;
   }
 
   @Override
@@ -37,6 +47,12 @@ public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHo
   @Override
   public int getItemCount() {
     return items.size();
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    ClippingDto clippingDto = items.get(position);
+    return clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.CLOUD ? 1 : 0;
   }
 
   public void add(ClippingDto clippingDto) {
