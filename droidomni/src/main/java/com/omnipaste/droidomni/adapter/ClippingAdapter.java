@@ -62,12 +62,14 @@ public class ClippingAdapter extends RecyclerView.Adapter<ClippingAdapter.ViewHo
       items.subList(LIST_SIZE, items.size()).clear();
     }
 
-    notifyDataSetChanged();
+    notifyItemInserted(0);
   }
 
   public void remove(ClippingDto clippingDto) {
+    int index = items.indexOf(clippingDto);
     items.remove(clippingDto);
-    notifyDataSetChanged();
+
+    notifyItemRemoved(index);
   }
 
   public int getCount() {

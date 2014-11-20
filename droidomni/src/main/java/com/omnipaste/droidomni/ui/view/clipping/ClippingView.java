@@ -59,4 +59,14 @@ public abstract class ClippingView extends LinearLayout implements HasSetup<Clip
   public void smartActionClicked() {
     clippingPresenter.smartAction(item);
   }
+
+  @Click
+  public void textContent() {
+    if (textContent.getMaxLines() == 3) {
+      textContent.setMaxLines(Integer.MAX_VALUE);
+    }
+    else {
+      textContent.setMaxLines(3);
+    }
+  }
 }
