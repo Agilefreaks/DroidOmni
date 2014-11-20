@@ -4,6 +4,7 @@ package com.omnipaste.omnicommon.dto;
 public class IncomingSmsEventDto {
   private String phoneNumber;
   private String content;
+  private String contactName;
 
   public IncomingSmsEventDto() {
   }
@@ -29,5 +30,14 @@ public class IncomingSmsEventDto {
   public IncomingSmsEventDto setContent(String content) {
     this.content = content;
     return this;
+  }
+
+  public IncomingSmsEventDto setContactName(String contactName) {
+    this.contactName = contactName;
+    return this;
+  }
+
+  public String getContactName() {
+    return contactName;
   }
 }

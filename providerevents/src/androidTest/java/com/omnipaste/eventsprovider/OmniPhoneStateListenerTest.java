@@ -21,7 +21,7 @@ public class OmniPhoneStateListenerTest extends InstrumentationTestCase {
 
     mockTelephonyManager = mock(TelephonyManager.class);
     mockEventsReceiver = mock(EventsReceiver.class);
-    subject = new OmniPhoneStateListener(mockTelephonyManager);
+    subject = new OmniPhoneStateListener(mockTelephonyManager, mock(ContactsRepository.class));
   }
 
   public void testStartWillCallListenOnTelephonyManager() throws Exception {

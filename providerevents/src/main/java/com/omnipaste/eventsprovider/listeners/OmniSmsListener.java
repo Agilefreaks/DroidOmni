@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import com.omnipaste.eventsprovider.ContactsRepository;
 import com.omnipaste.omnicommon.dto.IncomingSmsEventDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
@@ -18,10 +19,12 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
   private final static String EXTRAS_KEY = "pdus";
   private EventsReceiver receiver;
   private Context context;
+  private ContactsRepository contactsRepository;
 
   @Inject
-  public OmniSmsListener(Context context) {
+  public OmniSmsListener(Context context, ContactsRepository contactsRepository) {
     this.context = context;
+    this.contactsRepository = contactsRepository;
   }
 
   public void start(EventsReceiver receiver) {
@@ -53,7 +56,9 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
           TelephonyEventDto.TelephonyEventType.incomingSms,
           new IncomingSmsEventDto()
               .setPhoneNumber(fromAddress)
+              .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
               .setContent(message.getMessageBody()));
+
       receiver.post(telephonyEventDto);
     }
   }

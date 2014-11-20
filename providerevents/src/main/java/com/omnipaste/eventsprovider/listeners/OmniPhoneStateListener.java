@@ -3,6 +3,7 @@ package com.omnipaste.eventsprovider.listeners;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
+import com.omnipaste.eventsprovider.ContactsRepository;
 import com.omnipaste.omnicommon.dto.IncomingCallEventDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
@@ -12,11 +13,15 @@ import javax.inject.Singleton;
 @Singleton
 public class OmniPhoneStateListener extends PhoneStateListener implements Listener {
   private TelephonyManager telephonyManager;
+  private ContactsRepository contactsRepository;
   private EventsReceiver receiver;
 
   @Inject
-  public OmniPhoneStateListener(TelephonyManager telephonyManager) {
+  public OmniPhoneStateListener(
+      TelephonyManager telephonyManager,
+      ContactsRepository contactsRepository) {
     this.telephonyManager = telephonyManager;
+    this.contactsRepository = contactsRepository;
   }
 
   public void start(EventsReceiver receiver) {
@@ -36,7 +41,11 @@ public class OmniPhoneStateListener extends PhoneStateListener implements Listen
     if (state == TelephonyManager.CALL_STATE_RINGING) {
       TelephonyEventDto telephonyEventDto = new TelephonyEventDto(
           TelephonyEventDto.TelephonyEventType.incomingCall,
-          new IncomingCallEventDto().setPhoneNumber(incomingNumber));
+          new IncomingCallEventDto()
+              .setPhoneNumber(incomingNumber)
+              .setContactName(contactsRepository.findByPhoneNumber(incomingNumber))
+      );
+
       receiver.post(telephonyEventDto);
     }
   }
