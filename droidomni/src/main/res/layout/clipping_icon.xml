@@ -3,5 +3,8 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_gravity="center|top"
+           android:maxHeight="48dp"
            android:contentDescription="@string/clippings_location"
+           android:adjustViewBounds="true"
+           android:layout_marginTop="@dimen/default_padding"
            android:src="@drawable/ic_clipping" />

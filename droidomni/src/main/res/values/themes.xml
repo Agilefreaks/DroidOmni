@@ -27,11 +27,11 @@
 
     <style name="NavLinearItem" parent="@style/TextAppearance.AppCompat.Small">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/margin_left</item>
+        <item name="android:layout_marginLeft">@dimen/default_padding</item>
     </style>
 
     <style name="NavLinearItemPrimary" parent="NavLinearItem">
-        <item name="android:drawablePadding">@dimen/margin_left</item>
+        <item name="android:drawablePadding">@dimen/default_padding</item>
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
     </style>
 

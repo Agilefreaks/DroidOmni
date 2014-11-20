@@ -5,5 +5,5 @@
 
     <dimen name="action_bar_elevation">5dp</dimen>
 
-    <dimen name="margin_left">16dp</dimen>
+    <dimen name="default_padding">16dp</dimen>
 </resources>

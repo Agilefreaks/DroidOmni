@@ -2,7 +2,7 @@
 <resources>
     <style name="NavLinearItem" parent="@style/TextAppearance.AppCompat.Small">
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginStart">@dimen/margin_left</item>
-        <item name="android:layout_marginLeft">@dimen/margin_left</item>
+        <item name="android:layout_marginStart">@dimen/default_padding</item>
+        <item name="android:layout_marginLeft">@dimen/default_padding</item>
     </style>
 </resources>
