@@ -31,7 +31,7 @@ public class TelephonyEventsSubscriberImplTest extends InstrumentationTestCase {
   }
 
   public void testStartWillCallInitWithTheDeviceIdentifier() throws Exception {
-    TelephonyNotificationsSubscriber subscriber = new TelephonyNotificationsSubscriber(telephonyEventsProvider);
+    TelephonyEventsSubscriber subscriber = new TelephonyEventsSubscriber(telephonyEventsProvider);
     when(telephonyEventsProvider.init(any(String.class))).thenReturn(Observable.create(new Observable.OnSubscribe<NotificationDto>() {
       @Override
       public void call(Subscriber<? super NotificationDto> subscriber) {

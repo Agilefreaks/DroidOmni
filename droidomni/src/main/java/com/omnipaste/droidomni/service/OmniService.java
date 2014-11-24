@@ -13,11 +13,12 @@ import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
 import com.omnipaste.droidomni.prefs.NotificationsTelephony;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
+import com.omnipaste.droidomni.service.subscriber.EventsSubscriber;
 import com.omnipaste.droidomni.service.subscriber.GcmWorkaroundSubscriber;
 import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
 import com.omnipaste.droidomni.service.subscriber.ScreenOnSubscriber;
 import com.omnipaste.droidomni.service.subscriber.Subscriber;
-import com.omnipaste.droidomni.service.subscriber.TelephonyNotificationsSubscriber;
+import com.omnipaste.droidomni.service.subscriber.TelephonyEventsSubscriber;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -57,10 +58,13 @@ public class OmniService extends Service {
   public Lazy<GcmWorkaroundSubscriber> gcmWorkaroundSubscriber;
 
   @Inject
-  public Lazy<TelephonyNotificationsSubscriber> telephonyNotificationsSubscriber;
+  public Lazy<TelephonyEventsSubscriber> telephonyNotificationsSubscriber;
 
   @Inject
   public Lazy<ScreenOnSubscriber> screenOnSubscriber;
+
+  @Inject
+  public Lazy<EventsSubscriber> eventsSubscriber;
 
   @Inject
   public SessionService sessionService;
@@ -179,6 +183,7 @@ public class OmniService extends Service {
       }
 
       subscribes.add(screenOnSubscriber.get());
+      subscribes.add(eventsSubscriber.get());
     }
 
     return subscribes;

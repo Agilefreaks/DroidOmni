@@ -8,12 +8,12 @@ import javax.inject.Singleton;
 import rx.Subscription;
 
 @Singleton
-public class TelephonyNotificationsSubscriber implements Subscriber {
+public class TelephonyEventsSubscriber implements Subscriber {
   private TelephonyEventsProvider telephonyEventsProvider;
   private Subscription subscriber;
 
   @Inject
-  public TelephonyNotificationsSubscriber(TelephonyEventsProvider telephonyEventsProvider) {
+  public TelephonyEventsSubscriber(TelephonyEventsProvider telephonyEventsProvider) {
     this.telephonyEventsProvider = telephonyEventsProvider;
   }
 
