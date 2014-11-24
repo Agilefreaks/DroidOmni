@@ -2,6 +2,7 @@ package com.omnipaste.clipboardprovider;
 
 import com.omnipaste.clipboardprovider.androidclipboard.LocalClipboardManager;
 import com.omnipaste.clipboardprovider.omniclipboard.OmniClipboardManager;
+import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -15,7 +16,7 @@ import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 @Singleton
-public class ClipboardProvider {
+public class ClipboardProvider implements Provider<ClippingDto> {
   private PublishSubject<ClippingDto> clipboardProviderSubject;
   private Boolean subscribed = false;
   private Subscription localSubscription;

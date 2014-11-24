@@ -14,9 +14,9 @@ import javax.inject.Singleton;
 import rx.Observable;
 
 @Singleton
-public class TelephonyNotificationsProvider implements Provider<NotificationDto>, EventsReceiver {
+public class TelephonyEventsProvider implements Provider<NotificationDto>, EventsReceiver {
 
-  public static TelephonyNotificationsProvider instance;
+  public static TelephonyEventsProvider instance;
 
   private String identifier;
   private OmniPhoneStateListener omniPhoneStateListener;
@@ -24,14 +24,14 @@ public class TelephonyNotificationsProvider implements Provider<NotificationDto>
   private boolean subscribed = false;
   private Events events;
 
-  public static TelephonyNotificationsProvider getInstance() {
+  public static TelephonyEventsProvider getInstance() {
     return instance;
   }
 
   @Inject
-  public TelephonyNotificationsProvider(Events events,
-                                        OmniPhoneStateListener omniPhoneStateListener,
-                                        OmniSmsListener smsListener) {
+  public TelephonyEventsProvider(Events events,
+                                 OmniPhoneStateListener omniPhoneStateListener,
+                                 OmniSmsListener smsListener) {
     this.events = events;
     this.omniPhoneStateListener = omniPhoneStateListener;
     this.smsListener = smsListener;

@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.service.subscriber;
 
-import com.omnipaste.eventsprovider.TelephonyNotificationsProvider;
+import com.omnipaste.eventsprovider.TelephonyEventsProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -9,17 +9,17 @@ import rx.Subscription;
 
 @Singleton
 public class TelephonyNotificationsSubscriber implements Subscriber {
-  private TelephonyNotificationsProvider telephonyNotificationsProvider;
+  private TelephonyEventsProvider telephonyEventsProvider;
   private Subscription subscriber;
 
   @Inject
-  public TelephonyNotificationsSubscriber(TelephonyNotificationsProvider telephonyNotificationsProvider) {
-    this.telephonyNotificationsProvider = telephonyNotificationsProvider;
+  public TelephonyNotificationsSubscriber(TelephonyEventsProvider telephonyEventsProvider) {
+    this.telephonyEventsProvider = telephonyEventsProvider;
   }
 
   @Override
   public void start(String deviceIdentifier) {
-    subscriber = telephonyNotificationsProvider
+    subscriber = telephonyEventsProvider
         .init(deviceIdentifier)
         .subscribe();
   }
@@ -28,7 +28,7 @@ public class TelephonyNotificationsSubscriber implements Subscriber {
   public void stop() {
     if (subscriber != null) {
       subscriber.unsubscribe();
-      telephonyNotificationsProvider.destroy();
+      telephonyEventsProvider.destroy();
     }
   }
 }

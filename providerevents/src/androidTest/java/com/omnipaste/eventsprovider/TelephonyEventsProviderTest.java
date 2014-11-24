@@ -13,8 +13,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class TelephonyNotificationsProviderTest extends InstrumentationTestCase {
-  private TelephonyNotificationsProvider subject;
+public class TelephonyEventsProviderTest extends InstrumentationTestCase {
+  private TelephonyEventsProvider subject;
   private Events mockEvents;
   private OmniPhoneStateListener mockOmniPhoneStateListener;
   private OmniSmsListener mockOmniSmsListener;
@@ -26,7 +26,7 @@ public class TelephonyNotificationsProviderTest extends InstrumentationTestCase 
     mockEvents = mock(Events.class);
     mockOmniPhoneStateListener = mock(OmniPhoneStateListener.class);
     mockOmniSmsListener = mock(OmniSmsListener.class);
-    subject = new TelephonyNotificationsProvider(mockEvents, mockOmniPhoneStateListener, mockOmniSmsListener);
+    subject = new TelephonyEventsProvider(mockEvents, mockOmniPhoneStateListener, mockOmniSmsListener);
   }
 
   public void testInitItCallsStartOnBothListeners() throws Exception {

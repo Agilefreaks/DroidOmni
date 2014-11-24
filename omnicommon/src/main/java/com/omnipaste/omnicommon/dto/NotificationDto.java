@@ -10,6 +10,7 @@ public class NotificationDto {
   public enum Target {
     CLIPBOARD,
     PHONE,
+    NOTIFICATION,
     UNKNOWN
   }
   public NotificationDto() {
