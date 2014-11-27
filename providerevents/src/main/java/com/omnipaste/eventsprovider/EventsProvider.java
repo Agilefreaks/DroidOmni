@@ -1,7 +1,6 @@
 package com.omnipaste.eventsprovider;
 
-import android.util.Log;
-
+import com.omnipaste.omniapi.resource.v1.Events;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.EventDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
@@ -21,12 +20,14 @@ public class EventsProvider implements Provider<EventDto> {
 
   private PublishSubject<EventDto> eventsProviderSubject;
   private NotificationProvider notificationProvider;
+  private Events events;
   private Boolean subscribed = false;
   private Subscription subscription;
 
   @Inject
-  public EventsProvider(NotificationProvider notificationProvider) {
+  public EventsProvider(NotificationProvider notificationProvider, Events events) {
     this.notificationProvider = notificationProvider;
+    this.events = events;
 
     eventsProviderSubject = PublishSubject.create();
   }
@@ -45,7 +46,11 @@ public class EventsProvider implements Provider<EventDto> {
               // onNext
               new Action1<NotificationDto>() {
                 @Override public void call(NotificationDto notificationDto) {
-                  Log.d("EventsProvider", notificationDto.getTarget().toString());
+                  events.get().subscribe(new Action1<EventDto>() {
+                    @Override public void call(EventDto eventDto) {
+                      eventsProviderSubject.onNext(eventDto);
+                    }
+                  });
                 }
               },
               // onError

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
-    android:id="@+id/textTitle"
+    android:id="@+id/navigation_drawer_item_title"
     style="@style/NavLinearItemPrimary"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

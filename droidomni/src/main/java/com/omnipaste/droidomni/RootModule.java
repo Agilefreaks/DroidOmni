@@ -15,6 +15,7 @@ import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.gcm.GcmIntentService_;
 import com.omnipaste.droidomni.interaction.DeviceIdentifier;
 import com.omnipaste.droidomni.prefs.PrefsModule;
+import com.omnipaste.droidomni.presenter.PresenterModule;
 import com.omnipaste.droidomni.provider.GcmNotificationProvider;
 import com.omnipaste.droidomni.service.OmniService_;
 import com.omnipaste.droidomni.service.smartaction.SmartActionRemove;
@@ -35,7 +36,8 @@ import dagger.Provides;
         OmniCommonModule.class,
         OmniApiModule.class,
         PrefsModule.class,
-        UiModule.class
+        UiModule.class,
+        PresenterModule.class
     },
     injects = {
         DroidOmniApplication_.class,

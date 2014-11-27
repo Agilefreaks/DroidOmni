@@ -37,14 +37,22 @@ public abstract class BaseActivity<TPresenter extends Presenter> extends ActionB
     }
   }
 
-  @Override protected void onPause() {
+  @Override
+  protected void onPause() {
     super.onPause();
     getPresenter().pause();
   }
 
-  @Override protected void onPostResume() {
+  @Override
+  protected void onPostResume() {
     super.onPostResume();
     getPresenter().resume();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    getPresenter().destroy();
   }
 
   protected abstract TPresenter getPresenter();

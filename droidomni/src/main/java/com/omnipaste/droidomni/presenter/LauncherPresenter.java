@@ -65,6 +65,9 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
   public void pause() {
   }
 
+  @Override public void destroy() {
+  }
+
   private void showPlayServiceErrorDialog(int status) {
     View view = getView();
     if (view == null) {

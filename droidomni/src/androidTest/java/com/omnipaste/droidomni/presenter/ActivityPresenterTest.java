@@ -15,7 +15,7 @@ public class ActivityPresenterTest extends InstrumentationTestCase {
     super.setUp();
 
     mockRefresh = mock(Refresh.class);
-    subject = new ActivityPresenter(mock(ClippingPresenter.class), mockRefresh);
+    subject = new ActivityPresenter(mock(ClippingsPresenter.class), mock(EventsPresenter.class), mockRefresh);
     subject.attachView(mock(ActivityPresenter.View.class));
   }
 

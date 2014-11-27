@@ -31,4 +31,9 @@ public abstract class Presenter<TView> extends Schedulable {
    * Called when the presenter is paused.
    */
   public abstract void pause();
+
+  /**
+   * Called when the presented view is destroyed
+   */
+  public abstract void destroy();
 }

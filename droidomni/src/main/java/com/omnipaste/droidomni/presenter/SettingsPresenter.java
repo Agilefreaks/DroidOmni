@@ -64,6 +64,9 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
     sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
   }
 
+  @Override public void destroy() {
+  }
+
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     if (key.equals(PrefsModule.NOTIFICATIONS_CLIPBOARD_KEY) ||

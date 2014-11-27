@@ -46,6 +46,9 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
   @Override public void pause() {
   }
 
+  @Override public void destroy() {
+  }
+
   public void login(String authorizationCode) {
     sessionService.login(authorizationCode)
         .subscribeOn(scheduler)

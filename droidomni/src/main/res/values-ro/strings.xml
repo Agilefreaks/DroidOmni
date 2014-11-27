@@ -27,6 +27,7 @@
     <!-- ACTIVITY -->
     <string name="clipping_delete">Șterge</string>
     <string name="clippings_location">Locație</string>
+    <string name="event_from">de la</string>
 
     <!-- Navigation -->
     <string name="navigation_drawer_activity">Activitate</string>

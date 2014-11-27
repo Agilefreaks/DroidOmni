@@ -1,15 +1,16 @@
 package com.omnipaste.droidomni.service.subscriber;
 
 import com.omnipaste.eventsprovider.EventsProvider;
+import com.omnipaste.omnicommon.dto.EventDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 @Singleton
-public class EventsSubscriber implements Subscriber {
+public class EventsSubscriber extends ObservableSubscriber<EventDto> {
   private EventsProvider eventsProvider;
   private Subscription eventsSubscriber;
 
@@ -22,8 +23,11 @@ public class EventsSubscriber implements Subscriber {
   public void start(String deviceIdentifier) {
     eventsSubscriber = eventsProvider
         .init(deviceIdentifier)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe();
+        .subscribe(new Action1<EventDto>() {
+          @Override public void call(EventDto eventDto) {
+            subject.onNext(eventDto);
+          }
+        });
   }
 
   @Override

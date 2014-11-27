@@ -54,6 +54,9 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
   public void pause() {
   }
 
+  @Override public void destroy() {
+  }
+
   public NavigationDrawerAdapter getNavigationDrawerAdapter() {
     return navigationDrawerAdapter;
   }

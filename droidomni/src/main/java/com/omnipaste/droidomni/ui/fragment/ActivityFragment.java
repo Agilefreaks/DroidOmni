@@ -34,7 +34,7 @@ public class ActivityFragment extends BaseFragment<ActivityPresenter> implements
   public void afterView() {
     list.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     list.setItemAnimator(new DefaultItemAnimator());
-    list.setAdapter(presenter.getClippingAdapter());
+    list.setAdapter(presenter.getAdapter());
 
     swipeRefreshLayout.setColorSchemeResources(
         R.color.refresh_progress_1,

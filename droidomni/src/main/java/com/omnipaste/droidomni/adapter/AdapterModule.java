@@ -33,7 +33,7 @@ public class AdapterModule {
 
   @Provides
   @Singleton
-  public ClippingAdapter provideClippingAdapter() {
-    return ClippingAdapter.build();
+  public ActivityAdapter provideClippingAdapter() {
+    return ActivityAdapter.build();
   }
 }

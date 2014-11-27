@@ -36,4 +36,7 @@ public class ErrorPresenter extends Presenter<ErrorPresenter.View> {
 
   @Override public void pause() {
   }
+
+  @Override public void destroy() {
+  }
 }

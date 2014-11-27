@@ -24,6 +24,9 @@ public class AboutPresenter extends Presenter {
   @Override public void pause() {
   }
 
+  @Override public void destroy() {
+  }
+
   public AboutAdapter getAboutAdapter() {
     return aboutAdapter;
   }

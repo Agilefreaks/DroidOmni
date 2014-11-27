@@ -2,7 +2,6 @@ package com.omnipaste.droidomni.presenter;
 
 import android.support.v4.app.Fragment;
 
-import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.ui.fragment.ActivityFragment_;
 
 import javax.inject.Inject;
@@ -30,6 +29,9 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
 
   @Override
   public void pause() {
+  }
+
+  @Override public void destroy() {
   }
 
   private void setActivityFragment() {

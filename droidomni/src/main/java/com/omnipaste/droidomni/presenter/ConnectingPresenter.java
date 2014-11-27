@@ -22,7 +22,8 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   private final GetAccounts getAccounts;
   private final OmniServiceConnection omniServiceConnection;
   private boolean isInitiating = false;
-  private Subscription subscription;
+  private Subscription startOmniServiceSubscription;
+  private Subscription initSessionSubscription;
 
   public interface View {
     void finish();
@@ -69,8 +70,20 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   @Override public void pause() {
   }
 
+  @Override public void destroy() {
+    if (startOmniServiceSubscription != null) {
+      startOmniServiceSubscription.unsubscribe();
+      startOmniServiceSubscription = null;
+    }
+
+    if (initSessionSubscription != null) {
+      initSessionSubscription.unsubscribe();
+      initSessionSubscription = null;
+    }
+  }
+
   private void initSession() {
-    sessionService
+    initSessionSubscription = sessionService
         .login(getAccounts.fromGoogle())
         .subscribe(
             // onNext
@@ -89,7 +102,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   }
 
   private void startOmniService() {
-    subscription = omniServiceConnection
+    startOmniServiceSubscription = omniServiceConnection
         .startOmniService()
         .subscribe(
             // onNext
@@ -101,8 +114,8 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
                   openOmni();
                 }
 
-                subscription.unsubscribe();
-                subscription = null;
+                startOmniServiceSubscription.unsubscribe();
+                startOmniServiceSubscription = null;
               }
             }
         );

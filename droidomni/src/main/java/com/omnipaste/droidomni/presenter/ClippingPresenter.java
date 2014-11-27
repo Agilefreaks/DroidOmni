@@ -1,90 +1,49 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.app.Notification;
-import android.support.v4.app.NotificationManagerCompat;
-
-import com.omnipaste.droidomni.DroidOmniApplication;
-import com.omnipaste.droidomni.adapter.ClippingAdapter;
-import com.omnipaste.droidomni.service.NotificationService;
 import com.omnipaste.droidomni.service.SmartActionService;
-import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-import rx.Observer;
-
-@Singleton
-public class ClippingPresenter extends Presenter<ClippingPresenter.View> implements Observer<ClippingDto> {
-
-  private final ClippingAdapter clippingAdapter;
-  private final SmartActionService smartActionService;
-  private final NotificationService notificationService;
-  private final NotificationManagerCompat notificationManager;
-
-  public interface View {
-  }
+public class ClippingPresenter extends Presenter<ClippingPresenter.View> {
+  private ClippingDto clippingDto;
 
   @Inject
-  public ClippingPresenter(
-      ClipboardSubscriber clipboardSubscriber,
-      ClippingAdapter clippingAdapter,
-      SmartActionService smartActionService,
-      NotificationService notificationService,
-      NotificationManagerCompat notificationManager
-  ) {
-    this.smartActionService = smartActionService;
-    this.notificationService = notificationService;
-    this.notificationManager = notificationManager;
-    this.clippingAdapter = clippingAdapter;
+  public SmartActionService smartActionService;
 
-    clipboardSubscriber.subscribe(this);
+  public interface View {
+    void setClippingContent(String content);
+
+    void showSmartAction(int title, int icon);
   }
 
-  @Override
-  public void initialize() {
+  public ClippingPresenter(ClippingDto clippingDto) {
+    this.clippingDto = clippingDto;
   }
 
-  @Override
-  public void resume() {
-  }
+  @Override public void initialize() {
+    getView().setClippingContent(clippingDto.getContent());
 
-  @Override
-  public void pause() {
-  }
-
-  @Override
-  public void onCompleted() {
-  }
-
-  @Override
-  public void onError(Throwable e) {
-  }
-
-  @Override
-  public void onNext(ClippingDto clippingDto) {
-    clippingAdapter.add(clippingDto);
-
-    Notification notification;
-    if (clippingDto.getType() == ClippingDto.ClippingType.UNKNOWN) {
-      notification = notificationService.buildSimpleNotification(DroidOmniApplication.getAppContext(), clippingDto);
-    } else {
-      notification = notificationService.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clippingDto);
+    if (clippingDto.getType() != ClippingDto.ClippingType.UNKNOWN) {
+      getView().showSmartAction(SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getTitle(),
+          SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
     }
-
-    notificationManager.notify(NotificationService.NOTIFICATION_ID, notification);
   }
 
-  public ClippingAdapter getClippingAdapter() {
-    return clippingAdapter;
+  @Override public void resume() {
   }
 
-  public void remove(ClippingDto item) {
-    clippingAdapter.remove(item);
+  @Override public void pause() {
   }
 
-  public void smartAction(ClippingDto item) {
-    smartActionService.run(item);
+  @Override public void destroy() {
+  }
+
+  public void smartAction() {
+    smartActionService.run(clippingDto);
+  }
+
+  public ClippingDto getClipping() {
+    return clippingDto;
   }
 }

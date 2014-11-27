@@ -3,11 +3,13 @@ package com.omnipaste.omniapi;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.omnipaste.omniapi.deserializer.ClippingTypeDeserializer;
+import com.omnipaste.omniapi.deserializer.EventTypeDeserializer;
 import com.omnipaste.omniapi.deserializer.TelephonyEventTypeDeserializer;
 import com.omnipaste.omniapi.prefs.ApiUrl;
 import com.omnipaste.omniapi.prefs.PrefsModule;
 import com.omnipaste.omniapi.serializer.TelephonyEventTypeSerializer;
 import com.omnipaste.omnicommon.dto.ClippingDto;
+import com.omnipaste.omnicommon.dto.EventDto;
 import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 import com.squareup.okhttp.OkHttpClient;
@@ -53,6 +55,7 @@ public class OmniApiModule {
         .setConverter(new GsonConverter(
                 getGsonBuilder()
                     .registerTypeAdapter(ClippingDto.ClippingType.class, new ClippingTypeDeserializer())
+                    .registerTypeAdapter(EventDto.EventType.class, new EventTypeDeserializer())
                     .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyEventTypeDeserializer())
                     .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyEventTypeSerializer())
                     .create()

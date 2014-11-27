@@ -3,24 +3,43 @@ package com.omnipaste.omnicommon.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
+
 public class EventDto implements Parcelable {
   private String contactName;
   private String content;
   private String phoneNumber;
   private EventType type;
+  private Calendar createdAt;
 
   public enum EventType {
     INCOMING_CALL_EVENT,
-    INCOMING_SMS_EVENT
+    INCOMING_SMS_EVENT,
+    UNKNOWN
+  }
+
+  public static final Parcelable.Creator<EventDto> CREATOR = new Parcelable.Creator<EventDto>() {
+    public EventDto createFromParcel(Parcel pc) {
+      return new EventDto(pc);
+    }
+
+    public EventDto[] newArray(int size) {
+      return new EventDto[size];
+    }
+  };
+
+  public EventDto() {
+    this.createdAt = Calendar.getInstance();
   }
 
   public EventDto(Parcel in) {
-    contactName = in.readString();
-    content = in.readString();
-    phoneNumber = in.readString();
-    type = EventType.valueOf(in.readString());
-  }
+    this();
 
+    this.contactName = in.readString();
+    this.content = in.readString();
+    this.phoneNumber = in.readString();
+    this.type = EventType.valueOf(in.readString());
+  }
 
   @Override
   public int describeContents() {
@@ -65,5 +84,9 @@ public class EventDto implements Parcelable {
 
   public void setType(EventType type) {
     this.type = type;
+  }
+
+  public Calendar getCreatedAt() {
+    return createdAt;
   }
 }
