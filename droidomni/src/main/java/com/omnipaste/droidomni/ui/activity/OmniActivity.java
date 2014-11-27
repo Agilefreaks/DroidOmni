@@ -47,10 +47,18 @@ public class OmniActivity extends BaseActivity<OmniPresenter> implements OmniPre
   }
 
   @Override
-  public void setFragment(Fragment fragment) {
+  public void replaceFragment(Fragment fragment) {
     getSupportFragmentManager()
         .beginTransaction()
         .replace(R.id.omni_container, fragment)
+        .commit();
+  }
+
+  @Override
+  public void addFragment(Fragment fragment) {
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(R.id.omni_container, fragment)
         .commit();
   }
 }

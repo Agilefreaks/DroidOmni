@@ -16,8 +16,7 @@
             android:layout_weight="1"
             android:background="@drawable/call_background_start">
 
-            <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-                       android:layout_width="match_parent"
+            <ImageView android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:layout_gravity="center|top"
                        android:maxHeight="48dp"

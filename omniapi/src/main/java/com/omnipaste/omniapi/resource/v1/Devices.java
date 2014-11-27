@@ -10,6 +10,7 @@ import retrofit.RestAdapter;
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -18,6 +19,9 @@ import rx.Observable;
 @Singleton
 public class Devices extends AuthorizationResource<Devices.DevicesApi> {
   protected interface DevicesApi {
+    @GET("/v1/devices.json")
+    Observable<RegisteredDeviceDto[]> get(@Header("Authorization") String token);
+
     @POST("/v1/devices.json")
     Observable<RegisteredDeviceDto> create(@Header("Authorization") String token, @Body RegisteredDeviceDto deviceDto);
 
@@ -32,6 +36,10 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
   @Inject
   public Devices(AuthorizationService authorizationService, RestAdapter restAdapter) {
     super(restAdapter, DevicesApi.class, authorizationService);
+  }
+
+  public Observable<RegisteredDeviceDto[]> get() {
+    return authorizationService.authorize(api.get(bearerAccessToken()));
   }
 
   public Observable<RegisteredDeviceDto> create(final String identifier) {

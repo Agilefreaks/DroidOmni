@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.ui;
 
 import com.omnipaste.droidomni.ui.fragment.ActivityFragment_;
+import com.omnipaste.droidomni.ui.fragment.AllAloneFragment_;
 import com.omnipaste.droidomni.ui.fragment.NavigationDrawerFragment_;
 
 import dagger.Module;
@@ -8,7 +9,8 @@ import dagger.Module;
 @Module(
     injects = {
         NavigationDrawerFragment_.class,
-        ActivityFragment_.class
+        ActivityFragment_.class,
+        AllAloneFragment_.class
     },
     complete = false,
     library = true
