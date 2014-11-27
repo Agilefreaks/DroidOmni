@@ -46,20 +46,23 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
     if (extras == null)
       return;
 
+    StringBuilder message = new StringBuilder();
+    String fromAddress = "";
     Object[] pdus = (Object[]) extras.get(EXTRAS_KEY);
 
     for (Object pdu : pdus) {
-      SmsMessage message = SmsMessage.createFromPdu((byte[]) pdu);
-      String fromAddress = message.getOriginatingAddress();
-
-      TelephonyEventDto telephonyEventDto = new TelephonyEventDto(
-          TelephonyEventDto.TelephonyEventType.incomingSms,
-          new IncomingSmsEventDto()
-              .setPhoneNumber(fromAddress)
-              .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
-              .setContent(message.getMessageBody()));
-
-      receiver.post(telephonyEventDto);
+      SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
+      message.append(smsMessage.getMessageBody());
+      fromAddress = smsMessage.getOriginatingAddress();
     }
+
+    TelephonyEventDto telephonyEventDto = new TelephonyEventDto(
+        TelephonyEventDto.TelephonyEventType.incomingSms,
+        new IncomingSmsEventDto()
+            .setPhoneNumber(fromAddress)
+            .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
+            .setContent(message.toString()));
+
+    receiver.post(telephonyEventDto);
   }
 }

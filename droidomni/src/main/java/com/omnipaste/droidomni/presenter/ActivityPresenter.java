@@ -70,6 +70,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
             public void call(Event event) {
               if (event.getAction() == Event.Action.ADD) {
                 activityAdapter.add(event.getItem());
+                getView().scrollToTop();
               }
               else {
                 activityAdapter.remove(event.getItem());
