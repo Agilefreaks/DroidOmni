@@ -52,4 +52,9 @@ public class ActivityFragment extends BaseFragment<ActivityPresenter> implements
   public void setRefreshing(boolean refreshing) {
     swipeRefreshLayout.setRefreshing(refreshing);
   }
+
+  @Override
+  public void scrollToTop() {
+    list.scrollToPosition(0);
+  }
 }

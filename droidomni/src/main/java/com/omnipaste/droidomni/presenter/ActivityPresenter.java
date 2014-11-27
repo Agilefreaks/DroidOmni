@@ -24,6 +24,8 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
   public interface View {
     public void setRefreshing(boolean refreshing);
+
+    public void scrollToTop();
   }
 
   @Inject
@@ -50,6 +52,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
             public void call(Clipping clipping) {
               if (clipping.getAction() == Clipping.Action.ADD) {
                 activityAdapter.add(clipping.getItem());
+                getView().scrollToTop();
               }
               else {
                 activityAdapter.remove(clipping.getItem());
