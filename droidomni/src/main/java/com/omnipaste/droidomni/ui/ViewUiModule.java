@@ -12,7 +12,8 @@ import dagger.Module;
         OmniClippingView_.class,
         LocalClippingView_.class,
         IncomingSmsView_.class,
-        IncomingCallView_.class
+        IncomingCallView_.class,
+        IncomingSmsView_.class
     },
     complete = false,
     library = true

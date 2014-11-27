@@ -28,7 +28,7 @@ public class IncomingCallView extends LinearLayout implements HasSetup<EventDto>
   public TextView incomingCallTitle;
 
   @ViewById
-  public TextView incomingCallContent;
+  public TextView incomingCallTime;
 
   public IncomingCallView(Context context) {
     super(context);
@@ -52,7 +52,7 @@ public class IncomingCallView extends LinearLayout implements HasSetup<EventDto>
     incomingCallTitle.setText(title);
   }
 
-  @Override public void setContent(CharSequence content) {
-    incomingCallContent.setText(content);
+  @Override public void setTime(CharSequence content) {
+    incomingCallTime.setText(content);
   }
 }

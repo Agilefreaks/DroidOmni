@@ -16,7 +16,15 @@
             android:layout_weight="1"
             android:background="@drawable/call_background_start">
 
-            <include layout="@layout/clipping_icon"/>
+            <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center|top"
+                       android:maxHeight="48dp"
+                       android:contentDescription="@string/clippings_location"
+                       android:adjustViewBounds="true"
+                       android:layout_marginTop="@dimen/default_padding"
+                       android:src="@drawable/ic_call" />
         </LinearLayout>
 
         <RelativeLayout
@@ -40,15 +48,10 @@
 
 
                 <TextView
-                    android:id="@+id/incoming_call_content"
+                    android:id="@+id/incoming_call_time"
                     style="@android:style/TextAppearance.DeviceDefault.Small"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:background="?android:selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:maxLines="3" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
