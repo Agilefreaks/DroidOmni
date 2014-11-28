@@ -18,7 +18,7 @@ public class PrefsModule {
   public static String NOTIFICATIONS_TELEPHONY_KEY = "notifications_telephony";
   public static String NOTIFICATIONS_PHONE_KEY = "notifications_phone";
   public static String TUTORIAL_CLIPPING_LOCAL = "tutorial_clipping_local";
-  public static String WE_ARE_ALONE = "tutorial_clipping_local";
+  public static String WE_ARE_ALONE = "we_are_alone";
 
   @Provides @Singleton @GcmSenderId
   public StringPreference provideGcmSenderId(SharedPreferences preferences) {

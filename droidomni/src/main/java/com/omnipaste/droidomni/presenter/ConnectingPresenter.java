@@ -129,8 +129,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
             if (registeredDevices.length == 0) {
               weAreAlone.set(true);
               tutorialClippingLocal.set(false);
-            }
-            if (registeredDevices.length == 1) {
+            } else if (registeredDevices.length == 1) {
               tutorialClippingLocal.set(false);
             }
 
@@ -140,9 +139,11 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
         .flatMap(new Func1<RegisteredDeviceDto, Observable<OmniServiceConnection.State>>() {
           @Override
           public Observable<OmniServiceConnection.State> call(RegisteredDeviceDto registeredDeviceDto) {
+            sessionService.setRegisteredDeviceDto(registeredDeviceDto);
             return omniServiceConnection.startOmniService();
           }
         })
+        .observeOn(observeOnScheduler)
         .subscribe(
             // onNext
             new Action1<OmniServiceConnection.State>() {

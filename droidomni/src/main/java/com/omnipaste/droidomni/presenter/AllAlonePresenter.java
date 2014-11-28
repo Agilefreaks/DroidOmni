@@ -1,9 +1,6 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.support.v4.app.Fragment;
-
-import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
-import com.omnipaste.droidomni.ui.fragment.TutorialClippingLocalFragment_;
+import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.omniapi.resource.v1.Devices;
 import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
@@ -21,20 +18,20 @@ import rx.functions.Func1;
 
 @Singleton
 public class AllAlonePresenter extends FragmentPresenter<AllAlonePresenter.View> {
-  private Devices devices;
-  private BooleanPreference tutorialClippingLocalWasPlayed;
+  private final Devices devices;
+  private final BooleanPreference weAreAlone;
   private Subscription devicesSubscription;
 
   public interface View {
     void close();
-
-    void addFragment(Fragment fragment);
   }
 
   @Inject
-  public AllAlonePresenter(Devices devices, @TutorialClippingLocal BooleanPreference tutorialClippingLocalWasPlayed) {
+  public AllAlonePresenter(
+      Devices devices,
+      @WeAreAlone BooleanPreference weAreAlone) {
     this.devices = devices;
-    this.tutorialClippingLocalWasPlayed = tutorialClippingLocalWasPlayed;
+    this.weAreAlone = weAreAlone;
   }
 
   @Override public void initialize() {
@@ -52,11 +49,8 @@ public class AllAlonePresenter extends FragmentPresenter<AllAlonePresenter.View>
           @Override
           public void call(RegisteredDeviceDto[] registeredDevices) {
             if (registeredDevices.length > 1) {
-              if (!tutorialClippingLocalWasPlayed.get()) {
-                getView().addFragment(TutorialClippingLocalFragment_.builder().build());
-              }
-
               getView().close();
+              weAreAlone.set(false);
             }
           }
         });

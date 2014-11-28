@@ -2,13 +2,21 @@ package com.omnipaste.droidomni.presenter;
 
 import android.support.v4.app.Fragment;
 
+import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
+import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.ui.fragment.ActivityFragment_;
+import com.omnipaste.droidomni.ui.fragment.AllAloneFragment_;
+import com.omnipaste.droidomni.ui.fragment.TutorialClippingLocalFragment_;
+import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class OmniPresenter extends Presenter<OmniPresenter.View> {
+  private BooleanPreference weAreAlone;
+  private BooleanPreference playedTutorialClippingLocal;
+
   public interface View {
     void replaceFragment(Fragment activityFragment);
 
@@ -16,12 +24,25 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
   }
 
   @Inject
-  public OmniPresenter() {
+  public OmniPresenter(
+      @WeAreAlone BooleanPreference weAreAlone,
+      @TutorialClippingLocal BooleanPreference playedTutorialClippingLocal
+  ) {
+    this.weAreAlone = weAreAlone;
+    this.playedTutorialClippingLocal = playedTutorialClippingLocal;
   }
 
   @Override
   public void initialize() {
     replaceFragment(ActivityFragment_.builder().build());
+
+    if (!playedTutorialClippingLocal.get()) {
+      addFragment(TutorialClippingLocalFragment_.builder().build());
+    }
+
+    if (weAreAlone.get()) {
+      addFragment(AllAloneFragment_.builder().build());
+    }
   }
 
   @Override
