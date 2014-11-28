@@ -18,37 +18,28 @@ import rx.functions.Func1;
 @Singleton
 public class ActivateDevice {
   private final Devices devices;
+  private final String identifier;
   private final StringPreference gcmSenderId;
   private final GoogleCloudMessaging googleCloudMessaging;
-  private String identifier;
 
   @Inject
   public ActivateDevice(Devices devices,
+                        @DeviceIdentifier String identifier,
                         @GcmSenderId StringPreference gcmSenderId,
-                        GoogleCloudMessaging googleCloudMessaging,
-                        @DeviceIdentifier String identifier) {
+                        GoogleCloudMessaging googleCloudMessaging) {
     this.devices = devices;
+    this.identifier = identifier;
     this.gcmSenderId = gcmSenderId;
     this.googleCloudMessaging = googleCloudMessaging;
-    this.identifier = identifier;
   }
 
   public Observable<RegisteredDeviceDto> run() {
-    return createDevice().flatMap(new Func1<RegisteredDeviceDto, Observable<RegisteredDeviceDto>>() {
+    return registerToGcm().flatMap(new Func1<String, Observable<? extends RegisteredDeviceDto>>() {
       @Override
-      public Observable<RegisteredDeviceDto> call(final RegisteredDeviceDto deviceDto) {
-        return registerToGcm().flatMap(new Func1<String, Observable<? extends RegisteredDeviceDto>>() {
-          @Override
-          public Observable<? extends RegisteredDeviceDto> call(String registrationId) {
-            return activateDevice(registrationId);
-          }
-        });
+      public Observable<? extends RegisteredDeviceDto> call(String registrationId) {
+        return activateDevice(registrationId);
       }
     });
-  }
-
-  private Observable<RegisteredDeviceDto> createDevice() {
-    return devices.create(identifier);
   }
 
   private Observable<String> registerToGcm() {

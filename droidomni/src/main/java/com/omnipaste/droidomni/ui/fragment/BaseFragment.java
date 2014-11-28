@@ -30,6 +30,12 @@ public abstract class BaseFragment<TPresenter extends FragmentPresenter> extends
     getPresenter().resume();
   }
 
+  @Override public void onDestroy() {
+    super.onDestroy();
+
+    getPresenter().destroy();
+  }
+
   protected abstract TPresenter getPresenter();
 
   private void injectDependencies() {

@@ -1,5 +1,7 @@
 package com.omnipaste.droidomni.ui.fragment;
 
+import android.support.v4.app.Fragment;
+
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.presenter.AllAlonePresenter;
 
@@ -21,6 +23,14 @@ public class AllAloneFragment extends BaseFragment<AllAlonePresenter> implements
         .getSupportFragmentManager()
         .beginTransaction()
         .remove(this)
+        .commit();
+  }
+
+  @Override public void addFragment(Fragment fragment) {
+    getActivity()
+        .getSupportFragmentManager()
+        .beginTransaction()
+        .add(R.id.omni_container, fragment)
         .commit();
   }
 }

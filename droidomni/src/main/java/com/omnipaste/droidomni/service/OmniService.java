@@ -113,7 +113,6 @@ public class OmniService extends Service {
             new Action1<RegisteredDeviceDto>() {
               @Override
               public void call(RegisteredDeviceDto registeredDeviceDto) {
-                sessionService.setRegisteredDeviceDto(registeredDeviceDto);
                 notifyUser();
                 startSubscribers(registeredDeviceDto);
                 sendStartedToClients();

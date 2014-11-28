@@ -2,17 +2,25 @@ package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
 
+import com.omnipaste.droidomni.interaction.CreateDevice;
 import com.omnipaste.droidomni.interaction.GetAccounts;
+import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
+import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.omniapi.resource.v1.Devices;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
+import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
+import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 @Singleton
 public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
@@ -21,6 +29,10 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   private final SessionService sessionService;
   private final GetAccounts getAccounts;
   private final OmniServiceConnection omniServiceConnection;
+  private final Devices devices;
+  private final CreateDevice createDevice;
+  private final BooleanPreference weAreAlone;
+  private final BooleanPreference tutorialClippingLocal;
   private boolean isInitiating = false;
   private Subscription startOmniServiceSubscription;
   private Subscription initSessionSubscription;
@@ -33,11 +45,19 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   public ConnectingPresenter(Navigator navigator,
                              SessionService sessionService,
                              GetAccounts getAccounts,
-                             OmniServiceConnection omniServiceConnection) {
+                             OmniServiceConnection omniServiceConnection,
+                             Devices devices,
+                             CreateDevice createDevice,
+                             @WeAreAlone BooleanPreference weAreAlone,
+                             @TutorialClippingLocal BooleanPreference tutorialClippingLocal) {
     this.navigator = navigator;
     this.sessionService = sessionService;
     this.getAccounts = getAccounts;
     this.omniServiceConnection = omniServiceConnection;
+    this.devices = devices;
+    this.createDevice = createDevice;
+    this.weAreAlone = weAreAlone;
+    this.tutorialClippingLocal = tutorialClippingLocal;
   }
 
   @Override
@@ -102,8 +122,27 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   }
 
   private void startOmniService() {
-    startOmniServiceSubscription = omniServiceConnection
-        .startOmniService()
+    startOmniServiceSubscription = devices.get()
+        .flatMap(new Func1<RegisteredDeviceDto[], Observable<RegisteredDeviceDto>>() {
+          @Override
+          public Observable<RegisteredDeviceDto> call(RegisteredDeviceDto[] registeredDevices) {
+            if (registeredDevices.length == 0) {
+              weAreAlone.set(true);
+              tutorialClippingLocal.set(false);
+            }
+            if (registeredDevices.length == 1) {
+              tutorialClippingLocal.set(false);
+            }
+
+            return createDevice.run();
+          }
+        })
+        .flatMap(new Func1<RegisteredDeviceDto, Observable<OmniServiceConnection.State>>() {
+          @Override
+          public Observable<OmniServiceConnection.State> call(RegisteredDeviceDto registeredDeviceDto) {
+            return omniServiceConnection.startOmniService();
+          }
+        })
         .subscribe(
             // onNext
             new Action1<OmniServiceConnection.State>() {
