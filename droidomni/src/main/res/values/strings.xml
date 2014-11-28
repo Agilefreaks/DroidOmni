@@ -39,4 +39,9 @@
     <!-- ABOUT -->
     <string name="title_activity_about">About</string>
     <string name="about_version">Version</string>
+
+    <!-- All Alone -->
+    <string name="all_alone_title">Wip :( I am all alone, nobody loves me.</string>
+    <string name="all_alone_explanation">To connect your PC, open www.omnipasteapp.com on your browser and follow the instructions there.</string>
+    <string name="all_alone_footer">Waiting for other devices to come online</string>
 </resources>
