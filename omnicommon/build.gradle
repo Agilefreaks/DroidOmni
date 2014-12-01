@@ -34,6 +34,8 @@ android {
 
     lintOptions {
         lintConfig file("../lint.xml")
+        // we have icons in this project
+        disable 'IconMissingDensityFolder'
     }
 }
 

@@ -5,8 +5,8 @@ import android.widget.EditText;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.presenter.TutorialClippingLocalPresenter;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 
 import javax.inject.Inject;
@@ -31,7 +31,7 @@ public class TutorialClippingLocalFragment extends BaseFragment<TutorialClipping
         .commit();
   }
 
-  @Touch
+  @Click
   public void tutorialLocalClipping() {
     tutorialLocalClipping.setSelection(0, tutorialLocalClipping.getText().length() - 1);
   }
