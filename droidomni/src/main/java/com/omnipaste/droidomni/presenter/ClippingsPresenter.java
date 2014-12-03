@@ -1,11 +1,6 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.app.Notification;
-import android.support.v4.app.NotificationManagerCompat;
-
-import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.domain.Clipping;
-import com.omnipaste.droidomni.factory.NotificationFactory;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
@@ -19,8 +14,6 @@ import rx.subjects.ReplaySubject;
 
 @Singleton
 public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> implements Observer<ClippingDto> {
-  private final NotificationFactory notificationFactory;
-  private final NotificationManagerCompat notificationManager;
   private final ReplaySubject<Clipping> clippingsSubject = ReplaySubject.create();
   private ClipboardSubscriber clipboardSubscriber;
   private Subscription clipboardSubscription;
@@ -29,14 +22,8 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   }
 
   @Inject
-  public ClippingsPresenter(
-      ClipboardSubscriber clipboardSubscriber,
-      NotificationFactory notificationFactory,
-      NotificationManagerCompat notificationManager
-  ) {
+  public ClippingsPresenter(ClipboardSubscriber clipboardSubscriber) {
     this.clipboardSubscriber = clipboardSubscriber;
-    this.notificationFactory = notificationFactory;
-    this.notificationManager = notificationManager;
   }
 
   @Override
@@ -72,15 +59,6 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   @Override
   public void onNext(ClippingDto clippingDto) {
     clippingsSubject.onNext(Clipping.add(clippingDto));
-
-    Notification notification;
-    if (clippingDto.getType() == ClippingDto.ClippingType.UNKNOWN) {
-      notification = notificationFactory.buildSimpleNotification(DroidOmniApplication.getAppContext(), clippingDto);
-    } else {
-      notification = notificationFactory.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clippingDto);
-    }
-
-    notificationManager.notify(NotificationFactory.NOTIFICATION_ID, notification);
   }
 
   public Observable<Clipping> getObservable() {
