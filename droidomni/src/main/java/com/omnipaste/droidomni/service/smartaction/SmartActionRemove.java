@@ -8,14 +8,14 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.service.NotificationService;
+import com.omnipaste.droidomni.factory.NotificationFactory;
 
 import javax.inject.Inject;
 
 public class SmartActionRemove extends BroadcastReceiver {
 
   @Inject
-  public NotificationService notificationService;
+  public NotificationFactory notificationFactory;
 
   @Inject
   public NotificationManagerCompat notificationManager;
@@ -40,6 +40,6 @@ public class SmartActionRemove extends BroadcastReceiver {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    notificationManager.notify(NotificationService.NOTIFICATION_ID, notificationService.buildSimpleNotification(context));
+    notificationManager.notify(NotificationFactory.NOTIFICATION_ID, notificationFactory.buildSimpleNotification(context));
   }
 }

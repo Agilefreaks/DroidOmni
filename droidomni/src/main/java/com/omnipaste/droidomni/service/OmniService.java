@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.os.Messenger;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
+import com.omnipaste.droidomni.factory.NotificationFactory;
 import com.omnipaste.droidomni.interaction.ActivateDevice;
 import com.omnipaste.droidomni.interaction.DeactivateDevice;
 import com.omnipaste.droidomni.prefs.GcmWorkaround;
@@ -88,7 +89,7 @@ public class OmniService extends Service {
   public BooleanPreference isGcmWorkAroundEnabled;
 
   @Inject
-  public NotificationService notificationService;
+  public NotificationFactory notificationFactory;
 
   public static Intent getIntent() {
     return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
@@ -225,6 +226,6 @@ public class OmniService extends Service {
   }
 
   private void notifyUser() {
-    startForeground(NotificationService.NOTIFICATION_ID, notificationService.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
+    startForeground(NotificationFactory.NOTIFICATION_ID, notificationFactory.buildUserNotification(DroidOmniApplication.getAppContext(), appName, ""));
   }
 }

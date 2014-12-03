@@ -5,7 +5,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.domain.Clipping;
-import com.omnipaste.droidomni.service.NotificationService;
+import com.omnipaste.droidomni.factory.NotificationFactory;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
@@ -15,12 +15,11 @@ import javax.inject.Singleton;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.subjects.PublishSubject;
 import rx.subjects.ReplaySubject;
 
 @Singleton
 public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> implements Observer<ClippingDto> {
-  private final NotificationService notificationService;
+  private final NotificationFactory notificationFactory;
   private final NotificationManagerCompat notificationManager;
   private final ReplaySubject<Clipping> clippingsSubject = ReplaySubject.create();
   private ClipboardSubscriber clipboardSubscriber;
@@ -32,11 +31,11 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   @Inject
   public ClippingsPresenter(
       ClipboardSubscriber clipboardSubscriber,
-      NotificationService notificationService,
+      NotificationFactory notificationFactory,
       NotificationManagerCompat notificationManager
   ) {
     this.clipboardSubscriber = clipboardSubscriber;
-    this.notificationService = notificationService;
+    this.notificationFactory = notificationFactory;
     this.notificationManager = notificationManager;
   }
 
@@ -76,12 +75,12 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
 
     Notification notification;
     if (clippingDto.getType() == ClippingDto.ClippingType.UNKNOWN) {
-      notification = notificationService.buildSimpleNotification(DroidOmniApplication.getAppContext(), clippingDto);
+      notification = notificationFactory.buildSimpleNotification(DroidOmniApplication.getAppContext(), clippingDto);
     } else {
-      notification = notificationService.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clippingDto);
+      notification = notificationFactory.buildSmartActionNotification(DroidOmniApplication.getAppContext(), clippingDto);
     }
 
-    notificationManager.notify(NotificationService.NOTIFICATION_ID, notification);
+    notificationManager.notify(NotificationFactory.NOTIFICATION_ID, notification);
   }
 
   public Observable<Clipping> getObservable() {

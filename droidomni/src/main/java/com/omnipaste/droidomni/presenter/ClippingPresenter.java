@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.presenter;
 
-import com.omnipaste.droidomni.service.SmartActionService;
+import com.omnipaste.droidomni.factory.SmartActionFactory;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -9,7 +9,7 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> {
   private ClippingDto clippingDto;
 
   @Inject
-  public SmartActionService smartActionService;
+  public SmartActionFactory smartActionFactory;
 
   public interface View {
     void setClippingContent(String content);
@@ -25,8 +25,8 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> {
     getView().setClippingContent(clippingDto.getContent());
 
     if (clippingDto.getType() != ClippingDto.ClippingType.UNKNOWN) {
-      getView().showSmartAction(SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getTitle(),
-          SmartActionService.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
+      getView().showSmartAction(SmartActionFactory.SMART_ACTIONS.get(clippingDto.getType()).getTitle(),
+          SmartActionFactory.SMART_ACTIONS.get(clippingDto.getType()).getIcon()[1]);
     }
   }
 
@@ -40,7 +40,7 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> {
   }
 
   public void smartAction() {
-    smartActionService.run(clippingDto);
+    smartActionFactory.run(clippingDto);
   }
 
   public ClippingDto getClipping() {

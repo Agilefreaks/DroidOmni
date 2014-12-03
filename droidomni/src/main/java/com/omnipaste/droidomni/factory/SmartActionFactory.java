@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.service;
+package com.omnipaste.droidomni.factory;
 
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SmartActionService {
+public class SmartActionFactory {
   public static final HashMap<ClippingDto.ClippingType, SmartAction> SMART_ACTIONS = new HashMap<ClippingDto.ClippingType, SmartAction>() {{
     put(ClippingDto.ClippingType.PHONE_NUMBER, new SmartActionPhoneNumber());
     put(ClippingDto.ClippingType.URL, new SmartActionWebSite());
@@ -31,7 +31,7 @@ public class SmartActionService {
   private Context context;
 
   @Inject
-  public SmartActionService(Context context) {
+  public SmartActionFactory(Context context) {
     this.context = context;
   }
 

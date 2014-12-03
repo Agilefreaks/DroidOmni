@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.service;
+package com.omnipaste.droidomni.factory;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -16,16 +16,16 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class NotificationService {
+public class NotificationFactory {
   public static final int NOTIFICATION_ID = 42;
   public static final int LARGE_TEXT = 128;
 
   private String appName;
-  private SmartActionService smartActionService;
+  private SmartActionFactory smartActionFactory;
 
   @Inject
-  public NotificationService(SmartActionService smartActionService) {
-    this.smartActionService = smartActionService;
+  public NotificationFactory(SmartActionFactory smartActionFactory) {
+    this.smartActionFactory = smartActionFactory;
   }
 
   public Notification buildUserNotification(Context context, String appName, String text) {
@@ -45,7 +45,7 @@ public class NotificationService {
 
   public Notification buildSimpleNotification(Context context, ClippingDto clippingDto) {
     NotificationCompat.Builder builder = basicBuilder(context, clippingDto.getContent())
-        .addAction(smartActionService.getRemoveAction());
+        .addAction(smartActionFactory.getRemoveAction());
     builder = setPublicVisibility(builder);
 
     return builder.build();
@@ -56,8 +56,8 @@ public class NotificationService {
         basicBuilder(context, clippingDto.getContent())
             .setWhen(0)
             .setPriority(Notification.PRIORITY_MAX)
-            .addAction(smartActionService.getAction(clippingDto))
-            .addAction(smartActionService.getRemoveAction());
+            .addAction(smartActionFactory.getAction(clippingDto))
+            .addAction(smartActionFactory.getRemoveAction());
 
     if (clippingDto.getContentLength() > LARGE_TEXT) {
       builder = builder.setStyle(new NotificationCompat.BigTextStyle().bigText(clippingDto.getContent()));
