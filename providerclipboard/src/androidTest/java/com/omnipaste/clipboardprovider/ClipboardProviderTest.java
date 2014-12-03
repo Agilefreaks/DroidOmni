@@ -82,4 +82,17 @@ public class ClipboardProviderTest extends TestCase {
 
     testObserver.assertReceivedOnNext(Arrays.asList(clippingDto, otherClipping));
   }
+
+  public void testDuplicatesAreIgnoredFromCloudAndLocal() {
+    ClippingDto clippingDto = new ClippingDto().setContent("the one");
+
+    TestObserver<ClippingDto> testObserver = new TestObserver<>();
+
+    clipboardProvider.init("42").subscribe(testObserver);
+    omniObservable.onNext(clippingDto);
+    localObservable.onNext(clippingDto);
+    testScheduler.triggerActions();
+
+    testObserver.assertReceivedOnNext(Arrays.asList(clippingDto));
+  }
 }

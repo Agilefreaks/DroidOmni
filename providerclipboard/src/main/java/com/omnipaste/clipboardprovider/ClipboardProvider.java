@@ -10,63 +10,21 @@ import javax.inject.Singleton;
 
 import dagger.Lazy;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 @Singleton
 public class ClipboardProvider implements Provider<ClippingDto> {
   private PublishSubject<ClippingDto> clipboardProviderSubject;
-  private Boolean subscribed = false;
-  private Subscription localSubscription;
-  private Subscription omniSubscription;
+  private Subscription subscription;
   private OmniClipboardManager currentOmniClipboardManager;
+
   private LocalClipboardManager currentLocalClipboardManager;
-
-  private class OmniClipboardObserver implements Observer<ClippingDto> {
-    @Override
-    public void onNext(ClippingDto clippingDto) {
-      currentLocalClipboardManager.setPrimaryClip(clippingDto);
-      clipboardProviderSubject.onNext(clippingDto);
-    }
-
-    @Override
-    public void onCompleted() {
-    }
-
-    @Override
-    public void onError(Throwable e) {
-    }
-  }
-
-  private class LocalClipboardObserver implements Observer<ClippingDto> {
-    private String identifier;
-
-    private LocalClipboardObserver(String identifier) {
-      this.identifier = identifier;
-    }
-
-    @Override
-    public void onNext(ClippingDto clippingDto) {
-      clippingDto.setIdentifier(identifier);
-      currentOmniClipboardManager.setPrimaryClip(clippingDto);
-      clipboardProviderSubject.onNext(clippingDto);
-    }
-
-    @Override
-    public void onCompleted() {
-    }
-
-    @Override
-    public void onError(Throwable e) {
-    }
-
-  }
 
   @Inject
   public Lazy<OmniClipboardManager> omniClipboardManager;
-
   @Inject
   public Lazy<LocalClipboardManager> localClipboardManager;
 
@@ -76,15 +34,12 @@ public class ClipboardProvider implements Provider<ClippingDto> {
   }
 
   public Observable<ClippingDto> init(final String identifier) {
-    if (subscribed) {
+    if (subscription != null) {
       return clipboardProviderSubject;
     }
 
     currentOmniClipboardManager = omniClipboardManager.get();
     currentLocalClipboardManager = localClipboardManager.get();
-
-    OmniClipboardObserver omniClipboardObserver = new OmniClipboardObserver();
-    LocalClipboardObserver localClipboardObserver = new LocalClipboardObserver(identifier);
 
     Func1<ClippingDto, String> keySelector = new Func1<ClippingDto, String>() {
       @Override
@@ -93,17 +48,28 @@ public class ClipboardProvider implements Provider<ClippingDto> {
       }
     };
 
-    omniSubscription = currentOmniClipboardManager
+    subscription = currentLocalClipboardManager
         .getObservable()
+        .mergeWith(currentOmniClipboardManager.getObservable())
         .distinctUntilChanged(keySelector)
-        .subscribe(omniClipboardObserver);
+        .subscribe(
+            new Action1<ClippingDto>() {
+              @Override public void call(ClippingDto clippingDto) {
+                if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.CLOUD) {
+                  currentLocalClipboardManager.setPrimaryClip(clippingDto);
+                } else {
+                  clippingDto.setIdentifier(identifier);
+                  currentOmniClipboardManager.setPrimaryClip(clippingDto);
+                }
 
-    localSubscription = currentLocalClipboardManager
-        .getObservable()
-        .distinctUntilChanged(keySelector)
-        .subscribe(localClipboardObserver);
-
-    subscribed = true;
+                clipboardProviderSubject.onNext(clippingDto);
+              }
+            },
+            new Action1<Throwable>() {
+              @Override public void call(Throwable throwable) {
+              }
+            }
+        );
 
     return clipboardProviderSubject;
   }
@@ -117,8 +83,7 @@ public class ClipboardProvider implements Provider<ClippingDto> {
   }
 
   public void destroy() {
-    subscribed = false;
-    localSubscription.unsubscribe();
-    omniSubscription.unsubscribe();
+    subscription.unsubscribe();
+    subscription = null;
   }
 }
