@@ -10,19 +10,20 @@ import javax.inject.Singleton;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.subjects.ReplaySubject;
+import rx.subjects.PublishSubject;
 
 @Singleton
 public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> implements Observer<ClippingDto> {
-  private final ReplaySubject<Clipping> clippingsSubject = ReplaySubject.create();
-  private ClipboardSubscriber clipboardSubscriber;
+  private final ClipboardSubscriber clipboardSubscriber;
+  private PublishSubject<Clipping> clippingsSubject;
   private Subscription clipboardSubscription;
 
   public interface View {
   }
 
   @Inject
-  public ClippingsPresenter(ClipboardSubscriber clipboardSubscriber) {
+  public ClippingsPresenter(ClipboardSubscriber clipboardSubscriber
+  ) {
     this.clipboardSubscriber = clipboardSubscriber;
   }
 
@@ -32,7 +33,11 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
       return;
     }
 
-    clipboardSubscription = clipboardSubscriber.subscribe(this);
+    clippingsSubject = PublishSubject.create();
+    clipboardSubscription = clipboardSubscriber
+        .getObservable()
+        .observeOn(observeOnScheduler)
+        .subscribe(this);
   }
 
   @Override
@@ -44,6 +49,8 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   }
 
   @Override public void destroy() {
+    clippingsSubject.onCompleted();
+
     clipboardSubscription.unsubscribe();
     clipboardSubscription = null;
   }
@@ -61,11 +68,11 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
     clippingsSubject.onNext(Clipping.add(clippingDto));
   }
 
-  public Observable<Clipping> getObservable() {
-    return clippingsSubject;
-  }
-
   public void remove(ClippingDto clippingDto) {
     clippingsSubject.onNext(Clipping.remove(clippingDto));
+  }
+
+  public Observable<Clipping> getObservable() {
+    return clippingsSubject;
   }
 }

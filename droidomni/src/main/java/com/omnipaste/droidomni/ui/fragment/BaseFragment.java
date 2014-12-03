@@ -33,7 +33,8 @@ public abstract class BaseFragment<TPresenter extends FragmentPresenter> extends
   @Override public void onDestroy() {
     super.onDestroy();
 
-    getPresenter().destroy();
+    // we don't destroy our presenters until we have a method to persist
+    // getPresenter().destroy();
   }
 
   protected abstract TPresenter getPresenter();

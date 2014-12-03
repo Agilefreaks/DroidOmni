@@ -38,7 +38,10 @@ public class NotificationServiceClippings extends ServiceBase implements Observe
       return;
     }
 
-    subscription = clipboardSubscriber.subscribe(this);
+    subscription = clipboardSubscriber
+        .getObservable()
+        .observeOn(observeOnScheduler)
+        .subscribe(this);
   }
 
   @Override

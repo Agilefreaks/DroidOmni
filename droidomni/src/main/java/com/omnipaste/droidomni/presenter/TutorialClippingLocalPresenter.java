@@ -34,7 +34,10 @@ public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialCl
       return;
     }
 
-    clipboardSubscription = clipboardSubscriber.subscribe(this);
+    clipboardSubscription = clipboardSubscriber
+        .getObservable()
+        .observeOn(observeOnScheduler)
+        .subscribe(this);
   }
 
   @Override public void resume() {

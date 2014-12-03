@@ -11,12 +11,11 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.subjects.PublishSubject;
-import rx.subjects.ReplaySubject;
 
 @Singleton
 public class EventsPresenter extends Presenter<EventsPresenter.View> implements Observer<EventDto> {
-  private final ReplaySubject<Event> eventsSubject = ReplaySubject.create();
-  private EventsSubscriber eventsSubscriber;
+  private final EventsSubscriber eventsSubscriber;
+  private PublishSubject<Event> eventsSubject = PublishSubject.create();
   private Subscription eventSubscription;
 
   public interface View {
@@ -33,7 +32,11 @@ public class EventsPresenter extends Presenter<EventsPresenter.View> implements 
       return;
     }
 
-    eventSubscription = eventsSubscriber.subscribe(this);
+    eventsSubject = PublishSubject.create();
+    eventSubscription = eventsSubscriber
+        .getObservable()
+        .observeOn(observeOnScheduler)
+        .subscribe(this);
   }
 
   @Override
@@ -46,6 +49,8 @@ public class EventsPresenter extends Presenter<EventsPresenter.View> implements 
 
   @Override
   public void destroy() {
+    eventsSubject.onCompleted();
+
     eventSubscription.unsubscribe();
     eventSubscription = null;
   }

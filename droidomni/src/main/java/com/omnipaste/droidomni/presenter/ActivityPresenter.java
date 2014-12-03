@@ -18,7 +18,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
   private final ClippingsPresenter clippingsPresenter;
   private final EventsPresenter eventsPresenter;
   private final Refresh refresh;
-  private final ActivityAdapter activityAdapter = ActivityAdapter.build();
+  private ActivityAdapter activityAdapter;
   private Subscription clippingsSubscription;
   private Subscription eventsSubscription;
 
@@ -40,44 +40,43 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
   @Override
   public void initialize() {
+    if (clippingsSubscription != null || eventsSubscription != null) {
+      return;
+    }
+
     clippingsPresenter.initialize();
     eventsPresenter.initialize();
+    activityAdapter = ActivityAdapter.build();
 
-    if (clippingsSubscription == null) {
-      clippingsSubscription = clippingsPresenter
-          .getObservable()
-          .observeOn(observeOnScheduler)
-          .subscribe(new Action1<Clipping>() {
-            @Override
-            public void call(Clipping clipping) {
-              if (clipping.getAction() == Clipping.Action.ADD) {
-                activityAdapter.add(clipping.getItem());
-                getView().scrollToTop();
-              }
-              else {
-                activityAdapter.remove(clipping.getItem());
-              }
+    clippingsSubscription = clippingsPresenter
+        .getObservable()
+        .observeOn(observeOnScheduler)
+        .subscribe(new Action1<Clipping>() {
+          @Override
+          public void call(Clipping clipping) {
+            if (clipping.getAction() == Clipping.Action.ADD) {
+              activityAdapter.add(clipping.getItem());
+              getView().scrollToTop();
+            } else {
+              activityAdapter.remove(clipping.getItem());
             }
-          });
-    }
+          }
+        });
 
-    if (eventsSubscription == null) {
-      eventsSubscription = eventsPresenter
-          .getObservable()
-          .observeOn(observeOnScheduler)
-          .subscribe(new Action1<Event>() {
-            @Override
-            public void call(Event event) {
-              if (event.getAction() == Event.Action.ADD) {
-                activityAdapter.add(event.getItem());
-                getView().scrollToTop();
-              }
-              else {
-                activityAdapter.remove(event.getItem());
-              }
+    eventsSubscription = eventsPresenter
+        .getObservable()
+        .observeOn(observeOnScheduler)
+        .subscribe(new Action1<Event>() {
+          @Override
+          public void call(Event event) {
+            if (event.getAction() == Event.Action.ADD) {
+              activityAdapter.add(event.getItem());
+              getView().scrollToTop();
+            } else {
+              activityAdapter.remove(event.getItem());
             }
-          });
-    }
+          }
+        });
   }
 
   @Override
