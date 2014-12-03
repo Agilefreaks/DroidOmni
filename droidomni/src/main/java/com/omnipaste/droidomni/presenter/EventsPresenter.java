@@ -11,10 +11,11 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.subjects.PublishSubject;
+import rx.subjects.ReplaySubject;
 
 @Singleton
 public class EventsPresenter extends Presenter<EventsPresenter.View> implements Observer<EventDto> {
-  private final PublishSubject<Event> eventsSubject = PublishSubject.create();
+  private final ReplaySubject<Event> eventsSubject = ReplaySubject.create();
   private EventsSubscriber eventsSubscriber;
   private Subscription eventSubscription;
 

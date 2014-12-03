@@ -16,12 +16,13 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.subjects.PublishSubject;
+import rx.subjects.ReplaySubject;
 
 @Singleton
 public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> implements Observer<ClippingDto> {
   private final NotificationService notificationService;
   private final NotificationManagerCompat notificationManager;
-  private final PublishSubject<Clipping> clippingsSubject = PublishSubject.create();
+  private final ReplaySubject<Clipping> clippingsSubject = ReplaySubject.create();
   private ClipboardSubscriber clipboardSubscriber;
   private Subscription clipboardSubscription;
 
