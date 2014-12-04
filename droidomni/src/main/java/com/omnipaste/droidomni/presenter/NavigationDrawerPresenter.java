@@ -39,7 +39,7 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
   @Override
   public void attachActivity(Activity activity) {
     super.attachActivity(activity);
-    navigator.attachActivity(activity);
+    navigator.setContext(activity);
   }
 
   @Override

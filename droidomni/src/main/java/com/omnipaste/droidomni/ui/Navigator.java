@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,8 +22,8 @@ public class Navigator {
   public Navigator() {
   }
 
-  public void attachActivity(Activity view) {
-    context = view;
+  public void setContext(Context context) {
+    this.context = context;
   }
 
   public void openLoginActivity() {
@@ -44,7 +43,7 @@ public class Navigator {
 
   public void openOmniActivity() {
     Intent intent = new Intent(context, OmniActivity_.class);
-    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
     startActivityNoHistory(intent);
   }
 

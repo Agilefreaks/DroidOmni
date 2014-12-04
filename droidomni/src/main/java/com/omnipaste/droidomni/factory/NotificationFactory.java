@@ -70,6 +70,7 @@ public class NotificationFactory {
 
   private NotificationCompat.Builder basicBuilder(Context context, String text) {
     Intent resultIntent = new Intent(context, OmniActivity_.class);
+    resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
     PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
     return new NotificationCompat.Builder(context)

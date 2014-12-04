@@ -36,7 +36,7 @@ public class NavigationDrawerPresenterTest extends InstrumentationTestCase {
 
     subject.attachActivity(activity);
 
-    verify(mockNavigator).attachActivity(activity);
+    verify(mockNavigator).setContext(activity);
   }
 
   public void testExitWillCloseServiceAndFinishActivity() throws Exception {
