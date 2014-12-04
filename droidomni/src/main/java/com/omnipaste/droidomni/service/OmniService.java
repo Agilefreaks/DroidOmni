@@ -68,9 +68,6 @@ public class OmniService extends Service {
   public Lazy<EventsSubscriber> eventsSubscriber;
 
   @Inject
-  public SessionService sessionService;
-
-  @Inject
   public ActivateDevice activateDevice;
 
   @Inject
@@ -197,7 +194,6 @@ public class OmniService extends Service {
   }
 
   private void cleanup() {
-    sessionService.setRegisteredDeviceDto(null);
     stopForeground(true);
     stopSubscribers();
 
