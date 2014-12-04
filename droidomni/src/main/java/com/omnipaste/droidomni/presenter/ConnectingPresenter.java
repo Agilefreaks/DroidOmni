@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.omnipaste.droidomni.interaction.CreateDevice;
 import com.omnipaste.droidomni.interaction.GetAccounts;
+import com.omnipaste.droidomni.prefs.TutorialClippingCloud;
 import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
 import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
@@ -32,6 +33,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   private final CreateDevice createDevice;
   private final BooleanPreference weAreAlone;
   private final BooleanPreference tutorialClippingLocal;
+  private BooleanPreference tutorialClippingCloud;
   private boolean isInitiating = false;
 
   public interface View {
@@ -46,7 +48,8 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
                              Devices devices,
                              CreateDevice createDevice,
                              @WeAreAlone BooleanPreference weAreAlone,
-                             @TutorialClippingLocal BooleanPreference tutorialClippingLocal) {
+                             @TutorialClippingLocal BooleanPreference tutorialClippingLocal,
+                             @TutorialClippingCloud BooleanPreference tutorialClippingCloud) {
     this.navigator = navigator;
     this.sessionService = sessionService;
     this.getAccounts = getAccounts;
@@ -55,6 +58,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     this.createDevice = createDevice;
     this.weAreAlone = weAreAlone;
     this.tutorialClippingLocal = tutorialClippingLocal;
+    this.tutorialClippingCloud = tutorialClippingCloud;
   }
 
   @Override
@@ -117,9 +121,11 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
           public Observable<RegisteredDeviceDto> call(RegisteredDeviceDto[] registeredDevices) {
             if (registeredDevices.length == 0) {
               weAreAlone.set(true);
-              tutorialClippingLocal.set(false);
+              tutorialClippingCloud.set(false);
+              tutorialClippingLocal.set(true);
             } else if (registeredDevices.length == 1) {
               tutorialClippingLocal.set(false);
+              tutorialClippingCloud.set(true);
             }
 
             return createDevice.run();

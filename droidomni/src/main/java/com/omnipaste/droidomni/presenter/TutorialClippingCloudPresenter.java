@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.presenter;
 
-import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
+import com.omnipaste.droidomni.prefs.TutorialClippingCloud;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
@@ -11,8 +11,8 @@ import javax.inject.Singleton;
 import rx.Observer;
 
 @Singleton
-public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialClippingLocalPresenter.View> implements Observer<ClippingDto> {
-  private BooleanPreference tutorialClippingLocalWasPlayed;
+public class TutorialClippingCloudPresenter extends FragmentPresenter<TutorialClippingCloudPresenter.View> implements Observer<ClippingDto> {
+  private BooleanPreference tutorialClippingCloudWasPlayed;
   private ClipboardSubscriber clipboardSubscriber;
 
   public interface View {
@@ -20,10 +20,10 @@ public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialCl
   }
 
   @Inject
-  public TutorialClippingLocalPresenter(
-      @TutorialClippingLocal BooleanPreference tutorialClippingLocalWasPlayed,
+  public TutorialClippingCloudPresenter(
+      @TutorialClippingCloud BooleanPreference tutorialClippingCloudWasPlayed,
       ClipboardSubscriber clipboardSubscriber) {
-    this.tutorialClippingLocalWasPlayed = tutorialClippingLocalWasPlayed;
+    this.tutorialClippingCloudWasPlayed = tutorialClippingCloudWasPlayed;
     this.clipboardSubscriber = clipboardSubscriber;
   }
 
@@ -51,7 +51,7 @@ public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialCl
   }
 
   @Override public void onNext(ClippingDto clippingDto) {
-    tutorialClippingLocalWasPlayed.set(true);
+    tutorialClippingCloudWasPlayed.set(true);
     getView().close();
   }
 }

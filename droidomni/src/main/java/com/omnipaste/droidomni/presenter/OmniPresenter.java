@@ -2,10 +2,12 @@ package com.omnipaste.droidomni.presenter;
 
 import android.support.v4.app.Fragment;
 
+import com.omnipaste.droidomni.prefs.TutorialClippingCloud;
 import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
 import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.ui.fragment.ActivityFragment_;
 import com.omnipaste.droidomni.ui.fragment.AllAloneFragment_;
+import com.omnipaste.droidomni.ui.fragment.TutorialClippingCloudFragment_;
 import com.omnipaste.droidomni.ui.fragment.TutorialClippingLocalFragment_;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -16,6 +18,7 @@ import javax.inject.Singleton;
 public class OmniPresenter extends Presenter<OmniPresenter.View> {
   private BooleanPreference weAreAlone;
   private BooleanPreference playedTutorialClippingLocal;
+  private BooleanPreference playedTutorialClippingCloud;
 
   public interface View {
     void replaceFragment(Fragment activityFragment);
@@ -26,10 +29,12 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
   @Inject
   public OmniPresenter(
       @WeAreAlone BooleanPreference weAreAlone,
-      @TutorialClippingLocal BooleanPreference playedTutorialClippingLocal
+      @TutorialClippingLocal BooleanPreference playedTutorialClippingLocal,
+      @TutorialClippingCloud BooleanPreference playedTutorialClippingCloud
   ) {
     this.weAreAlone = weAreAlone;
     this.playedTutorialClippingLocal = playedTutorialClippingLocal;
+    this.playedTutorialClippingCloud = playedTutorialClippingCloud;
   }
 
   @Override
@@ -38,6 +43,10 @@ public class OmniPresenter extends Presenter<OmniPresenter.View> {
 
     if (!playedTutorialClippingLocal.get()) {
       addFragment(TutorialClippingLocalFragment_.builder().build());
+    }
+
+    if (!playedTutorialClippingCloud.get()) {
+      addFragment(TutorialClippingCloudFragment_.builder().build());
     }
 
     if (weAreAlone.get()) {
