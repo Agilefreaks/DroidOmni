@@ -53,4 +53,10 @@
     <!-- Tutorial Clipping cloud -->
     <string name="tutorial_clipping_cloud_title">Congratulations. You can now copy and paste text across devices.</string>
     <string name="tutorial_clipping_cloud">Try that now by copying some text from your PC.</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial_local_clipping">This is something that you\'ve copied from your phone.</string>
+    <string name="tutorial_cloud_clipping">This is something that was copied from your PC.</string>
+    <string name="tutorial_phone">After you copy a phone number from your PC you can simply tap on call.</string>
+    <string name="tutorial_address">After you copy an address from your PC simply press navigate.</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.omnipaste.droidomni.presenter;
 
+import com.omnipaste.droidomni.DroidOmniApplication;
+import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.domain.Clipping;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -74,5 +76,33 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
 
   public Observable<Clipping> getObservable() {
     return clippingsSubject;
+  }
+
+  public void showSamples() {
+    ClippingDto localClipping = new ClippingDto();
+    localClipping.setContent(getString(R.string.tutorial_local_clipping));
+    localClipping.setClippingProvider(ClippingDto.ClippingProvider.LOCAL);
+    clippingsSubject.onNext(Clipping.add(localClipping));
+
+    ClippingDto cloudClipping = new ClippingDto();
+    cloudClipping.setContent(getString(R.string.tutorial_cloud_clipping));
+    cloudClipping.setClippingProvider(ClippingDto.ClippingProvider.CLOUD);
+    clippingsSubject.onNext(Clipping.add(cloudClipping));
+
+    ClippingDto phoneNumberClipping = new ClippingDto();
+    phoneNumberClipping.setContent(getString(R.string.tutorial_phone));
+    phoneNumberClipping.setClippingProvider(ClippingDto.ClippingProvider.CLOUD);
+    phoneNumberClipping.setType(ClippingDto.ClippingType.PHONE_NUMBER);
+    clippingsSubject.onNext(Clipping.add(phoneNumberClipping));
+
+    ClippingDto addressClipping = new ClippingDto();
+    addressClipping.setContent(getString(R.string.tutorial_address));
+    addressClipping.setClippingProvider(ClippingDto.ClippingProvider.CLOUD);
+    addressClipping.setType(ClippingDto.ClippingType.ADDRESS);
+    clippingsSubject.onNext(Clipping.add(addressClipping));
+  }
+
+  private String getString(int resId) {
+    return DroidOmniApplication.getAppContext().getString(resId);
   }
 }

@@ -75,4 +75,7 @@ public class EventsPresenter extends Presenter<EventsPresenter.View> implements 
   public void remove(EventDto event) {
     eventsSubject.onNext(Event.remove(event));
   }
+
+  public void showSamples() {
+  }
 }

@@ -77,6 +77,8 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
             }
           }
         });
+
+    showSamples();
   }
 
   @Override
@@ -117,5 +119,10 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
             getView().setRefreshing(false);
           }
         });
+  }
+
+  private void showSamples() {
+    clippingsPresenter.showSamples();
+    eventsPresenter.showSamples();
   }
 }
