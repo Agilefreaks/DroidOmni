@@ -10,10 +10,13 @@ import com.omnipaste.droidomni.domain.NavigationDrawerItem;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.ui.Navigator;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 @Singleton
 public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawerPresenter.View> {
@@ -81,6 +84,12 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
       case EXIT:
         omniServiceConnection
             .stopOmniService()
+            .timeout(1, TimeUnit.SECONDS)
+            .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
+              @Override public Boolean call(OmniServiceConnection.State state) {
+                return state == OmniServiceConnection.State.stopped || state == OmniServiceConnection.State.error;
+              }
+            })
             .subscribe(
                 new Action1<OmniServiceConnection.State>() {
                   @Override public void call(OmniServiceConnection.State state) {

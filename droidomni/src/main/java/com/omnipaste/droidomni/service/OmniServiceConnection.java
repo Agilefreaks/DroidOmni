@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 @Singleton
@@ -66,7 +68,17 @@ public class OmniServiceConnection implements ServiceConnection {
 
   public Observable<State> restartOmniService() {
     stopOmniService();
-    startOmniService();
+    serviceStateObservable
+        .takeFirst(new Func1<State, Boolean>() {
+          @Override public Boolean call(State state) {
+            return state == State.stopped;
+          }
+        })
+        .subscribe(new Action1<State>() {
+          @Override public void call(State state) {
+            startOmniService();
+          }
+        });
 
     return serviceStateObservable;
   }

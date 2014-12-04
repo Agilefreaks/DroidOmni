@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
-import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -34,8 +33,6 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   private final BooleanPreference weAreAlone;
   private final BooleanPreference tutorialClippingLocal;
   private boolean isInitiating = false;
-  private Subscription startOmniServiceSubscription;
-  private Subscription initSessionSubscription;
 
   public interface View {
     void finish();
@@ -91,20 +88,12 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   }
 
   @Override public void destroy() {
-    if (startOmniServiceSubscription != null) {
-      startOmniServiceSubscription.unsubscribe();
-      startOmniServiceSubscription = null;
-    }
-
-    if (initSessionSubscription != null) {
-      initSessionSubscription.unsubscribe();
-      initSessionSubscription = null;
-    }
   }
 
   private void initSession() {
-    initSessionSubscription = sessionService
+    sessionService
         .login(getAccounts.fromGoogle())
+        .take(1)
         .subscribe(
             // onNext
             new Action1<AccessTokenDto>() {
@@ -122,7 +111,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   }
 
   private void startOmniService() {
-    startOmniServiceSubscription = devices.get()
+    devices.get()
         .flatMap(new Func1<RegisteredDeviceDto[], Observable<RegisteredDeviceDto>>() {
           @Override
           public Observable<RegisteredDeviceDto> call(RegisteredDeviceDto[] registeredDevices) {
@@ -144,6 +133,11 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
           }
         })
         .observeOn(observeOnScheduler)
+        .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
+          @Override public Boolean call(OmniServiceConnection.State state) {
+            return state == OmniServiceConnection.State.started || state == OmniServiceConnection.State.error;
+          }
+        })
         .subscribe(
             // onNext
             new Action1<OmniServiceConnection.State>() {
@@ -153,9 +147,6 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
                 } else {
                   openOmni();
                 }
-
-                startOmniServiceSubscription.unsubscribe();
-                startOmniServiceSubscription = null;
               }
             }
         );
