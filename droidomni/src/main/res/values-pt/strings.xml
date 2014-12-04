@@ -45,7 +45,9 @@
     <string name="all_alone_footer">Waiting for other devices to come online</string>
 
     <!-- Tutorial Clipping local -->
-    <string name='tutorial_clipping_local_title'>Vá em frente e copie o seguinte texto (double tap):</string>
-    <string name='tutorial_clipping_local'>Acabei de instalar Omnipaste . Agora eu posso copiar e colar entre os meus dispositivos e interagir com meu celular do meu laptop. Como isso é legal?</string>
-    <string name='tutorial_clipping_local_footer'>Uma vez copiado, você tem este disponível em seu computador\'s clipboard. Você pode colá-lo no Facebook. As possibilidades são infinitas.</string>
+    <string name="tutorial_clipping_local_title">Vá em frente e copie o seguinte texto (double tap):</string>
+    <string name="tutorial_clipping_local">Acabei de instalar Omnipaste . Agora eu posso copiar e colar entre os meus dispositivos e interagir com meu celular do meu laptop. Como isso é legal?</string>
+    <string name="tutorial_clipping_local_footer">Uma vez copiado, você tem este disponível em seu computador\'s clipboard. Você pode colá-lo no Facebook. As possibilidades são infinitas.</string>
+    <string name="tutorial_clipping_cloud">Tente fazer isso agora, copiando um texto de seu PC.</string>
+    <string name="tutorial_clipping_cloud_title">Parabéns. Agora você pode copiar e colar texto entre dispositivos.</string>
 </resources>

@@ -46,7 +46,9 @@
     <string name="all_alone_footer">Waiting for other devices to come online</string>
 
     <!-- Tutorial Clipping local -->
-    <string name='tutorial_clipping_local_title'>Haide, copiază textul următor (pentru a selecta, apasă de două ori):</string>
-    <string name='tutorial_clipping_local'>Tocmai am instalat Omnipaste, serviciul care îmi conectează device-urile între ele.</string>
-    <string name='tutorial_clipping_local_footer'>Odată copiat, acest text va fi disponibil în clipboard-ul computerului tău și îi vei putea face paste unde dorești.</string>
+    <string name="tutorial_clipping_local_title">Haide, copiază textul următor (pentru a selecta, apasă de două ori):</string>
+    <string name="tutorial_clipping_local">Tocmai am instalat Omnipaste, serviciul care îmi conectează device-urile între ele.</string>
+    <string name="tutorial_clipping_local_footer">Odată copiat, acest text va fi disponibil în clipboard-ul computerului tău și îi vei putea face paste unde dorești.</string>
+    <string name="tutorial_clipping_cloud">Încercă asta acum, copiază un text de pe PC.</string>
+    <string name="tutorial_clipping_cloud_title">Felicitări. Puteți copia și lipi acum texte pe toate dispozitivele.</string>
 </resources>
