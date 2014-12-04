@@ -50,4 +50,8 @@
     <string name="tutorial_clipping_local_footer">Uma vez copiado, você tem este disponível em seu computador\'s clipboard. Você pode colá-lo no Facebook. As possibilidades são infinitas.</string>
     <string name="tutorial_clipping_cloud">Tente fazer isso agora, copiando um texto de seu PC.</string>
     <string name="tutorial_clipping_cloud_title">Parabéns. Agora você pode copiar e colar texto entre dispositivos.</string>
+    <string name="tutorial_address">Depois de copiar um endereço a partir do seu PC basta pressionar navegar.</string>
+    <string name="tutorial_cloud_clipping">Isso é algo que foi copiado de seu PC.</string>
+    <string name="tutorial_local_clipping">Isso é algo que você copiou do seu telefone.</string>
+    <string name="tutorial_phone">Depois de copiar um número de telefone a partir de seu PC, você pode simplesmente tocar de Chamar.</string>
 </resources>
