@@ -1,10 +1,13 @@
 package com.omnipaste.droidomni.presenter;
 
+import com.omnipaste.droidomni.interaction.CreateDevice;
 import com.omnipaste.droidomni.interaction.GetAccounts;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.omniapi.resource.v1.Devices;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
+import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
 import junit.framework.TestCase;
 
@@ -31,7 +34,12 @@ public class ConnectingPresenterTest extends TestCase {
         mockNavigator,
         mockSessionService,
         mockGetAccounts,
-        mockOmniServiceConnection);
+        mockOmniServiceConnection,
+        mock(Devices.class),
+        mock(CreateDevice.class),
+        mock(BooleanPreference.class),
+        mock(BooleanPreference.class),
+        mock(BooleanPreference.class));
   }
 
   public void testInitializeWhenNotLoggedInWillTryEmails() {

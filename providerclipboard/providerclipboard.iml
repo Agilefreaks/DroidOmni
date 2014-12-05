@@ -101,9 +101,9 @@
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.4-atlassian-1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.14" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="functionaljava-4.2-beta-1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="mockito-core-1.10.12" level="project" />
     <orderEntry type="library" exported="" name="rxjava-core-0.20.7" level="project" />
     <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
     <orderEntry type="module" module-name="omniapi" exported="" />
