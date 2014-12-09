@@ -9,18 +9,21 @@ import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.droidomni.ui.fragment.NotificationPreferenceFragment;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.functions.Action1;
+import rx.functions.Action0;
+import rx.functions.Func1;
 
 @Singleton
 public class SettingsPresenter extends Presenter<SettingsPresenter.View> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-  private Navigator navigator;
-  private SessionService sessionService;
-  private OmniServiceConnection omniServiceConnection;
-  private SharedPreferences sharedPreferences;
+  private final Navigator navigator;
+  private final SessionService sessionService;
+  private final OmniServiceConnection omniServiceConnection;
+  private final SharedPreferences sharedPreferences;
 
   public interface View {
     void setFragment(NotificationPreferenceFragment fragment);
@@ -80,18 +83,24 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   public void logout() {
     omniServiceConnection
         .stopOmniService()
-        .subscribe(
-            new Action1<OmniServiceConnection.State>() {
-              @Override public void call(OmniServiceConnection.State integer) {
-                cleanUp();
-              }
-            }
-        );
+        .observeOn(observeOnScheduler)
+        .timeout(1, TimeUnit.SECONDS)
+        .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
+          @Override public Boolean call(OmniServiceConnection.State state) {
+            return state == OmniServiceConnection.State.stopped || state == OmniServiceConnection.State.error;
+          }
+        })
+        .doOnCompleted(new Action0() {
+          @Override public void call() {
+            cleanUp();
+          }
+        })
+        .subscribe();
   }
 
   private void cleanUp() {
     sessionService.logout();
-    navigator.openLauncherActivity();
+    sessionService.setRegisteredDeviceDto(null);
     finishView();
   }
 

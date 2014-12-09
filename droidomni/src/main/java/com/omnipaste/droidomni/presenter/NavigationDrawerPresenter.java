@@ -8,6 +8,7 @@ import com.omnipaste.droidomni.adapter.NavigationDrawerAdapter;
 import com.omnipaste.droidomni.adapter.SecondaryNavigationDrawerAdapter;
 import com.omnipaste.droidomni.domain.NavigationDrawerItem;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
+import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 
 import java.util.concurrent.TimeUnit;
@@ -15,15 +16,16 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import rx.functions.Action1;
+import rx.functions.Action0;
 import rx.functions.Func1;
 
 @Singleton
 public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawerPresenter.View> {
-  private Navigator navigator;
-  private NavigationDrawerAdapter navigationDrawerAdapter;
-  private SecondaryNavigationDrawerAdapter secondaryNavigationDrawerAdapter;
-  private OmniServiceConnection omniServiceConnection;
+  private final Navigator navigator;
+  private final NavigationDrawerAdapter navigationDrawerAdapter;
+  private final SecondaryNavigationDrawerAdapter secondaryNavigationDrawerAdapter;
+  private final OmniServiceConnection omniServiceConnection;
+  private final SessionService sessionService;
 
   public interface View {
   }
@@ -32,11 +34,13 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
   public NavigationDrawerPresenter(Navigator navigator,
                                    NavigationDrawerAdapter navigationDrawerAdapter,
                                    SecondaryNavigationDrawerAdapter secondaryNavigationDrawerAdapter,
-                                   OmniServiceConnection omniServiceConnection) {
+                                   OmniServiceConnection omniServiceConnection,
+                                   SessionService sessionService) {
     this.navigator = navigator;
     this.navigationDrawerAdapter = navigationDrawerAdapter;
     this.secondaryNavigationDrawerAdapter = secondaryNavigationDrawerAdapter;
     this.omniServiceConnection = omniServiceConnection;
+    this.sessionService = sessionService;
   }
 
   @Override
@@ -84,19 +88,20 @@ public class NavigationDrawerPresenter extends FragmentPresenter<NavigationDrawe
       case EXIT:
         omniServiceConnection
             .stopOmniService()
+            .observeOn(observeOnScheduler)
             .timeout(1, TimeUnit.SECONDS)
             .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
               @Override public Boolean call(OmniServiceConnection.State state) {
                 return state == OmniServiceConnection.State.stopped || state == OmniServiceConnection.State.error;
               }
             })
-            .subscribe(
-                new Action1<OmniServiceConnection.State>() {
-                  @Override public void call(OmniServiceConnection.State state) {
-                    finishActivity();
-                  }
-                }
-            );
+            .doOnCompleted(new Action0() {
+              @Override public void call() {
+                sessionService.setRegisteredDeviceDto(null);
+                finishActivity();
+              }
+            })
+            .subscribe();
         break;
     }
   }
