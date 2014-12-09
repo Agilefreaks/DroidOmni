@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.ui.view.clipping;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,12 @@ public abstract class ClippingView extends LinearLayout implements HasSetup<Clip
   @ViewById
   public Button smartAction;
 
+  @ViewById
+  public LinearLayout smartActionContainer;
+
+  @ViewById
+  public View divider;
+
   @Inject
   public ClippingsPresenter clippingsPresenter;
 
@@ -52,9 +59,11 @@ public abstract class ClippingView extends LinearLayout implements HasSetup<Clip
 
   @Override
   public void showSmartAction(int title, int icon) {
-    smartAction.setVisibility(VISIBLE);
     smartAction.setText(title);
     smartAction.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
+
+    divider.setVisibility(VISIBLE);
+    smartActionContainer.setVisibility(VISIBLE);
   }
 
   @Click

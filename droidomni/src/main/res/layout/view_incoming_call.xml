@@ -4,38 +4,55 @@
                                     android:layout_height="match_parent"
                                     android:layout_margin="8dp">
 
-    <LinearLayout
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/call_background_start">
+            android:layout_width="48dp"
+            android:layout_height="match_parent">
 
-            <ImageView android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:layout_gravity="center|top"
-                       android:maxHeight="48dp"
-                       android:contentDescription="@string/clippings_location"
-                       android:adjustViewBounds="true"
-                       android:layout_marginTop="@dimen/default_padding"
-                       android:src="@drawable/ic_call" />
+            <ImageButton
+                android:id="@+id/delete"
+                style="@style/TransparentButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:contentDescription="@string/clipping_delete"
+                android:src="@drawable/ic_smart_action_remove"/>
+
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/content"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4">
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
             <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/call_background_start">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginTop="@dimen/default_padding"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/clippings_location"
+                    android:maxHeight="48dp"
+                    android:src="@drawable/ic_call"/>
+            </LinearLayout>
+
+            <RelativeLayout
                 android:id="@+id/call_content"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -43,40 +60,16 @@
                     android:id="@+id/incoming_call_title"
                     style="@android:style/TextAppearance.DeviceDefault.Medium"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/incoming_call_time"
+                    android:layout_below="@id/incoming_call_title"
                     style="@android:style/TextAppearance.DeviceDefault.Small"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/call_content"
-                android:background="?android:attr/dividerHorizontal"/>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divider"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/delete"
-                    style="@style/TransparentButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_smart_action_remove"
-                    android:drawableStart="@drawable/ic_smart_action_remove"
-                    android:text="@string/clipping_delete"/>
-
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </com.daimajia.swipe.SwipeLayout>
 </android.support.v7.widget.CardView>

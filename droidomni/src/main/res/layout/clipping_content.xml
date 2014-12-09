@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="0dp"
     android:layout_height="match_parent"
-    android:layout_weight="4">
+    android:layout_weight="4"
+    android:minHeight="80dp">
 
     <LinearLayout
         android:id="@+id/clipping_content"
@@ -18,11 +19,11 @@
             style="@android:style/TextAppearance.DeviceDefault.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:ellipsize="end"
             android:focusable="true"
-            android:maxLines="3" />
+            android:maxLines="3"/>
 
     </LinearLayout>
 
@@ -31,29 +32,22 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/clipping_content"
-        android:background="?android:attr/dividerHorizontal"/>
+        android:background="?android:attr/dividerHorizontal"
+        android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/smart_action_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <Button
-            android:id="@+id/smart_action"
             style="@style/SmartActionTransparentButton"
+            android:id="@+id/smart_action"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/delete"
-            style="@style/TransparentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_smart_action_remove"
-            android:drawableStart="@drawable/ic_smart_action_remove"
-            android:text="@string/clipping_delete"/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </RelativeLayout>
