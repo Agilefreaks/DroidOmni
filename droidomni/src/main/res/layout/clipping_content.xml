@@ -19,11 +19,8 @@
             style="@android:style/TextAppearance.DeviceDefault.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:clickable="true"
             android:ellipsize="end"
-            android:focusable="true"
-            android:maxLines="3"/>
+            android:maxLines="4"/>
 
     </LinearLayout>
 

@@ -63,13 +63,4 @@ public class IncomingSmsView extends LinearLayout implements HasSetup<EventDto>,
   @Override public void setContent(String content) {
     incomingSmsContent.setText(content);
   }
-
-  @Click
-  public void incomingSmsContent() {
-    if (incomingSmsContent.getMaxLines() == 3) {
-      incomingSmsContent.setMaxLines(Integer.MAX_VALUE);
-    } else {
-      incomingSmsContent.setMaxLines(3);
-    }
-  }
 }
