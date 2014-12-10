@@ -8,31 +8,50 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
+import com.omnipaste.omnicommon.rx.Schedulable;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 @Singleton
-public class OmniServiceConnection implements ServiceConnection {
+public class OmniServiceConnection extends Schedulable implements ServiceConnection {
   private final Context context;
+  private final SessionService sessionService;
   private final Messenger omniMessenger = new Messenger(new OmniIncomingHandler(this));
-  private final PublishSubject<State> serviceStateObservable = PublishSubject.create();
+  private final PublishSubject<State> serviceStateObservable;
+  private final AtomicBoolean stopping = new AtomicBoolean(false);
   private Messenger omniServiceMessenger;
   private Throwable lastError;
 
   public enum State {
     started,
     stopped,
-    error
+    error,
+    timeout
   }
 
   @Inject
-  public OmniServiceConnection(Context context) {
+  public OmniServiceConnection(Context context, SessionService sessionService) {
     this.context = context;
+    this.sessionService = sessionService;
+
+    serviceStateObservable = PublishSubject.create();
+  }
+
+  public OmniServiceConnection(Context context, SessionService sessionService, PublishSubject<State> serviceStateObservable) {
+    this.context = context;
+    this.sessionService = sessionService;
+
+    this.serviceStateObservable = serviceStateObservable;
   }
 
   @Override
@@ -64,6 +83,32 @@ public class OmniServiceConnection implements ServiceConnection {
     context.unbindService(this);
 
     return serviceStateObservable;
+  }
+
+  public void stopOmniService(final Action0 action) {
+    if (stopping.get()) {
+      return;
+    }
+
+    stopping.set(true);
+
+    stopOmniService()
+        .timeout(500, TimeUnit.MILLISECONDS, Observable.just(OmniServiceConnection.State.timeout), observeOnScheduler)
+        .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
+          @Override public Boolean call(OmniServiceConnection.State state) {
+            return state == OmniServiceConnection.State.stopped ||
+                state == OmniServiceConnection.State.error ||
+                state == OmniServiceConnection.State.timeout;
+          }
+        })
+        .doOnCompleted(new Action0() {
+          @Override public void call() {
+            sessionService.setRegisteredDeviceDto(null);
+            stopping.set(false);
+            action.call();
+          }
+        })
+        .subscribe();
   }
 
   public Observable<State> restartOmniService() {

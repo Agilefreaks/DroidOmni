@@ -10,6 +10,9 @@ import com.omnipaste.droidomni.domain.NavigationDrawerItem;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.ui.Navigator;
 
+import rx.functions.Action0;
+
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -39,13 +42,9 @@ public class NavigationDrawerPresenterTest extends InstrumentationTestCase {
     verify(mockNavigator).setContext(activity);
   }
 
-  public void testExitWillCloseServiceAndFinishActivity() throws Exception {
-    Activity activity = mock(Activity.class);
-    subject.attachActivity(activity);
-
+  public void testExitWhenNotTimeoutWillCleanup() throws Exception {
     subject.navigateTo(new NavigationDrawerItem("Exit", NavigationMenu.EXIT));
 
-    verify(activity).finish();
-    verify(mockOmniServiceConnection).stopOmniService();
+    verify(mockOmniServiceConnection).stopOmniService(any(Action0.class));
   }
 }

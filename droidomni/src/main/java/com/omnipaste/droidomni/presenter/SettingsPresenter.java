@@ -9,13 +9,10 @@ import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.droidomni.ui.fragment.NotificationPreferenceFragment;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.functions.Action0;
-import rx.functions.Func1;
 
 @Singleton
 public class SettingsPresenter extends Presenter<SettingsPresenter.View> implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -82,25 +79,15 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
 
   public void logout() {
     omniServiceConnection
-        .stopOmniService()
-        .observeOn(observeOnScheduler)
-        .timeout(1, TimeUnit.SECONDS)
-        .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
-          @Override public Boolean call(OmniServiceConnection.State state) {
-            return state == OmniServiceConnection.State.stopped || state == OmniServiceConnection.State.error;
-          }
-        })
-        .doOnCompleted(new Action0() {
+        .stopOmniService(new Action0() {
           @Override public void call() {
             cleanUp();
           }
-        })
-        .subscribe();
+        });
   }
 
   private void cleanUp() {
     sessionService.logout();
-    sessionService.setRegisteredDeviceDto(null);
     finishView();
   }
 
