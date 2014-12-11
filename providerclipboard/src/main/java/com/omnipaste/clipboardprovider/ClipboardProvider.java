@@ -20,11 +20,11 @@ public class ClipboardProvider implements Provider<ClippingDto> {
   private PublishSubject<ClippingDto> clipboardProviderSubject;
   private Subscription subscription;
   private OmniClipboardManager currentOmniClipboardManager;
-
   private LocalClipboardManager currentLocalClipboardManager;
 
   @Inject
   public Lazy<OmniClipboardManager> omniClipboardManager;
+
   @Inject
   public Lazy<LocalClipboardManager> localClipboardManager;
 
