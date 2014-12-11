@@ -49,8 +49,12 @@
     <string name="tutorial_clipping_local_title">Haide, copiază textul următor (pentru a selecta, apasă de două ori):</string>
     <string name="tutorial_clipping_local">Tocmai am instalat Omnipaste, serviciul care îmi conectează device-urile între ele.</string>
     <string name="tutorial_clipping_local_footer">Odată copiat, acest text va fi disponibil în clipboard-ul computerului tău și îi vei putea face paste unde dorești.</string>
+
+    <!-- Tutorial Clipping cloud -->
     <string name="tutorial_clipping_cloud">Încercă asta acum, copiază un text de pe PC.</string>
     <string name="tutorial_clipping_cloud_title">Felicitări. Puteți copia și lipi acum texte pe toate dispozitivele.</string>
+
+    <!-- Tutorial -->
     <string name="tutorial_address">După ce ai copiat o adresa de pe PC, pur și simplu apasa Navighează.</string>
     <string name="tutorial_cloud_clipping">Asta e ceva copiat de pe PC.</string>
     <string name="tutorial_local_clipping">Asta e ceva copiat de pe telefonul tău.</string>

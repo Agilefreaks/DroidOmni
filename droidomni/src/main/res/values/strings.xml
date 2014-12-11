@@ -47,7 +47,7 @@
 
     <!-- Tutorial Clipping local -->
     <string name="tutorial_clipping_local_title">Go ahead and copy the following text (double tap):</string>
-    <string name="tutorial_clipping_local">I just installed Omnipaste. I can now copy paste between my devices and interact with my phone from my laptop. How cool is that?</string>
+    <string name="tutorial_clipping_local">I just installed Omnipaste, the service that links my devices.</string>
     <string name="tutorial_clipping_local_footer">Once copied, you have this available on your computer\'s clipboard. You can paste it on Facebook. The possibilities are endless.</string>
 
     <!-- Tutorial Clipping cloud -->
