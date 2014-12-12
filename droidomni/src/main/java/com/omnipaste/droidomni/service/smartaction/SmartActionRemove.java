@@ -29,7 +29,7 @@ public class SmartActionRemove extends BroadcastReceiver {
   }
 
   public int[] getIcon() {
-    return new int[] { R.drawable.ic_smart_action_remove_light, R.drawable.ic_smart_action_remove };
+    return new int[] { R.drawable.ic_remove_light, R.drawable.ic_remove};
   }
 
   public PendingIntent buildIntent(Context context) {

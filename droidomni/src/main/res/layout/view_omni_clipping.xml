@@ -9,20 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="48dp"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/delete"
-                style="@style/TransparentButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_smart_action_remove"
-                android:contentDescription="@string/clipping_delete"/>
-
-        </LinearLayout>
+        <include layout="@layout/clipping_actions" />
 
         <LinearLayout
             android:layout_width="match_parent"

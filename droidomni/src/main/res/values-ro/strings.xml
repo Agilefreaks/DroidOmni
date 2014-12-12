@@ -26,6 +26,7 @@
 
     <!-- ACTIVITY -->
     <string name="clipping_delete">Șterge</string>
+    <string name="clipping_copy">Copiază</string>
     <string name="clippings_location">Locație</string>
     <string name="event_from">de la</string>
 

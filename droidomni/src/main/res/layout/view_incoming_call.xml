@@ -20,7 +20,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:contentDescription="@string/clipping_delete"
-                android:src="@drawable/ic_smart_action_remove"/>
+                android:src="@drawable/ic_remove"/>
 
         </LinearLayout>
 

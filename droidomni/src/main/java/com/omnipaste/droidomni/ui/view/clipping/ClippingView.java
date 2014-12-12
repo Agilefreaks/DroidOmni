@@ -67,8 +67,12 @@ public abstract class ClippingView extends LinearLayout implements HasSetup<Clip
   }
 
   @Click
-  public void deleteClicked() {
+  public void clippingDeleteClicked() {
     clippingsPresenter.remove(clippingPresenter.getClipping());
+  }
+
+  @Click
+  public void clippingCopyClicked() {
   }
 
   @Click
