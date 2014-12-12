@@ -24,8 +24,7 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   }
 
   @Inject
-  public ClippingsPresenter(ClipboardSubscriber clipboardSubscriber
-  ) {
+  public ClippingsPresenter(ClipboardSubscriber clipboardSubscriber) {
     this.clipboardSubscriber = clipboardSubscriber;
   }
 

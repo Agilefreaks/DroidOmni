@@ -1,6 +1,9 @@
 package com.omnipaste.droidomni.presenter;
 
+import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.factory.SmartActionFactory;
+import com.omnipaste.droidomni.factory.ToastBuilder;
+import com.omnipaste.droidomni.interaction.CopyClipping;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -10,6 +13,12 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> {
 
   @Inject
   public SmartActionFactory smartActionFactory;
+
+  @Inject
+  public CopyClipping copyClipping;
+
+  @Inject
+  public ToastBuilder toastBuilder;
 
   public interface View {
     void setClippingContent(String content);
@@ -45,5 +54,10 @@ public class ClippingPresenter extends Presenter<ClippingPresenter.View> {
 
   public ClippingDto getClipping() {
     return clippingDto;
+  }
+
+  public void copy() {
+    copyClipping.run(getClipping());
+    toastBuilder.buildShort(R.string.clipping_copy_toast);
   }
 }

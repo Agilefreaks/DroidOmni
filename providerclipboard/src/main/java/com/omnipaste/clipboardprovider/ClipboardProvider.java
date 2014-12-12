@@ -82,6 +82,10 @@ public class ClipboardProvider implements Provider<ClippingDto> {
     currentOmniClipboardManager.onPrimaryClipChanged();
   }
 
+  public void setLocalPrimaryClip(ClippingDto clippingDto) {
+    currentLocalClipboardManager.setPrimaryClip(clippingDto, false);
+  }
+
   public void destroy() {
     subscription.unsubscribe();
     subscription = null;

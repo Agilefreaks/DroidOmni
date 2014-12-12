@@ -26,6 +26,7 @@
     <!-- ACTIVITY -->
     <string name="clipping_delete">Remover</string>
     <string name="clipping_copy">Cópiar</string>
+    <string name="clipping_copy_toast">Copiados para o clipboard</string>
     <string name="clippings_location">Location</string>
     <string name="event_from">a partir de</string>
 

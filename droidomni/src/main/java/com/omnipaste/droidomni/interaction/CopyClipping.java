@@ -1,24 +1,21 @@
 package com.omnipaste.droidomni.interaction;
 
 import com.omnipaste.clipboardprovider.ClipboardProvider;
+import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class Refresh {
+public class CopyClipping {
   private ClipboardProvider clipboardProvider;
 
   @Inject
-  public Refresh(ClipboardProvider clipboardProvider) {
+  public CopyClipping(ClipboardProvider clipboardProvider) {
     this.clipboardProvider = clipboardProvider;
   }
 
-  public void all() {
-    omniClipboard();
-  }
-
-  public void omniClipboard() {
-    clipboardProvider.refreshOmni();
+  public void run(ClippingDto clippingDto) {
+    clipboardProvider.setLocalPrimaryClip(clippingDto);
   }
 }

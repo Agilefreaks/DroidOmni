@@ -34,6 +34,9 @@ public abstract class ClippingView extends LinearLayout implements HasSetup<Clip
   @ViewById
   public View divider;
 
+  @ViewById
+  public com.daimajia.swipe.SwipeLayout swipeLayout;
+
   @Inject
   public ClippingsPresenter clippingsPresenter;
 
@@ -73,6 +76,8 @@ public abstract class ClippingView extends LinearLayout implements HasSetup<Clip
 
   @Click
   public void clippingCopyClicked() {
+    clippingPresenter.copy();
+    swipeLayout.close();
   }
 
   @Click

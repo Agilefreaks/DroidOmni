@@ -33,7 +33,11 @@ public class LocalClipboardManager implements ClipboardManager.OnPrimaryClipChan
   }
 
   public ClippingDto setPrimaryClip(ClippingDto clippingDto) {
-    skipNext = true;
+    return setPrimaryClip(clippingDto, true);
+  }
+
+  public ClippingDto setPrimaryClip(ClippingDto clippingDto, Boolean skipNext) {
+    this.skipNext = skipNext;
     clipboardManager.setPrimaryClip(ClipData.newPlainText("", clippingDto.getContent()));
 
     return clippingDto;

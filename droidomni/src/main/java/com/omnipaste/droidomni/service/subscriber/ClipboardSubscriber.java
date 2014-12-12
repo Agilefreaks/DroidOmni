@@ -38,8 +38,4 @@ public class ClipboardSubscriber extends ObservableSubscriber<ClippingDto> {
       clipboardProvider.destroy();
     }
   }
-
-  public void refresh() {
-    clipboardProvider.refreshOmni();
-  }
 }
