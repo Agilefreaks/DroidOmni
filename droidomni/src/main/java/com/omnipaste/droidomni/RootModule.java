@@ -12,13 +12,12 @@ import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
-import com.omnipaste.droidomni.gcm.GcmIntentService_;
 import com.omnipaste.droidomni.interaction.DeviceIdentifier;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.presenter.PresenterModule;
 import com.omnipaste.droidomni.provider.GcmNotificationProvider;
-import com.omnipaste.droidomni.service.OmniService_;
-import com.omnipaste.droidomni.service.smartaction.SmartActionRemove;
+import com.omnipaste.droidomni.receiver.ReceiverModule;
+import com.omnipaste.droidomni.service.ServiceModule;
 import com.omnipaste.droidomni.ui.UiModule;
 import com.omnipaste.eventsprovider.EventsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
@@ -37,16 +36,15 @@ import dagger.Provides;
         OmniApiModule.class,
         PrefsModule.class,
         UiModule.class,
+        ServiceModule.class,
+        ReceiverModule.class,
         PresenterModule.class
     },
     injects = {
         DroidOmniApplication_.class,
-        OmniService_.class,
         ClipboardProviderModule.class,
         PhoneProviderModule.class,
-        EventsProviderModule.class,
-        GcmIntentService_.class,
-        SmartActionRemove.class
+        EventsProviderModule.class
     }
 )
 public final class RootModule {

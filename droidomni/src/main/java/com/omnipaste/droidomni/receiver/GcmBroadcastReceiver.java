@@ -1,10 +1,12 @@
-package com.omnipaste.droidomni.gcm;
+package com.omnipaste.droidomni.receiver;
 
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
+
+import com.omnipaste.droidomni.service.GcmIntentService_;
 
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
   @Override

@@ -1,4 +1,4 @@
-package com.omnipaste.droidomni.gcm;
+package com.omnipaste.droidomni.service;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.domain.GcmNotification;
-import com.omnipaste.droidomni.provider.GcmNotificationProvider;
+import com.omnipaste.droidomni.receiver.GcmBroadcastReceiver;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
