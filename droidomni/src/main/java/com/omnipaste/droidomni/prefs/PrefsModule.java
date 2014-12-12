@@ -20,6 +20,7 @@ public class PrefsModule {
   public static String TUTORIAL_CLIPPING_LOCAL = "tutorial_clipping_local";
   public static String TUTORIAL_CLIPPING_CLOUD = "tutorial_clipping_cloud";
   public static String WE_ARE_ALONE = "we_are_alone";
+  public static String START_OMNI_AT_BOOT = "start_omni_at_boot";
 
   @Provides @Singleton @GcmSenderId
   public StringPreference provideGcmSenderId(SharedPreferences preferences) {
@@ -59,5 +60,10 @@ public class PrefsModule {
   @Provides @Singleton @WeAreAlone
   public BooleanPreference provideWeAreAlone(SharedPreferences preferences) {
     return new BooleanPreference(preferences, WE_ARE_ALONE, false);
+  }
+
+  @Provides @Singleton @StartOmniAtBoot
+  public BooleanPreference provideStartOmniAtBoot(SharedPreferences preferences) {
+    return new BooleanPreference(preferences, START_OMNI_AT_BOOT, true);
   }
 }

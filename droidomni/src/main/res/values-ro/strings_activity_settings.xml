@@ -14,6 +14,9 @@
     <string name="pref_title_never_miss_a_beat">Stai la curent</string>
     <string name="pref_description_never_miss_a_beat">Fii sigur că toate dispozitivele vor fi sincornizate. (Se poate ca această funcționalitate sa consume putin mai mult din baterie)</string>
 
+    <string name="pref_category_omni_service">Omni Service</string>
+    <string name="pref_title_start_omni_at_boot">Start automat</string>
+
     <string name="pref_category_session">Sesiune</string>
     <string name="pref_title_logout">Deconectare</string>
     <string name="pref_description_logout">Închide aplicația și deconectează-te. Când vei porni din nou aplicația, vei avea nevoie de un nou cod de autentificare.</string>
