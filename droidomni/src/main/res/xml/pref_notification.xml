@@ -24,7 +24,7 @@
             android:summary="@string/pref_description_never_miss_a_beat"
             android:defaultValue="true"/>
 
-    <PreferenceCategory android:title="Omni service">
+    <PreferenceCategory android:title="@string/pref_category_omni_service">
         <CheckBoxPreference
             android:key="start_omni_at_boot"
             android:title="@string/pref_title_start_omni_at_boot"
