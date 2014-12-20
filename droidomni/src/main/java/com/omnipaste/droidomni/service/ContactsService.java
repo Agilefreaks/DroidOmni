@@ -24,7 +24,7 @@ import rx.functions.Func1;
 
 @Singleton
 public class ContactsService extends ServiceBase {
-  private static final String SOURCE_IDENTIFIER_KEY = "source_identifier";
+  private static final String IDENTIFIER_KEY = "identifier";
 
   private final NotificationProvider notificationProvider;
   private final ContactsRepository contactsRepository;
@@ -65,7 +65,7 @@ public class ContactsService extends ServiceBase {
         @Override
         public Observable<RegisteredDeviceDto> call(NotificationDto notificationDto) {
           Bundle extra = notificationDto.getExtra();
-          String identifier = extra.getString(SOURCE_IDENTIFIER_KEY);
+          String identifier = extra.getString(IDENTIFIER_KEY);
 
           return devices.get(identifier);
         }
