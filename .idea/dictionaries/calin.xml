@@ -8,6 +8,7 @@
       <w>cardview</w>
       <w>checkstyle</w>
       <w>compat</w>
+      <w>crypto</w>
       <w>deserialize</w>
       <w>dexcache</w>
       <w>dexmaker</w>

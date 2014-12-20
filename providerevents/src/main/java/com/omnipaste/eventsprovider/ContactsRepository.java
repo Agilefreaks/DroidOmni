@@ -6,6 +6,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
+import com.omnipaste.omnicommon.dto.ContactDto;
+
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -37,5 +42,9 @@ public class ContactsRepository {
     }
 
     return contactName;
+  }
+
+  public List<ContactDto> findAll() {
+    return Arrays.asList(new ContactDto(), new ContactDto());
   }
 }

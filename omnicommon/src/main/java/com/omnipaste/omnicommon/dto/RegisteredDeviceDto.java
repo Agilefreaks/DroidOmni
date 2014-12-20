@@ -2,7 +2,7 @@ package com.omnipaste.omnicommon.dto;
 
 @SuppressWarnings("UnusedDeclaration")
 public class RegisteredDeviceDto {
-  private String identifier, name, registrationId, provider;
+  private String identifier, name, registrationId, provider, publicKey;
 
   public RegisteredDeviceDto() {
   }
@@ -47,5 +47,14 @@ public class RegisteredDeviceDto {
 
   public void setProvider(String provider) {
     this.provider = provider;
+  }
+
+  public RegisteredDeviceDto setPublicKey(String publicKey) {
+    this.publicKey = publicKey;
+    return this;
+  }
+
+  public String getPublicKey() {
+    return publicKey;
   }
 }
