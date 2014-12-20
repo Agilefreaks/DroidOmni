@@ -18,6 +18,7 @@ import com.omnipaste.omnicommon.prefs.BooleanPreference;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import retrofit.RetrofitError;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -85,77 +86,99 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   }
 
 
-  @Override public void resume() {
+  @Override
+  public void resume() {
   }
 
-  @Override public void pause() {
+  @Override
+  public void pause() {
   }
 
-  @Override public void destroy() {
+  @Override
+  public void destroy() {
   }
 
   private void initSession() {
     sessionService
-        .login(getAccounts.fromGoogle())
-        .take(1)
-        .subscribe(
-            // onNext
-            new Action1<AccessTokenDto>() {
-              @Override public void call(AccessTokenDto accessTokenDto) {
-                startOmniService();
-              }
-            },
-            // onError
-            new Action1<Throwable>() {
-              @Override public void call(Throwable throwable) {
-                openLogin();
-              }
-            }
-        );
+      .login(getAccounts.fromGoogle())
+      .take(1)
+      .subscribe(
+        // onNext
+        new Action1<AccessTokenDto>() {
+          @Override
+          public void call(AccessTokenDto accessTokenDto) {
+            startOmniService();
+          }
+        },
+        // onError
+        new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            openLogin();
+          }
+        }
+      );
   }
 
   private void startOmniService() {
     devices.get()
-        .flatMap(new Func1<RegisteredDeviceDto[], Observable<RegisteredDeviceDto>>() {
-          @Override
-          public Observable<RegisteredDeviceDto> call(RegisteredDeviceDto[] registeredDevices) {
-            if (registeredDevices.length == 0) {
-              weAreAlone.set(true);
-              tutorialClippingCloud.set(false);
-              tutorialClippingLocal.set(true);
-            } else if (registeredDevices.length == 1) {
-              tutorialClippingLocal.set(false);
-              tutorialClippingCloud.set(true);
-            }
+      .flatMap(new Func1<RegisteredDeviceDto[], Observable<RegisteredDeviceDto>>() {
+        @Override
+        public Observable<RegisteredDeviceDto> call(RegisteredDeviceDto[] registeredDevices) {
+          if (registeredDevices.length == 0) {
+            weAreAlone.set(true);
+            tutorialClippingCloud.set(false);
+            tutorialClippingLocal.set(true);
+          } else if (registeredDevices.length == 1) {
+            tutorialClippingLocal.set(false);
+            tutorialClippingCloud.set(true);
+          }
 
-            return createDevice.run();
-          }
-        })
-        .flatMap(new Func1<RegisteredDeviceDto, Observable<OmniServiceConnection.State>>() {
+          return createDevice.run();
+        }
+      })
+      .flatMap(new Func1<RegisteredDeviceDto, Observable<OmniServiceConnection.State>>() {
+        @Override
+        public Observable<OmniServiceConnection.State> call(RegisteredDeviceDto registeredDeviceDto) {
+          sessionService.setRegisteredDeviceDto(registeredDeviceDto);
+          return omniServiceConnection.startOmniService();
+        }
+      })
+      .observeOn(observeOnScheduler)
+      .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
+        @Override
+        public Boolean call(OmniServiceConnection.State state) {
+          return state == OmniServiceConnection.State.started || state == OmniServiceConnection.State.error;
+        }
+      })
+      .subscribeOn(scheduler)
+      .observeOn(observeOnScheduler)
+      .subscribe(
+        // onNext
+        new Action1<OmniServiceConnection.State>() {
           @Override
-          public Observable<OmniServiceConnection.State> call(RegisteredDeviceDto registeredDeviceDto) {
-            sessionService.setRegisteredDeviceDto(registeredDeviceDto);
-            return omniServiceConnection.startOmniService();
-          }
-        })
-        .observeOn(observeOnScheduler)
-        .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
-          @Override public Boolean call(OmniServiceConnection.State state) {
-            return state == OmniServiceConnection.State.started || state == OmniServiceConnection.State.error;
-          }
-        })
-        .subscribe(
-            // onNext
-            new Action1<OmniServiceConnection.State>() {
-              @Override public void call(OmniServiceConnection.State code) {
-                if (code == OmniServiceConnection.State.error) {
-                  openError(omniServiceConnection.getLastError());
-                } else {
-                  openOmni();
-                }
-              }
+          public void call(OmniServiceConnection.State code) {
+            if (code == OmniServiceConnection.State.error) {
+              openError(omniServiceConnection.getLastError());
+            } else {
+              openOmni();
             }
-        );
+          }
+        },
+        // onError
+        new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            if (throwable instanceof RetrofitError) {
+              sessionService.logout();
+              openLogin();
+            }
+            else {
+              openError(throwable);
+            }
+          }
+        }
+      );
   }
 
   private void openLogin() {
