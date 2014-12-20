@@ -11,6 +11,7 @@ public class NotificationDto {
     CLIPBOARD,
     PHONE,
     NOTIFICATION,
+    CONTACTS,
     UNKNOWN
   }
   public NotificationDto() {

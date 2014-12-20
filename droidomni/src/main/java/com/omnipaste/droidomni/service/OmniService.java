@@ -91,6 +91,9 @@ public class OmniService extends Service {
   @Inject
   public NotificationServiceFacade notificationServiceFacade;
 
+  @Inject
+  public ContactsService contactsService;
+
   public static Intent getIntent() {
     return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
   }
@@ -206,6 +209,7 @@ public class OmniService extends Service {
     }
 
     notificationServiceFacade.start();
+    contactsService.start();
   }
 
   private void stopSubscribers() {
@@ -214,6 +218,7 @@ public class OmniService extends Service {
     }
 
     notificationServiceFacade.stop();
+    contactsService.stop();
   }
 
   private void sendErrorToClients(Throwable throwable) {
