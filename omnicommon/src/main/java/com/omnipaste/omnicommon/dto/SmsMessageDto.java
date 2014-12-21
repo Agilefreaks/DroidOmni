@@ -17,31 +17,35 @@ public class SmsMessageDto {
     return phoneNumber;
   }
 
-  public void setPhoneNumber(String phoneNumber) {
+  public SmsMessageDto setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+    return this;
   }
 
   public String getContent() {
     return content;
   }
 
-  public void setContent(String content) {
+  public SmsMessageDto setContent(String content) {
     this.content = content;
+    return this;
   }
 
   public List<String> getPhoneNumberList() {
     return phoneNumberList;
   }
 
-  public void setPhoneNumberList(List<String> phoneNumberList) {
+  public SmsMessageDto setPhoneNumberList(List<String> phoneNumberList) {
     this.phoneNumberList = phoneNumberList;
+    return this;
   }
 
   public List<String> getContentList() {
     return contentList;
   }
 
-  public void setContentList(List<String> contentList) {
+  public SmsMessageDto setContentList(List<String> contentList) {
     this.contentList = contentList;
+    return this;
   }
 }

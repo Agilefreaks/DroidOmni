@@ -34,6 +34,5 @@ public class OmniPhoneStateListenerTest extends InstrumentationTestCase {
     subject.stop();
 
     verify(mockTelephonyManager).listen(subject, PhoneStateListener.LISTEN_NONE);
-
   }
 }

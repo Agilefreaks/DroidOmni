@@ -17,7 +17,7 @@ public class ActionFactoryTest extends InstrumentationTestCase {
   public void setUp() throws Exception {
     super.setUp();
 
-    actionActionFactory = new ActionFactory(mock(Context.class), mock(TelephonyManager.class), null);
+    actionActionFactory = new ActionFactory(mock(Context.class), mock(TelephonyManager.class), null, null);
   }
 
   public void testCreateWithCallWillReturnActionCall() throws Exception {

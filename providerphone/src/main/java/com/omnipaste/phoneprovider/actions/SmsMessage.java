@@ -10,13 +10,15 @@ import java.util.List;
 import rx.functions.Action1;
 
 public class SmsMessage extends Action {
+  private final String ID_KEY = "id";
+
   public SmsMessage(Context context) {
     super(context);
   }
 
   @Override
   public void execute(Bundle extras) {
-    String id = extras.getString("id");
+    String id = extras.getString(ID_KEY);
 
     smsMessages
       .get(id)
