@@ -6,6 +6,7 @@ public enum PhoneAction {
   CALL,
   END_CALL,
   SMS,
+  SMS_MESSAGE,
   UNKNOWN;
 
   public static PhoneAction parse(String phoneAction) {

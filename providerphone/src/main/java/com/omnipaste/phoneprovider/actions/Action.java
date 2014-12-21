@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
+import com.omnipaste.omniapi.resource.v1.SmsMessages;
+
 import java.lang.reflect.InvocationTargetException;
 
 public abstract class Action {
   protected Context context;
   protected TelephonyManager telephonyManager;
   protected SmsManager smsManager;
+  protected SmsMessages smsMessages;
 
   public static <T extends Action> T build(Class<T> clazz, Context context) {
     T result = null;
@@ -34,6 +37,11 @@ public abstract class Action {
 
   public Action setSmsManager(SmsManager smsManager) {
     this.smsManager = smsManager;
+    return this;
+  }
+
+  public Action setSmsMessages(SmsMessages smsMessages) {
+    this.smsMessages = smsMessages;
     return this;
   }
 
