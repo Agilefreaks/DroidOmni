@@ -6,9 +6,9 @@ import java.util.List;
 @SuppressWarnings("UnusedDeclaration")
 public class ContactDto {
   public Long id;
-  public String givenName;
-  public String familyName;
-  public String displayName;
+  public String firstName;
+  public String lastName;
+  public String name;
   public String middleName;
   public String photo;
   public List<NumberDto> numbers;
@@ -18,30 +18,30 @@ public class ContactDto {
     this.numbers = new ArrayList<>();
   }
 
-  public String getGivenName() {
-    return givenName;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public ContactDto setGivenName(String givenName) {
-    this.givenName = givenName;
+  public ContactDto setFirstName(String firstName) {
+    this.firstName = firstName;
     return this;
   }
 
-  public String getFamilyName() {
-    return familyName;
+  public String getLastName() {
+    return lastName;
   }
 
-  public ContactDto setFamilyName(String familyName) {
-    this.familyName = familyName;
+  public ContactDto setLastName(String lastName) {
+    this.lastName = lastName;
     return this;
   }
 
-  public String getDisplayName() {
-    return displayName;
+  public String getName() {
+    return name;
   }
 
-  public ContactDto setDisplayName(String displayName) {
-    this.displayName = displayName;
+  public ContactDto setName(String name) {
+    this.name = name;
     return this;
   }
 

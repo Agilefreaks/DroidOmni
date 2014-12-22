@@ -14,12 +14,15 @@ import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import co.bugfreak.BugFreak;
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 @Singleton
@@ -32,6 +35,7 @@ public class ContactsService extends ServiceBase {
   private final Contacts contacts;
   private final Devices devices;
   private Subscription subscription;
+  private AtomicBoolean fetching = new AtomicBoolean(false);
 
   @Inject
   public ContactsService(
@@ -64,6 +68,7 @@ public class ContactsService extends ServiceBase {
       .flatMap(new Func1<NotificationDto, Observable<RegisteredDeviceDto>>() {
         @Override
         public Observable<RegisteredDeviceDto> call(NotificationDto notificationDto) {
+          fetching.set(true);
           Bundle extra = notificationDto.getExtra();
           String identifier = extra.getString(IDENTIFIER_KEY);
 
@@ -77,14 +82,30 @@ public class ContactsService extends ServiceBase {
           String encryptedContacts = "";
 
           try {
-            encryptedContacts = RSACrypto.encrypt(new Gson().toJson(contacts)).with(registeredDeviceDto.getPublicKey());
+            String gsonContacts = new Gson().toJson(contacts);
+            encryptedContacts = RSACrypto.encrypt(gsonContacts).with(registeredDeviceDto.getPublicKey());
           } catch (IOException ignore) {
-            // ignore
+            BugFreak.beginReport(ignore);
           }
 
-          return !encryptedContacts.equals("") ?
+          Observable result =  !encryptedContacts.equals("") ?
             ContactsService.this.contacts.create(sessionService.getRegisteredDeviceDto().getIdentifier(), registeredDeviceDto.getIdentifier(), encryptedContacts) :
             Observable.empty();
+
+          fetching.set(false);
+          return result;
+        }
+      })
+      .skipWhile(new Func1<Object, Boolean>() {
+        @Override
+        public Boolean call(Object o) {
+          return fetching.get();
+        }
+      })
+      .doOnError(new Action1<Throwable>() {
+        @Override
+        public void call(Throwable throwable) {
+          fetching.set(false);
         }
       })
       .retry()

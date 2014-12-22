@@ -48,54 +48,54 @@ public class ContactsRepository {
 
   public List<ContactDto> findAll() {
     ContentResolver resolver = context.getContentResolver();
-    String[] rawContactsProjection = new String[]{ContactsContract.RawContacts._ID};
-    Cursor rawContacts = resolver.query(ContactsContract.RawContacts.CONTENT_URI, rawContactsProjection, null, null, null);
+    String[] dataProjection = new String[]{
+      ContactsContract.CommonDataKinds.Photo.PHOTO,
+      ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER,
+      ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID,
+      ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+      ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+      ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+      ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
+    };
+
+    String where = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER + " = ?";
+    String[] whereParameters = new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, "1"};
+    Cursor data = resolver.query(ContactsContract.Data.CONTENT_URI, dataProjection, where, whereParameters, null);
     List<ContactDto> contacts = new ArrayList<>();
 
-    if (rawContacts == null) {
+    if (data == null) {
       return null;
     }
 
-    if (rawContacts.moveToFirst()) {
-      final int idIndex = rawContacts.getColumnIndex(ContactsContract.RawContacts._ID);
+    if (data.moveToFirst()) {
+      final int idIndex = data.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID);
 
       do {
-        ContactDto contact = new ContactDto(rawContacts.getLong(idIndex));
+        ContactDto contact = new ContactDto(data.getLong(idIndex));
 
-        fetchContactName(resolver, contact);
-        fetchPhone(resolver, contact);
-        fetchPhoto(resolver, contact);
+        fetchContactName(data, contact);
 
-        contacts.add(contact);
-      } while (rawContacts.moveToNext());
+        if (contact.getName() != null || contact.getFirstName() != null) {
+          fetchPhoto(data, contact);
+          fetchPhone(resolver, contact);
+          contacts.add(contact);
+        }
+      } while (data.moveToNext());
     }
 
-    if (!rawContacts.isClosed()) {
-      rawContacts.close();
+    if (!data.isClosed()) {
+      data.close();
     }
 
     return contacts;
   }
 
-  private void fetchPhoto(ContentResolver resolver, ContactDto contact) {
-    final String[] photoProjection = new String[]{
-      ContactsContract.CommonDataKinds.Photo.PHOTO
-    };
+  private void fetchPhoto(Cursor data, ContactDto contact) {
+    final int indexPhoto = data.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO);
+    byte[] blob = data.getBlob(indexPhoto);
 
-    String[] whereParameters = new String[]{contact.id.toString(), ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE};
-    Cursor photo = resolver.query(ContactsContract.Data.CONTENT_URI, photoProjection, where(), whereParameters, null);
-
-    if (photo.moveToFirst()) {
-      final int indexPhoto = photo.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO);
-      byte[] blob = photo.getBlob(indexPhoto);
-
-      if (blob != null) {
-        contact.setPhoto(Base64.encodeToString(blob, Base64.DEFAULT));
-      }
-    }
-
-    if (!photo.isClosed()) {
-      photo.close();
+    if (blob != null) {
+      contact.setPhoto(Base64.encodeToString(blob, Base64.DEFAULT));
     }
   }
 
@@ -105,8 +105,9 @@ public class ContactsRepository {
       ContactsContract.CommonDataKinds.Phone.TYPE
     };
 
+    String where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
     String[] whereParameters = new String[]{contact.id.toString(), ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
-    Cursor phone = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, phoneProjection, where(), whereParameters, null);
+    Cursor phone = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, phoneProjection, where, whereParameters, null);
 
     if (phone.moveToFirst()) {
       final int indexNumber = phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
@@ -126,36 +127,16 @@ public class ContactsRepository {
     }
   }
 
-  private void fetchContactName(ContentResolver resolver, ContactDto contact) {
-    final String[] structuredNameProjection = new String[]{
-      ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-      ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
-      ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
-      ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
-    };
+  private void fetchContactName(Cursor cursor, ContactDto contact) {
+    final int indexDisplayName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME);
+    final int indexGivenName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+    final int indexFamilyName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME);
+    final int indexMiddleName = cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME);
 
-    String[] whereParameters = new String[]{contact.id.toString(), ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE};
-    Cursor structuredName = resolver.query(ContactsContract.Data.CONTENT_URI, structuredNameProjection, where(), whereParameters, null);
-
-    if (structuredName.moveToFirst()) {
-      final int indexDisplayName = structuredName.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME);
-      final int indexGivenName = structuredName.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-      final int indexFamilyName = structuredName.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME);
-      final int indexMiddleName = structuredName.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME);
-
-      contact
-        .setDisplayName(structuredName.getString(indexDisplayName))
-        .setFamilyName(structuredName.getString(indexFamilyName))
-        .setGivenName(structuredName.getString(indexGivenName))
-        .setMiddleName(structuredName.getString(indexMiddleName));
-    }
-
-    if (!structuredName.isClosed()) {
-      structuredName.close();
-    }
-  }
-
-  private String where() {
-    return ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+    contact
+      .setName(cursor.getString(indexDisplayName))
+      .setLastName(cursor.getString(indexFamilyName))
+      .setFirstName(cursor.getString(indexGivenName))
+      .setMiddleName(cursor.getString(indexMiddleName));
   }
 }
