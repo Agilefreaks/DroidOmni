@@ -26,7 +26,7 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
     super(restAdapter, ContactsApi.class, authorizationService);
   }
 
-  public Observable<EmptyDto> create(String sourceIdentifier, String identifier, String contacts) {
-    return authorizationService.authorize(api.create(bearerAccessToken(), new ContactListDto(sourceIdentifier, identifier, contacts)));
+  public Observable<EmptyDto> create(String identifier, String destinationIdentifier, String contacts) {
+    return authorizationService.authorize(api.create(bearerAccessToken(), new ContactListDto(identifier, destinationIdentifier, contacts)));
   }
 }
