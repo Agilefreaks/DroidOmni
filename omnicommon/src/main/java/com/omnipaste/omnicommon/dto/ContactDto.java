@@ -6,10 +6,10 @@ import java.util.List;
 @SuppressWarnings("UnusedDeclaration")
 public class ContactDto {
   public Long id;
-  public String firstName;
-  public String lastName;
+  public String first_name;
+  public String last_name;
   public String name;
-  public String middleName;
+  public String middle_name;
   public String photo;
   public List<NumberDto> numbers;
 
@@ -18,21 +18,21 @@ public class ContactDto {
     this.numbers = new ArrayList<>();
   }
 
-  public String getFirstName() {
-    return firstName;
+  public String getFirst_name() {
+    return first_name;
   }
 
-  public ContactDto setFirstName(String firstName) {
-    this.firstName = firstName;
+  public ContactDto setFirst_name(String first_name) {
+    this.first_name = first_name;
     return this;
   }
 
-  public String getLastName() {
-    return lastName;
+  public String getLast_name() {
+    return last_name;
   }
 
-  public ContactDto setLastName(String lastName) {
-    this.lastName = lastName;
+  public ContactDto setLast_name(String last_name) {
+    this.last_name = last_name;
     return this;
   }
 
@@ -45,12 +45,12 @@ public class ContactDto {
     return this;
   }
 
-  public String getMiddleName() {
-    return middleName;
+  public String getMiddle_name() {
+    return middle_name;
   }
 
-  public ContactDto setMiddleName(String middleName) {
-    this.middleName = middleName;
+  public ContactDto setMiddle_name(String middle_name) {
+    this.middle_name = middle_name;
     return this;
   }
 

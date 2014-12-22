@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.functions.Action1;
@@ -46,24 +47,25 @@ public class SmsMessage extends Action {
   }
 
   private void sendManyToMany(List<String> contentList, List<String> phoneNumberList) {
-    for(int i = 0; i < contentList.size(); i++) {
+    for (int i = 0; i < contentList.size(); i++) {
       send(contentList.get(i), phoneNumberList.get(i));
     }
   }
 
   private void sendMany(List<String> contentList, String phoneNumber) {
-    for(String content : contentList) {
+    for (String content : contentList) {
       send(content, phoneNumber);
     }
   }
 
   private void sendToMany(String content, List<String> phoneNumberList) {
-    for(String phoneNumber : phoneNumberList) {
+    for (String phoneNumber : phoneNumberList) {
       send(content, phoneNumber);
     }
   }
 
   private void send(String content, String phoneNumber) {
-    smsManager.sendTextMessage(phoneNumber, null, content, null, null);
+    ArrayList<String> msgTexts = smsManager.divideMessage(content);
+    smsManager.sendMultipartTextMessage(phoneNumber, null, msgTexts, null, null);
   }
 }

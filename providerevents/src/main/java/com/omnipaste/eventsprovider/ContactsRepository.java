@@ -3,13 +3,17 @@ package com.omnipaste.eventsprovider;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Base64;
 
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.NumberDto;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +53,7 @@ public class ContactsRepository {
   public List<ContactDto> findAll() {
     ContentResolver resolver = context.getContentResolver();
     String[] dataProjection = new String[]{
-      ContactsContract.CommonDataKinds.Photo.PHOTO,
+      ContactsContract.CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI,
       ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER,
       ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID,
       ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
@@ -75,8 +79,8 @@ public class ContactsRepository {
 
         fetchContactName(data, contact);
 
-        if (contact.getName() != null || contact.getFirstName() != null) {
-          fetchPhoto(data, contact);
+        if (contact.getName() != null || contact.getFirst_name() != null) {
+          // fetchPhoto(data, contact);
           fetchPhone(resolver, contact);
           contacts.add(contact);
         }
@@ -91,11 +95,19 @@ public class ContactsRepository {
   }
 
   private void fetchPhoto(Cursor data, ContactDto contact) {
-    final int indexPhoto = data.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO);
-    byte[] blob = data.getBlob(indexPhoto);
+    final int indexPhotoThumbnailUri = data.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI);
 
-    if (blob != null) {
-      contact.setPhoto(Base64.encodeToString(blob, Base64.DEFAULT));
+    String photoThumbnailUri = data.getString(indexPhotoThumbnailUri);
+
+    if (photoThumbnailUri != null && !photoThumbnailUri.isEmpty()) {
+      try {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(photoThumbnailUri));
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        contact.setPhoto(Base64.encodeToString(byteArray, Base64.DEFAULT));
+      } catch (IOException ignore) {
+      }
     }
   }
 
@@ -135,8 +147,8 @@ public class ContactsRepository {
 
     contact
       .setName(cursor.getString(indexDisplayName))
-      .setLastName(cursor.getString(indexFamilyName))
-      .setFirstName(cursor.getString(indexGivenName))
-      .setMiddleName(cursor.getString(indexMiddleName));
+      .setLast_name(cursor.getString(indexFamilyName))
+      .setFirst_name(cursor.getString(indexGivenName))
+      .setMiddle_name(cursor.getString(indexMiddleName));
   }
 }

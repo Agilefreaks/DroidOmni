@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.service;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.interaction.RSACrypto;
 import com.omnipaste.eventsprovider.ContactsRepository;
@@ -90,7 +91,6 @@ public class ContactsService extends ServiceBase {
             String gsonContacts = new Gson().toJson(contacts);
             encryptedContacts = RSACrypto.encrypt(gsonContacts).with(registeredDeviceDto.getPublicKey());
           } catch (IOException ignore) {
-            BugFreak.beginReport(ignore);
           }
 
           Observable result =  !encryptedContacts.equals("") ?
