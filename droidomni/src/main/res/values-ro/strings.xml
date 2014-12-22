@@ -30,6 +30,11 @@
     <string name="clipping_copy_toast">Copiat în clipboard</string>
     <string name="clippings_location">Locație</string>
     <string name="event_from">de la</string>
+    <string name="contact_sync_started">A pornit sicronizarea</string>
+    <string name="contact_sync_started_status">O să dureze în funcție de numărul de contacte.</string>
+    <string name="contact_sync_completed">Sa termina sincronizarea</string>
+    <string name="contact_sync_completed_status">Poți să trimiți urări de pe calculatorul tău.</string>
+    <string name="contact_sync_failed">Sincornizarea a eșuat</string>
 
     <!-- Navigation -->
     <string name="navigation_drawer_activity">Activitate</string>

@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.omnipaste.droidomni.domain.ContactSyncNotification;
+import com.omnipaste.droidomni.ui.view.ContactsSyncView_;
 import com.omnipaste.droidomni.ui.view.HasSetup;
 import com.omnipaste.droidomni.ui.view.clipping.LocalClippingView_;
 import com.omnipaste.droidomni.ui.view.clipping.OmniClippingView_;
@@ -88,6 +90,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     public static final int OMNI_CLIPPING = 1;
     public static final int INCOMING_CALL = 2;
     public static final int INCOMING_SMS = 3;
+    public static final int CONTACTS_SYNC = 4;
 
     public static int getViewType(Object item) {
       int viewType = 0;
@@ -96,6 +99,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         viewType = ((ClippingDto) item).getClippingProvider() == ClippingDto.ClippingProvider.LOCAL ? 0 : 1;
       } else if (item instanceof EventDto) {
         viewType = ((EventDto) item).getType() == EventDto.EventType.INCOMING_CALL_EVENT ? 2 : 3;
+      } else if (item instanceof ContactSyncNotification) {
+        viewType = CONTACTS_SYNC;
       }
 
       return viewType;
@@ -117,6 +122,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
         case INCOMING_SMS:
           view = IncomingSmsView_.build(context);
           break;
+        case CONTACTS_SYNC:
+          view = ContactsSyncView_.build(context);
         default:
           break;
       }

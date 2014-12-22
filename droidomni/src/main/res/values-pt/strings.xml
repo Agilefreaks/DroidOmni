@@ -29,6 +29,11 @@
     <string name="clipping_copy_toast">Copiados para o clipboard</string>
     <string name="clippings_location">Location</string>
     <string name="event_from">a partir de</string>
+    <string name="contact_sync_started">Contact Sync começou</string>
+    <string name="contact_sync_started_status">Por favor, seja paciente, isso pode levar algum tempo, dependendo do número de contatos.</string>
+    <string name="contact_sync_completed">Contact Sync concluído</string>
+    <string name="contact_sync_completed_status">Agora você pode enviar saudações a partir do seu PC para os contatos do telefone.</string>
+    <string name="contact_sync_failed">Contact Sync falhou</string>
 
     <!-- Navigation -->
     <string name="navigation_drawer_activity">Atividade</string>

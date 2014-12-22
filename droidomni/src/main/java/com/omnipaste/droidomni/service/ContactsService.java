@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.service;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
+import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.interaction.RSACrypto;
 import com.omnipaste.eventsprovider.ContactsRepository;
 import com.omnipaste.omniapi.resource.v1.Devices;
@@ -24,6 +25,7 @@ import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.subjects.PublishSubject;
 
 @Singleton
 public class ContactsService extends ServiceBase {
@@ -34,8 +36,9 @@ public class ContactsService extends ServiceBase {
   private final SessionService sessionService;
   private final Contacts contacts;
   private final Devices devices;
+  private final AtomicBoolean fetching = new AtomicBoolean(false);
+  private final PublishSubject<ContactSyncNotification> contactsSubject = PublishSubject.create();
   private Subscription subscription;
-  private AtomicBoolean fetching = new AtomicBoolean(false);
 
   @Inject
   public ContactsService(
@@ -69,6 +72,8 @@ public class ContactsService extends ServiceBase {
         @Override
         public Observable<RegisteredDeviceDto> call(NotificationDto notificationDto) {
           fetching.set(true);
+          contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Started));
+
           Bundle extra = notificationDto.getExtra();
           String identifier = extra.getString(IDENTIFIER_KEY);
 
@@ -93,6 +98,7 @@ public class ContactsService extends ServiceBase {
             Observable.empty();
 
           fetching.set(false);
+          contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Completed));
           return result;
         }
       })
@@ -106,6 +112,7 @@ public class ContactsService extends ServiceBase {
         @Override
         public void call(Throwable throwable) {
           fetching.set(false);
+          contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Failed, throwable));
         }
       })
       .retry()
@@ -116,5 +123,9 @@ public class ContactsService extends ServiceBase {
   public void stop() {
     subscription.unsubscribe();
     subscription = null;
+  }
+
+  public Observable<ContactSyncNotification> getObservable() {
+    return contactsSubject;
   }
 }
