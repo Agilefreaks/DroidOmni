@@ -103,7 +103,7 @@ public class OmniServiceConnection extends Schedulable implements ServiceConnect
         })
         .doOnCompleted(new Action0() {
           @Override public void call() {
-            sessionService.setRegisteredDeviceDto(null);
+            sessionService.setDeviceDto(null);
             stopping.set(false);
             action.call();
           }

@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.clipboardprovider.ClipboardProviderModule;
 import com.omnipaste.droidomni.interaction.DeviceIdentifier;
+import com.omnipaste.droidomni.interaction.DeviceName;
 import com.omnipaste.droidomni.prefs.PrefsModule;
 import com.omnipaste.droidomni.presenter.PresenterModule;
 import com.omnipaste.droidomni.provider.GcmNotificationProvider;
@@ -112,5 +113,12 @@ public final class RootModule {
   public String provideDeviceIdentifier(Context context) {
     String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     return String.format("%s-%s", Build.MODEL, android_id);
+  }
+
+  @Provides
+  @Singleton
+  @DeviceName
+  public String provideDeviceName(Context context) {
+    return Build.MODEL;
   }
 }

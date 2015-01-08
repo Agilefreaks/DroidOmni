@@ -19,6 +19,7 @@ public class PrefsModule {
   public static String NOTIFICATIONS_PHONE_KEY = "notifications_phone";
   public static String TUTORIAL_CLIPPING_LOCAL = "tutorial_clipping_local";
   public static String TUTORIAL_CLIPPING_CLOUD = "tutorial_clipping_cloud";
+  public static String DEVICE_ID = "device_id";
   public static String WE_ARE_ALONE = "we_are_alone";
   public static String START_OMNI_AT_BOOT = "start_omni_at_boot";
 
@@ -55,6 +56,11 @@ public class PrefsModule {
   @Provides @Singleton @TutorialClippingCloud
   public BooleanPreference provideTutorialClippingCloud(SharedPreferences preferences) {
     return new BooleanPreference(preferences, TUTORIAL_CLIPPING_CLOUD, true);
+  }
+
+  @Provides @Singleton @DeviceId
+  public StringPreference provideDeviceId(SharedPreferences preferences) {
+    return new StringPreference(preferences, DEVICE_ID, "");
   }
 
   @Provides @Singleton @WeAreAlone

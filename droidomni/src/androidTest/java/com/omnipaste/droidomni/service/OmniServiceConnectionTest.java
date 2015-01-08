@@ -37,7 +37,7 @@ public class OmniServiceConnectionTest extends InstrumentationTestCase {
     serviceStateObservable.onNext(OmniServiceConnection.State.stopped);
     testScheduler.triggerActions();
 
-    verify(mockSessionService).setRegisteredDeviceDto(null);
+    verify(mockSessionService).setDeviceDto(null);
     verify(mockAction0).call();
   }
 
@@ -52,7 +52,7 @@ public class OmniServiceConnectionTest extends InstrumentationTestCase {
     serviceStateObservable.onNext(OmniServiceConnection.State.stopped);
     testScheduler.triggerActions();
 
-    verify(mockSessionService).setRegisteredDeviceDto(null);
+    verify(mockSessionService).setDeviceDto(null);
     verify(mockAction0).call();
   }
 }

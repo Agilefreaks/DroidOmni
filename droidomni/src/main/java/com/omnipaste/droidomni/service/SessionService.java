@@ -6,7 +6,7 @@ import com.omnipaste.omniapi.resource.v1.AuthorizationCodes;
 import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.AuthorizationCodeDto;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
+import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 import com.omnipaste.omnicommon.rx.Schedulable;
@@ -24,7 +24,7 @@ public class SessionService extends Schedulable {
   private AuthorizationCodes authorizationCodes;
   private AccessTokenPreference apiAccessToken;
   private StringPreference apiClientToken;
-  private RegisteredDeviceDto registeredDeviceDto;
+  private DeviceDto deviceDto;
 
   @Inject
   public SessionService(Token token,
@@ -42,7 +42,7 @@ public class SessionService extends Schedulable {
   }
 
   public Boolean isConnected() {
-    return isLogged() && getRegisteredDeviceDto() != null;
+    return isLogged() && getDeviceDto() != null;
   }
 
   public Observable<AccessTokenDto> login(String code) {
@@ -67,11 +67,11 @@ public class SessionService extends Schedulable {
     apiAccessToken.delete();
   }
 
-  public RegisteredDeviceDto getRegisteredDeviceDto() {
-    return registeredDeviceDto;
+  public DeviceDto getDeviceDto() {
+    return deviceDto;
   }
 
-  public void setRegisteredDeviceDto(RegisteredDeviceDto registeredDeviceDto) {
-    this.registeredDeviceDto = registeredDeviceDto;
+  public void setDeviceDto(DeviceDto deviceDto) {
+    this.deviceDto = deviceDto;
   }
 }

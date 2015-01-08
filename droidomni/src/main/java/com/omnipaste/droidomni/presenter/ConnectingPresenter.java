@@ -3,21 +3,27 @@ package com.omnipaste.droidomni.presenter;
 import android.app.Activity;
 
 import com.omnipaste.droidomni.interaction.CreateDevice;
+import com.omnipaste.droidomni.interaction.DeviceIdentifier;
 import com.omnipaste.droidomni.interaction.GetAccounts;
+import com.omnipaste.droidomni.prefs.DeviceId;
 import com.omnipaste.droidomni.prefs.TutorialClippingCloud;
 import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
 import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
-import com.omnipaste.omniapi.resource.v1.Devices;
+import com.omnipaste.omniapi.resource.v1.users.Devices;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
+import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
+import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fj.F;
+import fj.data.Array;
+import fj.data.Option;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.functions.Action1;
@@ -25,13 +31,14 @@ import rx.functions.Func1;
 
 @Singleton
 public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
-
   private final Navigator navigator;
   private final SessionService sessionService;
   private final GetAccounts getAccounts;
   private final OmniServiceConnection omniServiceConnection;
   private final Devices devices;
   private final CreateDevice createDevice;
+  private final StringPreference deviceId;
+  private final String deviceIdentifier;
   private final BooleanPreference weAreAlone;
   private final BooleanPreference tutorialClippingLocal;
   private BooleanPreference tutorialClippingCloud;
@@ -48,6 +55,8 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
                              OmniServiceConnection omniServiceConnection,
                              Devices devices,
                              CreateDevice createDevice,
+                             @DeviceId StringPreference deviceId,
+                             @DeviceIdentifier String deviceIdentifier,
                              @WeAreAlone BooleanPreference weAreAlone,
                              @TutorialClippingLocal BooleanPreference tutorialClippingLocal,
                              @TutorialClippingCloud BooleanPreference tutorialClippingCloud) {
@@ -57,6 +66,8 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     this.omniServiceConnection = omniServiceConnection;
     this.devices = devices;
     this.createDevice = createDevice;
+    this.deviceId = deviceId;
+    this.deviceIdentifier = deviceIdentifier;
     this.weAreAlone = weAreAlone;
     this.tutorialClippingLocal = tutorialClippingLocal;
     this.tutorialClippingCloud = tutorialClippingCloud;
@@ -122,29 +133,43 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
 
   private void startOmniService() {
     devices.get()
-      .flatMap(new Func1<RegisteredDeviceDto[], Observable<RegisteredDeviceDto>>() {
+      .flatMap(new Func1<DeviceDto[], Observable<DeviceDto>>() {
         @Override
-        public Observable<RegisteredDeviceDto> call(RegisteredDeviceDto[] registeredDevices) {
-          if (registeredDevices.length == 0) {
+        public Observable<DeviceDto> call(DeviceDto[] devices) {
+          final Array<DeviceDto> fjDevices = Array.array(devices);
+
+          if (fjDevices.isEmpty()) {
             weAreAlone.set(true);
             tutorialClippingCloud.set(false);
             tutorialClippingLocal.set(true);
-          } else if (registeredDevices.length == 1) {
+          } else if (fjDevices.length() == 1) {
             tutorialClippingLocal.set(false);
             tutorialClippingCloud.set(true);
           }
 
-          return createDevice.run();
+          Option<DeviceDto> currentDevice = fjDevices.find(new F<DeviceDto, Boolean>() {
+            @Override
+            public Boolean f(DeviceDto deviceDto) {
+              return deviceDto.getName().equals(deviceIdentifier) ||
+                deviceDto.getId().equals(deviceId.get());
+            }
+          });
+
+          if (currentDevice.isSome()) {
+            return Observable.just(currentDevice.some());
+          }
+          else {
+            return createDevice.run();
+          }
         }
       })
-      .flatMap(new Func1<RegisteredDeviceDto, Observable<OmniServiceConnection.State>>() {
+      .flatMap(new Func1<DeviceDto, Observable<OmniServiceConnection.State>>() {
         @Override
-        public Observable<OmniServiceConnection.State> call(RegisteredDeviceDto registeredDeviceDto) {
-          sessionService.setRegisteredDeviceDto(registeredDeviceDto);
+        public Observable<OmniServiceConnection.State> call(DeviceDto deviceDto) {
+          sessionService.setDeviceDto(deviceDto);
           return omniServiceConnection.startOmniService();
         }
       })
-      .observeOn(observeOnScheduler)
       .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
         @Override
         public Boolean call(OmniServiceConnection.State state) {
@@ -172,8 +197,7 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
             if (throwable instanceof RetrofitError) {
               sessionService.logout();
               openLogin();
-            }
-            else {
+            } else {
               openError(throwable);
             }
           }

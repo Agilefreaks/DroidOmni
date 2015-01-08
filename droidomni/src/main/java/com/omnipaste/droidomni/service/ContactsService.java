@@ -3,7 +3,6 @@ package com.omnipaste.droidomni.service;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.interaction.RSACrypto;
 import com.omnipaste.eventsprovider.ContactsRepository;
@@ -21,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import co.bugfreak.BugFreak;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -94,7 +92,7 @@ public class ContactsService extends ServiceBase {
           }
 
           Observable result =  !encryptedContacts.equals("") ?
-            ContactsService.this.contacts.create(sessionService.getRegisteredDeviceDto().getIdentifier(), registeredDeviceDto.getIdentifier(), encryptedContacts) :
+            ContactsService.this.contacts.create(sessionService.getDeviceDto().getId(), registeredDeviceDto.getIdentifier(), encryptedContacts) :
             Observable.empty();
 
           fetching.set(false);
