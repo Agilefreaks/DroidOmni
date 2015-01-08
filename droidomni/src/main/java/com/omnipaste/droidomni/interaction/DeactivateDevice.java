@@ -1,8 +1,10 @@
 package com.omnipaste.droidomni.interaction;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.omnipaste.omniapi.resource.v1.Devices;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
+import com.omnipaste.droidomni.prefs.DeviceId;
+import com.omnipaste.omniapi.resource.v1.users.Devices;
+import com.omnipaste.omnicommon.dto.DeviceDto;
+import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import java.io.IOException;
 
@@ -16,23 +18,23 @@ import rx.functions.Func1;
 @Singleton
 public class DeactivateDevice {
   private final Devices devices;
-  private final String identifier;
+  private StringPreference deviceId;
   private GoogleCloudMessaging googleCloudMessaging;
 
   @Inject
   public DeactivateDevice(
       Devices devices,
-      @DeviceIdentifier String identifier,
+      @DeviceId StringPreference deviceId,
       GoogleCloudMessaging googleCloudMessaging) {
     this.devices = devices;
-    this.identifier = identifier;
+    this.deviceId = deviceId;
     this.googleCloudMessaging = googleCloudMessaging;
   }
 
   public Observable<Object> run() {
-    return deactivateDevice().flatMap(new Func1<RegisteredDeviceDto, Observable<?>>() {
+    return deactivateDevice().flatMap(new Func1<DeviceDto, Observable<?>>() {
       @Override
-      public Observable<?> call(RegisteredDeviceDto registeredDeviceDto) {
+      public Observable<?> call(DeviceDto deviceDto) {
         return unregisterToGcm();
       }
     });
@@ -52,7 +54,7 @@ public class DeactivateDevice {
     });
   }
 
-  public Observable<RegisteredDeviceDto> deactivateDevice() {
-    return devices.deactivate(identifier);
+  public Observable<DeviceDto> deactivateDevice() {
+    return devices.deactivate(deviceId.get());
   }
 }

@@ -20,7 +20,7 @@ import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
 import com.omnipaste.droidomni.service.subscriber.ScreenOnSubscriber;
 import com.omnipaste.droidomni.service.subscriber.Subscriber;
 import com.omnipaste.droidomni.service.subscriber.TelephonyEventsSubscriber;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
+import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
 import org.androidannotations.annotations.EService;
@@ -114,11 +114,11 @@ public class OmniService extends Service {
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
             // OnNext
-            new Action1<RegisteredDeviceDto>() {
+            new Action1<DeviceDto>() {
               @Override
-              public void call(RegisteredDeviceDto registeredDeviceDto) {
+              public void call(DeviceDto deviceDto) {
                 notifyUser();
-                startSubscribers(registeredDeviceDto);
+                startSubscribers(deviceDto);
                 sendStartedToClients();
 
                 started.set(true);
@@ -203,9 +203,9 @@ public class OmniService extends Service {
     started.set(false);
   }
 
-  private void startSubscribers(RegisteredDeviceDto registeredDeviceDto) {
+  private void startSubscribers(DeviceDto deviceDto) {
     for (Subscriber subscribe : getSubscribers()) {
-      subscribe.start(registeredDeviceDto.getIdentifier());
+      subscribe.start(deviceDto.getId());
     }
 
     notificationServiceFacade.start();

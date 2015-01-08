@@ -1,9 +1,10 @@
 package com.omnipaste.droidomni.interaction;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.omnipaste.droidomni.prefs.DeviceId;
 import com.omnipaste.droidomni.prefs.GcmSenderId;
-import com.omnipaste.omniapi.resource.v1.Devices;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
+import com.omnipaste.omniapi.resource.v1.users.Devices;
+import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import java.io.IOException;
@@ -18,25 +19,25 @@ import rx.functions.Func1;
 @Singleton
 public class ActivateDevice {
   private final Devices devices;
-  private final String identifier;
+  private final StringPreference deviceId;
   private final StringPreference gcmSenderId;
   private final GoogleCloudMessaging googleCloudMessaging;
 
   @Inject
   public ActivateDevice(Devices devices,
-                        @DeviceIdentifier String identifier,
+                        @DeviceId StringPreference deviceId,
                         @GcmSenderId StringPreference gcmSenderId,
                         GoogleCloudMessaging googleCloudMessaging) {
     this.devices = devices;
-    this.identifier = identifier;
+    this.deviceId = deviceId;
     this.gcmSenderId = gcmSenderId;
     this.googleCloudMessaging = googleCloudMessaging;
   }
 
-  public Observable<RegisteredDeviceDto> run() {
-    return registerToGcm().flatMap(new Func1<String, Observable<? extends RegisteredDeviceDto>>() {
+  public Observable<DeviceDto> run() {
+    return registerToGcm().flatMap(new Func1<String, Observable<? extends DeviceDto>>() {
       @Override
-      public Observable<? extends RegisteredDeviceDto> call(String registrationId) {
+      public Observable<? extends DeviceDto> call(String registrationId) {
         return activateDevice(registrationId);
       }
     });
@@ -57,7 +58,7 @@ public class ActivateDevice {
     });
   }
 
-  private Observable<RegisteredDeviceDto> activateDevice(String registrationId) {
-    return devices.activate(identifier, registrationId);
+  private Observable<DeviceDto> activateDevice(String registrationId) {
+    return devices.activate(deviceId.get(), registrationId);
   }
 }

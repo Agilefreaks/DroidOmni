@@ -31,8 +31,9 @@ public class DeviceDto {
     return registrationId;
   }
 
-  public void setRegistrationId(String registrationId) {
+  public DeviceDto setRegistrationId(String registrationId) {
     this.registrationId = registrationId;
+    return this;
   }
 
   public String getProvider() {

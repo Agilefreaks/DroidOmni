@@ -96,7 +96,6 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     }
   }
 
-
   @Override
   public void resume() {
   }
@@ -138,35 +137,18 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
         public Observable<DeviceDto> call(DeviceDto[] devices) {
           final Array<DeviceDto> fjDevices = Array.array(devices);
 
-          if (fjDevices.isEmpty()) {
-            weAreAlone.set(true);
-            tutorialClippingCloud.set(false);
-            tutorialClippingLocal.set(true);
-          } else if (fjDevices.length() == 1) {
-            tutorialClippingLocal.set(false);
-            tutorialClippingCloud.set(true);
-          }
-
-          Option<DeviceDto> currentDevice = fjDevices.find(new F<DeviceDto, Boolean>() {
-            @Override
-            public Boolean f(DeviceDto deviceDto) {
-              return deviceDto.getName().equals(deviceIdentifier) ||
-                deviceDto.getId().equals(deviceId.get());
-            }
-          });
-
-          if (currentDevice.isSome()) {
-            return Observable.just(currentDevice.some());
-          }
-          else {
-            return createDevice.run();
-          }
+          setTutorials(fjDevices);
+          return createDeviceIfNeeded(fjDevices);
         }
       })
       .flatMap(new Func1<DeviceDto, Observable<OmniServiceConnection.State>>() {
         @Override
         public Observable<OmniServiceConnection.State> call(DeviceDto deviceDto) {
+          if (!deviceId.get().equals(deviceDto.getId())) {
+            deviceId.set(deviceDto.getId());
+          }
           sessionService.setDeviceDto(deviceDto);
+
           return omniServiceConnection.startOmniService();
         }
       })
@@ -203,6 +185,34 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
           }
         }
       );
+  }
+
+  private Observable<DeviceDto> createDeviceIfNeeded(Array<DeviceDto> devices) {
+    Option<DeviceDto> currentDevice = devices.find(new F<DeviceDto, Boolean>() {
+      @Override
+      public Boolean f(DeviceDto deviceDto) {
+        return deviceDto.getName().equals(deviceIdentifier) ||
+          deviceDto.getId().equals(deviceId.get());
+      }
+    });
+
+    if (currentDevice.isSome()) {
+      return Observable.just(currentDevice.some());
+    }
+    else {
+      return createDevice.run();
+    }
+  }
+
+  private void setTutorials(Array<DeviceDto> devices) {
+    if (devices.isEmpty()) {
+      weAreAlone.set(true);
+      tutorialClippingCloud.set(false);
+      tutorialClippingLocal.set(true);
+    } else if (devices.length() == 1) {
+      tutorialClippingLocal.set(false);
+      tutorialClippingCloud.set(true);
+    }
   }
 
   private void openLogin() {
