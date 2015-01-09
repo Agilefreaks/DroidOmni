@@ -7,9 +7,9 @@ import java.util.Date;
 
 public class ClippingDto implements Parcelable {
   private String content;
-  private Date create_at;
+  private Date createAt;
   private ClippingType type = ClippingType.UNKNOWN;
-  private String device_id;
+  private String deviceId;
   private ClippingProvider clippingProvider;
 
   public enum ClippingType {
@@ -39,9 +39,9 @@ public class ClippingDto implements Parcelable {
 
   public ClippingDto(ClippingDto clippingDto) {
     content = clippingDto.getContent();
-    create_at = clippingDto.getCreateAt();
+    createAt = clippingDto.getCreateAt();
     type = clippingDto.getType();
-    device_id = clippingDto.getDeviceId();
+    deviceId = clippingDto.getDeviceId();
     clippingProvider = clippingDto.getClippingProvider();
   }
 
@@ -61,16 +61,16 @@ public class ClippingDto implements Parcelable {
   public void writeToParcel(Parcel parcel, int i) {
     parcel.writeString(content);
     parcel.writeString(type.toString());
-    parcel.writeString(device_id);
+    parcel.writeString(deviceId);
     parcel.writeString(clippingProvider.toString());
   }
 
   public String getDeviceId() {
-    return device_id;
+    return deviceId;
   }
 
   public void setDeviceId(String device_id) {
-    this.device_id = device_id;
+    this.deviceId = device_id;
   }
 
   public ClippingType getType() {
@@ -98,11 +98,11 @@ public class ClippingDto implements Parcelable {
   }
 
   public Date getCreateAt() {
-    return create_at;
+    return createAt;
   }
 
   public void setCreateAt(Date createAt) {
-    this.create_at = createAt;
+    this.createAt = createAt;
   }
 
   public ClippingProvider getClippingProvider() {
