@@ -9,7 +9,7 @@ public class ClippingDto implements Parcelable {
   private String content;
   private Date create_at;
   private ClippingType type = ClippingType.UNKNOWN;
-  private String identifier;
+  private String device_id;
   private ClippingProvider clippingProvider;
 
   public enum ClippingType {
@@ -41,15 +41,15 @@ public class ClippingDto implements Parcelable {
     content = clippingDto.getContent();
     create_at = clippingDto.getCreateAt();
     type = clippingDto.getType();
-    identifier = clippingDto.getIdentifier();
+    device_id = clippingDto.getDeviceId();
     clippingProvider = clippingDto.getClippingProvider();
   }
 
   public ClippingDto(Parcel in) {
-    content = in.readString();
-    type = ClippingType.valueOf(in.readString());
-    identifier = in.readString();
-    clippingProvider = ClippingProvider.valueOf(in.readString());
+    setContent(in.readString());
+    setType(ClippingType.valueOf(in.readString()));
+    setDeviceId(in.readString());
+    setClippingProvider(ClippingProvider.valueOf(in.readString()));
   }
 
   @Override
@@ -61,16 +61,16 @@ public class ClippingDto implements Parcelable {
   public void writeToParcel(Parcel parcel, int i) {
     parcel.writeString(content);
     parcel.writeString(type.toString());
-    parcel.writeString(identifier);
+    parcel.writeString(device_id);
     parcel.writeString(clippingProvider.toString());
   }
 
-  public String getIdentifier() {
-    return identifier;
+  public String getDeviceId() {
+    return device_id;
   }
 
-  public void setIdentifier(String identifier) {
-    this.identifier = identifier;
+  public void setDeviceId(String device_id) {
+    this.device_id = device_id;
   }
 
   public ClippingType getType() {

@@ -33,7 +33,7 @@ public class ClipboardProvider implements Provider<ClippingDto> {
     clipboardProviderSubject = PublishSubject.create();
   }
 
-  public Observable<ClippingDto> init(final String identifier) {
+  public Observable<ClippingDto> init(final String deviceId) {
     if (subscription != null) {
       return clipboardProviderSubject;
     }
@@ -58,7 +58,7 @@ public class ClipboardProvider implements Provider<ClippingDto> {
                 if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.CLOUD) {
                   currentLocalClipboardManager.setPrimaryClip(clippingDto);
                 } else {
-                  clippingDto.setIdentifier(identifier);
+                  clippingDto.setDeviceId(deviceId);
                   currentOmniClipboardManager.setPrimaryClip(clippingDto);
                 }
 

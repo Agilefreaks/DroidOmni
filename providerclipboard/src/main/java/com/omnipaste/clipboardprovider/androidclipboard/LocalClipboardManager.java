@@ -70,7 +70,7 @@ public class LocalClipboardManager implements ClipboardManager.OnPrimaryClipChan
         if (hasPrimaryClip()) {
           ClippingDto clippingDto = new ClippingDto();
           clippingDto.setContent(getPrimaryClip().getItemAt(0).getText().toString());
-          clippingDto.setIdentifier("");
+          clippingDto.setDeviceId("");
           clippingDto.setClippingProvider(ClippingDto.ClippingProvider.LOCAL);
           observer.onNext(clippingDto);
         }
