@@ -38,7 +38,8 @@ public class OmniClipboardManager {
             new Action1<NotificationDto>() {
               @Override
               public void call(NotificationDto notificationDto) {
-                onPrimaryClipChanged();
+                String id = notificationDto.getExtra().getString("id");
+                onPrimaryClipChanged(id);
               }
             }
         );
@@ -50,8 +51,8 @@ public class OmniClipboardManager {
     return clippingDto;
   }
 
-  public void onPrimaryClipChanged() {
-    getPrimaryClip().subscribe(new Action1<ClippingDto>() {
+  public void onPrimaryClipChanged(String id) {
+    getPrimaryClip(id).subscribe(new Action1<ClippingDto>() {
       @Override
       public void call(ClippingDto clippingDto) {
         omniClipboardSubject.onNext(clippingDto.setClippingProvider(ClippingDto.ClippingProvider.CLOUD));
@@ -59,7 +60,7 @@ public class OmniClipboardManager {
     });
   }
 
-  public Observable<ClippingDto> getPrimaryClip() {
-    return clippings.last();
+  public Observable<ClippingDto> getPrimaryClip(String id) {
+    return clippings.get(id);
   }
 }

@@ -79,7 +79,7 @@ public class ClipboardProvider implements Provider<ClippingDto> {
   }
 
   public void refreshOmni() {
-    currentOmniClipboardManager.onPrimaryClipChanged();
+    currentOmniClipboardManager.onPrimaryClipChanged("");
   }
 
   public void setLocalPrimaryClip(ClippingDto clippingDto) {

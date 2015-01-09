@@ -11,13 +11,14 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import rx.Observable;
 
 @Singleton
 public class Clippings extends AuthorizationResource<Clippings.ClippingsApi> {
   protected interface ClippingsApi {
-    @GET("/v1/clippings/last.json")
-    Observable<ClippingDto> last(@Header("Authorization") String token);
+    @GET("/v1/clippings/{id}.json")
+    Observable<ClippingDto> get(@Header("Authorization") String token, @Path("id") String id);
 
     @POST("/v1/clippings.json")
     Observable<ClippingDto> create(@Header("Authorization") String token, @Body ClippingDto content);
@@ -28,8 +29,8 @@ public class Clippings extends AuthorizationResource<Clippings.ClippingsApi> {
     super(restAdapter, ClippingsApi.class, authorizationService);
   }
 
-  public Observable<ClippingDto> last() {
-    return authorizationService.authorize(api.last(bearerAccessToken()));
+  public Observable<ClippingDto> get(String id) {
+    return authorizationService.authorize(api.get(bearerAccessToken(), id));
   }
 
   public Observable<ClippingDto> create(ClippingDto clippingDto) {
