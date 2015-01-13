@@ -20,6 +20,7 @@ import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
 import com.omnipaste.droidomni.service.subscriber.ScreenOnSubscriber;
 import com.omnipaste.droidomni.service.subscriber.Subscriber;
 import com.omnipaste.droidomni.service.subscriber.TelephonyEventsSubscriber;
+import com.omnipaste.eventsprovider.PhoneCallsProvider;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -66,6 +67,9 @@ public class OmniService extends Service {
 
   @Inject
   public Lazy<EventsSubscriber> eventsSubscriber;
+
+  @Inject
+  public Lazy<PhoneCallsProvider> phoneCallsProviderLazy;
 
   @Inject
   public ActivateDevice activateDevice;
@@ -208,6 +212,8 @@ public class OmniService extends Service {
       subscribe.start(deviceDto.getId());
     }
 
+    phoneCallsProviderLazy.get().init(deviceDto.getId());
+
     notificationServiceFacade.start();
     contactsService.start();
   }
@@ -216,6 +222,8 @@ public class OmniService extends Service {
     for (Subscriber subscribe : getSubscribers()) {
       subscribe.stop();
     }
+
+    phoneCallsProviderLazy.get().destroy();
 
     notificationServiceFacade.stop();
     contactsService.stop();

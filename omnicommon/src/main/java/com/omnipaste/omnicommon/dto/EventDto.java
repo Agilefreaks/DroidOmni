@@ -4,13 +4,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class EventDto implements Parcelable {
   private String contactName;
   private String content;
   private String phoneNumber;
   private EventType type;
-  private Calendar createdAt;
+  private Date createdAt;
 
   public enum EventType {
     INCOMING_CALL_EVENT,
@@ -29,7 +30,6 @@ public class EventDto implements Parcelable {
   };
 
   public EventDto() {
-    this.createdAt = Calendar.getInstance();
   }
 
   public EventDto(Parcel in) {
@@ -86,7 +86,13 @@ public class EventDto implements Parcelable {
     this.type = type;
   }
 
+  public void setCreateAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
   public Calendar getCreatedAt() {
-    return createdAt;
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(createdAt);
+    return calendar;
   }
 }

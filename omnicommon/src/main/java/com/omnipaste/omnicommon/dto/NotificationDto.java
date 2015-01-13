@@ -14,6 +14,7 @@ public class NotificationDto {
     CONTACTS,
     UNKNOWN
   }
+
   public NotificationDto() {
   }
 

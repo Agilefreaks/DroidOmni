@@ -18,7 +18,7 @@ public class TelephonyEventsProvider implements Provider<NotificationDto>, Event
 
   public static TelephonyEventsProvider instance;
 
-  private String identifier;
+  private String deviceId;
   private OmniPhoneStateListener omniPhoneStateListener;
   private OmniSmsListener smsListener;
   private boolean subscribed = false;
@@ -40,11 +40,11 @@ public class TelephonyEventsProvider implements Provider<NotificationDto>, Event
   }
 
   @Override
-  public Observable<NotificationDto> init(String identifier) {
+  public Observable<NotificationDto> init(String deviceId) {
     if (!subscribed) {
-      this.identifier = identifier;
-      omniPhoneStateListener.start(this);
-      smsListener.start(this);
+      this.deviceId = deviceId;
+      omniPhoneStateListener.start(deviceId);
+      smsListener.start(deviceId);
       subscribed = true;
     }
 
@@ -53,7 +53,7 @@ public class TelephonyEventsProvider implements Provider<NotificationDto>, Event
 
   @Override
   public void post(TelephonyEventDto telephonyEventDto) {
-    telephonyEventDto.setIdentifier(identifier);
+    telephonyEventDto.setIdentifier(deviceId);
     events.create(telephonyEventDto).subscribe();
   }
 

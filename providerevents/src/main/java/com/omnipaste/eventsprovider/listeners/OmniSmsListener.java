@@ -17,7 +17,6 @@ import javax.inject.Singleton;
 @Singleton
 public class OmniSmsListener extends BroadcastReceiver implements Listener {
   private final static String EXTRAS_KEY = "pdus";
-  private EventsReceiver receiver;
   private Context context;
   private ContactsRepository contactsRepository;
 
@@ -27,8 +26,7 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
     this.contactsRepository = contactsRepository;
   }
 
-  public void start(EventsReceiver receiver) {
-    this.receiver = receiver;
+  public void start(String deviceId) {
     IntentFilter filter = new IntentFilter();
     filter.addAction("android.provider.Telephony.SMS_RECEIVED");
     filter.setPriority(999);
@@ -62,7 +60,5 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
             .setPhoneNumber(fromAddress)
             .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
             .setContent(message.toString()));
-
-    receiver.post(telephonyEventDto);
   }
 }
