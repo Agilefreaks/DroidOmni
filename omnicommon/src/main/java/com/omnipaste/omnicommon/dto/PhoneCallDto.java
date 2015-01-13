@@ -3,11 +3,15 @@ package com.omnipaste.omnicommon.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class PhoneCallDto implements Parcelable {
   private String deviceId;
-  private String phoneNumber;
+  private String number;
   private String contactName;
   private State state;
+  private Date createdAt;
 
   public enum State {
     INITIATE, END_CALL, HOLD, UNKNOWN, INCOMING
@@ -23,22 +27,23 @@ public class PhoneCallDto implements Parcelable {
     }
   };
 
-  public PhoneCallDto(String deviceId, String phoneNumber, String contactName, State state) {
+  public PhoneCallDto(String deviceId, String number, String contactName, State state) {
     this.deviceId = deviceId;
-    this.phoneNumber = phoneNumber;
+    this.number = number;
     this.contactName = contactName;
     this.state = state;
   }
 
-  public PhoneCallDto(String deviceId, String phoneNumber, String contactName) {
-    this(deviceId, phoneNumber, contactName, State.INCOMING);
+  public PhoneCallDto(String deviceId, String number, String contactName) {
+    this(deviceId, number, contactName, State.INCOMING);
   }
 
   public PhoneCallDto(Parcel in) {
     setDeviceId(in.readString());
-    setPhoneNumber(in.readString());
+    setNumber(in.readString());
     setContactName(in.readString());
     setState(State.valueOf(in.readString()));
+    setCreateAt((Date) in.readSerializable());
   }
 
   @Override
@@ -49,9 +54,10 @@ public class PhoneCallDto implements Parcelable {
   @Override
   public void writeToParcel(Parcel parcel, int flags) {
     parcel.writeString(deviceId);
-    parcel.writeString(phoneNumber);
+    parcel.writeString(number);
     parcel.writeString(contactName);
     parcel.writeString(state.toString());
+    parcel.writeSerializable(createdAt);
   }
 
   public String getDeviceId() {
@@ -62,12 +68,12 @@ public class PhoneCallDto implements Parcelable {
     this.deviceId = deviceId;
   }
 
-  public String getPhoneNumber() {
-    return phoneNumber;
+  public String getNumber() {
+    return number;
   }
 
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
+  public void setNumber(String number) {
+    this.number = number;
   }
 
   public String getContactName() {
@@ -84,5 +90,15 @@ public class PhoneCallDto implements Parcelable {
 
   public void setState(State state) {
     this.state = state;
+  }
+
+  public void setCreateAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Calendar getCreatedAt() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(createdAt);
+    return calendar;
   }
 }

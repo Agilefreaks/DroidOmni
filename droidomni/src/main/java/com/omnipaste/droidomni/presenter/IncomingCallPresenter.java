@@ -4,10 +4,10 @@ import android.text.format.DateUtils;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.omnicommon.dto.EventDto;
+import com.omnipaste.omnicommon.dto.PhoneCallDto;
 
 public class IncomingCallPresenter extends Presenter<IncomingCallPresenter.View> {
-  private EventDto eventDto;
+  private PhoneCallDto phoneCallDto;
 
   public String from = DroidOmniApplication.getAppContext().getString(R.string.event_from);
 
@@ -17,13 +17,13 @@ public class IncomingCallPresenter extends Presenter<IncomingCallPresenter.View>
     public void setTime(CharSequence content);
   }
 
-  public IncomingCallPresenter(EventDto eventDto) {
-    this.eventDto = eventDto;
+  public IncomingCallPresenter(PhoneCallDto phoneCallDto) {
+    this.phoneCallDto = phoneCallDto;
   }
 
   @Override public void initialize() {
-    getView().setTitle(String.format("%s %s", from, getNumberOrName(eventDto)));
-    getView().setTime(DateUtils.getRelativeTimeSpanString(eventDto.getCreatedAt().getTimeInMillis()));
+    getView().setTitle(String.format("%s %s", from, getNumberOrName(phoneCallDto)));
+    getView().setTime(DateUtils.getRelativeTimeSpanString(phoneCallDto.getCreatedAt().getTimeInMillis()));
   }
 
   @Override public void resume() {
@@ -35,11 +35,11 @@ public class IncomingCallPresenter extends Presenter<IncomingCallPresenter.View>
   @Override public void destroy() {
   }
 
-  public EventDto getEvent() {
-    return eventDto;
+  public PhoneCallDto getPhoneCall() {
+    return phoneCallDto;
   }
 
-  private String getNumberOrName(EventDto eventDto) {
-    return eventDto.getContactName() == null || eventDto.getContactName().isEmpty() ? eventDto.getPhoneNumber() : eventDto.getContactName();
+  private String getNumberOrName(PhoneCallDto phoneCallDto) {
+    return phoneCallDto.getContactName() == null || phoneCallDto.getContactName().isEmpty() ? phoneCallDto.getNumber() : phoneCallDto.getContactName();
   }
 }

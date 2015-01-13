@@ -1,12 +1,9 @@
 package com.omnipaste.eventsprovider;
 
-import com.omnipaste.eventsprovider.listeners.EventsReceiver;
 import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
 import com.omnipaste.eventsprovider.listeners.OmniSmsListener;
-import com.omnipaste.omniapi.resource.v1.Events;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
-import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,25 +11,21 @@ import javax.inject.Singleton;
 import rx.Observable;
 
 @Singleton
-public class TelephonyEventsProvider implements Provider<NotificationDto>, EventsReceiver {
+public class TelephonyEventsProvider implements Provider<NotificationDto> {
 
   public static TelephonyEventsProvider instance;
 
-  private String deviceId;
   private OmniPhoneStateListener omniPhoneStateListener;
   private OmniSmsListener smsListener;
   private boolean subscribed = false;
-  private Events events;
 
   public static TelephonyEventsProvider getInstance() {
     return instance;
   }
 
   @Inject
-  public TelephonyEventsProvider(Events events,
-                                 OmniPhoneStateListener omniPhoneStateListener,
+  public TelephonyEventsProvider(OmniPhoneStateListener omniPhoneStateListener,
                                  OmniSmsListener smsListener) {
-    this.events = events;
     this.omniPhoneStateListener = omniPhoneStateListener;
     this.smsListener = smsListener;
 
@@ -42,19 +35,12 @@ public class TelephonyEventsProvider implements Provider<NotificationDto>, Event
   @Override
   public Observable<NotificationDto> init(String deviceId) {
     if (!subscribed) {
-      this.deviceId = deviceId;
       omniPhoneStateListener.start(deviceId);
       smsListener.start(deviceId);
       subscribed = true;
     }
 
     return Observable.empty();
-  }
-
-  @Override
-  public void post(TelephonyEventDto telephonyEventDto) {
-    telephonyEventDto.setIdentifier(deviceId);
-    events.create(telephonyEventDto).subscribe();
   }
 
   @Override

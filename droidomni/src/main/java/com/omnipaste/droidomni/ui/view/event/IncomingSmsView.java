@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.presenter.EventsPresenter;
 import com.omnipaste.droidomni.presenter.IncomingSmsPresenter;
+import com.omnipaste.droidomni.presenter.SmsMessagesPresenter;
 import com.omnipaste.droidomni.ui.view.HasSetup;
-import com.omnipaste.omnicommon.dto.EventDto;
+import com.omnipaste.omnicommon.dto.SmsMessageDto;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
@@ -18,7 +18,7 @@ import org.androidannotations.annotations.ViewById;
 import javax.inject.Inject;
 
 @EViewGroup(R.layout.view_incoming_sms)
-public class IncomingSmsView extends LinearLayout implements HasSetup<EventDto>, IncomingSmsPresenter.View {
+public class IncomingSmsView extends LinearLayout implements HasSetup<SmsMessageDto>, IncomingSmsPresenter.View {
   private IncomingSmsPresenter presenter;
 
   @ViewById
@@ -31,7 +31,7 @@ public class IncomingSmsView extends LinearLayout implements HasSetup<EventDto>,
   public TextView incomingSmsContent;
 
   @Inject
-  public EventsPresenter eventsPresenter;
+  public SmsMessagesPresenter smsMessagesPresenter;
 
   public IncomingSmsView(Context context) {
     super(context);
@@ -40,7 +40,7 @@ public class IncomingSmsView extends LinearLayout implements HasSetup<EventDto>,
   }
 
   @Override
-  public void setUp(EventDto item) {
+  public void setUp(SmsMessageDto item) {
     presenter = new IncomingSmsPresenter(item);
 
     presenter.attachView(this);
@@ -49,7 +49,7 @@ public class IncomingSmsView extends LinearLayout implements HasSetup<EventDto>,
 
   @Click
   public void deleteClicked() {
-    eventsPresenter.remove(presenter.getEvent());
+    smsMessagesPresenter.remove(presenter.getSmsMessage());
   }
 
   @Override public void setTitle(String title) {

@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 
 import com.omnipaste.eventsprovider.ContactsRepository;
-import com.omnipaste.omnicommon.dto.IncomingSmsEventDto;
-import com.omnipaste.omnicommon.dto.TelephonyEventDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -54,11 +52,12 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
       fromAddress = smsMessage.getOriginatingAddress();
     }
 
-    TelephonyEventDto telephonyEventDto = new TelephonyEventDto(
-        TelephonyEventDto.TelephonyEventType.incomingSms,
-        new IncomingSmsEventDto()
-            .setPhoneNumber(fromAddress)
-            .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
-            .setContent(message.toString()));
+    // TODO
+//    TelephonyEventDto telephonyEventDto = new TelephonyEventDto(
+//        TelephonyEventDto.TelephonyEventType.incomingSms,
+//        new IncomingSmsEventDto()
+//            .setNumber(fromAddress)
+//            .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
+//            .setContent(message.toString()));
   }
 }

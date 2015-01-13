@@ -1,9 +1,9 @@
 package com.omnipaste.eventsprovider;
 
-import com.omnipaste.omniapi.resource.v1.PhoneCalls;
+import com.omnipaste.omniapi.resource.v1.SmsMessages;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
-import com.omnipaste.omnicommon.dto.PhoneCallDto;
+import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import javax.inject.Inject;
@@ -16,22 +16,22 @@ import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 @Singleton
-public class PhoneCallsProvider implements Provider<PhoneCallDto> {
+public class SmsMessagesProvider implements Provider<SmsMessageDto> {
   private final NotificationProvider notificationProvider;
-  private final PhoneCalls phoneCalls;
-  private final PublishSubject<PhoneCallDto> subject;
+  private final SmsMessages smsMessages;
+  private final PublishSubject<SmsMessageDto> subject;
   private Subscription subscription;
 
   @Inject
-  public PhoneCallsProvider(NotificationProvider notificationProvider, PhoneCalls phoneCalls) {
+  public SmsMessagesProvider(NotificationProvider notificationProvider, SmsMessages smsMessages) {
     this.notificationProvider = notificationProvider;
-    this.phoneCalls = phoneCalls;
+    this.smsMessages = smsMessages;
 
     subject = PublishSubject.create();
   }
 
   @Override
-  public Observable<PhoneCallDto> init(String identifier) {
+  public Observable<SmsMessageDto> init(String identifier) {
     if (subscription == null) {
       subscription = notificationProvider
         .getObservable()
@@ -40,7 +40,7 @@ public class PhoneCallsProvider implements Provider<PhoneCallDto> {
           public Boolean call(NotificationDto notificationDto) {
             String type = notificationDto.getExtra().getString("type");
             String state = notificationDto.getExtra().getString("state");
-            return type != null && type.equals("phone_call") &&
+            return type != null && type.equals("sms_message") &&
               state != null && state.equals("incoming");
           }
         })
@@ -50,11 +50,17 @@ public class PhoneCallsProvider implements Provider<PhoneCallDto> {
             @Override
             public void call(NotificationDto notificationDto) {
               String id = notificationDto.getExtra().getString("id");
-              phoneCalls.get(id).subscribe(
-                new Action1<PhoneCallDto>() {
+              smsMessages.get(id).subscribe(
+                new Action1<SmsMessageDto>() {
                   @Override
-                  public void call(PhoneCallDto phoneCallDto) {
-                    subject.onNext(phoneCallDto);
+                  public void call(SmsMessageDto smsMessageDto) {
+                    subject.onNext(smsMessageDto);
+                  }
+                },
+                new Action1<Throwable>() {
+                  @Override
+                  public void call(Throwable throwable) {
+
                   }
                 }
               );
@@ -81,7 +87,7 @@ public class PhoneCallsProvider implements Provider<PhoneCallDto> {
     }
   }
 
-  public Observable<PhoneCallDto> getObservable() {
+  public Observable<SmsMessageDto> getObservable() {
     return subject;
   }
 }

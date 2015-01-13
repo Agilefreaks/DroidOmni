@@ -3,7 +3,8 @@ package com.omnipaste.droidomni.presenter;
 import com.omnipaste.droidomni.adapter.ActivityAdapter;
 import com.omnipaste.droidomni.domain.Clipping;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
-import com.omnipaste.droidomni.domain.Event;
+import com.omnipaste.droidomni.domain.PhoneCall;
+import com.omnipaste.droidomni.domain.SmsMessage;
 import com.omnipaste.droidomni.interaction.Refresh;
 
 import java.util.concurrent.TimeUnit;
@@ -17,12 +18,14 @@ import rx.functions.Action1;
 @Singleton
 public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View> {
   private final ClippingsPresenter clippingsPresenter;
-  private final EventsPresenter eventsPresenter;
+  private final SmsMessagesPresenter smsMessagesPresenter;
+  private final PhoneCallsPresenter phoneCallsPresenter;
   private final ContactsPresenter contactsPresenter;
   private final Refresh refresh;
   private ActivityAdapter activityAdapter;
   private Subscription clippingsSubscription;
-  private Subscription eventsSubscription;
+  private Subscription smsMessagesSubscription;
+  private Subscription phoneCallsSubscription;
   private Subscription contactsSubscription;
 
   public interface View {
@@ -34,11 +37,13 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
   @Inject
   public ActivityPresenter(
     ClippingsPresenter clippingsPresenter,
-    EventsPresenter eventsPresenter,
+    SmsMessagesPresenter smsMessagesPresenter,
+    PhoneCallsPresenter phoneCallsPresenter,
     ContactsPresenter contactsPresenter,
     Refresh refresh) {
     this.clippingsPresenter = clippingsPresenter;
-    this.eventsPresenter = eventsPresenter;
+    this.smsMessagesPresenter = smsMessagesPresenter;
+    this.phoneCallsPresenter = phoneCallsPresenter;
     this.contactsPresenter = contactsPresenter;
     this.refresh = refresh;
   }
@@ -46,13 +51,15 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
   @Override
   public void initialize() {
     if (clippingsSubscription != null ||
-      eventsSubscription != null ||
+      smsMessagesSubscription != null ||
+      phoneCallsSubscription != null ||
       contactsSubscription != null) {
       return;
     }
 
     clippingsPresenter.initialize();
-    eventsPresenter.initialize();
+    smsMessagesPresenter.initialize();
+    phoneCallsPresenter.initialize();
     contactsPresenter.initialize();
     activityAdapter = ActivityAdapter.build();
 
@@ -71,17 +78,32 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
         }
       });
 
-    eventsSubscription = eventsPresenter
+    phoneCallsSubscription = phoneCallsPresenter
       .getObservable()
       .observeOn(observeOnScheduler)
-      .subscribe(new Action1<Event>() {
+      .subscribe(new Action1<PhoneCall>() {
         @Override
-        public void call(Event event) {
-          if (event.getAction() == Event.Action.ADD) {
-            activityAdapter.add(event.getItem());
+        public void call(PhoneCall phoneCall) {
+          if (phoneCall.getAction() == PhoneCall.Action.ADD) {
+            activityAdapter.add(phoneCall.getItem());
             getView().scrollToTop();
           } else {
-            activityAdapter.remove(event.getItem());
+            activityAdapter.remove(phoneCall.getItem());
+          }
+        }
+      });
+
+    smsMessagesSubscription = smsMessagesPresenter
+      .getObservable()
+      .observeOn(observeOnScheduler)
+      .subscribe(new Action1<SmsMessage>() {
+        @Override
+        public void call(SmsMessage smsMessage) {
+          if (smsMessage.getAction() == SmsMessage.Action.ADD) {
+            activityAdapter.add(smsMessage.getItem());
+            getView().scrollToTop();
+          } else {
+            activityAdapter.remove(smsMessage.getItem());
           }
         }
       });
@@ -111,13 +133,14 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
   @Override
   public void destroy() {
     clippingsPresenter.destroy();
-    eventsPresenter.destroy();
+    smsMessagesPresenter.destroy();
+    phoneCallsPresenter.destroy();
 
     clippingsSubscription.unsubscribe();
     clippingsSubscription = null;
 
-    eventsSubscription.unsubscribe();
-    eventsSubscription = null;
+    phoneCallsSubscription.unsubscribe();
+    phoneCallsSubscription = null;
 
     contactsSubscription.unsubscribe();
     contactsSubscription = null;
@@ -146,6 +169,5 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
   private void showSamples() {
     clippingsPresenter.showSamples();
-    eventsPresenter.showSamples();
   }
 }

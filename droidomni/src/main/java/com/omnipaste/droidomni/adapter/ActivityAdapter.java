@@ -14,7 +14,8 @@ import com.omnipaste.droidomni.ui.view.clipping.OmniClippingView_;
 import com.omnipaste.droidomni.ui.view.event.IncomingCallView_;
 import com.omnipaste.droidomni.ui.view.event.IncomingSmsView_;
 import com.omnipaste.omnicommon.dto.ClippingDto;
-import com.omnipaste.omnicommon.dto.EventDto;
+import com.omnipaste.omnicommon.dto.PhoneCallDto;
+import com.omnipaste.omnicommon.dto.SmsMessageDto;
 
 import java.util.ArrayList;
 
@@ -97,8 +98,10 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
       if (item instanceof ClippingDto) {
         viewType = ((ClippingDto) item).getClippingProvider() == ClippingDto.ClippingProvider.LOCAL ? 0 : 1;
-      } else if (item instanceof EventDto) {
-        viewType = ((EventDto) item).getType() == EventDto.EventType.INCOMING_CALL_EVENT ? 2 : 3;
+      } else if (item instanceof PhoneCallDto) {
+        viewType = INCOMING_CALL;
+      } else if (item instanceof SmsMessageDto) {
+        viewType = INCOMING_SMS;
       } else if (item instanceof ContactSyncNotification) {
         viewType = CONTACTS_SYNC;
       }

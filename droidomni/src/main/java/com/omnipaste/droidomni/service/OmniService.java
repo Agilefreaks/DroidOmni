@@ -14,13 +14,13 @@ import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
 import com.omnipaste.droidomni.prefs.NotificationsTelephony;
 import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
-import com.omnipaste.droidomni.service.subscriber.EventsSubscriber;
 import com.omnipaste.droidomni.service.subscriber.GcmWorkaroundSubscriber;
 import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
 import com.omnipaste.droidomni.service.subscriber.ScreenOnSubscriber;
 import com.omnipaste.droidomni.service.subscriber.Subscriber;
 import com.omnipaste.droidomni.service.subscriber.TelephonyEventsSubscriber;
 import com.omnipaste.eventsprovider.PhoneCallsProvider;
+import com.omnipaste.eventsprovider.SmsMessagesProvider;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -66,10 +66,10 @@ public class OmniService extends Service {
   public Lazy<ScreenOnSubscriber> screenOnSubscriber;
 
   @Inject
-  public Lazy<EventsSubscriber> eventsSubscriber;
+  public Lazy<PhoneCallsProvider> phoneCallsProvider;
 
   @Inject
-  public Lazy<PhoneCallsProvider> phoneCallsProviderLazy;
+  public Lazy<SmsMessagesProvider> smsMessagesProvider;
 
   @Inject
   public ActivateDevice activateDevice;
@@ -190,7 +190,6 @@ public class OmniService extends Service {
       }
 
       subscribes.add(screenOnSubscriber.get());
-      subscribes.add(eventsSubscriber.get());
     }
 
     return subscribes;
@@ -212,7 +211,8 @@ public class OmniService extends Service {
       subscribe.start(deviceDto.getId());
     }
 
-    phoneCallsProviderLazy.get().init(deviceDto.getId());
+    phoneCallsProvider.get().init(deviceDto.getId());
+    smsMessagesProvider.get().init(deviceDto.getId());
 
     notificationServiceFacade.start();
     contactsService.start();
@@ -223,7 +223,8 @@ public class OmniService extends Service {
       subscribe.stop();
     }
 
-    phoneCallsProviderLazy.get().destroy();
+    phoneCallsProvider.get().destroy();
+    smsMessagesProvider.get().destroy();
 
     notificationServiceFacade.stop();
     contactsService.stop();

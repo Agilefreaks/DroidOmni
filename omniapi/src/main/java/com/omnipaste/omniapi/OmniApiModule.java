@@ -3,17 +3,15 @@ package com.omnipaste.omniapi;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.omnipaste.omniapi.deserializer.ClippingTypeDeserializer;
-import com.omnipaste.omniapi.deserializer.EventTypeDeserializer;
 import com.omnipaste.omniapi.deserializer.PhoneCallStateDeserializer;
-import com.omnipaste.omniapi.deserializer.TelephonyEventTypeDeserializer;
+import com.omnipaste.omniapi.deserializer.SmsMessageStateDeserializer;
 import com.omnipaste.omniapi.prefs.ApiUrl;
 import com.omnipaste.omniapi.prefs.PrefsModule;
 import com.omnipaste.omniapi.serializer.PhoneCallStateSerializer;
-import com.omnipaste.omniapi.serializer.TelephonyEventTypeSerializer;
+import com.omnipaste.omniapi.serializer.SmsMessageStateSerializer;
 import com.omnipaste.omnicommon.dto.ClippingDto;
-import com.omnipaste.omnicommon.dto.EventDto;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
-import com.omnipaste.omnicommon.dto.TelephonyEventDto;
+import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -62,9 +60,8 @@ public class OmniApiModule {
       .setConverter(new GsonConverter(
           getGsonBuilder()
             .registerTypeAdapter(ClippingDto.ClippingType.class, new ClippingTypeDeserializer())
-            .registerTypeAdapter(EventDto.EventType.class, new EventTypeDeserializer())
-            .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyEventTypeDeserializer())
-            .registerTypeAdapter(TelephonyEventDto.TelephonyEventType.class, new TelephonyEventTypeSerializer())
+            .registerTypeAdapter(SmsMessageDto.State.class, new SmsMessageStateSerializer())
+            .registerTypeAdapter(SmsMessageDto.State.class, new SmsMessageStateDeserializer())
             .registerTypeAdapter(PhoneCallDto.State.class, new PhoneCallStateSerializer())
             .registerTypeAdapter(PhoneCallDto.State.class, new PhoneCallStateDeserializer())
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
