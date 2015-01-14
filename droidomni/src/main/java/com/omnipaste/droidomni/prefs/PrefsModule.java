@@ -13,7 +13,6 @@ import dagger.Provides;
 @Module(complete = false, library = true)
 public class PrefsModule {
   public static String GCM_SENDER_ID_KEY = "gcmSenderId";
-  public static String GCM_WORKAROUND_KEY = "notifications_gcm_workaround";
   public static String NOTIFICATIONS_CLIPBOARD_KEY = "notifications_clipboard";
   public static String NOTIFICATIONS_TELEPHONY_KEY = "notifications_telephony";
   public static String NOTIFICATIONS_PHONE_KEY = "notifications_phone";
@@ -26,11 +25,6 @@ public class PrefsModule {
   @Provides @Singleton @GcmSenderId
   public StringPreference provideGcmSenderId(SharedPreferences preferences) {
     return new StringPreference(preferences, GCM_SENDER_ID_KEY);
-  }
-
-  @Provides @Singleton @GcmWorkaround
-  public BooleanPreference provideGcmWorkaround(SharedPreferences preferences) {
-    return new BooleanPreference(preferences, GCM_WORKAROUND_KEY, true);
   }
 
   @Provides @Singleton @NotificationsClipboard

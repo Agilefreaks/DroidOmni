@@ -3,10 +3,10 @@ package com.omnipaste.droidomni.service.notification;
 import android.app.Notification;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.factory.NotificationFactory;
 import com.omnipaste.droidomni.service.ServiceBase;
-import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -17,17 +17,17 @@ import rx.Subscription;
 
 @Singleton
 public class NotificationServiceClippings extends ServiceBase implements Observer<ClippingDto> {
-  private ClipboardSubscriber clipboardSubscriber;
+  private ClipboardProvider clipboardProvider;
   private NotificationFactory notificationFactory;
   private NotificationManagerCompat notificationManager;
   private Subscription subscription;
 
   @Inject
   public NotificationServiceClippings(
-      ClipboardSubscriber clipboardSubscriber,
-      NotificationFactory notificationFactory,
-      NotificationManagerCompat notificationManager) {
-    this.clipboardSubscriber = clipboardSubscriber;
+    ClipboardProvider clipboardProvider,
+    NotificationFactory notificationFactory,
+    NotificationManagerCompat notificationManager) {
+    this.clipboardProvider = clipboardProvider;
     this.notificationFactory = notificationFactory;
     this.notificationManager = notificationManager;
   }
@@ -38,10 +38,10 @@ public class NotificationServiceClippings extends ServiceBase implements Observe
       return;
     }
 
-    subscription = clipboardSubscriber
-        .getObservable()
-        .observeOn(observeOnScheduler)
-        .subscribe(this);
+    subscription = clipboardProvider
+      .getObservable()
+      .observeOn(observeOnScheduler)
+      .subscribe(this);
   }
 
   @Override
@@ -50,10 +50,12 @@ public class NotificationServiceClippings extends ServiceBase implements Observe
     subscription = null;
   }
 
-  @Override public void onCompleted() {
+  @Override
+  public void onCompleted() {
   }
 
-  @Override public void onError(Throwable e) {
+  @Override
+  public void onError(Throwable e) {
   }
 
   @Override

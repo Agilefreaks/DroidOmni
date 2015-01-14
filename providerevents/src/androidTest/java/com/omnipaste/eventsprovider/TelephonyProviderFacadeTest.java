@@ -8,8 +8,8 @@ import com.omnipaste.eventsprovider.listeners.OmniSmsListener;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class TelephonyListenerProviderTest extends InstrumentationTestCase {
-  private TelephonyListenerProvider subject;
+public class TelephonyProviderFacadeTest extends InstrumentationTestCase {
+  private TelephonyProviderFacade subject;
   private OmniPhoneStateListener mockOmniPhoneStateListener;
   private OmniSmsListener mockOmniSmsListener;
 
@@ -19,7 +19,7 @@ public class TelephonyListenerProviderTest extends InstrumentationTestCase {
 
     mockOmniPhoneStateListener = mock(OmniPhoneStateListener.class);
     mockOmniSmsListener = mock(OmniSmsListener.class);
-    subject = new TelephonyListenerProvider(mockOmniPhoneStateListener, mockOmniSmsListener);
+    subject = new TelephonyProviderFacade(mockOmniPhoneStateListener, mockOmniSmsListener);
   }
 
   public void testInitItCallsStartOnBothListeners() throws Exception {

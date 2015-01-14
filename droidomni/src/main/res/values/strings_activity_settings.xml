@@ -11,9 +11,6 @@
     <string name="pref_title_phone">Enable Telephony services</string>
     <string name="pref_description_phone">Allow other apps to use phone capabilities (click to call)</string>
 
-    <string name="pref_title_never_miss_a_beat">Never miss a beat</string>
-    <string name="pref_description_never_miss_a_beat">Make sure everything stays in sync (might drain just a tiny more battery live)</string>
-
     <string name="pref_category_omni_service">Omni Service</string>
     <string name="pref_title_start_omni_at_boot">Start at boot</string>
 

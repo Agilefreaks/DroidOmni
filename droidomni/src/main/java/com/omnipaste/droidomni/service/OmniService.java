@@ -5,24 +5,19 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Messenger;
 
+import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.factory.NotificationFactory;
 import com.omnipaste.droidomni.interaction.ActivateDevice;
 import com.omnipaste.droidomni.interaction.DeactivateDevice;
-import com.omnipaste.droidomni.prefs.GcmWorkaround;
 import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
 import com.omnipaste.droidomni.prefs.NotificationsTelephony;
-import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
-import com.omnipaste.droidomni.service.subscriber.GcmWorkaroundSubscriber;
-import com.omnipaste.droidomni.service.subscriber.PhoneSubscriber;
-import com.omnipaste.droidomni.service.subscriber.ScreenOnSubscriber;
-import com.omnipaste.droidomni.service.subscriber.Subscriber;
-import com.omnipaste.droidomni.service.subscriber.TelephonyEventsSubscriber;
-import com.omnipaste.eventsprovider.PhoneCallsProvider;
-import com.omnipaste.eventsprovider.SmsMessagesProvider;
+import com.omnipaste.eventsprovider.TelephonyProviderFacade;
+import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
+import com.omnipaste.phoneprovider.PhoneProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -43,7 +38,7 @@ public class OmniService extends Service {
   private final OmniServiceIncomingHandler omniServiceIncomingHandler = new OmniServiceIncomingHandler(this);
   private final Messenger messenger = new Messenger(omniServiceIncomingHandler);
 
-  private List<Subscriber> subscribes = new ArrayList<>();
+  private List<Provider> providers = new ArrayList<>();
 
   public AtomicBoolean started = new AtomicBoolean(false);
 
@@ -51,25 +46,13 @@ public class OmniService extends Service {
   public String appName;
 
   @Inject
-  public Lazy<ClipboardSubscriber> clipboardSubscriber;
+  public Lazy<ClipboardProvider> clipboardProvider;
 
   @Inject
-  public Lazy<PhoneSubscriber> phoneSubscribe;
+  public Lazy<PhoneProvider> phoneProvider;
 
   @Inject
-  public Lazy<GcmWorkaroundSubscriber> gcmWorkaroundSubscriber;
-
-  @Inject
-  public Lazy<TelephonyEventsSubscriber> telephonyNotificationsSubscriber;
-
-  @Inject
-  public Lazy<ScreenOnSubscriber> screenOnSubscriber;
-
-  @Inject
-  public Lazy<PhoneCallsProvider> phoneCallsProvider;
-
-  @Inject
-  public Lazy<SmsMessagesProvider> smsMessagesProvider;
+  public Lazy<TelephonyProviderFacade> telephonyProviderFacade;
 
   @Inject
   public ActivateDevice activateDevice;
@@ -86,17 +69,11 @@ public class OmniService extends Service {
   @Inject @NotificationsPhone
   public BooleanPreference isPhoneNotificationEnabled;
 
-  @Inject @GcmWorkaround
-  public BooleanPreference isGcmWorkAroundEnabled;
-
   @Inject
   public NotificationFactory notificationFactory;
 
   @Inject
   public NotificationServiceFacade notificationServiceFacade;
-
-  @Inject
-  public ContactsService contactsService;
 
   public static Intent getIntent() {
     return new Intent(DroidOmniApplication.getAppContext(), OmniService_.class);
@@ -122,7 +99,7 @@ public class OmniService extends Service {
               @Override
               public void call(DeviceDto deviceDto) {
                 notifyUser();
-                startSubscribers(deviceDto);
+                init(deviceDto);
                 sendStartedToClients();
 
                 started.set(true);
@@ -171,28 +148,22 @@ public class OmniService extends Service {
         );
   }
 
-  public List<Subscriber> getSubscribers() {
-    if (subscribes.isEmpty()) {
+  public List<Provider> getProviders() {
+    if (providers.isEmpty()) {
       if (isClipboardNotificationEnabled.get()) {
-        subscribes.add(clipboardSubscriber.get());
+        providers.add(clipboardProvider.get());
       }
 
       if (isPhoneNotificationEnabled.get()) {
-        subscribes.add(phoneSubscribe.get());
+        providers.add(phoneProvider.get());
       }
 
       if (isTelephonyNotificationEnabled.get()) {
-        subscribes.add(telephonyNotificationsSubscriber.get());
+        providers.add(telephonyProviderFacade.get());
       }
-
-      if (isGcmWorkAroundEnabled.get()) {
-        subscribes.add(gcmWorkaroundSubscriber.get());
-      }
-
-      subscribes.add(screenOnSubscriber.get());
     }
 
-    return subscribes;
+    return providers;
   }
 
   public boolean isStarted() {
@@ -201,33 +172,25 @@ public class OmniService extends Service {
 
   private void cleanup() {
     stopForeground(true);
-    stopSubscribers();
+    destroy();
 
     started.set(false);
   }
 
-  private void startSubscribers(DeviceDto deviceDto) {
-    for (Subscriber subscribe : getSubscribers()) {
-      subscribe.start(deviceDto.getId());
+  private void init(DeviceDto deviceDto) {
+    for (Provider provider : getProviders()) {
+      provider.init(deviceDto.getId());
     }
-
-    phoneCallsProvider.get().init(deviceDto.getId());
-    smsMessagesProvider.get().init(deviceDto.getId());
 
     notificationServiceFacade.start();
-    contactsService.start();
   }
 
-  private void stopSubscribers() {
-    for (Subscriber subscribe : getSubscribers()) {
-      subscribe.stop();
+  private void destroy() {
+    for (Provider provider : getProviders()) {
+      provider.destroy();
     }
 
-    phoneCallsProvider.get().destroy();
-    smsMessagesProvider.get().destroy();
-
     notificationServiceFacade.stop();
-    contactsService.stop();
   }
 
   private void sendErrorToClients(Throwable throwable) {

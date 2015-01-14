@@ -74,6 +74,10 @@ public class ClipboardProvider implements Provider<ClippingDto> {
     return clipboardProviderSubject;
   }
 
+  public Observable<ClippingDto> getObservable() {
+    return clipboardProviderSubject;
+  }
+
   public void refreshLocal() {
     currentLocalClipboardManager.onPrimaryClipChanged();
   }

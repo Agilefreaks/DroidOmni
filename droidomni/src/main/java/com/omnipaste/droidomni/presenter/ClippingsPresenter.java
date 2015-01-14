@@ -1,9 +1,9 @@
 package com.omnipaste.droidomni.presenter;
 
+import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.domain.Clipping;
-import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ import rx.subjects.PublishSubject;
 
 @Singleton
 public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> implements Observer<ClippingDto> {
-  private final ClipboardSubscriber clipboardSubscriber;
+  private final ClipboardProvider clipboardProvider;
   private PublishSubject<Clipping> clippingsSubject;
   private Subscription clipboardSubscription;
 
@@ -24,8 +24,8 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   }
 
   @Inject
-  public ClippingsPresenter(ClipboardSubscriber clipboardSubscriber) {
-    this.clipboardSubscriber = clipboardSubscriber;
+  public ClippingsPresenter(ClipboardProvider clipboardProvider) {
+    this.clipboardProvider = clipboardProvider;
   }
 
   @Override
@@ -35,7 +35,7 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
     }
 
     clippingsSubject = PublishSubject.create();
-    clipboardSubscription = clipboardSubscriber
+    clipboardSubscription = clipboardProvider
         .getObservable()
         .observeOn(observeOnScheduler)
         .subscribe(this);

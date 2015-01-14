@@ -1,7 +1,7 @@
 package com.omnipaste.droidomni.presenter;
 
+import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
-import com.omnipaste.droidomni.service.subscriber.ClipboardSubscriber;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -13,7 +13,7 @@ import rx.Observer;
 @Singleton
 public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialClippingLocalPresenter.View> implements Observer<ClippingDto> {
   private BooleanPreference tutorialClippingLocalWasPlayed;
-  private ClipboardSubscriber clipboardSubscriber;
+  private ClipboardProvider clipboardProvider;
 
   public interface View {
     void close();
@@ -22,13 +22,13 @@ public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialCl
   @Inject
   public TutorialClippingLocalPresenter(
       @TutorialClippingLocal BooleanPreference tutorialClippingLocalWasPlayed,
-      ClipboardSubscriber clipboardSubscriber) {
+      ClipboardProvider clipboardProvider) {
     this.tutorialClippingLocalWasPlayed = tutorialClippingLocalWasPlayed;
-    this.clipboardSubscriber = clipboardSubscriber;
+    this.clipboardProvider = clipboardProvider;
   }
 
   @Override public void initialize() {
-    clipboardSubscriber
+    clipboardProvider
         .getObservable()
         .observeOn(observeOnScheduler)
         .take(1)

@@ -79,8 +79,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     if (key.equals(PrefsModule.NOTIFICATIONS_CLIPBOARD_KEY) ||
         key.equals(PrefsModule.NOTIFICATIONS_PHONE_KEY) ||
-        key.equals(PrefsModule.NOTIFICATIONS_TELEPHONY_KEY) ||
-        key.equals(PrefsModule.GCM_WORKAROUND_KEY)) {
+        key.equals(PrefsModule.NOTIFICATIONS_TELEPHONY_KEY)) {
       omniServiceConnection.restartOmniService();
     } else if (key.equals(PrefsModule.START_OMNI_AT_BOOT)) {
       toggleStartAtBootReceiver(sharedPreferences);

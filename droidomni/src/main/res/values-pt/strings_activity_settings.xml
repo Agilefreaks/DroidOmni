@@ -11,9 +11,6 @@
     <string name="pref_title_phone">Activar serviços do Telefone</string>
     <string name="pref_description_phone">Permitir a outras aplicações que usem o telefone (clicar para chamar)</string>
 
-    <string name="pref_title_never_miss_a_beat">Não perca nada</string>
-    <string name="pref_description_never_miss_a_beat">Certifique-se que tudo está sincronizado (poderá gastar um pouco mais de bateria)</string>
-
     <string name="pref_category_omni_service">Omni Service</string>
     <string name="pref_title_start_omni_at_boot">Comece no boot</string>
 

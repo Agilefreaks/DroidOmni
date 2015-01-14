@@ -18,12 +18,6 @@
             android:summary="@string/pref_description_phone"
             android:defaultValue="true"/>
 
-    <CheckBoxPreference
-            android:key="notifications_gcm_workaround"
-            android:title="@string/pref_title_never_miss_a_beat"
-            android:summary="@string/pref_description_never_miss_a_beat"
-            android:defaultValue="true"/>
-
     <PreferenceCategory android:title="@string/pref_category_omni_service">
         <CheckBoxPreference
             android:key="start_omni_at_boot"
