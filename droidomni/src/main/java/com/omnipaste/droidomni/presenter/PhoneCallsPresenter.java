@@ -1,8 +1,8 @@
 package com.omnipaste.droidomni.presenter;
 
 import com.omnipaste.droidomni.domain.PhoneCall;
-import com.omnipaste.eventsprovider.PhoneCallsProvider;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
+import com.omnipaste.phoneprovider.PhoneCallsProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

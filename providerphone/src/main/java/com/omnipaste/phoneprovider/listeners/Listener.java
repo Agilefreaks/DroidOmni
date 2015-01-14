@@ -1,4 +1,4 @@
-package com.omnipaste.eventsprovider.listeners;
+package com.omnipaste.phoneprovider.listeners;
 
 public interface Listener {
   public void start(String deviceId);

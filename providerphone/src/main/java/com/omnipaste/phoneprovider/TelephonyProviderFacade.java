@@ -1,9 +1,9 @@
-package com.omnipaste.eventsprovider;
+package com.omnipaste.phoneprovider;
 
-import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
-import com.omnipaste.eventsprovider.listeners.OmniSmsListener;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
+import com.omnipaste.phoneprovider.listeners.OmniPhoneStateListener;
+import com.omnipaste.phoneprovider.listeners.OmniSmsListener;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

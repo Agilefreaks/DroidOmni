@@ -5,13 +5,13 @@ import android.os.Bundle;
 import com.google.gson.Gson;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.interaction.RSACrypto;
-import com.omnipaste.eventsprovider.ContactsRepository;
 import com.omnipaste.omniapi.resource.v1.users.Contacts;
 import com.omnipaste.omniapi.resource.v1.users.Devices;
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
+import com.omnipaste.phoneprovider.ContactsRepository;
 
 import java.io.IOException;
 import java.util.List;

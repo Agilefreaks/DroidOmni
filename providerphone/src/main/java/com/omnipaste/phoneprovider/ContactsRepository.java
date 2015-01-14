@@ -1,4 +1,4 @@
-package com.omnipaste.eventsprovider;
+package com.omnipaste.phoneprovider;
 
 import android.content.ContentResolver;
 import android.content.Context;

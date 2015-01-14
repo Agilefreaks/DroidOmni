@@ -1,4 +1,4 @@
-package com.omnipaste.eventsprovider;
+package com.omnipaste.phoneprovider;
 
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
 import com.omnipaste.omnicommon.Provider;

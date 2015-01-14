@@ -1,11 +1,11 @@
-package com.omnipaste.eventsprovider.listeners;
+package com.omnipaste.phoneprovider.listeners;
 
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-import com.omnipaste.eventsprovider.ContactsRepository;
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
+import com.omnipaste.phoneprovider.ContactsRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,17 +27,19 @@ public class OmniPhoneStateListener extends PhoneStateListener implements Listen
     this.phoneCalls = phoneCalls;
   }
 
+  @Override
   public void start(String deviceId) {
     this.deviceId = deviceId;
     telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
   }
 
+  @Override
   public void stop() {
     telephonyManager.listen(this, PhoneStateListener.LISTEN_NONE);
   }
 
   @Override
-  public void onCallStateChanged(int state, java.lang.String incomingNumber) {
+  public void onCallStateChanged(int state, String incomingNumber) {
     super.onCallStateChanged(state, incomingNumber);
 
     if (state == TelephonyManager.CALL_STATE_RINGING) {

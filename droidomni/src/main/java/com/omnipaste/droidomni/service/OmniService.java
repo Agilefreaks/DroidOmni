@@ -13,11 +13,11 @@ import com.omnipaste.droidomni.interaction.DeactivateDevice;
 import com.omnipaste.droidomni.prefs.NotificationsClipboard;
 import com.omnipaste.droidomni.prefs.NotificationsPhone;
 import com.omnipaste.droidomni.prefs.NotificationsTelephony;
-import com.omnipaste.eventsprovider.TelephonyProviderFacade;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 import com.omnipaste.phoneprovider.PhoneProvider;
+import com.omnipaste.phoneprovider.TelephonyProviderFacade;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;

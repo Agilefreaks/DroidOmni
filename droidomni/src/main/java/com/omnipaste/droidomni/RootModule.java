@@ -20,7 +20,6 @@ import com.omnipaste.droidomni.provider.GcmNotificationProvider;
 import com.omnipaste.droidomni.receiver.ReceiverModule;
 import com.omnipaste.droidomni.service.ServiceModule;
 import com.omnipaste.droidomni.ui.UiModule;
-import com.omnipaste.eventsprovider.EventsProviderModule;
 import com.omnipaste.omniapi.OmniApiModule;
 import com.omnipaste.omnicommon.OmniCommonModule;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
@@ -44,8 +43,7 @@ import dagger.Provides;
     injects = {
         DroidOmniApplication_.class,
         ClipboardProviderModule.class,
-        PhoneProviderModule.class,
-        EventsProviderModule.class
+        PhoneProviderModule.class
     }
 )
 public final class RootModule {

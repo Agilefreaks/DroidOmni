@@ -1,8 +1,8 @@
 package com.omnipaste.droidomni.presenter;
 
 import com.omnipaste.droidomni.domain.SmsMessage;
-import com.omnipaste.eventsprovider.SmsMessagesProvider;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
+import com.omnipaste.phoneprovider.SmsMessagesProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

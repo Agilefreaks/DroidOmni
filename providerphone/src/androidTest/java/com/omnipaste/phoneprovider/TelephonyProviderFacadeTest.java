@@ -1,9 +1,9 @@
-package com.omnipaste.eventsprovider;
+package com.omnipaste.phoneprovider;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.eventsprovider.listeners.OmniPhoneStateListener;
-import com.omnipaste.eventsprovider.listeners.OmniSmsListener;
+import com.omnipaste.phoneprovider.listeners.OmniPhoneStateListener;
+import com.omnipaste.phoneprovider.listeners.OmniSmsListener;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

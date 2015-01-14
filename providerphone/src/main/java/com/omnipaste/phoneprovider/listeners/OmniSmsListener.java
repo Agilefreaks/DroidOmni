@@ -1,4 +1,4 @@
-package com.omnipaste.eventsprovider.listeners;
+package com.omnipaste.phoneprovider.listeners;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
-import com.omnipaste.eventsprovider.ContactsRepository;
 import com.omnipaste.omniapi.resource.v1.SmsMessages;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
+import com.omnipaste.phoneprovider.ContactsRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,6 +32,7 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
     this.smsMessages = smsMessages;
   }
 
+  @Override
   public void start(String deviceId) {
     this.deviceId = deviceId;
 
@@ -42,6 +43,7 @@ public class OmniSmsListener extends BroadcastReceiver implements Listener {
     context.registerReceiver(this, filter);
   }
 
+  @Override
   public void stop() {
     context.unregisterReceiver(this);
   }

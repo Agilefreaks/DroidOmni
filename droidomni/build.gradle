@@ -98,7 +98,6 @@ dependencies {
     compile project(':omniapi')
     compile project(':providerclipboard')
     compile project(':providerphone')
-    compile project(':providerevents')
 
     compile 'com.google.android.gms:play-services-base:6.5.87'
     compile 'com.android.support:recyclerview-v7:21.0.3'
