@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.NotificationManagerCompat;
-import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -76,11 +75,12 @@ public final class RootModule {
     return (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
   }
 
-  @Provides
-  @Singleton
-  public SmsManager providesSmsManager() {
-    return SmsManager.getDefault();
-  }
+  // TODO: reinstate once we fix the sms provider
+//  @Provides
+//  @Singleton
+//  public SmsManager providesSmsManager() {
+//    return SmsManager.getDefault();
+//  }
 
   @Provides
   @Singleton

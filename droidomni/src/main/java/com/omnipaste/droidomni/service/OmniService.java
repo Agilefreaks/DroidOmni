@@ -16,7 +16,7 @@ import com.omnipaste.droidomni.prefs.NotificationsTelephony;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
-import com.omnipaste.phoneprovider.PhoneProvider;
+import com.omnipaste.phoneprovider.PhoneProviderFacade;
 import com.omnipaste.phoneprovider.TelephonyProviderFacade;
 
 import org.androidannotations.annotations.EService;
@@ -49,7 +49,7 @@ public class OmniService extends Service {
   public Lazy<ClipboardProvider> clipboardProvider;
 
   @Inject
-  public Lazy<PhoneProvider> phoneProvider;
+  public Lazy<PhoneProviderFacade> phoneProvider;
 
   @Inject
   public Lazy<TelephonyProviderFacade> telephonyProviderFacade;

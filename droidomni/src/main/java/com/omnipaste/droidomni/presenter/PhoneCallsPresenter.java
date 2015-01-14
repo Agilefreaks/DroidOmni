@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.presenter;
 
 import com.omnipaste.droidomni.domain.PhoneCall;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
-import com.omnipaste.phoneprovider.PhoneCallsProvider;
+import com.omnipaste.phoneprovider.listeners.OmniPhoneStateListener;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,7 +14,7 @@ import rx.subjects.PublishSubject;
 
 @Singleton
 public class PhoneCallsPresenter extends Presenter<SmsMessagesPresenter.View> implements Observer<PhoneCallDto> {
-  private final PhoneCallsProvider phoneCallsProvider;
+  private final OmniPhoneStateListener omniPhoneStateListener;
   private PublishSubject<PhoneCall> subject;
   private Subscription subscription;
 
@@ -22,8 +22,8 @@ public class PhoneCallsPresenter extends Presenter<SmsMessagesPresenter.View> im
   }
 
   @Inject
-  public PhoneCallsPresenter(PhoneCallsProvider phoneCallsProvider) {
-    this.phoneCallsProvider = phoneCallsProvider;
+  public PhoneCallsPresenter(OmniPhoneStateListener omniPhoneStateListener) {
+    this.omniPhoneStateListener = omniPhoneStateListener;
   }
 
   @Override
@@ -33,7 +33,7 @@ public class PhoneCallsPresenter extends Presenter<SmsMessagesPresenter.View> im
     }
 
     subject = PublishSubject.create();
-    subscription = phoneCallsProvider
+    subscription = omniPhoneStateListener
       .getObservable()
       .observeOn(observeOnScheduler)
       .subscribe(this);

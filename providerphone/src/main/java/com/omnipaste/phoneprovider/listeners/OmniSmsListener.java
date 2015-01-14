@@ -1,72 +1,92 @@
 package com.omnipaste.phoneprovider.listeners;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.telephony.SmsMessage;
-
 import com.omnipaste.omniapi.resource.v1.SmsMessages;
+import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
-import com.omnipaste.phoneprovider.ContactsRepository;
+import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
-public class OmniSmsListener extends BroadcastReceiver implements Listener {
-  private final static String EXTRAS_KEY = "pdus";
+import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.subjects.PublishSubject;
 
-  private final Context context;
-  private final ContactsRepository contactsRepository;
+@Singleton
+public class OmniSmsListener implements Listener {
+  private final NotificationProvider notificationProvider;
   private final SmsMessages smsMessages;
-  private String deviceId;
+  private final PublishSubject<SmsMessageDto> subject;
+  private Subscription subscription;
 
   @Inject
-  public OmniSmsListener(Context context,
-                         ContactsRepository contactsRepository,
-                         SmsMessages smsMessages) {
-    this.context = context;
-    this.contactsRepository = contactsRepository;
+  public OmniSmsListener(NotificationProvider notificationProvider, SmsMessages smsMessages) {
+    this.notificationProvider = notificationProvider;
     this.smsMessages = smsMessages;
+
+    subject = PublishSubject.create();
   }
 
   @Override
   public void start(String deviceId) {
-    this.deviceId = deviceId;
+    if (subscription != null) {
+      return;
+    }
 
-    IntentFilter filter = new IntentFilter();
-    filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-    filter.setPriority(999);
+    subscription = notificationProvider
+      .getObservable()
+      .filter(new Func1<NotificationDto, Boolean>() {
+        @Override
+        public Boolean call(NotificationDto notificationDto) {
+          String type = notificationDto.getExtra().getString("type");
+          String state = notificationDto.getExtra().getString("state");
+          return type != null && type.equals("sms_message") &&
+            state != null && state.equals("incoming");
+        }
+      })
+      .subscribe(
+        // onNext
+        new Action1<NotificationDto>() {
+          @Override
+          public void call(NotificationDto notificationDto) {
+            String id = notificationDto.getExtra().getString("id");
+            smsMessages.get(id).subscribe(
+              new Action1<SmsMessageDto>() {
+                @Override
+                public void call(SmsMessageDto smsMessageDto) {
+                  subject.onNext(smsMessageDto);
+                }
+              },
+              new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
 
-    context.registerReceiver(this, filter);
+                }
+              }
+            );
+          }
+        },
+        // onError
+        new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            // ignore
+          }
+        }
+      );
   }
 
   @Override
   public void stop() {
-    context.unregisterReceiver(this);
+    if (subscription != null) {
+      subscription.unsubscribe();
+      subscription = null;
+    }
   }
 
-  @Override
-  public void onReceive(Context context, Intent intent) {
-    Bundle extras = intent.getExtras();
-    if (extras == null)
-      return;
-
-    StringBuilder message = new StringBuilder();
-    String fromAddress = "";
-    Object[] pdus = (Object[]) extras.get(EXTRAS_KEY);
-
-    for (Object pdu : pdus) {
-      SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
-      message.append(smsMessage.getMessageBody());
-      fromAddress = smsMessage.getOriginatingAddress();
-    }
-
-    smsMessages.post(new SmsMessageDto(deviceId)
-      .setPhoneNumber(fromAddress)
-      .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
-      .setContent(message.toString())).subscribe();
+  public Observable<SmsMessageDto> getObservable() {
+    return subject;
   }
 }

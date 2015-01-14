@@ -5,16 +5,16 @@ import junit.framework.TestCase;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class PhoneActionTest extends TestCase {
+public class PhonePhoneCallInitiateActionTest extends TestCase {
   public void testParseWithLoweCaseWillReturnCorrectValue() throws Exception {
-    assertThat(PhoneAction.parse("call"), is(PhoneAction.CALL));
+    assertThat(PhoneCallState.parse("call"), is(PhoneCallState.INITIATE));
   }
 
   public void testParseWithUpperCaseWillReturnCorrectValue() throws Exception {
-    assertThat(PhoneAction.parse("CALL"), is(PhoneAction.CALL));
+    assertThat(PhoneCallState.parse("CALL"), is(PhoneCallState.INITIATE));
   }
 
   public void testParseWithEmptyStringWillReturnUnknown() throws Exception {
-    assertThat(PhoneAction.parse(""), is(PhoneAction.UNKNOWN));
+    assertThat(PhoneCallState.parse(""), is(PhoneCallState.UNKNOWN));
   }
 }

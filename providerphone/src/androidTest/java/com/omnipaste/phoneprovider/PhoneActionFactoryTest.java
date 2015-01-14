@@ -4,23 +4,23 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.phoneprovider.actions.Call;
+import com.omnipaste.phoneprovider.actions.PhoneCallInitiate;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class ActionFactoryTest extends InstrumentationTestCase {
-  private ActionFactory actionActionFactory;
+public class PhoneActionFactoryTest extends InstrumentationTestCase {
+  private PhoneActionFactory actionPhoneActionFactory;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
 
-    actionActionFactory = new ActionFactory(mock(Context.class), mock(TelephonyManager.class), null, null);
+    actionPhoneActionFactory = new PhoneActionFactory(mock(Context.class), mock(TelephonyManager.class));
   }
 
   public void testCreateWithCallWillReturnActionCall() throws Exception {
-    assertThat(actionActionFactory.create(PhoneAction.CALL), instanceOf(Call.class));
+    assertThat(actionPhoneActionFactory.create(PhoneCallState.INITIATE), instanceOf(PhoneCallInitiate.class));
   }
 }

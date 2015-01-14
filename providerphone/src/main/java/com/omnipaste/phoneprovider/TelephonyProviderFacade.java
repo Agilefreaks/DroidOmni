@@ -1,9 +1,9 @@
 package com.omnipaste.phoneprovider;
 
 import com.omnipaste.omnicommon.Provider;
-import com.omnipaste.omnicommon.dto.NotificationDto;
-import com.omnipaste.phoneprovider.listeners.OmniPhoneStateListener;
-import com.omnipaste.phoneprovider.listeners.OmniSmsListener;
+import com.omnipaste.omnicommon.dto.EmptyDto;
+import com.omnipaste.phoneprovider.listeners.LocalPhoneStateListener;
+import com.omnipaste.phoneprovider.listeners.LocalSmsListener;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,12 +11,12 @@ import javax.inject.Singleton;
 import rx.Observable;
 
 @Singleton
-public class TelephonyProviderFacade implements Provider<NotificationDto> {
+public class TelephonyProviderFacade implements Provider<EmptyDto> {
 
   public static TelephonyProviderFacade instance;
 
-  private OmniPhoneStateListener omniPhoneStateListener;
-  private OmniSmsListener smsListener;
+  private LocalPhoneStateListener localPhoneStateListener;
+  private LocalSmsListener localSmsListener;
   private boolean subscribed = false;
 
   public static TelephonyProviderFacade getInstance() {
@@ -24,19 +24,19 @@ public class TelephonyProviderFacade implements Provider<NotificationDto> {
   }
 
   @Inject
-  public TelephonyProviderFacade(OmniPhoneStateListener omniPhoneStateListener,
-                                 OmniSmsListener smsListener) {
-    this.omniPhoneStateListener = omniPhoneStateListener;
-    this.smsListener = smsListener;
+  public TelephonyProviderFacade(LocalPhoneStateListener localPhoneStateListener,
+                                 LocalSmsListener localSmsListener) {
+    this.localPhoneStateListener = localPhoneStateListener;
+    this.localSmsListener = localSmsListener;
 
     instance = this;
   }
 
   @Override
-  public Observable<NotificationDto> init(String deviceId) {
+  public Observable<EmptyDto> init(String deviceId) {
     if (!subscribed) {
-      omniPhoneStateListener.start(deviceId);
-      smsListener.start(deviceId);
+      localPhoneStateListener.start(deviceId);
+      localSmsListener.start(deviceId);
       subscribed = true;
     }
 
@@ -45,8 +45,8 @@ public class TelephonyProviderFacade implements Provider<NotificationDto> {
 
   @Override
   public void destroy() {
-    omniPhoneStateListener.stop();
-    smsListener.stop();
+    localPhoneStateListener.stop();
+    localSmsListener.stop();
     subscribed = false;
   }
 }

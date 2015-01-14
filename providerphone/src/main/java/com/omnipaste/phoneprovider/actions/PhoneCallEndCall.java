@@ -1,20 +1,21 @@
 package com.omnipaste.phoneprovider.actions;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
+
+import com.omnipaste.omnicommon.dto.PhoneCallDto;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class EndCall extends Action {
+public class PhoneCallEndCall extends PhoneCallAction {
 
-  public EndCall(Context context) {
+  public PhoneCallEndCall(Context context) {
     super(context);
   }
 
   @Override
-  public void execute(Bundle extras) {
+  public void execute(PhoneCallDto phoneCallDto) {
     try {
       Class<? extends TelephonyManager> telephonyManagerClass = telephonyManager.getClass();
       Method getITelephony = telephonyManagerClass.getDeclaredMethod("getITelephony");
