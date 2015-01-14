@@ -11,21 +11,21 @@ import javax.inject.Singleton;
 import rx.Observable;
 
 @Singleton
-public class TelephonyEventsProvider implements Provider<NotificationDto> {
+public class TelephonyListenerProvider implements Provider<NotificationDto> {
 
-  public static TelephonyEventsProvider instance;
+  public static TelephonyListenerProvider instance;
 
   private OmniPhoneStateListener omniPhoneStateListener;
   private OmniSmsListener smsListener;
   private boolean subscribed = false;
 
-  public static TelephonyEventsProvider getInstance() {
+  public static TelephonyListenerProvider getInstance() {
     return instance;
   }
 
   @Inject
-  public TelephonyEventsProvider(OmniPhoneStateListener omniPhoneStateListener,
-                                 OmniSmsListener smsListener) {
+  public TelephonyListenerProvider(OmniPhoneStateListener omniPhoneStateListener,
+                                   OmniSmsListener smsListener) {
     this.omniPhoneStateListener = omniPhoneStateListener;
     this.smsListener = smsListener;
 

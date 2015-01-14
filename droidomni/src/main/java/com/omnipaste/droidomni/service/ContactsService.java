@@ -6,11 +6,11 @@ import com.google.gson.Gson;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.interaction.RSACrypto;
 import com.omnipaste.eventsprovider.ContactsRepository;
-import com.omnipaste.omniapi.resource.v1.Devices;
 import com.omnipaste.omniapi.resource.v1.users.Contacts;
+import com.omnipaste.omniapi.resource.v1.users.Devices;
 import com.omnipaste.omnicommon.dto.ContactDto;
+import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
-import com.omnipaste.omnicommon.dto.RegisteredDeviceDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
 import java.io.IOException;
@@ -67,9 +67,9 @@ public class ContactsService extends ServiceBase {
           return notificationDto.getTarget() == NotificationDto.Target.CONTACTS;
         }
       })
-      .flatMap(new Func1<NotificationDto, Observable<RegisteredDeviceDto>>() {
+      .flatMap(new Func1<NotificationDto, Observable<DeviceDto>>() {
         @Override
-        public Observable<RegisteredDeviceDto> call(NotificationDto notificationDto) {
+        public Observable<DeviceDto> call(NotificationDto notificationDto) {
           fetching.set(true);
           contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Started));
 
@@ -79,20 +79,20 @@ public class ContactsService extends ServiceBase {
           return devices.get(identifier);
         }
       })
-      .flatMap(new Func1<RegisteredDeviceDto, Observable<?>>() {
+      .flatMap(new Func1<DeviceDto, Observable<?>>() {
         @Override
-        public Observable<?> call(RegisteredDeviceDto registeredDeviceDto) {
+        public Observable<?> call(DeviceDto deviceDto) {
           List<ContactDto> contacts = contactsRepository.findAll();
           String encryptedContacts = "";
 
           try {
             String gsonContacts = new Gson().toJson(contacts);
-            encryptedContacts = RSACrypto.encrypt(gsonContacts).with(registeredDeviceDto.getPublicKey());
+            encryptedContacts = RSACrypto.encrypt(gsonContacts).with(deviceDto.getPublicKey());
           } catch (IOException ignore) {
           }
 
           Observable result =  !encryptedContacts.equals("") ?
-            ContactsService.this.contacts.create(sessionService.getDeviceDto().getId(), registeredDeviceDto.getIdentifier(), encryptedContacts) :
+            ContactsService.this.contacts.create(sessionService.getDeviceDto().getId(), deviceDto.getId(), encryptedContacts) :
             Observable.empty();
 
           fetching.set(false);

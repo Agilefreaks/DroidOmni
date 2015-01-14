@@ -7,8 +7,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import retrofit.RestAdapter;
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
 
@@ -17,6 +19,9 @@ public class SmsMessages extends AuthorizationResource<SmsMessages.SmsMessagesAp
   protected interface SmsMessagesApi {
     @GET("/v1/sms_messages/{id}.json")
     Observable<SmsMessageDto> get(@Header("Authorization") String token, @Path("id") String id);
+
+    @POST("/v1/sms_messages")
+    Observable<SmsMessageDto> post(@Header("Authorization") String token, @Body SmsMessageDto smsMessage);
   }
 
   @Inject
@@ -26,5 +31,9 @@ public class SmsMessages extends AuthorizationResource<SmsMessages.SmsMessagesAp
 
   public Observable<SmsMessageDto> get(String id) {
     return authorizationService.authorize(api.get(bearerAccessToken(), id));
+  }
+
+  public Observable<SmsMessageDto> post(SmsMessageDto smsMessage) {
+    return authorizationService.authorize(api.post(bearerAccessToken(), smsMessage));
   }
 }

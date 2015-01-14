@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.service.subscriber;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.eventsprovider.TelephonyEventsProvider;
+import com.omnipaste.eventsprovider.TelephonyListenerProvider;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 
 import org.mockito.Mock;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 public class TelephonyEventsSubscriberImplTest extends InstrumentationTestCase {
   @Mock
-  public TelephonyEventsProvider telephonyEventsProvider;
+  public TelephonyListenerProvider telephonyListenerProvider;
 
   @SuppressWarnings("ConstantConditions")
   @Override
@@ -31,8 +31,8 @@ public class TelephonyEventsSubscriberImplTest extends InstrumentationTestCase {
   }
 
   public void testStartWillCallInitWithTheDeviceIdentifier() throws Exception {
-    TelephonyEventsSubscriber subscriber = new TelephonyEventsSubscriber(telephonyEventsProvider);
-    when(telephonyEventsProvider.init(any(String.class))).thenReturn(Observable.create(new Observable.OnSubscribe<NotificationDto>() {
+    TelephonyEventsSubscriber subscriber = new TelephonyEventsSubscriber(telephonyListenerProvider);
+    when(telephonyListenerProvider.init(any(String.class))).thenReturn(Observable.create(new Observable.OnSubscribe<NotificationDto>() {
       @Override
       public void call(Subscriber<? super NotificationDto> subscriber) {
       }
@@ -40,6 +40,6 @@ public class TelephonyEventsSubscriberImplTest extends InstrumentationTestCase {
 
     subscriber.start("42");
 
-    verify(telephonyEventsProvider, times(1)).init("42");
+    verify(telephonyListenerProvider, times(1)).init("42");
   }
 }

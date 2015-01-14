@@ -21,11 +21,14 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
     @GET("/v1/users/devices.json")
     Observable<DeviceDto[]> get(@Header("Authorization") String token);
 
+    @GET("/v1/users/devices/{id}.json")
+    Observable<DeviceDto> get(@Header("Authorization") String token, @Path("id") String id);
+
     @POST("/v1/users/devices.json")
     Observable<DeviceDto> create(@Header("Authorization") String token, @Body DeviceDto deviceDto);
 
     @PATCH("/v1/users/devices/{id}.json")
-    Observable<DeviceDto> patch(@Header("Authorization") String token, @Path("id") String is, @Body DeviceDto deviceDto);
+    Observable<DeviceDto> patch(@Header("Authorization") String token, @Path("id") String id, @Body DeviceDto deviceDto);
   }
 
   @Inject
@@ -35,6 +38,10 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
 
   public Observable<DeviceDto[]> get() {
     return authorizationService.authorize(api.get(bearerAccessToken()));
+  }
+
+  public Observable<DeviceDto> get(String id) {
+    return authorizationService.authorize(api.get(bearerAccessToken(), id));
   }
 
   public Observable<DeviceDto> create(String name) {

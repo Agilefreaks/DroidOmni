@@ -3,19 +3,19 @@ package com.omnipaste.omnicommon.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
 public class SmsMessageDto implements Parcelable {
-  public String phoneNumber = "";
-  public String contactName = "";
-  public String content = "";
-  public List<String> phoneNumberList = new ArrayList<>();
-  public List<String> contactNameList = new ArrayList<>();
-  public List<String> contentList = new ArrayList<>();
+  private String phoneNumber;
+  private String contactName;
+  private String content;
+  private List<String> phoneNumberList;
+  private List<String> contactNameList;
+  private List<String> contentList;
+  private String deviceId;
   private State state;
   private Date createdAt;
 
@@ -34,6 +34,11 @@ public class SmsMessageDto implements Parcelable {
   };
 
   public SmsMessageDto() {
+  }
+
+  public SmsMessageDto(String deviceId) {
+    this.deviceId = deviceId;
+    this.state = State.INCOMING;
   }
 
   public SmsMessageDto(Parcel in) {
@@ -73,8 +78,9 @@ public class SmsMessageDto implements Parcelable {
     return this;
   }
 
-  public void setContactName(String contactName) {
+  public SmsMessageDto setContactName(String contactName) {
     this.contactName = contactName;
+    return this;
   }
 
   public String getContent() {
@@ -124,5 +130,13 @@ public class SmsMessageDto implements Parcelable {
 
   public String getContactName() {
     return contactName;
+  }
+
+  public String getDeviceId() {
+    return deviceId;
+  }
+
+  public void setDeviceId(String deviceId) {
+    this.deviceId = deviceId;
   }
 }
