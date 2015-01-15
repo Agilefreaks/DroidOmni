@@ -8,6 +8,7 @@ public class NotificationDto {
 
   public enum Type {
     CLIPPING_CREATED,
+    SEND_SMS_MESSAGE_REQUESTED,
     UNKNOWN;
 
     public static Type parse(String type) {

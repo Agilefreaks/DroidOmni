@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Messenger;
 
+import com.google.gson.internal.LazilyParsedNumber;
 import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.factory.NotificationFactory;
@@ -18,6 +19,7 @@ import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 import com.omnipaste.phoneprovider.LocalProviderFacade;
 import com.omnipaste.phoneprovider.OmniProviderFacade;
+import com.omnipaste.phoneprovider.PhoneProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -49,10 +51,10 @@ public class OmniService extends Service {
   public Lazy<ClipboardProvider> clipboardProvider;
 
   @Inject
-  public Lazy<OmniProviderFacade> phoneProvider;
+  public Lazy<LocalProviderFacade> telephonyProviderFacade;
 
   @Inject
-  public Lazy<LocalProviderFacade> telephonyProviderFacade;
+  public Lazy<PhoneProvider> phoneProvider;
 
   @Inject
   public ActivateDevice activateDevice;
