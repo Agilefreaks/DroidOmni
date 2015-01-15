@@ -48,7 +48,7 @@ public class OmniPhoneStateListener implements Listener {
       .filter(new Func1<NotificationDto, Boolean>() {
         @Override
         public Boolean call(NotificationDto notificationDto) {
-          String type = notificationDto.getExtra().getString("type");
+          String type = "";
           return type != null && type.equals("phone_call");
         }
       })
@@ -57,8 +57,8 @@ public class OmniPhoneStateListener implements Listener {
         new Action1<NotificationDto>() {
           @Override
           public void call(NotificationDto notificationDto) {
-            final String id = notificationDto.getExtra().getString("id");
-            final PhoneCallState phoneCallState = PhoneCallState.parse(notificationDto.getExtra().getString("state"));
+            final String id = "";
+            final PhoneCallState phoneCallState = PhoneCallState.UNKNOWN;
 
             phoneCalls.get(id).subscribe(
               new Action1<PhoneCallDto>() {

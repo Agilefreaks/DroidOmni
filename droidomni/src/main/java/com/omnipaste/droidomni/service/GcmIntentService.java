@@ -44,10 +44,10 @@ public class GcmIntentService extends IntentService {
           break;
         case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
           GcmNotification gcmNotification = new GcmNotification(extras);
-          gcmNotificationProvider.post(new NotificationDto(
-              gcmNotification.getProvider(),
-              gcmNotification.getRegistrationId(),
-              gcmNotification.getExtras()));
+          NotificationDto notificationDto = new NotificationDto(gcmNotification.getType(), gcmNotification.getId());
+          if (notificationDto.getType() != NotificationDto.Type.UNKNOWN) {
+            gcmNotificationProvider.post(notificationDto);
+          }
           break;
       }
     }

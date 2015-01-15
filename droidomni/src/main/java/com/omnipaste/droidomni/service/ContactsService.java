@@ -1,7 +1,5 @@
 package com.omnipaste.droidomni.service;
 
-import android.os.Bundle;
-
 import com.google.gson.Gson;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.interaction.RSACrypto;
@@ -28,8 +26,6 @@ import rx.subjects.PublishSubject;
 
 @Singleton
 public class ContactsService extends ServiceBase {
-  private static final String IDENTIFIER_KEY = "identifier";
-
   private final NotificationProvider notificationProvider;
   private final ContactsRepository contactsRepository;
   private final SessionService sessionService;
@@ -64,7 +60,7 @@ public class ContactsService extends ServiceBase {
       .filter(new Func1<NotificationDto, Boolean>() {
         @Override
         public Boolean call(NotificationDto notificationDto) {
-          return notificationDto.getTarget() == NotificationDto.Target.CONTACTS;
+          return false;
         }
       })
       .flatMap(new Func1<NotificationDto, Observable<DeviceDto>>() {
@@ -73,8 +69,7 @@ public class ContactsService extends ServiceBase {
           fetching.set(true);
           contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Started));
 
-          Bundle extra = notificationDto.getExtra();
-          String identifier = extra.getString(IDENTIFIER_KEY);
+          String identifier = "";
 
           return devices.get(identifier);
         }

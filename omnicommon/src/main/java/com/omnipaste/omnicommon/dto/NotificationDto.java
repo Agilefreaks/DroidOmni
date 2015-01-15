@@ -1,42 +1,37 @@
 package com.omnipaste.omnicommon.dto;
 
-import android.os.Bundle;
+import java.util.Locale;
 
 public class NotificationDto {
-  private Target target;
-  private String registrationId;
-  private Bundle extra;
+  private Type type;
+  private String id;
 
-  public enum Target {
-    CLIPBOARD,
-    PHONE,
-    NOTIFICATION,
-    CONTACTS,
-    UNKNOWN
+  public enum Type {
+    CLIPPING_CREATED,
+    UNKNOWN;
+
+    public static Type parse(String type) {
+      Type result = Type.UNKNOWN;
+
+      try {
+        result = Type.valueOf(type.toUpperCase(Locale.getDefault()));
+      } catch (IllegalArgumentException ignore) {
+      }
+
+      return result;
+    }
   }
 
-  public NotificationDto() {
+  public NotificationDto(Type type, String id) {
+    this.type = type;
+    this.id = id;
   }
 
-  public NotificationDto(Target target, String registrationId) {
-    this.target = target;
-    this.registrationId = registrationId;
+  public Type getType() {
+    return type;
   }
 
-  public NotificationDto(Target target, String registrationId, Bundle extra) {
-    this(target, registrationId);
-    this.extra = extra;
-  }
-
-  public Target getTarget() {
-    return target;
-  }
-
-  public String getRegistrationId() {
-    return registrationId;
-  }
-
-  public Bundle getExtra() {
-    return extra;
+  public String getId() {
+    return id;
   }
 }

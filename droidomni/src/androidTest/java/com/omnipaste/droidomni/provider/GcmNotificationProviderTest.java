@@ -1,8 +1,5 @@
 package com.omnipaste.droidomni.provider;
 
-import android.os.Bundle;
-
-import com.omnipaste.droidomni.domain.GcmNotification;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 
 import junit.framework.TestCase;
@@ -37,7 +34,7 @@ public class GcmNotificationProviderTest extends TestCase {
     Observer observer = mock(Observer.class);
     notificationProvider.getObservable().subscribe(observer);
 
-    notificationProvider.post(new NotificationDto());
+    notificationProvider.post(new NotificationDto(NotificationDto.Type.CLIPPING_CREATED, "123"));
 
     verify(observer, times(1)).onNext(isA(NotificationDto.class));
   }

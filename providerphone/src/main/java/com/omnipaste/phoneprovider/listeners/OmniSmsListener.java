@@ -47,7 +47,7 @@ public class OmniSmsListener implements Listener {
       .filter(new Func1<NotificationDto, Boolean>() {
         @Override
         public Boolean call(NotificationDto notificationDto) {
-          String type = notificationDto.getExtra().getString("type");
+          String type = "";
           return type != null && type.equals("sms_message");
         }
       })
@@ -56,8 +56,8 @@ public class OmniSmsListener implements Listener {
         new Action1<NotificationDto>() {
           @Override
           public void call(NotificationDto notificationDto) {
-            final String id = notificationDto.getExtra().getString("id");
-            final SmsMessageState smsMessageState = SmsMessageState.parse(notificationDto.getExtra().getString("state"));
+            final String id = "";
+            final SmsMessageState smsMessageState = SmsMessageState.UNKNOWN;
 
             smsMessages.get(id).subscribe(
               new Action1<SmsMessageDto>() {

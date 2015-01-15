@@ -4,40 +4,30 @@ import android.os.Bundle;
 
 import com.omnipaste.omnicommon.dto.NotificationDto;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class GcmNotification {
-  public static String REGISTRATION_ID_KEY = "registrationId";
-  public static String PROVIDER_KEY = "provider";
+  public static String PAYLOAD_KEY = "payload";
+  public static String ID_KEY = "id";
+  public static String TYPE_KEY = "type";
 
-  private NotificationDto.Target provider;
-  private String registrationId;
-  private Bundle extras;
-
-  public static <T extends Enum<T>> T valueOfOrDefault(Class<T> enumeration, String name, T defaultValue) {
-    for (T enumValue : enumeration.getEnumConstants()) {
-      if (enumValue.name().equalsIgnoreCase(name)) {
-        return enumValue;
-      }
-    }
-
-    return defaultValue;
-  }
+  private NotificationDto.Type type;
+  private String id;
 
   public GcmNotification(Bundle extras) {
-    this.extras = extras;
-    registrationId = extras.getString(REGISTRATION_ID_KEY);
-    provider = valueOfOrDefault(NotificationDto.Target.class, extras.getString(PROVIDER_KEY), NotificationDto.Target.UNKNOWN);
+    try {
+      this.type = NotificationDto.Type.parse(extras.getString(TYPE_KEY, ""));
+      this.id = new JSONObject(extras.getString(PAYLOAD_KEY, "")).getString(ID_KEY);
+    } catch (JSONException ignore) {
+    }
   }
 
-
-  public NotificationDto.Target getProvider() {
-    return provider;
+  public NotificationDto.Type getType() {
+    return type;
   }
 
-  public String getRegistrationId() {
-    return registrationId;
-  }
-
-  public Bundle getExtras() {
-    return extras;
+  public String getId() {
+    return id;
   }
 }

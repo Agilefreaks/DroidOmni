@@ -31,15 +31,14 @@ public class OmniClipboardManager {
         .filter(new Func1<NotificationDto, Boolean>() {
           @Override
           public Boolean call(NotificationDto notificationDto) {
-            return notificationDto.getTarget() == NotificationDto.Target.CLIPBOARD;
+            return notificationDto.getType() == NotificationDto.Type.CLIPPING_CREATED;
           }
         })
         .subscribe(
             new Action1<NotificationDto>() {
               @Override
               public void call(NotificationDto notificationDto) {
-                String id = notificationDto.getExtra().getString("id");
-                onPrimaryClipChanged(id);
+                onPrimaryClipChanged(notificationDto.getId());
               }
             }
         );
