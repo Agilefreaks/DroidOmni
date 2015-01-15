@@ -3,10 +3,10 @@ package com.omnipaste.omniapi;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.omnipaste.omniapi.deserializer.ClippingTypeDeserializer;
-import com.omnipaste.omniapi.deserializer.PhoneCallStateDeserializer;
 import com.omnipaste.omniapi.prefs.ApiUrl;
 import com.omnipaste.omniapi.prefs.PrefsModule;
 import com.omnipaste.omniapi.serializer.PhoneCallStateSerializer;
+import com.omnipaste.omniapi.serializer.PhoneCallTypeSerializer;
 import com.omnipaste.omniapi.serializer.SmsMessageStateSerializer;
 import com.omnipaste.omniapi.serializer.SmsMessageTypeSerializer;
 import com.omnipaste.omnicommon.dto.ClippingDto;
@@ -63,7 +63,7 @@ public class OmniApiModule {
             .registerTypeAdapter(SmsMessageDto.State.class, new SmsMessageStateSerializer())
             .registerTypeAdapter(SmsMessageDto.Type.class, new SmsMessageTypeSerializer())
             .registerTypeAdapter(PhoneCallDto.State.class, new PhoneCallStateSerializer())
-            .registerTypeAdapter(PhoneCallDto.State.class, new PhoneCallStateDeserializer())
+            .registerTypeAdapter(PhoneCallDto.Type.class, new PhoneCallTypeSerializer())
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .create()
         )

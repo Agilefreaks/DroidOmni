@@ -13,7 +13,10 @@ import java.util.Map;
 public class PhoneCallStateSerializer implements JsonSerializer<PhoneCallDto.State> {
   private static final Map<PhoneCallDto.State, JsonPrimitive> MAP = new HashMap<PhoneCallDto.State, JsonPrimitive>() {
     {
-      put(PhoneCallDto.State.INCOMING, new JsonPrimitive("incoming"));
+      put(PhoneCallDto.State.STARTING, new JsonPrimitive("starting"));
+      put(PhoneCallDto.State.STARTED, new JsonPrimitive("started"));
+      put(PhoneCallDto.State.ENDED, new JsonPrimitive("ended"));
+      put(PhoneCallDto.State.ENDING, new JsonPrimitive("ending"));
     }
   };
 

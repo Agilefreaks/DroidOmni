@@ -10,11 +10,16 @@ public class PhoneCallDto implements Parcelable {
   private String deviceId;
   private String number;
   private String contactName;
+  private Type type;
   private State state;
   private Date createdAt;
 
   public enum State {
-    INITIATE, END_CALL, HOLD, UNKNOWN, INCOMING
+    STARTED, STARTING, ENDED, ENDING, UNKNOWN
+  }
+
+  public enum Type {
+    INCOMING, OUTGOING, UNKNOWN
   }
 
   public static final Parcelable.Creator<PhoneCallDto> CREATOR = new Parcelable.Creator<PhoneCallDto>() {
@@ -27,15 +32,16 @@ public class PhoneCallDto implements Parcelable {
     }
   };
 
-  public PhoneCallDto(String deviceId, String number, String contactName, State state) {
+  public PhoneCallDto(String deviceId, String number, String contactName, Type type, State state) {
     this.deviceId = deviceId;
     this.number = number;
     this.contactName = contactName;
+    this.type = type;
     this.state = state;
   }
 
   public PhoneCallDto(String deviceId, String number, String contactName) {
-    this(deviceId, number, contactName, State.INCOMING);
+    this(deviceId, number, contactName, Type.INCOMING, State.STARTING);
   }
 
   public PhoneCallDto(Parcel in) {
@@ -90,6 +96,14 @@ public class PhoneCallDto implements Parcelable {
 
   public void setState(State state) {
     this.state = state;
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  public void setType(Type type) {
+    this.type = type;
   }
 
   public void setCreateAt(Date createdAt) {
