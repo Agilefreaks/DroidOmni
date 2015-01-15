@@ -4,6 +4,9 @@ import com.omnipaste.omniapi.resource.v1.SmsMessages;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
+import com.omnipaste.phoneprovider.SmsMessageActionFactory;
+import com.omnipaste.phoneprovider.SmsMessageState;
+import com.omnipaste.phoneprovider.actions.SmsMessageAction;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,13 +21,17 @@ import rx.subjects.PublishSubject;
 public class OmniSmsListener implements Listener {
   private final NotificationProvider notificationProvider;
   private final SmsMessages smsMessages;
+  private final SmsMessageActionFactory smsMessageActionFactory;
   private final PublishSubject<SmsMessageDto> subject;
   private Subscription subscription;
 
   @Inject
-  public OmniSmsListener(NotificationProvider notificationProvider, SmsMessages smsMessages) {
+  public OmniSmsListener(NotificationProvider notificationProvider,
+                         SmsMessages smsMessages,
+                         SmsMessageActionFactory smsMessageActionFactory) {
     this.notificationProvider = notificationProvider;
     this.smsMessages = smsMessages;
+    this.smsMessageActionFactory = smsMessageActionFactory;
 
     subject = PublishSubject.create();
   }
@@ -41,9 +48,7 @@ public class OmniSmsListener implements Listener {
         @Override
         public Boolean call(NotificationDto notificationDto) {
           String type = notificationDto.getExtra().getString("type");
-          String state = notificationDto.getExtra().getString("state");
-          return type != null && type.equals("sms_message") &&
-            state != null && state.equals("incoming");
+          return type != null && type.equals("sms_message");
         }
       })
       .subscribe(
@@ -51,18 +56,20 @@ public class OmniSmsListener implements Listener {
         new Action1<NotificationDto>() {
           @Override
           public void call(NotificationDto notificationDto) {
-            String id = notificationDto.getExtra().getString("id");
+            final String id = notificationDto.getExtra().getString("id");
+            final SmsMessageState smsMessageState = SmsMessageState.parse(notificationDto.getExtra().getString("state"));
+
             smsMessages.get(id).subscribe(
               new Action1<SmsMessageDto>() {
                 @Override
                 public void call(SmsMessageDto smsMessageDto) {
-                  subject.onNext(smsMessageDto);
-                }
-              },
-              new Action1<Throwable>() {
-                @Override
-                public void call(Throwable throwable) {
-
+                  if (smsMessageState == SmsMessageState.INCOMING) {
+                    subject.onNext(smsMessageDto);
+                  } else {
+                    // send
+                    SmsMessageAction smsMessageAction = smsMessageActionFactory.create(smsMessageState);
+                    smsMessageAction.execute(smsMessageDto);
+                  }
                 }
               }
             );

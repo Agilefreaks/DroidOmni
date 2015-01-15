@@ -58,14 +58,12 @@ public class OmniPhoneStateListener implements Listener {
           @Override
           public void call(NotificationDto notificationDto) {
             final String id = notificationDto.getExtra().getString("id");
-            final String state = notificationDto.getExtra().getString("state");
+            final PhoneCallState phoneCallState = PhoneCallState.parse(notificationDto.getExtra().getString("state"));
 
             phoneCalls.get(id).subscribe(
               new Action1<PhoneCallDto>() {
                 @Override
                 public void call(PhoneCallDto phoneCallDto) {
-                  PhoneCallState phoneCallState = PhoneCallState.parse(state);
-
                   if (phoneCallState == PhoneCallState.INCOMING) {
                     subject.onNext(phoneCallDto);
                   } else {

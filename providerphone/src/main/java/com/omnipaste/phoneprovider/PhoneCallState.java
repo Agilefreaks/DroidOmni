@@ -8,11 +8,11 @@ public enum PhoneCallState {
   END_CALL,
   UNKNOWN;
 
-  public static PhoneCallState parse(String phoneAction) {
+  public static PhoneCallState parse(String state) {
     PhoneCallState result = PhoneCallState.UNKNOWN;
 
     try {
-      result = PhoneCallState.valueOf(phoneAction.toUpperCase(Locale.getDefault()));
+      result = PhoneCallState.valueOf(state.toUpperCase(Locale.getDefault()));
     } catch (IllegalArgumentException ignore) {
     }
 

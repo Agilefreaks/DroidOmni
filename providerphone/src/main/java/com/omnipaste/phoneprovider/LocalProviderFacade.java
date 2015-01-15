@@ -11,21 +11,21 @@ import javax.inject.Singleton;
 import rx.Observable;
 
 @Singleton
-public class TelephonyProviderFacade implements Provider<EmptyDto> {
+public class LocalProviderFacade implements Provider<EmptyDto> {
 
-  public static TelephonyProviderFacade instance;
+  public static LocalProviderFacade instance;
 
   private LocalPhoneStateListener localPhoneStateListener;
   private LocalSmsListener localSmsListener;
   private boolean subscribed = false;
 
-  public static TelephonyProviderFacade getInstance() {
+  public static LocalProviderFacade getInstance() {
     return instance;
   }
 
   @Inject
-  public TelephonyProviderFacade(LocalPhoneStateListener localPhoneStateListener,
-                                 LocalSmsListener localSmsListener) {
+  public LocalProviderFacade(LocalPhoneStateListener localPhoneStateListener,
+                             LocalSmsListener localSmsListener) {
     this.localPhoneStateListener = localPhoneStateListener;
     this.localSmsListener = localSmsListener;
 

@@ -8,8 +8,8 @@ import com.omnipaste.phoneprovider.listeners.LocalSmsListener;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class TelephonyProviderFacadeTest extends InstrumentationTestCase {
-  private TelephonyProviderFacade subject;
+public class LocalProviderFacadeTest extends InstrumentationTestCase {
+  private LocalProviderFacade subject;
   private LocalPhoneStateListener mockLocalPhoneStateListener;
   private LocalSmsListener mockLocalSmsListener;
 
@@ -19,7 +19,7 @@ public class TelephonyProviderFacadeTest extends InstrumentationTestCase {
 
     mockLocalPhoneStateListener = mock(LocalPhoneStateListener.class);
     mockLocalSmsListener = mock(LocalSmsListener.class);
-    subject = new TelephonyProviderFacade(mockLocalPhoneStateListener, mockLocalSmsListener);
+    subject = new LocalProviderFacade(mockLocalPhoneStateListener, mockLocalSmsListener);
   }
 
   public void testInitItCallsStartOnBothListeners() throws Exception {
