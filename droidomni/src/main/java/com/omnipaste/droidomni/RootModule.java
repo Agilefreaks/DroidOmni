@@ -31,20 +31,20 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module(
-    includes = {
-        OmniCommonModule.class,
-        OmniApiModule.class,
-        PrefsModule.class,
-        UiModule.class,
-        ServiceModule.class,
-        ReceiverModule.class,
-        PresenterModule.class
-    },
-    injects = {
-        DroidOmniApplication_.class,
-        ClipboardProviderModule.class,
-        PhoneProviderModule.class
-    }
+  includes = {
+    OmniCommonModule.class,
+    OmniApiModule.class,
+    PrefsModule.class,
+    UiModule.class,
+    ServiceModule.class,
+    ReceiverModule.class,
+    PresenterModule.class,
+    ClipboardProviderModule.class,
+    PhoneProviderModule.class
+  },
+  injects = {
+    DroidOmniApplication_.class
+  }
 )
 public final class RootModule {
   private final Context context;

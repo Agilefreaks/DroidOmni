@@ -9,6 +9,10 @@ public class NotificationDto {
   public enum Type {
     CLIPPING_CREATED,
     SEND_SMS_MESSAGE_REQUESTED,
+    START_PHONE_CALL_REQUESTED,
+    END_PHONE_CALL_REQUESTED,
+    PHONE_CALL_RECEIVED,
+    SMS_MESSAGE_RECEIVED,
     UNKNOWN;
 
     public static Type parse(String type) {

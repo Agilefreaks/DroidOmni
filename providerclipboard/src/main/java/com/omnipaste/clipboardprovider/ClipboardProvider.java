@@ -49,27 +49,29 @@ public class ClipboardProvider implements Provider<ClippingDto> {
     };
 
     subscription = currentLocalClipboardManager
-        .getObservable()
-        .mergeWith(currentOmniClipboardManager.getObservable())
-        .distinctUntilChanged(keySelector)
-        .subscribe(
-            new Action1<ClippingDto>() {
-              @Override public void call(ClippingDto clippingDto) {
-                if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.CLOUD) {
-                  currentLocalClipboardManager.setPrimaryClip(clippingDto);
-                } else {
-                  clippingDto.setDeviceId(deviceId);
-                  currentOmniClipboardManager.setPrimaryClip(clippingDto);
-                }
-
-                clipboardProviderSubject.onNext(clippingDto);
-              }
-            },
-            new Action1<Throwable>() {
-              @Override public void call(Throwable throwable) {
-              }
+      .getObservable()
+      .mergeWith(currentOmniClipboardManager.getObservable())
+      .distinctUntilChanged(keySelector)
+      .subscribe(
+        new Action1<ClippingDto>() {
+          @Override
+          public void call(ClippingDto clippingDto) {
+            if (clippingDto.getClippingProvider() == ClippingDto.ClippingProvider.CLOUD) {
+              currentLocalClipboardManager.setPrimaryClip(clippingDto);
+            } else {
+              clippingDto.setDeviceId(deviceId);
+              currentOmniClipboardManager.setPrimaryClip(clippingDto);
             }
-        );
+
+            clipboardProviderSubject.onNext(clippingDto);
+          }
+        },
+        new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+          }
+        }
+      );
 
     return clipboardProviderSubject;
   }

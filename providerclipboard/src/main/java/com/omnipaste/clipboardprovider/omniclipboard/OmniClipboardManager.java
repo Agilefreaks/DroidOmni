@@ -5,25 +5,21 @@ import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 public class OmniClipboardManager {
+  private final Clippings clippings;
   private PublishSubject<ClippingDto> omniClipboardSubject;
-
-  @Inject
-  public Clippings clippings;
 
   public Observable<ClippingDto> getObservable() {
     return omniClipboardSubject;
   }
 
-  @Inject
-  public OmniClipboardManager(NotificationProvider notificationProvider) {
+  public OmniClipboardManager(NotificationProvider notificationProvider, Clippings clippings) {
+    this.clippings = clippings;
     omniClipboardSubject = PublishSubject.create();
 
     notificationProvider

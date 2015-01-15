@@ -7,8 +7,6 @@ import android.os.Build;
 
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -20,7 +18,6 @@ public class LocalClipboardManager implements ClipboardManager.OnPrimaryClipChan
   private ClipboardManager clipboardManager;
   private boolean skipNext = false;
 
-  @Inject
   public LocalClipboardManager(ClipboardManager clipboardManager) {
     this.clipboardManager = clipboardManager;
     this.clipboardManager.addPrimaryClipChangedListener(this);

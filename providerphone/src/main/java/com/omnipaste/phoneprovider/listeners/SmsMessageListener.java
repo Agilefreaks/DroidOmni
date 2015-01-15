@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class LocalSmsListener extends BroadcastReceiver implements Listener {
+public class SmsMessageListener extends BroadcastReceiver implements Listener {
   private final static String EXTRAS_KEY = "pdus";
 
   private final Context context;
@@ -24,9 +24,9 @@ public class LocalSmsListener extends BroadcastReceiver implements Listener {
   private String deviceId;
 
   @Inject
-  public LocalSmsListener(Context context,
-                          ContactsRepository contactsRepository,
-                          SmsMessages smsMessages) {
+  public SmsMessageListener(Context context,
+                            ContactsRepository contactsRepository,
+                            SmsMessages smsMessages) {
     this.context = context;
     this.contactsRepository = contactsRepository;
     this.smsMessages = smsMessages;

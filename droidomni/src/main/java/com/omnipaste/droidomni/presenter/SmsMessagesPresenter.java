@@ -2,7 +2,7 @@ package com.omnipaste.droidomni.presenter;
 
 import com.omnipaste.droidomni.domain.SmsMessage;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
-import com.omnipaste.phoneprovider.listeners.OmniSmsListener;
+import com.omnipaste.phoneprovider.receivers.SmsMessageReceived;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,7 +14,7 @@ import rx.subjects.PublishSubject;
 
 @Singleton
 public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> implements Observer<SmsMessageDto> {
-  private final OmniSmsListener omniSmsListener;
+  private final SmsMessageReceived smsMessageReceived;
   private PublishSubject<SmsMessage> subject;
   private Subscription subscription;
 
@@ -22,8 +22,8 @@ public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> i
   }
 
   @Inject
-  public SmsMessagesPresenter(OmniSmsListener omniSmsListener) {
-    this.omniSmsListener = omniSmsListener;
+  public SmsMessagesPresenter(SmsMessageReceived smsMessageReceived) {
+    this.smsMessageReceived = smsMessageReceived;
   }
 
   @Override
@@ -33,7 +33,7 @@ public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> i
     }
 
     subject = PublishSubject.create();
-    subscription = omniSmsListener
+    subscription = smsMessageReceived
       .getObservable()
       .observeOn(observeOnScheduler)
       .subscribe(this);

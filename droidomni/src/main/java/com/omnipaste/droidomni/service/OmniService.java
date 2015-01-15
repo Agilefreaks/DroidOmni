@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Messenger;
 
-import com.google.gson.internal.LazilyParsedNumber;
 import com.omnipaste.clipboardprovider.ClipboardProvider;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.factory.NotificationFactory;
@@ -17,9 +16,9 @@ import com.omnipaste.droidomni.prefs.NotificationsTelephony;
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
-import com.omnipaste.phoneprovider.LocalProviderFacade;
-import com.omnipaste.phoneprovider.OmniProviderFacade;
-import com.omnipaste.phoneprovider.PhoneProvider;
+import com.omnipaste.phoneprovider.PhoneListenerProvider;
+import com.omnipaste.phoneprovider.PhoneActionsProvider;
+import com.omnipaste.phoneprovider.PhoneReceiversProvider;
 
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.res.StringRes;
@@ -51,10 +50,12 @@ public class OmniService extends Service {
   public Lazy<ClipboardProvider> clipboardProvider;
 
   @Inject
-  public Lazy<LocalProviderFacade> telephonyProviderFacade;
+  public Lazy<PhoneListenerProvider> phoneListenerProvider;
 
   @Inject
-  public Lazy<PhoneProvider> phoneProvider;
+  public Lazy<PhoneActionsProvider> phoneActionsProvider;
+
+  @Inject Lazy<PhoneReceiversProvider> phoneReceiversProvider;
 
   @Inject
   public ActivateDevice activateDevice;
@@ -157,11 +158,12 @@ public class OmniService extends Service {
       }
 
       if (isPhoneNotificationEnabled.get()) {
-        providers.add(phoneProvider.get());
+        providers.add(phoneActionsProvider.get());
+        providers.add(phoneReceiversProvider.get());
       }
 
       if (isTelephonyNotificationEnabled.get()) {
-        providers.add(telephonyProviderFacade.get());
+        providers.add(phoneListenerProvider.get());
       }
     }
 

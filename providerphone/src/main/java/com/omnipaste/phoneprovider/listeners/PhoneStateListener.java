@@ -1,6 +1,5 @@
 package com.omnipaste.phoneprovider.listeners;
 
-import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
@@ -11,14 +10,14 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class LocalPhoneStateListener extends PhoneStateListener implements Listener {
+public class PhoneStateListener extends android.telephony.PhoneStateListener implements Listener {
   private TelephonyManager telephonyManager;
   private ContactsRepository contactsRepository;
   private PhoneCalls phoneCalls;
   private String deviceId;
 
   @Inject
-  public LocalPhoneStateListener(
+  public PhoneStateListener(
     TelephonyManager telephonyManager,
     ContactsRepository contactsRepository,
     PhoneCalls phoneCalls) {
@@ -30,12 +29,12 @@ public class LocalPhoneStateListener extends PhoneStateListener implements Liste
   @Override
   public void start(String deviceId) {
     this.deviceId = deviceId;
-    telephonyManager.listen(this, PhoneStateListener.LISTEN_CALL_STATE);
+    telephonyManager.listen(this, android.telephony.PhoneStateListener.LISTEN_CALL_STATE);
   }
 
   @Override
   public void stop() {
-    telephonyManager.listen(this, PhoneStateListener.LISTEN_NONE);
+    telephonyManager.listen(this, android.telephony.PhoneStateListener.LISTEN_NONE);
   }
 
   @Override

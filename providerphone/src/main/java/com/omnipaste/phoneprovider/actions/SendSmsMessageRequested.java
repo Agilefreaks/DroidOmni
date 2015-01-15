@@ -7,64 +7,42 @@ import com.omnipaste.omnicommon.Utils;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
+import com.omnipaste.phoneprovider.NotificationFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import rx.Subscription;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
-@Singleton
-public class SendSmsMessageRequested {
-  private final NotificationProvider notificationProvider;
-  private final SmsMessages smsMessages;
-  private final SmsManager smsManager;
-  private Subscription subscription;
+public class SendSmsMessageRequested extends NotificationFilter {
+  private SmsMessages smsMessages;
+  private SmsManager smsManager;
 
-  @Inject
-  public SendSmsMessageRequested(
-    NotificationProvider notificationProvider,
-    SmsMessages smsMessages,
-    SmsManager smsManager) {
-    this.notificationProvider = notificationProvider;
+  public SendSmsMessageRequested(NotificationProvider notificationProvider) {
+    super(notificationProvider);
+  }
+
+  public void setSmsMessages(SmsMessages smsMessages) {
     this.smsMessages = smsMessages;
+  }
+
+  public void setSmsManager(SmsManager smsManager) {
     this.smsManager = smsManager;
   }
 
-  public void init() {
-    if (subscription != null) {
-      return;
-    }
-
-    subscription = notificationProvider
-      .getObservable()
-      .filter(new Func1<NotificationDto, Boolean>() {
-        @Override
-        public Boolean call(NotificationDto notificationDto) {
-          return notificationDto.getType() == NotificationDto.Type.SEND_SMS_MESSAGE_REQUESTED;
-        }
-      }).subscribe(
-        new Action1<NotificationDto>() {
-          @Override
-          public void call(NotificationDto notificationDto) {
-            smsMessages.get(notificationDto.getId()).subscribe(new Action1<SmsMessageDto>() {
-              @Override
-              public void call(SmsMessageDto smsMessageDto) {
-                sendSmsMessage(smsMessageDto);
-              }
-            });
-          }
-        }
-      );
+  @Override
+  protected NotificationDto.Type getType() {
+    return NotificationDto.Type.SEND_SMS_MESSAGE_REQUESTED;
   }
 
-  public void destroy() {
-    subscription.unsubscribe();
-    subscription = null;
+  @Override
+  protected void execute(NotificationDto notificationDto) {
+    smsMessages.get(notificationDto.getId()).subscribe(new Action1<SmsMessageDto>() {
+      @Override
+      public void call(SmsMessageDto smsMessageDto) {
+        sendSmsMessage(smsMessageDto);
+      }
+    });
   }
 
   private void sendSmsMessage(SmsMessageDto smsMessageDto) {
