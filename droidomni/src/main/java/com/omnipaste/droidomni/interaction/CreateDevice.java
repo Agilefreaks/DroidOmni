@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.interaction;
 
-import com.omnipaste.omniapi.resource.v1.users.Devices;
+import com.omnipaste.omniapi.resource.v1.user.Devices;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package com.omnipaste.omniapi.resource.v1.users;
+package com.omnipaste.omniapi.resource.v1.user;
 
 import com.omnipaste.omniapi.resource.v1.AuthorizationResource;
 import com.omnipaste.omniapi.service.AuthorizationService;
@@ -18,16 +18,16 @@ import rx.Observable;
 public class Devices extends AuthorizationResource<Devices.DevicesApi> {
 
   protected interface DevicesApi {
-    @GET("/v1/users/devices.json")
+    @GET("/v1/user/devices.json")
     Observable<DeviceDto[]> get(@Header("Authorization") String token);
 
-    @GET("/v1/users/devices/{id}.json")
+    @GET("/v1/user/devices/{id}.json")
     Observable<DeviceDto> get(@Header("Authorization") String token, @Path("id") String id);
 
-    @POST("/v1/users/devices.json")
+    @POST("/v1/user/devices.json")
     Observable<DeviceDto> create(@Header("Authorization") String token, @Body DeviceDto deviceDto);
 
-    @PATCH("/v1/users/devices/{id}.json")
+    @PATCH("/v1/user/devices/{id}.json")
     Observable<DeviceDto> patch(@Header("Authorization") String token, @Path("id") String id, @Body DeviceDto deviceDto);
   }
 

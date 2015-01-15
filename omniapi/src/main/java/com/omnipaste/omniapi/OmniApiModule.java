@@ -4,11 +4,11 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.omnipaste.omniapi.deserializer.ClippingTypeDeserializer;
 import com.omnipaste.omniapi.deserializer.PhoneCallStateDeserializer;
-import com.omnipaste.omniapi.deserializer.SmsMessageStateDeserializer;
 import com.omnipaste.omniapi.prefs.ApiUrl;
 import com.omnipaste.omniapi.prefs.PrefsModule;
 import com.omnipaste.omniapi.serializer.PhoneCallStateSerializer;
 import com.omnipaste.omniapi.serializer.SmsMessageStateSerializer;
+import com.omnipaste.omniapi.serializer.SmsMessageTypeSerializer;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
@@ -61,7 +61,7 @@ public class OmniApiModule {
           getGsonBuilder()
             .registerTypeAdapter(ClippingDto.ClippingType.class, new ClippingTypeDeserializer())
             .registerTypeAdapter(SmsMessageDto.State.class, new SmsMessageStateSerializer())
-            .registerTypeAdapter(SmsMessageDto.State.class, new SmsMessageStateDeserializer())
+            .registerTypeAdapter(SmsMessageDto.Type.class, new SmsMessageTypeSerializer())
             .registerTypeAdapter(PhoneCallDto.State.class, new PhoneCallStateSerializer())
             .registerTypeAdapter(PhoneCallDto.State.class, new PhoneCallStateDeserializer())
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")

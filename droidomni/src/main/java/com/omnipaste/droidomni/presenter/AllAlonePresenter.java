@@ -1,7 +1,7 @@
 package com.omnipaste.droidomni.presenter;
 
 import com.omnipaste.droidomni.prefs.WeAreAlone;
-import com.omnipaste.omniapi.resource.v1.users.Devices;
+import com.omnipaste.omniapi.resource.v1.user.Devices;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 

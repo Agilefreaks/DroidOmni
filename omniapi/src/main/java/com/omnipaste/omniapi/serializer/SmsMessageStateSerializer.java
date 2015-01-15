@@ -13,8 +13,9 @@ import java.util.Map;
 public class SmsMessageStateSerializer implements JsonSerializer<SmsMessageDto.State> {
   private static final Map<SmsMessageDto.State, JsonPrimitive> MAP = new HashMap<SmsMessageDto.State, JsonPrimitive>() {
     {
-      put(SmsMessageDto.State.INCOMING, new JsonPrimitive("incoming"));
-      put(SmsMessageDto.State.INITIATE, new JsonPrimitive("initiate"));
+      put(SmsMessageDto.State.RECEIVED, new JsonPrimitive("received"));
+      put(SmsMessageDto.State.SENDING, new JsonPrimitive("sending"));
+      put(SmsMessageDto.State.SENT, new JsonPrimitive("sent"));
     }
   };
 

@@ -3,7 +3,7 @@ package com.omnipaste.droidomni.interaction;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.omnipaste.droidomni.prefs.DeviceId;
 import com.omnipaste.droidomni.prefs.GcmSenderId;
-import com.omnipaste.omniapi.resource.v1.users.Devices;
+import com.omnipaste.omniapi.resource.v1.user.Devices;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 

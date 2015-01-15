@@ -12,7 +12,7 @@ import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
-import com.omnipaste.omniapi.resource.v1.users.Devices;
+import com.omnipaste.omniapi.resource.v1.user.Devices;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.DeviceDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;

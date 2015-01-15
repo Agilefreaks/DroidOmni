@@ -16,11 +16,16 @@ public class SmsMessageDto implements Parcelable {
   private List<String> contactNameList;
   private List<String> contentList;
   private String deviceId;
+  private Type type;
   private State state;
   private Date createdAt;
 
   public enum State {
-    INITIATE, INCOMING, UNKNOWN
+    SENDING, SENT, RECEIVED, UNKNOWN
+  }
+
+  public enum Type {
+    INCOMING, OUTGOING
   }
 
   public static final Parcelable.Creator<PhoneCallDto> CREATOR = new Parcelable.Creator<PhoneCallDto>() {
@@ -38,7 +43,8 @@ public class SmsMessageDto implements Parcelable {
 
   public SmsMessageDto(String deviceId) {
     this.deviceId = deviceId;
-    this.state = State.INCOMING;
+    this.type = Type.INCOMING;
+    this.state = State.RECEIVED;
   }
 
   public SmsMessageDto(Parcel in) {
@@ -118,10 +124,6 @@ public class SmsMessageDto implements Parcelable {
     this.createdAt = createdAt;
   }
 
-  public void setState(State state) {
-    this.state = state;
-  }
-
   public Calendar getCreatedAt() {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(createdAt);
@@ -138,5 +140,21 @@ public class SmsMessageDto implements Parcelable {
 
   public void setDeviceId(String deviceId) {
     this.deviceId = deviceId;
+  }
+
+  public Type getType() {
+    return type;
+  }
+
+  public void setType(Type type) {
+    this.type = type;
+  }
+
+  public State getState() {
+    return state;
+  }
+
+  public void setState(State state) {
+    this.state = state;
   }
 }

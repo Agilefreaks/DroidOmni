@@ -1,4 +1,4 @@
-package com.omnipaste.omniapi.resource.v1.users;
+package com.omnipaste.omniapi.resource.v1.user;
 
 import com.omnipaste.omniapi.resource.v1.AuthorizationResource;
 import com.omnipaste.omniapi.service.AuthorizationService;
@@ -17,7 +17,7 @@ import rx.Observable;
 @Singleton
 public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
   protected interface ContactsApi {
-    @POST("/v1/users/contacts.json")
+    @POST("/v1/user/contacts.json")
     Observable<EmptyDto> create(@Header("Authorization") String token, @Body ContactListDto contactList);
   }
 
