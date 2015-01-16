@@ -49,7 +49,11 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
   }
 
   public Observable<DeviceDto> activate(String id, String registrationId) {
-    return authorizationService.authorize(api.patch(bearerAccessToken(), id, new DeviceDto().setRegistrationId(registrationId)));
+    DeviceDto deviceDto = new DeviceDto()
+      .setRegistrationId(registrationId)
+      .setProvider("gcm");
+
+    return authorizationService.authorize(api.patch(bearerAccessToken(), id, deviceDto));
   }
 
   public Observable<DeviceDto> deactivate(String id) {

@@ -40,8 +40,9 @@ public class DeviceDto {
     return provider;
   }
 
-  public void setProvider(String provider) {
+  public DeviceDto setProvider(String provider) {
     this.provider = provider;
+    return this;
   }
 
   public DeviceDto setPublicKey(String publicKey) {
