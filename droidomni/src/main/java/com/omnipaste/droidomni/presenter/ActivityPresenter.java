@@ -5,9 +5,6 @@ import com.omnipaste.droidomni.domain.Clipping;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.domain.PhoneCall;
 import com.omnipaste.droidomni.domain.SmsMessage;
-import com.omnipaste.droidomni.interaction.Refresh;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -21,7 +18,6 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
   private final SmsMessagesPresenter smsMessagesPresenter;
   private final PhoneCallsPresenter phoneCallsPresenter;
   private final ContactsPresenter contactsPresenter;
-  private final Refresh refresh;
   private ActivityAdapter activityAdapter;
   private Subscription clippingsSubscription;
   private Subscription smsMessagesSubscription;
@@ -29,8 +25,6 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
   private Subscription contactsSubscription;
 
   public interface View {
-    public void setRefreshing(boolean refreshing);
-
     public void scrollToTop();
   }
 
@@ -39,13 +33,11 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
     ClippingsPresenter clippingsPresenter,
     SmsMessagesPresenter smsMessagesPresenter,
     PhoneCallsPresenter phoneCallsPresenter,
-    ContactsPresenter contactsPresenter,
-    Refresh refresh) {
+    ContactsPresenter contactsPresenter) {
     this.clippingsPresenter = clippingsPresenter;
     this.smsMessagesPresenter = smsMessagesPresenter;
     this.phoneCallsPresenter = phoneCallsPresenter;
     this.contactsPresenter = contactsPresenter;
-    this.refresh = refresh;
   }
 
   @Override
@@ -148,23 +140,6 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
   public ActivityAdapter getAdapter() {
     return activityAdapter;
-  }
-
-  public void refresh() {
-    getView().setRefreshing(true);
-
-    refresh.all();
-
-    rx.Observable
-      .timer(3, TimeUnit.SECONDS)
-      .subscribeOn(scheduler)
-      .observeOn(observeOnScheduler)
-      .subscribe(new Action1<Long>() {
-        @Override
-        public void call(Long aLong) {
-          getView().setRefreshing(false);
-        }
-      });
   }
 
   private void showSamples() {
