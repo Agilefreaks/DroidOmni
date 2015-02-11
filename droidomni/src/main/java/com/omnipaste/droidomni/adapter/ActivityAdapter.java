@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.domain.ContactSyncNotification;
 import com.omnipaste.droidomni.ui.view.ContactsSyncView_;
 import com.omnipaste.droidomni.ui.view.HasSetup;
@@ -19,61 +21,8 @@ import com.omnipaste.omnicommon.dto.SmsMessageDto;
 
 import java.util.ArrayList;
 
-public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
+public class ActivityAdapter extends RecyclerSwipeAdapter<ActivityAdapter.ViewHolder> {
   public final int LIST_SIZE = 42;
-
-  public static ActivityAdapter build() {
-    return new ActivityAdapter(new ArrayList<Parcelable>());
-  }
-
-  private ArrayList<Parcelable> items;
-
-  private ActivityAdapter(ArrayList<Parcelable> items) {
-    this.items = items;
-  }
-
-  @Override
-  public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-    return ViewBuilder.getViewHolder(viewGroup.getContext(), viewType);
-  }
-
-  @Override
-  public void onBindViewHolder(ViewHolder viewHolder, int index) {
-    Parcelable parcelable = items.get(index);
-    viewHolder.setUp(parcelable);
-  }
-
-  @Override
-  public int getItemCount() {
-    return items.size();
-  }
-
-  @Override
-  public int getItemViewType(int position) {
-    Parcelable parcelable = items.get(position);
-    return ViewBuilder.getViewType(parcelable);
-  }
-
-  public void add(Parcelable parcelable) {
-    items.add(0, parcelable);
-
-    if (items.size() >= LIST_SIZE + 10) {
-      items.subList(LIST_SIZE, items.size()).clear();
-    }
-
-    notifyItemInserted(0);
-  }
-
-  public void remove(Parcelable parcelable) {
-    int index = items.indexOf(parcelable);
-    items.remove(parcelable);
-
-    notifyItemRemoved(index);
-  }
-
-  public int getCount() {
-    return items.size();
-  }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View itemView) {
@@ -133,5 +82,63 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
 
       return new ViewHolder(view);
     }
+  }
+
+  public static ActivityAdapter build() {
+    return new ActivityAdapter(new ArrayList<Parcelable>());
+  }
+
+  private ArrayList<Parcelable> items;
+
+  private ActivityAdapter(ArrayList<Parcelable> items) {
+    this.items = items;
+  }
+
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    return ViewBuilder.getViewHolder(viewGroup.getContext(), viewType);
+  }
+
+  @Override
+  public void onBindViewHolder(ViewHolder viewHolder, int index) {
+    Parcelable parcelable = items.get(index);
+    viewHolder.setUp(parcelable);
+  }
+
+  @Override
+  public int getItemCount() {
+    return items.size();
+  }
+
+  @Override
+  public int getItemViewType(int position) {
+    Parcelable parcelable = items.get(position);
+    return ViewBuilder.getViewType(parcelable);
+  }
+
+  @Override
+  public int getSwipeLayoutResourceId(int i) {
+    return R.id.swipe_layout;
+  }
+
+  public void add(Parcelable parcelable) {
+    items.add(0, parcelable);
+
+    if (items.size() >= LIST_SIZE + 10) {
+      items.subList(LIST_SIZE, items.size()).clear();
+    }
+
+    notifyItemInserted(0);
+  }
+
+  public void remove(Parcelable parcelable) {
+    int index = items.indexOf(parcelable);
+    items.remove(parcelable);
+
+    notifyItemRemoved(index);
+  }
+
+  public int getCount() {
+    return items.size();
   }
 }
