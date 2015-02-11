@@ -24,4 +24,10 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter> implements
         .replace(R.id.settings_container, fragment)
         .commit();
   }
+
+  @Override
+  public void logout() {
+    setResult(RESULT_CLOSE_ALL);
+    finish();
+  }
 }

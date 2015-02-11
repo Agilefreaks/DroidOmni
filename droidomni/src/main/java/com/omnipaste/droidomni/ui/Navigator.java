@@ -1,6 +1,6 @@
 package com.omnipaste.droidomni.ui;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -15,13 +15,13 @@ import com.omnipaste.droidomni.presenter.SettingsPresenter;
 import javax.inject.Inject;
 
 public class Navigator {
-  private Context context;
+  private Activity context;
 
   @Inject
   public Navigator() {
   }
 
-  public void setContext(Context context) {
+  public void setContext(Activity context) {
     this.context = context;
   }
 
@@ -65,6 +65,6 @@ public class Navigator {
   }
 
   private void startActivity(Intent intent) {
-    context.startActivity(intent);
+    context.startActivityForResult(intent, 0);
   }
 }

@@ -33,7 +33,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   public interface View {
     void setFragment(NotificationPreferenceFragment fragment);
 
-    void finish();
+    void logout();
   }
 
   @Inject
@@ -114,7 +114,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   }
 
   private void cleanUp() {
-    // sessionService.logout();
+    sessionService.logout();
     finishView();
   }
 
@@ -124,7 +124,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
       return;
     }
 
-    view.finish();
+    view.logout();
   }
 
   private void setNotificationPreferenceFragment() {
