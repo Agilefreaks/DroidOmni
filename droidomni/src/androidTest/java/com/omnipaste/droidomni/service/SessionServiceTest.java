@@ -2,7 +2,6 @@ package com.omnipaste.droidomni.service;
 
 import android.test.InstrumentationTestCase;
 
-import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.omniapi.resource.v1.AuthorizationCodes;
 import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;

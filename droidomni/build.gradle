@@ -53,7 +53,7 @@ android {
             versionNameSuffix '-staging'
             signingConfig signingConfigs.release
             minifyEnabled false
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         release {
@@ -66,7 +66,7 @@ android {
             buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
             signingConfig signingConfigs.release
             minifyEnabled false
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -102,7 +102,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-base:6.5.87'
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.android.support:cardview-v7:21.0.3'
-    compile 'com.daimajia.swipelayout:library:1.1.7@aar'
+    compile 'com.daimajia.swipelayout:library:1.1.8@aar'
     compile 'co.bugfreak:BugFreak:1.1.7'
 
     androidTestCompile androidTest
