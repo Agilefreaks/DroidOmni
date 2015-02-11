@@ -1,11 +1,14 @@
 package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.omnipaste.droidomni.service.PlayService;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.droidomni.ui.activity.LauncherActivity_;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,6 +31,10 @@ public class LauncherPresenter extends Presenter<LauncherPresenter.View> {
     this.playService = playService;
     this.navigator = navigator;
     this.sessionService = sessionService;
+  }
+
+  public static Intent getIntent(Context context) {
+    return new Intent(context, LauncherActivity_.class);
   }
 
   @Override

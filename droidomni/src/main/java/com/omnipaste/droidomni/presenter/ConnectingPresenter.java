@@ -1,6 +1,8 @@
 package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
 import com.omnipaste.droidomni.interaction.CreateDevice;
 import com.omnipaste.droidomni.interaction.DeviceIdentifier;
@@ -12,6 +14,7 @@ import com.omnipaste.droidomni.prefs.WeAreAlone;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.droidomni.ui.activity.ConnectingActivity_;
 import com.omnipaste.omniapi.resource.v1.user.Devices;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.DeviceDto;
@@ -71,6 +74,10 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     this.weAreAlone = weAreAlone;
     this.tutorialClippingLocal = tutorialClippingLocal;
     this.tutorialClippingCloud = tutorialClippingCloud;
+  }
+
+  public static Intent getIntent(Context context) {
+    return new Intent(context, ConnectingActivity_.class);
   }
 
   @Override

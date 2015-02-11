@@ -4,12 +4,11 @@ import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.omnipaste.droidomni.R;
-import com.omnipaste.droidomni.ui.activity.OmniActivity_;
+import com.omnipaste.droidomni.presenter.OmniPresenter;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
 import javax.inject.Inject;
@@ -69,9 +68,7 @@ public class NotificationFactory {
   }
 
   private NotificationCompat.Builder basicBuilder(Context context, String text) {
-    Intent resultIntent = new Intent(context, OmniActivity_.class);
-    resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, OmniPresenter.getIntent(context), PendingIntent.FLAG_NO_CREATE);
 
     return new NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.ic_stat_omni)

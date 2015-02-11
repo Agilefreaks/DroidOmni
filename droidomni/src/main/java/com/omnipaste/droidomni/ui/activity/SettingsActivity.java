@@ -18,11 +18,16 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter> implements
     return presenter;
   }
 
-
   @Override
   public void setFragment(NotificationPreferenceFragment fragment) {
     getFragmentManager().beginTransaction()
         .replace(R.id.settings_container, fragment)
         .commit();
+  }
+
+  @Override
+  public void logout() {
+    setResult(RESULT_CLOSE_ALL);
+    finish();
   }
 }

@@ -1,9 +1,12 @@
 package com.omnipaste.droidomni.presenter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.droidomni.ui.activity.LoginActivity_;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 
 import javax.inject.Inject;
@@ -13,7 +16,6 @@ import rx.functions.Action1;
 
 @Singleton
 public class LoginPresenter extends Presenter<LoginPresenter.View> {
-
   private SessionService sessionService;
   private Navigator navigator;
 
@@ -27,6 +29,10 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
   protected LoginPresenter(SessionService sessionService, Navigator navigator) {
     this.sessionService = sessionService;
     this.navigator = navigator;
+  }
+
+  public static Intent getIntent(Context context) {
+    return new Intent(context, LoginActivity_.class);
   }
 
   @Override public void attachView(View view) {

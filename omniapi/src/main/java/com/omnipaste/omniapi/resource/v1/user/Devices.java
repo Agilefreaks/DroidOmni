@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.PATCH;
@@ -29,6 +30,9 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
 
     @PATCH("/v1/user/devices/{id}.json")
     Observable<DeviceDto> patch(@Header("Authorization") String token, @Path("id") String id, @Body DeviceDto deviceDto);
+
+    @DELETE("/v1/user/devices/{id}.json")
+    Observable<Boolean> delete(@Header("Authorization") String token, @Path("id") String id);
   }
 
   @Inject
@@ -58,5 +62,9 @@ public class Devices extends AuthorizationResource<Devices.DevicesApi> {
 
   public Observable<DeviceDto> deactivate(String id) {
     return authorizationService.authorize(api.patch(bearerAccessToken(), id, new DeviceDto().setRegistrationId("")));
+  }
+
+  public Observable<Boolean> delete(String id) {
+    return authorizationService.authorize(api.delete(bearerAccessToken(), id));
   }
 }
