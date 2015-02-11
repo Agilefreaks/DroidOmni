@@ -1,6 +1,5 @@
 package com.omnipaste.droidomni.ui.fragment;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +21,6 @@ public class ActivityFragment extends BaseFragment<ActivityPresenter> implements
   @ViewById
   public RecyclerView list;
 
-  @ViewById
-  public SwipeRefreshLayout swipeRefreshLayout;
-
   @Override
   protected ActivityPresenter getPresenter() {
     return presenter;
@@ -35,22 +31,6 @@ public class ActivityFragment extends BaseFragment<ActivityPresenter> implements
     list.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     list.setItemAnimator(new DefaultItemAnimator());
     list.setAdapter(presenter.getAdapter());
-
-    swipeRefreshLayout.setColorSchemeResources(
-        R.color.refresh_progress_1,
-        R.color.refresh_progress_2,
-        R.color.refresh_progress_3);
-
-    swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override public void onRefresh() {
-        presenter.refresh();
-      }
-    });
-  }
-
-  @Override
-  public void setRefreshing(boolean refreshing) {
-    swipeRefreshLayout.setRefreshing(refreshing);
   }
 
   @Override
