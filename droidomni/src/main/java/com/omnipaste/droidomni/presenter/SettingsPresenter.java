@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.presenter;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
@@ -11,6 +12,7 @@ import com.omnipaste.droidomni.receiver.StartOmniAtBootReceiver_;
 import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
+import com.omnipaste.droidomni.ui.activity.SettingsActivity_;
 import com.omnipaste.droidomni.ui.fragment.NotificationPreferenceFragment;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 
@@ -46,6 +48,10 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
     this.sessionService = sessionService;
     this.omniServiceConnection = omniServiceConnection;
     this.context = context;
+  }
+
+  public static Intent getIntent(Context context) {
+    return new Intent(context, SettingsActivity_.class);
   }
 
   @Override
@@ -108,7 +114,7 @@ public class SettingsPresenter extends Presenter<SettingsPresenter.View> impleme
   }
 
   private void cleanUp() {
-    sessionService.logout();
+    // sessionService.logout();
     finishView();
   }
 

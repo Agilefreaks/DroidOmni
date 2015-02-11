@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.omnipaste.droidomni.ui.activity.AboutActivity_;
-import com.omnipaste.droidomni.ui.activity.ConnectingActivity_;
-import com.omnipaste.droidomni.ui.activity.ErrorActivity;
-import com.omnipaste.droidomni.ui.activity.ErrorActivity_;
-import com.omnipaste.droidomni.ui.activity.LauncherActivity_;
-import com.omnipaste.droidomni.ui.activity.LoginActivity_;
-import com.omnipaste.droidomni.ui.activity.OmniActivity_;
-import com.omnipaste.droidomni.ui.activity.SettingsActivity_;
+import com.omnipaste.droidomni.presenter.AboutPresenter;
+import com.omnipaste.droidomni.presenter.ConnectingPresenter;
+import com.omnipaste.droidomni.presenter.ErrorPresenter;
+import com.omnipaste.droidomni.presenter.LauncherPresenter;
+import com.omnipaste.droidomni.presenter.LoginPresenter;
+import com.omnipaste.droidomni.presenter.OmniPresenter;
+import com.omnipaste.droidomni.presenter.SettingsPresenter;
 
 import javax.inject.Inject;
 
@@ -27,40 +26,31 @@ public class Navigator {
   }
 
   public void openLoginActivity() {
-    Intent intent = new Intent(context, LoginActivity_.class);
-    startActivityNoHistory(intent);
+    startActivityNoHistory(LoginPresenter.getIntent(context));
   }
 
   public void openLauncherActivity() {
-    Intent intent = new Intent(context, LauncherActivity_.class);
-    startActivityNoHistory(intent);
+    startActivityNoHistory(LauncherPresenter.getIntent(context));
   }
 
   public void openConnectingActivity() {
-    Intent intent = new Intent(context, ConnectingActivity_.class);
-    startActivityNoHistory(intent);
+    startActivityNoHistory(ConnectingPresenter.getIntent(context));
   }
 
   public void openOmniActivity() {
-    Intent intent = new Intent(context, OmniActivity_.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-    startActivityNoHistory(intent);
+    startActivityNoHistory(OmniPresenter.getIntent(context));
   }
 
   public void openSettings() {
-    Intent intent = new Intent(context, SettingsActivity_.class);
-    startActivity(intent);
+    startActivity(SettingsPresenter.getIntent(context));
   }
 
   public void openAbout() {
-    Intent intent = new Intent(context, AboutActivity_.class);
-    startActivity(intent);
+    startActivity(AboutPresenter.getIntent(context));
   }
 
   public void openErrorActivity(Throwable throwable) {
-    Intent intent = new Intent(context, ErrorActivity_.class);
-    intent.putExtra(ErrorActivity.ERROR_EXTRA_KEY, throwable);
-    startActivity(intent);
+    startActivity(ErrorPresenter.getIntent(context, throwable));
   }
 
   public void openUri(Uri uri) {
