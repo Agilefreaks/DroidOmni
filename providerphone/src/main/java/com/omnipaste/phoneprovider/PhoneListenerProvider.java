@@ -1,17 +1,17 @@
 package com.omnipaste.phoneprovider;
 
 import com.omnipaste.omnicommon.Provider;
-import com.omnipaste.omnicommon.dto.EmptyDto;
 import com.omnipaste.phoneprovider.listeners.PhoneStateListener;
 import com.omnipaste.phoneprovider.listeners.SmsMessageListener;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fj.Unit;
 import rx.Observable;
 
 @Singleton
-public class PhoneListenerProvider implements Provider<EmptyDto> {
+public class PhoneListenerProvider implements Provider<Unit> {
   private PhoneStateListener phoneStateListener;
   private SmsMessageListener smsMessageListener;
   private boolean subscribed = false;
@@ -24,7 +24,7 @@ public class PhoneListenerProvider implements Provider<EmptyDto> {
   }
 
   @Override
-  public Observable<EmptyDto> init(String deviceId) {
+  public Observable<Unit> init(String deviceId) {
     if (!subscribed) {
       phoneStateListener.start(deviceId);
       smsMessageListener.start(deviceId);

@@ -10,12 +10,12 @@ public class ContactDto {
   public String last_name;
   public String name;
   public String middle_name;
-  public String photo;
-  public List<NumberDto> numbers;
+  public String image;
+  public List<NumberDto> phoneNumbers;
 
   public ContactDto(Long id) {
     this.id = id;
-    this.numbers = new ArrayList<>();
+    this.phoneNumbers = new ArrayList<>();
   }
 
   public String getFirst_name() {
@@ -54,21 +54,21 @@ public class ContactDto {
     return this;
   }
 
-  public String getPhoto() {
-    return photo;
+  public String getImage() {
+    return image;
   }
 
-  public ContactDto setPhoto(String photo) {
-    this.photo = photo;
+  public ContactDto setImage(String image) {
+    this.image = image;
     return this;
   }
 
   public ContactDto addNumber(NumberDto number) {
-    numbers.add(number);
+    phoneNumbers.add(number);
     return this;
   }
 
-  public List<NumberDto> getNumbers() {
-    return numbers;
+  public List<NumberDto> getPhoneNumbers() {
+    return phoneNumbers;
   }
 }

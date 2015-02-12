@@ -2,12 +2,12 @@ package com.omnipaste.omniapi.resource.v1.user;
 
 import com.omnipaste.omniapi.resource.v1.AuthorizationResource;
 import com.omnipaste.omniapi.service.AuthorizationService;
-import com.omnipaste.omnicommon.dto.ContactListDto;
-import com.omnipaste.omnicommon.dto.EmptyDto;
+import com.omnipaste.omnicommon.dto.ContactDto;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fj.Unit;
 import retrofit.RestAdapter;
 import retrofit.http.Body;
 import retrofit.http.Header;
@@ -18,7 +18,7 @@ import rx.Observable;
 public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
   protected interface ContactsApi {
     @POST("/v1/user/contacts.json")
-    Observable<EmptyDto> create(@Header("Authorization") String token, @Body ContactListDto contactList);
+    Observable<Unit> create(@Header("Authorization") String token, @Body ContactDto contact);
   }
 
   @Inject
@@ -26,7 +26,7 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
     super(restAdapter, ContactsApi.class, authorizationService);
   }
 
-  public Observable<EmptyDto> create(String identifier, String destinationIdentifier, String contacts) {
-    return authorizationService.authorize(api.create(bearerAccessToken(), new ContactListDto(identifier, destinationIdentifier, contacts)));
+  public Observable<Unit> create(String identifier, ContactDto[] contacts) {
+    return null;
   }
 }

@@ -1,7 +1,6 @@
 package com.omnipaste.phoneprovider;
 
 import com.omnipaste.omnicommon.Provider;
-import com.omnipaste.omnicommon.dto.EmptyDto;
 import com.omnipaste.phoneprovider.actions.EndPhoneCallRequested;
 import com.omnipaste.phoneprovider.actions.SendSmsMessageRequested;
 import com.omnipaste.phoneprovider.actions.StartPhoneCallRequested;
@@ -9,10 +8,11 @@ import com.omnipaste.phoneprovider.actions.StartPhoneCallRequested;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fj.Unit;
 import rx.Observable;
 
 @Singleton
-public class PhoneActionsProvider implements Provider<EmptyDto> {
+public class PhoneActionsProvider implements Provider<Unit> {
   private final SendSmsMessageRequested sendSmsMessageRequested;
   private final StartPhoneCallRequested startPhoneCallRequested;
   private EndPhoneCallRequested endPhoneCallRequested;
@@ -27,7 +27,7 @@ public class PhoneActionsProvider implements Provider<EmptyDto> {
   }
 
   @Override
-  public Observable<EmptyDto> init(String identifier) {
+  public Observable<Unit> init(String identifier) {
     sendSmsMessageRequested.init();
     startPhoneCallRequested.init();
     endPhoneCallRequested.init();

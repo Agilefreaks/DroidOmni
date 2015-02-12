@@ -86,9 +86,7 @@ public class ContactsService extends ServiceBase {
           } catch (IOException ignore) {
           }
 
-          Observable result =  !encryptedContacts.equals("") ?
-            ContactsService.this.contacts.create(sessionService.getDeviceDto().getId(), deviceDto.getId(), encryptedContacts) :
-            Observable.empty();
+          Observable result = Observable.empty();
 
           fetching.set(false);
           contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Completed));

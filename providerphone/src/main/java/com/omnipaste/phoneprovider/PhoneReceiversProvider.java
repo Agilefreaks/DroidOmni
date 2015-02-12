@@ -1,17 +1,17 @@
 package com.omnipaste.phoneprovider;
 
 import com.omnipaste.omnicommon.Provider;
-import com.omnipaste.omnicommon.dto.EmptyDto;
 import com.omnipaste.phoneprovider.receivers.PhoneCallReceived;
 import com.omnipaste.phoneprovider.receivers.SmsMessageReceived;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import fj.Unit;
 import rx.Observable;
 
 @Singleton
-public class PhoneReceiversProvider implements Provider<EmptyDto> {
+public class PhoneReceiversProvider implements Provider<Unit> {
   private final PhoneCallReceived phoneCallReceived;
   private final SmsMessageReceived smsMessageReceived;
 
@@ -22,7 +22,7 @@ public class PhoneReceiversProvider implements Provider<EmptyDto> {
   }
 
   @Override
-  public Observable<EmptyDto> init(String identifier) {
+  public Observable<Unit> init(String identifier) {
     phoneCallReceived.init();
     smsMessageReceived.init();
 

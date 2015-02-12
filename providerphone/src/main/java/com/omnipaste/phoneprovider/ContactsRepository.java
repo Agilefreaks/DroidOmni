@@ -105,7 +105,7 @@ public class ContactsRepository {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        contact.setPhoto(Base64.encodeToString(byteArray, Base64.DEFAULT));
+        contact.setImage(Base64.encodeToString(byteArray, Base64.DEFAULT));
       } catch (IOException ignore) {
       }
     }
