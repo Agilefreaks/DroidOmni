@@ -68,7 +68,7 @@ public class NotificationFactory {
   }
 
   private NotificationCompat.Builder basicBuilder(Context context, String text) {
-    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, OmniPresenter.getIntent(context), PendingIntent.FLAG_NO_CREATE);
+    PendingIntent contentIntent = PendingIntent.getActivity(context, 0, OmniPresenter.getIntent(context), PendingIntent.FLAG_UPDATE_CURRENT);
 
     return new NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.ic_stat_omni)
