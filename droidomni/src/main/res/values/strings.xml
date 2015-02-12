@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Omnipaste</string>
+    <string name="app_name">Omnipaste.debug</string>
     <string name="motto">Make it simple and quick to switch between your computer and your mobile devices.</string>
 
     <!-- OmniService -->

@@ -16,11 +16,11 @@
         android:text="@string/tutorial_clipping_local_title"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large.Inverse"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:lines="4"
+        android:layout_marginTop="@dimen/default_padding"
+        android:textIsSelectable="true"
         android:id="@+id/tutorial_local_clipping"
         android:text="@string/tutorial_clipping_local"/>
 

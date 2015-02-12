@@ -50,6 +50,7 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   }
 
   @Override public void destroy() {
+//     we need a way to persist the info
     clippingsSubject.onCompleted();
 
     clipboardSubscription.unsubscribe();

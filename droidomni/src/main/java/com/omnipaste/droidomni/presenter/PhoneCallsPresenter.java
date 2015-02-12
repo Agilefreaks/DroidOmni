@@ -49,10 +49,11 @@ public class PhoneCallsPresenter extends Presenter<SmsMessagesPresenter.View> im
 
   @Override
   public void destroy() {
+    /* we need a way to persist the info
     subject.onCompleted();
 
     subscription.unsubscribe();
-    subscription = null;
+    subscription = null;*/
   }
 
   @Override

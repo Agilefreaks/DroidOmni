@@ -14,6 +14,7 @@ import com.omnipaste.droidomni.presenter.Presenter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.EditorAction;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.OptionsMenuItem;
@@ -51,7 +52,7 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.View {
   }
 
   @OptionsItem
-  public void action_login() {
+  public void actionLogin() {
     actionLogin.setActionView(new ProgressBar(this));
     presenter.login(authorizationCode.getText().toString());
   }
@@ -60,6 +61,11 @@ public class LoginActivity extends BaseActivity implements LoginPresenter.View {
   public void loginFailed() {
     actionLogin.setActionView(null);
     authorizationCode.setError(loginInvalidCode);
+  }
+
+  @EditorAction(R.id.authorization_code)
+  public void authorizationCodeEditorAction() {
+    actionLogin();
   }
 
   @Override

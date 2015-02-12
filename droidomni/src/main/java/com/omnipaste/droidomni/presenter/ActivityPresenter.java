@@ -124,9 +124,11 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
   @Override
   public void destroy() {
+    /* we need a way to persist the info
     clippingsPresenter.destroy();
-    smsMessagesPresenter.destroy();
     phoneCallsPresenter.destroy();
+    smsMessagesPresenter.destroy();
+    contactsPresenter.destroy();
 
     clippingsSubscription.unsubscribe();
     clippingsSubscription = null;
@@ -134,8 +136,11 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
     phoneCallsSubscription.unsubscribe();
     phoneCallsSubscription = null;
 
+    smsMessagesSubscription.unsubscribe();
+    smsMessagesSubscription = null;
+
     contactsSubscription.unsubscribe();
-    contactsSubscription = null;
+    contactsSubscription = null; */
   }
 
   public ActivityAdapter getAdapter() {

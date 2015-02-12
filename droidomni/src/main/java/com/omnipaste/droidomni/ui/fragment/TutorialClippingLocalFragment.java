@@ -1,6 +1,7 @@
 package com.omnipaste.droidomni.ui.fragment;
 
-import android.widget.EditText;
+import android.text.Selection;
+import android.widget.TextView;
 
 import com.omnipaste.droidomni.R;
 import com.omnipaste.droidomni.presenter.TutorialClippingLocalPresenter;
@@ -17,7 +18,7 @@ public class TutorialClippingLocalFragment extends BaseFragment<TutorialClipping
   public TutorialClippingLocalPresenter tutorialClippingLocalPresenter;
 
   @ViewById
-  public EditText tutorialLocalClipping;
+  public TextView tutorialLocalClipping;
 
   @Override protected TutorialClippingLocalPresenter getPresenter() {
     return tutorialClippingLocalPresenter;
@@ -31,8 +32,7 @@ public class TutorialClippingLocalFragment extends BaseFragment<TutorialClipping
         .commit();
   }
 
-  @Click
-  public void tutorialLocalClipping() {
-    tutorialLocalClipping.setSelection(0, tutorialLocalClipping.getText().length() - 1);
+  @Click public void tutorialLocalClippingClicked() {
+    Selection.selectAll((android.text.Spannable) tutorialLocalClipping.getText());
   }
 }

@@ -49,10 +49,11 @@ public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> i
 
   @Override
   public void destroy() {
+    /* we need a way to persist the info
     subject.onCompleted();
 
     subscription.unsubscribe();
-    subscription = null;
+    subscription = null;*/
   }
 
   @Override
