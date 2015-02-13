@@ -1,33 +1,40 @@
-package com.omnipaste.omniapi.deserializer;
+package com.omnipaste.omniapi.dto.deserializer;
 
 import com.google.gson.JsonPrimitive;
+import com.omnipaste.omniapi.deserializer.ClippingTypeDeserializer;
 import com.omnipaste.omnicommon.dto.ClippingDto;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class ClippingTypeDeserializerTest extends TestCase {
+public class ClippingTypeDeserializerTest {
   private ClippingTypeDeserializer clippingTypeDeserializer;
 
-  protected void setUp() {
+  @Before
+  public void context() {
     clippingTypeDeserializer = new ClippingTypeDeserializer();
   }
 
-  public void testDeserializeReturnPhoneNumberType() {
+  @Test
+  public void deserializeReturnPhoneNumberType() {
     assertThat(ClippingDto.ClippingType.PHONE_NUMBER, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("phone_number"), null, null)));
   }
 
-  public void testDeserializeReturnWebSiteType() {
+  @Test
+  public void deserializeReturnWebSiteType() {
     assertThat(ClippingDto.ClippingType.URL, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("url"), null, null)));
   }
 
-  public void testDeserializeReturnAddressType() {
+  @Test
+  public void deserializeReturnAddressType() {
     assertThat(ClippingDto.ClippingType.ADDRESS, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("address"), null, null)));
   }
 
-  public void testDeserializeReturnUUnknownType() {
+  @Test
+  public void deserializeReturnUUnknownType() {
     assertThat(ClippingDto.ClippingType.UNKNOWN, is(clippingTypeDeserializer.deserialize(new JsonPrimitive("something else"), null, null)));
   }
 }

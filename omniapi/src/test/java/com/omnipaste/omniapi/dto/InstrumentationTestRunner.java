@@ -1,4 +1,4 @@
-package com.omnipaste.omniapi;
+package com.omnipaste.omniapi.dto;
 
 import android.os.Bundle;
 

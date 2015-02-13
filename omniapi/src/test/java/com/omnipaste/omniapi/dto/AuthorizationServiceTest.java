@@ -1,4 +1,4 @@
-package com.omnipaste.omniapi;
+package com.omnipaste.omniapi.dto;
 
 import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omniapi.service.AuthorizationService;
@@ -7,6 +7,8 @@ import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.conn.HttpHostConnectException;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
@@ -22,23 +24,22 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
+public class AuthorizationServiceTest {
   private AuthorizationService subject;
   private Observer<String> mockObserver;
   private AccessTokenPreference mockAccessToken;
 
   @SuppressWarnings("unchecked")
-  @Override
-  public void setUp() throws Exception {
-    super.setUp();
-
+  @Before
+  public void context() {
     mockObserver = (Observer<String>) mock(Observer.class);
     Token mockToken = mock(Token.class);
     mockAccessToken = mock(AccessTokenPreference.class);
     subject = new AuthorizationService(mockToken, mockAccessToken);
   }
 
-  public void testAuthorizeOnCompleteWillCallOnCompleteOnSubscriber() throws Exception {
+  @Test
+  public void authorizeOnCompleteWillCallOnCompleteOnSubscriber() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     subject.authorize(observable).subscribe(mockObserver);
 
@@ -47,7 +48,8 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver, times(1)).onCompleted();
   }
 
-  public void testOnNextWillCallOnNextOnSubscriber() throws Exception {
+  @Test
+  public void onNextWillCallOnNextOnSubscriber() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     subject.authorize(observable).subscribe(mockObserver);
 
@@ -56,7 +58,8 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver, times(1)).onNext("Alanis Morissette");
   }
 
-  public void testOnErrorWhenErrorIsNotRetrofitErrorItWillCallOnError() throws Exception {
+  @Test
+  public void onErrorWhenErrorIsNotRetrofitErrorItWillCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     subject.authorize(observable).subscribe(mockObserver);
     Exception e = new Exception();
@@ -66,7 +69,8 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver, times(1)).onError(e);
   }
 
-  public void testOnErrorWhenErrorIs401AndRefreshTokenIsNotNullWillNotCallOnError() throws Exception {
+  @Test
+  public void onErrorWhenErrorIs401AndRefreshTokenIsNotNullWillNotCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     when(mockAccessToken.get()).thenReturn(new AccessTokenDto("token", "refresh"));
     subject.authorize(observable).subscribe(mockObserver);
@@ -77,7 +81,8 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver, never()).onError(retrofitError);
   }
 
-  public void testOnErrorWhenErrorIs401AndRefreshTokenIsNullWillCallOnError() throws Exception {
+  @Test
+  public void onErrorWhenErrorIs401AndRefreshTokenIsNullWillCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     when(mockAccessToken.get()).thenReturn(new AccessTokenDto("token", null));
     subject.authorize(observable).subscribe(mockObserver);
@@ -88,7 +93,8 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver).onError(retrofitError);
   }
 
-  public void testOnErrorWhenErrorIs401AndRefreshTokenIsEmptyWillCallOnError() throws Exception {
+  @Test
+  public void onErrorWhenErrorIs401AndRefreshTokenIsEmptyWillCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     when(mockAccessToken.get()).thenReturn(new AccessTokenDto("token", ""));
     subject.authorize(observable).subscribe(mockObserver);
@@ -99,7 +105,8 @@ public class AuthorizationServiceTest extends InstrumentationTestCaseBase {
     verify(mockObserver).onError(retrofitError);
   }
 
-  public void testOnErrorWhenErrorRetrofitErrorWillCallOnError() throws Exception {
+  @Test
+  public void onErrorWhenErrorRetrofitErrorWillCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     subject.authorize(observable).subscribe(mockObserver);
     RetrofitError retrofitError = RetrofitError.unexpectedError("", new HttpHostConnectException(null, null));

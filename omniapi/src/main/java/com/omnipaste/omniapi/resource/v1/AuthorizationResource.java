@@ -17,7 +17,7 @@ public abstract class AuthorizationResource<T> extends Resource<T> {
     this.authorizationService = authorizationService;
   }
 
-  protected String bearerAccessToken() {
+  public String bearerAccessToken() {
     return bearerToken(authorizationService.getAccessTokenDto());
   }
 
