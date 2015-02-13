@@ -19,10 +19,6 @@ public class ClippingsTest extends InstrumentationTestCaseBase {
     inject(this);
   }
 
-  public void testLastWillReturnAnObservable() throws Exception {
-    assertThat(subject.last(), instanceOf(Observable.class));
-  }
-
   public void testCreateWillReturnAnObservable() throws Exception {
     assertThat(subject.create(new ClippingDto()), instanceOf(Observable.class));
   }

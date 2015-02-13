@@ -6,8 +6,7 @@ import com.omnipaste.omniapi.prefs.ApiAccessToken;
 import com.omnipaste.omniapi.prefs.PrefsModule;
 import com.omnipaste.omniapi.resource.v1.AuthorizationCodesTest;
 import com.omnipaste.omniapi.resource.v1.ClippingsTest;
-import com.omnipaste.omniapi.resource.v1.DevicesTest;
-import com.omnipaste.omniapi.resource.v1.EventsApiTest;
+import com.omnipaste.omniapi.resource.v1.user.DevicesTest;
 import com.omnipaste.omnicommon.OmniCommonModule;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
@@ -27,7 +26,6 @@ import static org.mockito.Mockito.when;
     injects = {
         ClippingsTest.class,
         DevicesTest.class,
-        EventsApiTest.class,
         AuthorizationServiceTest.class,
         AuthorizationCodesTest.class
     },

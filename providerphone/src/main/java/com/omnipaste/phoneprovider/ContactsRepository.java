@@ -75,11 +75,11 @@ public class ContactsRepository {
       final int idIndex = data.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID);
 
       do {
-        ContactDto contact = new ContactDto(data.getLong(idIndex));
+        ContactDto contact = new ContactDto("42");
 
         fetchContactName(data, contact);
 
-        if (contact.getName() != null || contact.getFirst_name() != null) {
+        if (contact.getName() != null || contact.getFirstName() != null) {
           // fetchPhoto(data, contact);
           fetchPhone(resolver, contact);
           contacts.add(contact);
@@ -118,7 +118,7 @@ public class ContactsRepository {
     };
 
     String where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-    String[] whereParameters = new String[]{contact.id.toString(), ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
+    String[] whereParameters = new String[]{contact.getContactId(), ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
     Cursor phone = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, phoneProjection, where, whereParameters, null);
 
     if (phone.moveToFirst()) {
@@ -147,8 +147,8 @@ public class ContactsRepository {
 
     contact
       .setName(cursor.getString(indexDisplayName))
-      .setLast_name(cursor.getString(indexFamilyName))
-      .setFirst_name(cursor.getString(indexGivenName))
-      .setMiddle_name(cursor.getString(indexMiddleName));
+      .setLastName(cursor.getString(indexFamilyName))
+      .setFirstName(cursor.getString(indexGivenName))
+      .setMiddleName(cursor.getString(indexMiddleName));
   }
 }

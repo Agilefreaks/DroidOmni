@@ -51,4 +51,5 @@ dependencies {
 
     androidTestCompile androidTest
     androidTestCompile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    testCompile unitTest
 }

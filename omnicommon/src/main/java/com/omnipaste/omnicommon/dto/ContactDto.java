@@ -5,34 +5,40 @@ import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
 public class ContactDto {
-  public Long id;
-  public String first_name;
-  public String last_name;
-  public String name;
-  public String middle_name;
-  public String image;
-  public List<NumberDto> phoneNumbers;
+  private Long id;
+  private final String contactId;
+  private String deviceId;
+  private String firstName;
+  private String lastName;
+  private String name;
+  private String middleName;
+  private String image;
+  private List<NumberDto> phoneNumbers;
 
-  public ContactDto(Long id) {
-    this.id = id;
+  public ContactDto(String contactId) {
+    this.contactId = contactId;
     this.phoneNumbers = new ArrayList<>();
   }
 
-  public String getFirst_name() {
-    return first_name;
+  public String getContactId() {
+    return contactId;
   }
 
-  public ContactDto setFirst_name(String first_name) {
-    this.first_name = first_name;
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public ContactDto setFirstName(String firstName) {
+    this.firstName = firstName;
     return this;
   }
 
-  public String getLast_name() {
-    return last_name;
+  public String getLastName() {
+    return lastName;
   }
 
-  public ContactDto setLast_name(String last_name) {
-    this.last_name = last_name;
+  public ContactDto setLastName(String lastName) {
+    this.lastName = lastName;
     return this;
   }
 
@@ -45,12 +51,12 @@ public class ContactDto {
     return this;
   }
 
-  public String getMiddle_name() {
-    return middle_name;
+  public String getMiddleName() {
+    return middleName;
   }
 
-  public ContactDto setMiddle_name(String middle_name) {
-    this.middle_name = middle_name;
+  public ContactDto setMiddleName(String middleName) {
+    this.middleName = middleName;
     return this;
   }
 

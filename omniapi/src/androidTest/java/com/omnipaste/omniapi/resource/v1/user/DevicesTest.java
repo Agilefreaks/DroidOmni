@@ -1,4 +1,4 @@
-package com.omnipaste.omniapi.resource.v1;
+package com.omnipaste.omniapi.resource.v1.user;
 
 import com.omnipaste.omniapi.InstrumentationTestCaseBase;
 
@@ -20,7 +20,6 @@ public class DevicesTest extends InstrumentationTestCaseBase {
 
   public void testCreate() throws Exception {
     assertThat(subject.create("42"), instanceOf(Observable.class));
-    assertThat(subject.create("42", "Friendly name"), instanceOf(Observable.class));
   }
 
   public void testActivate() throws Exception {

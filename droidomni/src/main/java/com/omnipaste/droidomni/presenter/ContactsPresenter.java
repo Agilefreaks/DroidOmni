@@ -39,12 +39,10 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
 
   @Override
   public void resume() {
-
   }
 
   @Override
   public void pause() {
-
   }
 
   @Override
