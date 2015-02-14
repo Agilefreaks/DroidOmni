@@ -11,11 +11,12 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 
 public class RequestListTest {
-  private RequestList subject;
+  private RequestList<ContactDto> subject;
+  private ContactDto firstContact;
 
   @Before
   public void context() {
-    ContactDto firstContact = new ContactDto(42L).setFirstName("Tom").setLastName("Diakite");
+    firstContact = new ContactDto(42L).setFirstName("Tom").setLastName("Diakite");
     ContactDto secondContact = new ContactDto(43L).setFirstName("Florence").setLastName("The Machine");
     subject = RequestList.buildFromContacts(List.list(firstContact, secondContact));
   }
@@ -39,6 +40,6 @@ public class RequestListTest {
 
   @Test
   public void buildForContactsWillSetBodyToJson() {
-    assertThat(subject.get(0).getBody(), equalTo("{\"contact_id\":42,\"first_name\":\"Tom\",\"last_name\":\"Diakite\",\"phone_numbers\":[]}"));
+    assertThat(subject.get(0).getBody(), equalTo(firstContact));
   }
 }

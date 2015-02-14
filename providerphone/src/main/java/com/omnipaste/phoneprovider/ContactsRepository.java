@@ -84,7 +84,7 @@ public class ContactsRepository {
           fetchPhone(resolver, contact);
           contacts.add(contact);
         }
-      } while (data.moveToNext() && contacts.size() <= take);
+      } while (data.moveToNext() && contacts.size() < take);
     }
 
     if (!data.isClosed()) {

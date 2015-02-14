@@ -49,10 +49,6 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
       return;
     }
 
-    clippingsPresenter.initialize();
-    smsMessagesPresenter.initialize();
-    phoneCallsPresenter.initialize();
-    contactsPresenter.initialize();
     activityAdapter = ActivityAdapter.build();
 
     clippingsSubscription = clippingsPresenter
@@ -110,6 +106,11 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
           getView().scrollToTop();
         }
       });
+
+    clippingsPresenter.initialize();
+    smsMessagesPresenter.initialize();
+    phoneCallsPresenter.initialize();
+    contactsPresenter.initialize();
 
     showSamples();
   }

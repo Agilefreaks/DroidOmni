@@ -1,5 +1,6 @@
 package com.omnipaste.omniapi.resource.v1.user;
 
+import com.omnipaste.omniapi.dto.BatchDto;
 import com.omnipaste.omniapi.dto.RequestList;
 import com.omnipaste.omniapi.resource.v1.AuthorizationResource;
 import com.omnipaste.omniapi.service.AuthorizationService;
@@ -23,7 +24,7 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
     Observable<Unit> create(@Header("Authorization") String token, @Body ContactDto contact);
 
     @POST("/v1/batch")
-    Observable<Unit> create(@Header("Authorization") String token, @Body RequestList requests);
+    Observable<Unit> create(@Header("Authorization") String token, @Body BatchDto requests);
   }
 
   @Inject
@@ -32,6 +33,11 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
   }
 
   public Observable<Unit> create(ContactDto[] contacts) {
-    return authorizationService.authorize(api.create(bearerAccessToken(), RequestList.buildFromContacts(List.list(contacts))));
+    BatchDto batchDto = new BatchDto(RequestList.buildFromContacts(List.list(contacts)));
+    return authorizationService.authorize(api.create(bearerAccessToken(), batchDto));
+  }
+
+  public Observable<Unit> create(java.util.List<ContactDto> contacts) {
+    return create(contacts.toArray(new ContactDto[contacts.size()]));
   }
 }

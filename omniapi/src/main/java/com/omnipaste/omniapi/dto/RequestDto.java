@@ -1,13 +1,14 @@
 package com.omnipaste.omniapi.dto;
 
-public class RequestDto {
-  private String method, path, body;
+public class RequestDto<T> {
+  private String method, path;
+  private T body;
 
   public String getMethod() {
     return method;
   }
 
-  public RequestDto setMethod(String method) {
+  public RequestDto<T> setMethod(String method) {
     this.method = method;
     return this;
   }
@@ -16,16 +17,16 @@ public class RequestDto {
     return path;
   }
 
-  public RequestDto setPath(String path) {
+  public RequestDto<T> setPath(String path) {
     this.path = path;
     return this;
   }
 
-  public String getBody() {
+  public T getBody() {
     return body;
   }
 
-  public RequestDto setBody(String body) {
+  public RequestDto<T> setBody(T body) {
     this.body = body;
     return this;
   }

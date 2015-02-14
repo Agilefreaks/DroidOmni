@@ -72,7 +72,7 @@ public class PrefsModule {
 
   @Provides @Singleton @ContactsSynced
   public BooleanPreference provideContactsSynced(SharedPreferences preferences) {
-    return new BooleanPreference(preferences, CONTACTS_SYNCED, true);
+    return new BooleanPreference(preferences, CONTACTS_SYNCED, false);
   }
 
   @Provides @Singleton @ContactsSyncIndex
