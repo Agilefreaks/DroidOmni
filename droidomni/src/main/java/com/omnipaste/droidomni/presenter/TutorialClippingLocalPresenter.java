@@ -30,7 +30,7 @@ public class TutorialClippingLocalPresenter extends FragmentPresenter<TutorialCl
   @Override public void initialize() {
     clipboardProvider
         .getObservable()
-        .observeOn(observeOnScheduler)
+        .observeOn(getObserveOnScheduler())
         .take(1)
         .subscribe(this);
   }

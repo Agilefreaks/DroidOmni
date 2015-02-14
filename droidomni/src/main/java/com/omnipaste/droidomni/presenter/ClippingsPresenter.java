@@ -37,7 +37,7 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
     clippingsSubject = PublishSubject.create();
     clipboardSubscription = clipboardProvider
         .getObservable()
-        .observeOn(observeOnScheduler)
+        .observeOn(getObserveOnScheduler())
         .subscribe(this);
   }
 

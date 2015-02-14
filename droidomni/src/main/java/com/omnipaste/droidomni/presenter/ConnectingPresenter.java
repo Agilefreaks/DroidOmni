@@ -165,8 +165,8 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
           return state == OmniServiceConnection.State.started || state == OmniServiceConnection.State.error;
         }
       })
-      .subscribeOn(scheduler)
-      .observeOn(observeOnScheduler)
+      .subscribeOn(getScheduler())
+      .observeOn(getObserveOnScheduler())
       .subscribe(
         // onNext
         new Action1<OmniServiceConnection.State>() {

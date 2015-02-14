@@ -35,7 +35,7 @@ public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> i
     subject = PublishSubject.create();
     subscription = smsMessageReceived
       .getObservable()
-      .observeOn(observeOnScheduler)
+      .observeOn(getObserveOnScheduler())
       .subscribe(this);
   }
 

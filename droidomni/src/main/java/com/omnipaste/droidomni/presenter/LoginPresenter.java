@@ -57,8 +57,8 @@ public class LoginPresenter extends Presenter<LoginPresenter.View> {
 
   public void login(String authorizationCode) {
     sessionService.login(authorizationCode)
-        .subscribeOn(scheduler)
-        .observeOn(observeOnScheduler)
+        .subscribeOn(getScheduler())
+        .observeOn(getObserveOnScheduler())
         .subscribe(
             // onNext
             new Action1<AccessTokenDto>() {

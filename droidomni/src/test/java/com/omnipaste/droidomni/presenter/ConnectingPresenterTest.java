@@ -10,7 +10,11 @@ import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import rx.subjects.PublishSubject;
 
@@ -18,19 +22,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ConnectingPresenterTest extends TestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class ConnectingPresenterTest {
   private ConnectingPresenter subject;
-  private SessionService mockSessionService;
-  private GetAccounts mockGetAccounts;
 
-  @Override
-  public void setUp() throws Exception {
-    super.setUp();
+  @Mock public SessionService mockSessionService;
+  @Mock public GetAccounts mockGetAccounts;
+  @Mock public Navigator mockNavigator;
+  @Mock public OmniServiceConnection mockOmniServiceConnection;
 
-    Navigator mockNavigator = mock(Navigator.class);
-    OmniServiceConnection mockOmniServiceConnection = mock(OmniServiceConnection.class);
-    mockSessionService = mock(SessionService.class);
-    mockGetAccounts = mock(GetAccounts.class);
+  @Before
+  public void context() {
     subject = new ConnectingPresenter(
       mockNavigator,
       mockSessionService,
@@ -45,7 +47,8 @@ public class ConnectingPresenterTest extends TestCase {
       mock(BooleanPreference.class));
   }
 
-  public void testInitializeWhenNotLoggedInWillTryEmails() {
+  @Test
+  public void initializeWhenNotLoggedInWillTryEmails() {
     String[] emails = new String[]{"matei@calin.com", "tudor@email.com"};
     PublishSubject<AccessTokenDto> publishSubject = PublishSubject.create();
     when(mockSessionService.isLogged()).thenReturn(false);

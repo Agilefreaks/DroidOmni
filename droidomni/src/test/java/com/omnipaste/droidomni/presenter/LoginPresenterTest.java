@@ -1,10 +1,14 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.test.InstrumentationTestCase;
-
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
@@ -13,20 +17,20 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class LoginPresenterTest extends InstrumentationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class LoginPresenterTest {
   private LoginPresenter subject;
-  private SessionService mockSessionService;
-  private Navigator mockNavigator;
 
-  @Override public void setUp() throws Exception {
-    super.setUp();
+  @Mock public SessionService mockSessionService;
+  @Mock public Navigator mockNavigator;
 
-    mockSessionService = mock(SessionService.class);
-    mockNavigator = mock(Navigator.class);
+  @Before
+  public void context() {
     subject = new LoginPresenter(mockSessionService, mockNavigator);
   }
 
-  public void testLoginWhenLoginSuccessWillNavigateToLauncherActivity() throws Exception {
+  @Test
+  public void lLoginWhenLoginSuccessWillNavigateToLauncherActivity() throws Exception {
     PublishSubject<AccessTokenDto> publishSubject = PublishSubject.create();
     when(mockSessionService.login("code")).thenReturn(publishSubject);
 
@@ -38,7 +42,8 @@ public class LoginPresenterTest extends InstrumentationTestCase {
     verify(mockNavigator).openLauncherActivity();
   }
 
-  public void testLoginWhenLoginFailsWillCallLoginFailedOnView() throws Exception {
+  @Test
+  public void loginWhenLoginFailsWillCallLoginFailedOnView() throws Exception {
     PublishSubject<AccessTokenDto> publishSubject = PublishSubject.create();
     when(mockSessionService.login("code")).thenReturn(publishSubject);
     LoginPresenter.View mockView = mock(LoginPresenter.View.class);

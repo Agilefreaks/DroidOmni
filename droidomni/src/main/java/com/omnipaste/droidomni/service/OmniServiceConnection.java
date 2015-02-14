@@ -93,7 +93,7 @@ public class OmniServiceConnection extends Schedulable implements ServiceConnect
     stopping.set(true);
 
     stopOmniService()
-        .timeout(500, TimeUnit.MILLISECONDS, Observable.just(OmniServiceConnection.State.timeout), observeOnScheduler)
+        .timeout(500, TimeUnit.MILLISECONDS, Observable.just(OmniServiceConnection.State.timeout), getObserveOnScheduler())
         .takeFirst(new Func1<OmniServiceConnection.State, Boolean>() {
           @Override public Boolean call(OmniServiceConnection.State state) {
             return state == OmniServiceConnection.State.stopped ||

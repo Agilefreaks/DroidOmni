@@ -57,7 +57,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
     clippingsSubscription = clippingsPresenter
       .getObservable()
-      .observeOn(observeOnScheduler)
+      .observeOn(getObserveOnScheduler())
       .subscribe(new Action1<Clipping>() {
         @Override
         public void call(Clipping clipping) {
@@ -72,7 +72,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
     phoneCallsSubscription = phoneCallsPresenter
       .getObservable()
-      .observeOn(observeOnScheduler)
+      .observeOn(getObserveOnScheduler())
       .subscribe(new Action1<PhoneCall>() {
         @Override
         public void call(PhoneCall phoneCall) {
@@ -87,7 +87,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
     smsMessagesSubscription = smsMessagesPresenter
       .getObservable()
-      .observeOn(observeOnScheduler)
+      .observeOn(getObserveOnScheduler())
       .subscribe(new Action1<SmsMessage>() {
         @Override
         public void call(SmsMessage smsMessage) {
@@ -102,7 +102,7 @@ public class ActivityPresenter extends FragmentPresenter<ActivityPresenter.View>
 
     contactsSubscription = contactsPresenter
       .getObservable()
-      .observeOn(observeOnScheduler)
+      .observeOn(getObserveOnScheduler())
       .subscribe(new Action1<ContactSyncNotification>() {
         @Override
         public void call(ContactSyncNotification contactSyncNotification) {

@@ -6,7 +6,7 @@ import java.util.List;
 @SuppressWarnings("UnusedDeclaration")
 public class ContactDto {
   private Long id;
-  private final String contactId;
+  private final Long contactId;
   private String deviceId;
   private String firstName;
   private String lastName;
@@ -15,12 +15,12 @@ public class ContactDto {
   private String image;
   private List<NumberDto> phoneNumbers;
 
-  public ContactDto(String contactId) {
+  public ContactDto(Long contactId) {
     this.contactId = contactId;
     this.phoneNumbers = new ArrayList<>();
   }
 
-  public String getContactId() {
+  public Long getContactId() {
     return contactId;
   }
 

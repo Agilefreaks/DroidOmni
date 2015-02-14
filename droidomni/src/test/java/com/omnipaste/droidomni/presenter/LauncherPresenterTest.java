@@ -1,33 +1,34 @@
 package com.omnipaste.droidomni.presenter;
 
-import android.test.InstrumentationTestCase;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.omnipaste.droidomni.service.PlayService;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 
-import static org.mockito.Mockito.mock;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class LauncherPresenterTest extends InstrumentationTestCase {
+@RunWith(MockitoJUnitRunner.class)
+public class LauncherPresenterTest {
   private LauncherPresenter subject;
-  private SessionService mockSessionService;
-  private Navigator mockNavigator;
-  private PlayService mockPlayService;
 
-  @Override
-  public void setUp() throws Exception {
-    super.setUp();
+  @Mock public SessionService mockSessionService;
+  @Mock public Navigator mockNavigator;
+  @Mock public PlayService mockPlayService;
 
-    mockSessionService = mock(SessionService.class);
-    mockNavigator = mock(Navigator.class);
-    mockPlayService = mock(PlayService.class);
+  @Before
+  public void context() {
     subject = new LauncherPresenter(mockPlayService, mockNavigator, mockSessionService);
   }
 
-  public void testInitializeWhenConnectedWillStartOmniActivity() throws Exception {
+  @Test
+  public void initializeWhenConnectedWillStartOmniActivity() throws Exception {
     when(mockPlayService.status()).thenReturn(ConnectionResult.SUCCESS);
     when(mockSessionService.isConnected()).thenReturn(true);
 
@@ -36,7 +37,8 @@ public class LauncherPresenterTest extends InstrumentationTestCase {
     verify(mockNavigator).openOmniActivity();
   }
 
-  public void testInitializeWhenNotConnectedWillStartConnectingActivity() throws Exception {
+  @Test
+  public void initializeWhenNotConnectedWillStartConnectingActivity() throws Exception {
     when(mockPlayService.status()).thenReturn(ConnectionResult.SUCCESS);
     when(mockSessionService.isConnected()).thenReturn(false);
 

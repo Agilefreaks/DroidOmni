@@ -3,6 +3,7 @@ package com.omnipaste.droidomni.prefs;
 import android.content.SharedPreferences;
 
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
+import com.omnipaste.omnicommon.prefs.IntPreference;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
 import javax.inject.Singleton;
@@ -21,6 +22,8 @@ public class PrefsModule {
   public static String DEVICE_ID = "device_id";
   public static String WE_ARE_ALONE = "we_are_alone";
   public static String START_OMNI_AT_BOOT = "start_omni_at_boot";
+  public static String CONTACTS_SYNCED = "contacts_synced";
+  public static String CONTACTS_SYNC_INDEX = "contacts_sync_index";
 
   @Provides @Singleton @GcmSenderId
   public StringPreference provideGcmSenderId(SharedPreferences preferences) {
@@ -65,5 +68,15 @@ public class PrefsModule {
   @Provides @Singleton @StartOmniAtBoot
   public BooleanPreference provideStartOmniAtBoot(SharedPreferences preferences) {
     return new BooleanPreference(preferences, START_OMNI_AT_BOOT, true);
+  }
+
+  @Provides @Singleton @ContactsSynced
+  public BooleanPreference provideContactsSynced(SharedPreferences preferences) {
+    return new BooleanPreference(preferences, CONTACTS_SYNCED, true);
+  }
+
+  @Provides @Singleton @ContactsSyncIndex
+  public IntPreference provideContactsSyncIndex(SharedPreferences preferences) {
+    return new IntPreference(preferences, CONTACTS_SYNC_INDEX, 0);
   }
 }

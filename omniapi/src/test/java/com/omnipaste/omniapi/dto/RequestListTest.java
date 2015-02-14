@@ -15,8 +15,8 @@ public class RequestListTest {
 
   @Before
   public void context() {
-    ContactDto firstContact = new ContactDto("42").setFirstName("Tom").setLastName("Diakite");
-    ContactDto secondContact = new ContactDto("43").setFirstName("Florence").setLastName("The Machine");
+    ContactDto firstContact = new ContactDto(42L).setFirstName("Tom").setLastName("Diakite");
+    ContactDto secondContact = new ContactDto(43L).setFirstName("Florence").setLastName("The Machine");
     subject = RequestList.buildFromContacts(List.list(firstContact, secondContact));
   }
 
@@ -39,6 +39,6 @@ public class RequestListTest {
 
   @Test
   public void buildForContactsWillSetBodyToJson() {
-    assertThat(subject.get(0).getBody(), equalTo("{\"contact_id\":\"42\",\"first_name\":\"Tom\",\"last_name\":\"Diakite\",\"phone_numbers\":[]}"));
+    assertThat(subject.get(0).getBody(), equalTo("{\"contact_id\":42,\"first_name\":\"Tom\",\"last_name\":\"Diakite\",\"phone_numbers\":[]}"));
   }
 }
