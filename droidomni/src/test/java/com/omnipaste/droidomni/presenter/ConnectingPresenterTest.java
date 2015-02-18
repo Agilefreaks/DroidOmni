@@ -6,6 +6,7 @@ import com.omnipaste.droidomni.service.OmniServiceConnection;
 import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.omniapi.resource.v1.user.Devices;
+import com.omnipaste.omniapi.resource.v1.user.User;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 import com.omnipaste.omnicommon.prefs.StringPreference;
@@ -39,9 +40,11 @@ public class ConnectingPresenterTest {
       mockGetAccounts,
       mockOmniServiceConnection,
       mock(Devices.class),
+      mock(User.class),
       mock(CreateDevice.class),
       mock(StringPreference.class),
       "device identifier",
+      mock(BooleanPreference.class),
       mock(BooleanPreference.class),
       mock(BooleanPreference.class),
       mock(BooleanPreference.class));

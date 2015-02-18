@@ -14,9 +14,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
+import rx.schedulers.TestScheduler;
 import rx.subjects.PublishSubject;
 
 import static org.mockito.Matchers.anyInt;
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ContactsPresenterTest {
   private ContactsPresenter contactsPresenter;
+  private TestScheduler testScheduler;
 
   @Mock public ContactsRepository mockContactsRepository;
   @Mock public BooleanPreference mockContactsSynced;
@@ -37,7 +40,8 @@ public class ContactsPresenterTest {
   @Before
   public void context() {
     contactsPresenter = new ContactsPresenter(mockContactsRepository, mockContactsSynced, mockContactsSyncIndex, mockContacts);
-    contactsPresenter.setScheduler(Schedulers.immediate());
+    testScheduler = new TestScheduler();
+    contactsPresenter.setScheduler(testScheduler);
     contactsPresenter.setObserveOnScheduler(Schedulers.immediate());
   }
 
@@ -71,30 +75,12 @@ public class ContactsPresenterTest {
     }
     findSubject.onCompleted();
 
-    verify(mockContacts).create(mockContactsOne);
-    verify(mockContacts).create(mockContactsTwo);
-  }
-
-  @Test
-  public void initializeWhenStopSyncIsTrueWillStop() {
-    when(mockContactsSynced.get()).thenReturn(false);
-    when(mockContactsSyncIndex.get()).thenReturn(0);
-    PublishSubject<ContactDto> findSubject = PublishSubject.create();
-    when(mockContactsRepository.find(0)).thenReturn(findSubject);
-
-    final List<ContactDto> mockContactsOne = mockContacts(10);
-    final List<ContactDto> mockContactsTwo = mockContacts(8);
-
-    contactsPresenter.initialize();
-    for (ContactDto contactDto : mockContactsOne) {
-      findSubject.onNext(contactDto);
-    }
-    findSubject.onCompleted();
+    testScheduler.advanceTimeBy(2, TimeUnit.SECONDS);
+    testScheduler.triggerActions();
 
     verify(mockContacts).create(mockContactsOne);
     verify(mockContacts).create(mockContactsTwo);
   }
-
 
   @Test
   public void initializeWillSetContactsSynced() {
@@ -116,6 +102,32 @@ public class ContactsPresenterTest {
     contactsPresenter.initialize();
 
     verify(mockContactsRepository, never()).find(anyInt());
+  }
+
+  @Test
+  public void destroyWillStopSync() {
+    TestScheduler testScheduler = new TestScheduler();
+    contactsPresenter.setScheduler(testScheduler);
+    when(mockContactsSynced.get()).thenReturn(false);
+    when(mockContactsSyncIndex.get()).thenReturn(0);
+    PublishSubject<ContactDto> findSubject = PublishSubject.create();
+    when(mockContactsRepository.find(0)).thenReturn(findSubject);
+
+    final List<ContactDto> mockContactsOne = mockContacts(10);
+    final List<ContactDto> mockContactsTwo = mockContacts(8);
+
+    contactsPresenter.initialize();
+    for (ContactDto contactDto : mockContactsOne) {
+      findSubject.onNext(contactDto);
+    }
+    contactsPresenter.destroy();
+    for (ContactDto contactDto : mockContactsTwo) {
+      findSubject.onNext(contactDto);
+    }
+    testScheduler.advanceTimeBy(2, TimeUnit.SECONDS);
+    findSubject.onCompleted();
+
+    verify(mockContacts).create(mockContactsOne);
   }
 
   private List<ContactDto> mockContacts(int howMany) {

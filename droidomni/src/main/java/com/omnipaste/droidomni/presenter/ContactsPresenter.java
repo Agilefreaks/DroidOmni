@@ -10,6 +10,7 @@ import com.omnipaste.omnicommon.prefs.IntPreference;
 import com.omnipaste.phoneprovider.ContactsRepository;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,6 +20,7 @@ import rx.Observer;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.subjects.PublishSubject;
 
 @Singleton
@@ -57,9 +59,16 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
     contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Started));
 
     final int index = contactsSyncIndex.get();
+    Observable<Long> tick = Observable.interval(1, TimeUnit.SECONDS, getScheduler());
 
     contactsRepository.find(index)
       .buffer(MAX_CONTACTS_FETCH)
+      .zipWith(tick, new Func2<List<ContactDto>, Long, List<ContactDto>>() {
+        @Override
+        public List<ContactDto> call(List<ContactDto> contactList, Long aLong) {
+          return contactList;
+        }
+      })
       .flatMap(new Func1<List<ContactDto>, Observable<?>>() {
         @Override
         public Observable<?> call(List<ContactDto> contactList) {
@@ -72,6 +81,8 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
           return !stopSync;
         }
       })
+      .subscribeOn(getScheduler())
+      .observeOn(getObserveOnScheduler())
       .subscribe(
         new Action1<Object>() {
           @Override
@@ -82,6 +93,7 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
         new Action1<Throwable>() {
           @Override
           public void call(Throwable throwable) {
+            contactsSynced.set(false);
             contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Failed, throwable));
           }
         },
@@ -89,6 +101,7 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
           @Override
           public void call() {
             contactsSynced.set(true);
+            contactsSyncIndex.set(0);
             contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Completed));
           }
         });

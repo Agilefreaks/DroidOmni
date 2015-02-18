@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.omnipaste.droidomni.interaction.CreateDevice;
 import com.omnipaste.droidomni.interaction.DeviceIdentifier;
 import com.omnipaste.droidomni.interaction.GetAccounts;
+import com.omnipaste.droidomni.prefs.ContactsSynced;
 import com.omnipaste.droidomni.prefs.DeviceId;
 import com.omnipaste.droidomni.prefs.TutorialClippingCloud;
 import com.omnipaste.droidomni.prefs.TutorialClippingLocal;
@@ -16,8 +17,10 @@ import com.omnipaste.droidomni.service.SessionService;
 import com.omnipaste.droidomni.ui.Navigator;
 import com.omnipaste.droidomni.ui.activity.ConnectingActivity_;
 import com.omnipaste.omniapi.resource.v1.user.Devices;
+import com.omnipaste.omniapi.resource.v1.user.User;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.DeviceDto;
+import com.omnipaste.omnicommon.dto.UserDto;
 import com.omnipaste.omnicommon.prefs.BooleanPreference;
 import com.omnipaste.omnicommon.prefs.StringPreference;
 
@@ -39,9 +42,11 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
   private final GetAccounts getAccounts;
   private final OmniServiceConnection omniServiceConnection;
   private final Devices devices;
+  private final User user;
   private final CreateDevice createDevice;
   private final StringPreference deviceId;
   private final String deviceIdentifier;
+  private final BooleanPreference contactsSynced;
   private final BooleanPreference weAreAlone;
   private final BooleanPreference tutorialClippingLocal;
   private BooleanPreference tutorialClippingCloud;
@@ -57,9 +62,11 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
                              GetAccounts getAccounts,
                              OmniServiceConnection omniServiceConnection,
                              Devices devices,
+                             User user,
                              CreateDevice createDevice,
                              @DeviceId StringPreference deviceId,
                              @DeviceIdentifier String deviceIdentifier,
+                             @ContactsSynced BooleanPreference contactsSynced,
                              @WeAreAlone BooleanPreference weAreAlone,
                              @TutorialClippingLocal BooleanPreference tutorialClippingLocal,
                              @TutorialClippingCloud BooleanPreference tutorialClippingCloud) {
@@ -68,9 +75,11 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
     this.getAccounts = getAccounts;
     this.omniServiceConnection = omniServiceConnection;
     this.devices = devices;
+    this.user = user;
     this.createDevice = createDevice;
     this.deviceId = deviceId;
     this.deviceIdentifier = deviceIdentifier;
+    this.contactsSynced = contactsSynced;
     this.weAreAlone = weAreAlone;
     this.tutorialClippingLocal = tutorialClippingLocal;
     this.tutorialClippingCloud = tutorialClippingCloud;
@@ -148,13 +157,21 @@ public class ConnectingPresenter extends Presenter<ConnectingPresenter.View> {
           return createDeviceIfNeeded(fjDevices);
         }
       })
-      .flatMap(new Func1<DeviceDto, Observable<OmniServiceConnection.State>>() {
+      .flatMap(new Func1<DeviceDto, Observable<UserDto>>() {
         @Override
-        public Observable<OmniServiceConnection.State> call(DeviceDto deviceDto) {
+        public Observable<UserDto> call(DeviceDto deviceDto) {
           if (!deviceId.get().equals(deviceDto.getId())) {
             deviceId.set(deviceDto.getId());
           }
           sessionService.setDeviceDto(deviceDto);
+
+          return user.get();
+        }
+      })
+      .flatMap(new Func1<UserDto, Observable<OmniServiceConnection.State>>() {
+        @Override
+        public Observable<OmniServiceConnection.State> call(UserDto userDto) {
+          contactsSynced.set(userDto.getContactsUpdatedAt() != null);
 
           return omniServiceConnection.startOmniService();
         }
