@@ -16,10 +16,13 @@ import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.Observer;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
 @Singleton
-public class ContactsPresenter extends Presenter<ContactsPresenter.View> implements Observer<ContactSyncNotification>  {
+public class ContactsPresenter extends Presenter<ContactsPresenter.View> implements Observer<ContactSyncNotification> {
   public static final int MAX_CONTACTS_FETCH = 10;
 
   private final PublishSubject<ContactSyncNotification> contactsSubject = PublishSubject.create();
@@ -53,23 +56,42 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
 
     contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Started));
 
-    int index = contactsSyncIndex.get();
-    List<ContactDto> contactList = contactsRepository.find(index, MAX_CONTACTS_FETCH);
+    final int index = contactsSyncIndex.get();
 
-    while(contactList.size() == MAX_CONTACTS_FETCH && !stopSync) {
-      index += contactList.size();
-      contacts.create(contactList).subscribe();
-      contactList = contactsRepository.find(index, MAX_CONTACTS_FETCH);
-    }
-
-    if (contactList.size() != 0) {
-      index += contactList.size();
-      contacts.create(contactList).subscribe();
-    }
-
-    contactsSyncIndex.set(index);
-    contactsSynced.set(!stopSync);
-    contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Completed));
+    contactsRepository.find(index)
+      .buffer(MAX_CONTACTS_FETCH)
+      .flatMap(new Func1<List<ContactDto>, Observable<?>>() {
+        @Override
+        public Observable<?> call(List<ContactDto> contactList) {
+          return contacts.create(contactList);
+        }
+      })
+      .takeWhile(new Func1<Object, Boolean>() {
+        @Override
+        public Boolean call(Object o) {
+          return !stopSync;
+        }
+      })
+      .subscribe(
+        new Action1<Object>() {
+          @Override
+          public void call(Object unit) {
+            contactsSyncIndex.set(contactsSyncIndex.get() + MAX_CONTACTS_FETCH);
+          }
+        },
+        new Action1<Throwable>() {
+          @Override
+          public void call(Throwable throwable) {
+            contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Failed, throwable));
+          }
+        },
+        new Action0() {
+          @Override
+          public void call() {
+            contactsSynced.set(true);
+            contactsSubject.onNext(new ContactSyncNotification(ContactSyncNotification.Status.Completed));
+          }
+        });
   }
 
   @Override

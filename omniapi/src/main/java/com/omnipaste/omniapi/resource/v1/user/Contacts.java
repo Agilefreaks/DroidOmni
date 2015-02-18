@@ -24,7 +24,7 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
     Observable<Unit> create(@Header("Authorization") String token, @Body ContactDto contact);
 
     @POST("/v1/batch")
-    Observable<Unit> create(@Header("Authorization") String token, @Body BatchDto requests);
+    Observable<Object[]> create(@Header("Authorization") String token, @Body BatchDto requests);
   }
 
   @Inject
@@ -32,12 +32,12 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
     super(restAdapter, ContactsApi.class, authorizationService);
   }
 
-  public Observable<Unit> create(ContactDto[] contacts) {
+  public Observable create(ContactDto[] contacts) {
     BatchDto batchDto = new BatchDto(RequestList.buildFromContacts(List.list(contacts)));
     return authorizationService.authorize(api.create(bearerAccessToken(), batchDto));
   }
 
-  public Observable<Unit> create(java.util.List<ContactDto> contacts) {
+  public Observable create(java.util.List<ContactDto> contacts) {
     return create(contacts.toArray(new ContactDto[contacts.size()]));
   }
 }

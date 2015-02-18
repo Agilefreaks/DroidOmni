@@ -26,6 +26,7 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
   @Inject
   public ClippingsPresenter(ClipboardProvider clipboardProvider) {
     this.clipboardProvider = clipboardProvider;
+    clippingsSubject = PublishSubject.create();
   }
 
   @Override
@@ -34,7 +35,6 @@ public class ClippingsPresenter extends Presenter<ClippingsPresenter.View> imple
       return;
     }
 
-    clippingsSubject = PublishSubject.create();
     clipboardSubscription = clipboardProvider
         .getObservable()
         .observeOn(getObserveOnScheduler())

@@ -24,6 +24,7 @@ public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> i
   @Inject
   public SmsMessagesPresenter(SmsMessageReceived smsMessageReceived) {
     this.smsMessageReceived = smsMessageReceived;
+    subject = PublishSubject.create();
   }
 
   @Override
@@ -32,7 +33,6 @@ public class SmsMessagesPresenter extends Presenter<SmsMessagesPresenter.View> i
       return;
     }
 
-    subject = PublishSubject.create();
     subscription = smsMessageReceived
       .getObservable()
       .observeOn(getObserveOnScheduler())

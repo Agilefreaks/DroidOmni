@@ -15,6 +15,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
+
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -33,66 +37,76 @@ public class ContactsPresenterTest {
   @Before
   public void context() {
     contactsPresenter = new ContactsPresenter(mockContactsRepository, mockContactsSynced, mockContactsSyncIndex, mockContacts);
+    contactsPresenter.setScheduler(Schedulers.immediate());
+    contactsPresenter.setObserveOnScheduler(Schedulers.immediate());
   }
 
   @Test
   public void initializeWhenContactsNotSyncedItWillCallFind() {
     when(mockContactsSynced.get()).thenReturn(false);
     when(mockContactsSyncIndex.get()).thenReturn(0);
+    when(mockContactsRepository.find(0)).thenReturn(Observable.<ContactDto>empty());
 
     contactsPresenter.initialize();
 
-    verify(mockContactsRepository, times(1)).find(0, ContactsPresenter.MAX_CONTACTS_FETCH);
+    verify(mockContactsRepository, times(1)).find(0);
   }
 
   @Test
-  public void initializeWillCallFindUntilItReturnedArraySizeLowerThenMaxFetch() {
+  public void initializeWhenNotSyncedWillCreateContacts() {
     when(mockContactsSynced.get()).thenReturn(false);
     when(mockContactsSyncIndex.get()).thenReturn(0);
-    when(mockContactsRepository.find(0, ContactsPresenter.MAX_CONTACTS_FETCH)).thenReturn(mockContacts(ContactsPresenter.MAX_CONTACTS_FETCH));
-    when(mockContactsRepository.find(10, ContactsPresenter.MAX_CONTACTS_FETCH)).thenReturn(mockContacts(ContactsPresenter.MAX_CONTACTS_FETCH - 1));
+    PublishSubject<ContactDto> findSubject = PublishSubject.create();
+    when(mockContactsRepository.find(0)).thenReturn(findSubject);
+
+    final List<ContactDto> mockContactsOne = mockContacts(10);
+    final List<ContactDto> mockContactsTwo = mockContacts(8);
 
     contactsPresenter.initialize();
+    for (ContactDto contactDto : new ArrayList<ContactDto>() {{
+      addAll(mockContactsOne);
+      addAll(mockContactsTwo);
+    }}) {
+      findSubject.onNext(contactDto);
+    }
+    findSubject.onCompleted();
 
-    verify(mockContactsRepository).find(0, ContactsPresenter.MAX_CONTACTS_FETCH);
-    verify(mockContactsRepository).find(10, ContactsPresenter.MAX_CONTACTS_FETCH);
+    verify(mockContacts).create(mockContactsOne);
+    verify(mockContacts).create(mockContactsTwo);
   }
+
+  @Test
+  public void initializeWhenStopSyncIsTrueWillStop() {
+    when(mockContactsSynced.get()).thenReturn(false);
+    when(mockContactsSyncIndex.get()).thenReturn(0);
+    PublishSubject<ContactDto> findSubject = PublishSubject.create();
+    when(mockContactsRepository.find(0)).thenReturn(findSubject);
+
+    final List<ContactDto> mockContactsOne = mockContacts(10);
+    final List<ContactDto> mockContactsTwo = mockContacts(8);
+
+    contactsPresenter.initialize();
+    for (ContactDto contactDto : mockContactsOne) {
+      findSubject.onNext(contactDto);
+    }
+    findSubject.onCompleted();
+
+    verify(mockContacts).create(mockContactsOne);
+    verify(mockContacts).create(mockContactsTwo);
+  }
+
 
   @Test
   public void initializeWillSetContactsSynced() {
     when(mockContactsSynced.get()).thenReturn(false);
     when(mockContactsSyncIndex.get()).thenReturn(0);
+    PublishSubject<ContactDto> findSubject = PublishSubject.create();
+    when(mockContactsRepository.find(0)).thenReturn(findSubject);
 
     contactsPresenter.initialize();
+    findSubject.onCompleted();
 
     verify(mockContactsSynced).set(true);
-  }
-
-  @Test
-  public void initializeWillUpdateContactsSyncIndex() {
-    when(mockContactsSynced.get()).thenReturn(false);
-    when(mockContactsSyncIndex.get()).thenReturn(0);
-    when(mockContactsRepository.find(0, ContactsPresenter.MAX_CONTACTS_FETCH)).thenReturn(mockContacts(ContactsPresenter.MAX_CONTACTS_FETCH));
-    when(mockContactsRepository.find(10, ContactsPresenter.MAX_CONTACTS_FETCH)).thenReturn(mockContacts(ContactsPresenter.MAX_CONTACTS_FETCH - 1));
-
-    contactsPresenter.initialize();
-
-    verify(mockContactsSyncIndex).set(19);
-  }
-
-  @Test
-  public void initializeWillSaveContacts() {
-    when(mockContactsSynced.get()).thenReturn(false);
-    when(mockContactsSyncIndex.get()).thenReturn(0);
-    List<ContactDto> contacts1 = mockContacts(ContactsPresenter.MAX_CONTACTS_FETCH);
-    when(mockContactsRepository.find(0, ContactsPresenter.MAX_CONTACTS_FETCH)).thenReturn(contacts1);
-    List<ContactDto> contacts2 = mockContacts(ContactsPresenter.MAX_CONTACTS_FETCH - 1);
-    when(mockContactsRepository.find(10, ContactsPresenter.MAX_CONTACTS_FETCH)).thenReturn(contacts2);
-
-    contactsPresenter.initialize();
-
-    verify(mockContacts).create(contacts1);
-    verify(mockContacts).create(contacts2);
   }
 
   @Test
@@ -101,13 +115,13 @@ public class ContactsPresenterTest {
 
     contactsPresenter.initialize();
 
-    verify(mockContactsRepository, never()).find(anyInt(), anyInt());
+    verify(mockContactsRepository, never()).find(anyInt());
   }
 
   private List<ContactDto> mockContacts(int howMany) {
     ArrayList<ContactDto> contacts = new ArrayList<>(howMany);
 
-    for(int i = 0; i < howMany; i++) {
+    for (int i = 0; i < howMany; i++) {
       contacts.add(new ContactDto((long) i));
     }
 

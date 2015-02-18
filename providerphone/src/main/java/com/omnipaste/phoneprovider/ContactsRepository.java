@@ -14,11 +14,12 @@ import com.omnipaste.omnicommon.dto.NumberDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import rx.Observable;
+import rx.Subscriber;
 
 @Singleton
 public class ContactsRepository {
@@ -50,48 +51,48 @@ public class ContactsRepository {
     return contactName;
   }
 
-  public List<ContactDto> find(int skip, int take) {
-    ContentResolver resolver = context.getContentResolver();
-    String[] dataProjection = new String[]{
-      ContactsContract.CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI,
-      ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER,
-      ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID,
-      ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-      ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
-      ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
-      ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
-    };
+  public Observable<ContactDto> find(final int skip) {
+    return Observable.create(new Observable.OnSubscribe<ContactDto>() {
+      @Override
+      public void call(Subscriber<? super ContactDto> subscriber) {
+        ContentResolver resolver = context.getContentResolver();
+        String[] dataProjection = new String[]{
+          ContactsContract.CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI,
+          ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER,
+          ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID,
+          ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+          ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+          ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+          ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
+        };
 
-    String where = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER + " = ?";
-    String[] whereParameters = new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, "1"};
-    Cursor data = resolver.query(ContactsContract.Data.CONTENT_URI, dataProjection, where, whereParameters, null);
-    List<ContactDto> contacts = new ArrayList<>();
+        String where = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER + " = ?";
+        String[] whereParameters = new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, "1"};
+        Cursor data = resolver.query(ContactsContract.Data.CONTENT_URI, dataProjection, where, whereParameters, null);
 
-    if (data == null) {
-      return contacts;
-    }
+        if (data != null && data.moveToPosition(skip)) {
+          final int rawContactIdIndex = data.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID);
 
-    if (data.moveToPosition(skip)) {
-      final int rawContactIdIndex = data.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID);
+          do {
+            ContactDto contact = new ContactDto(data.getLong(rawContactIdIndex));
 
-      do {
-        ContactDto contact = new ContactDto(data.getLong(rawContactIdIndex));
+            fetchContactName(data, contact);
 
-        fetchContactName(data, contact);
+            if (contact.getName() != null || contact.getFirstName() != null) {
+              fetchPhoto(data, contact);
+              fetchPhone(resolver, contact);
+              subscriber.onNext(contact);
+            }
+          } while (data.moveToNext());
 
-        if (contact.getName() != null || contact.getFirstName() != null) {
-          fetchPhoto(data, contact);
-          fetchPhone(resolver, contact);
-          contacts.add(contact);
+          if (!data.isClosed()) {
+            data.close();
+          }
         }
-      } while (data.moveToNext() && contacts.size() < take);
-    }
 
-    if (!data.isClosed()) {
-      data.close();
-    }
-
-    return contacts;
+        subscriber.onCompleted();
+      }
+    });
   }
 
   private void fetchPhoto(Cursor data, ContactDto contact) {
