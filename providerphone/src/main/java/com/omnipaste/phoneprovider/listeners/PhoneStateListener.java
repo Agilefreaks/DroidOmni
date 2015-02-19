@@ -3,6 +3,7 @@ package com.omnipaste.phoneprovider.listeners;
 import android.telephony.TelephonyManager;
 
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
+import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
 import com.omnipaste.phoneprovider.ContactsRepository;
 
@@ -42,7 +43,8 @@ public class PhoneStateListener extends android.telephony.PhoneStateListener imp
     super.onCallStateChanged(state, incomingNumber);
 
     if (state == TelephonyManager.CALL_STATE_RINGING) {
-      PhoneCallDto phoneCallDto = new PhoneCallDto(this.deviceId, incomingNumber, contactsRepository.findByPhoneNumber(incomingNumber));
+      ContactDto contactDto = contactsRepository.findByPhoneNumber(incomingNumber);
+      PhoneCallDto phoneCallDto = new PhoneCallDto(this.deviceId, incomingNumber, contactDto.getName(), contactDto.getContactId());
       phoneCalls.create(phoneCallDto).subscribe();
     }
   }

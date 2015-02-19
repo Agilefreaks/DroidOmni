@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 
 import com.omnipaste.omniapi.resource.v1.SmsMessages;
+import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.phoneprovider.ContactsRepository;
 
@@ -64,9 +65,11 @@ public class SmsMessageListener extends BroadcastReceiver implements Listener {
       fromAddress = smsMessage.getOriginatingAddress();
     }
 
+    ContactDto contactDto = contactsRepository.findByPhoneNumber(fromAddress);
     smsMessages.post(new SmsMessageDto(deviceId)
       .setPhoneNumber(fromAddress)
-      .setContactName(contactsRepository.findByPhoneNumber(fromAddress))
+      .setContactName(contactDto.getName())
+      .setContactId(contactDto.getContactId())
       .setContent(message.toString())).subscribe();
   }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 public class SmsMessageDto implements Parcelable {
   private String phoneNumber;
   private String contactName;
+  private Long contactId;
   private String content;
   private List<String> phoneNumberList;
   private List<String> contactNameList;
@@ -50,6 +51,7 @@ public class SmsMessageDto implements Parcelable {
   public SmsMessageDto(Parcel in) {
     setPhoneNumber(in.readString());
     setContactName(in.readString());
+    setContactId(in.readLong());
     setContent(in.readString());
     in.readStringList(phoneNumberList);
     in.readStringList(contactNameList);
@@ -67,6 +69,7 @@ public class SmsMessageDto implements Parcelable {
   public void writeToParcel(Parcel parcel, int flags) {
     parcel.writeString(phoneNumber);
     parcel.writeString(contactName);
+    parcel.writeLong(contactId);
     parcel.writeString(content);
     parcel.writeStringList(phoneNumberList);
     parcel.writeStringList(contactNameList);
@@ -86,6 +89,11 @@ public class SmsMessageDto implements Parcelable {
 
   public SmsMessageDto setContactName(String contactName) {
     this.contactName = contactName;
+    return this;
+  }
+
+  public SmsMessageDto setContactId(Long contactId) {
+    this.contactId = contactId;
     return this;
   }
 

@@ -6,10 +6,12 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressWarnings("UnusedDeclaration")
 public class PhoneCallDto implements Parcelable {
   private String deviceId;
   private String number;
   private String contactName;
+  private Long contactId;
   private Type type;
   private State state;
   private Date createdAt;
@@ -32,22 +34,24 @@ public class PhoneCallDto implements Parcelable {
     }
   };
 
-  public PhoneCallDto(String deviceId, String number, String contactName, Type type, State state) {
+  public PhoneCallDto(String deviceId, String number, String contactName, Long contactId, Type type, State state) {
     this.deviceId = deviceId;
     this.number = number;
     this.contactName = contactName;
+    this.contactId = contactId;
     this.type = type;
     this.state = state;
   }
 
-  public PhoneCallDto(String deviceId, String number, String contactName) {
-    this(deviceId, number, contactName, Type.INCOMING, State.STARTING);
+  public PhoneCallDto(String deviceId, String number, String name, Long contactId) {
+    this(deviceId, number, name, contactId, Type.INCOMING, State.STARTING);
   }
 
   public PhoneCallDto(Parcel in) {
     setDeviceId(in.readString());
     setNumber(in.readString());
     setContactName(in.readString());
+    setContactId(in.readLong());
     setState(State.valueOf(in.readString()));
     setCreateAt((Date) in.readSerializable());
   }
@@ -62,6 +66,7 @@ public class PhoneCallDto implements Parcelable {
     parcel.writeString(deviceId);
     parcel.writeString(number);
     parcel.writeString(contactName);
+    parcel.writeLong(contactId);
     parcel.writeString(state.toString());
     parcel.writeSerializable(createdAt);
   }
@@ -88,6 +93,14 @@ public class PhoneCallDto implements Parcelable {
 
   public void setContactName(String contactName) {
     this.contactName = contactName;
+  }
+
+  public Long getContactId() {
+    return contactId;
+  }
+
+  public void setContactId(Long contactId) {
+    this.contactId = contactId;
   }
 
   public State getState() {

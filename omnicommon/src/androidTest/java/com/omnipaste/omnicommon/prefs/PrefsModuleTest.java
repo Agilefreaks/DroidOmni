@@ -26,14 +26,4 @@ public class PrefsModuleTest extends InstrumentationTestCase {
 
     assertThat(subject.provideSharedPreferences(mockContext), is(sharePreferences));
   }
-
-  public void testGetConfigurationFilenameWhenConfigIsDebug() {
-    String configurationFileName = subject.getConfigurationFileName("debug");
-    assertThat(configurationFileName, is("com.omnipaste.droidomni.debug"));
-  }
-
-  public void testGetConfigurationFilenameWhenConfigIsRelease() {
-    String configurationFileName = subject.getConfigurationFileName("release");
-    assertThat(configurationFileName, is("com.omnipaste.droidomni"));
-  }
 }

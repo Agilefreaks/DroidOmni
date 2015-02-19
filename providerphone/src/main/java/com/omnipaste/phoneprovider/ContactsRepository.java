@@ -30,25 +30,35 @@ public class ContactsRepository {
     this.context = context;
   }
 
-  public String findByPhoneNumber(String phoneNumber) {
+  public ContactDto findByPhoneNumber(String phoneNumber) {
     ContentResolver resolver = context.getContentResolver();
     Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-    Cursor cursor = resolver.query(uri, new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
+    String[] dataProjection = new String[]{
+      ContactsContract.PhoneLookup._ID,
+      ContactsContract.PhoneLookup.DISPLAY_NAME,
+    };
+    Cursor cursor = resolver.query(uri, dataProjection, null, null, null);
 
     if (cursor == null) {
       return null;
     }
 
-    String contactName = null;
+    ContactDto contactDto = new ContactDto();
+
     if (cursor.moveToFirst()) {
-      contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+      final int indexRawContactId = cursor.getColumnIndex(ContactsContract.PhoneLookup._ID);
+      final int indexDisplayName = cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME);
+
+      contactDto
+        .setName(cursor.getString(indexDisplayName))
+        .setContactId(cursor.getLong(indexRawContactId));
     }
 
     if (!cursor.isClosed()) {
       cursor.close();
     }
 
-    return contactName;
+    return contactDto;
   }
 
   public Observable<ContactDto> find(final int skip) {
@@ -59,7 +69,7 @@ public class ContactsRepository {
         String[] dataProjection = new String[]{
           ContactsContract.CommonDataKinds.StructuredName.PHOTO_THUMBNAIL_URI,
           ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER,
-          ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID,
+          ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID,
           ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
           ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
           ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
@@ -71,7 +81,7 @@ public class ContactsRepository {
         Cursor data = resolver.query(ContactsContract.Data.CONTENT_URI, dataProjection, where, whereParameters, null);
 
         if (data != null && data.moveToPosition(skip)) {
-          final int rawContactIdIndex = data.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID);
+          final int rawContactIdIndex = data.getColumnIndex(ContactsContract.Data.CONTACT_ID);
 
           do {
             ContactDto contact = new ContactDto(data.getLong(rawContactIdIndex));
@@ -118,7 +128,7 @@ public class ContactsRepository {
       ContactsContract.CommonDataKinds.Phone.TYPE
     };
 
-    String where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+    String where = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
     String[] whereParameters = new String[]{contact.getContactId().toString(), ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
     Cursor phone = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, phoneProjection, where, whereParameters, null);
 
