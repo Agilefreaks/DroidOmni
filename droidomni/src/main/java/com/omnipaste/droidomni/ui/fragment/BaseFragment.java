@@ -3,6 +3,8 @@ package com.omnipaste.droidomni.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.omnipaste.droidomni.DroidOmniApplication;
 import com.omnipaste.droidomni.presenter.FragmentPresenter;
 
@@ -15,6 +17,8 @@ public abstract class BaseFragment<TPresenter extends FragmentPresenter> extends
     getPresenter().attachView(this);
     getPresenter().attachActivity(this.getActivity());
     getPresenter().initialize();
+
+    track();
   }
 
   @Override
@@ -40,5 +44,11 @@ public abstract class BaseFragment<TPresenter extends FragmentPresenter> extends
 
   private void injectDependencies() {
     DroidOmniApplication.inject(this);
+  }
+
+  private void track() {
+    Tracker tracker = ((DroidOmniApplication) getActivity().getApplication()).getTracker();
+    tracker.setScreenName(this.getClass().getCanonicalName());
+    new HitBuilders.AppViewBuilder().build();
   }
 }

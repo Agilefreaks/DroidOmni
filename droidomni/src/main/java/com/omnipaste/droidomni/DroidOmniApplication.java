@@ -3,6 +3,9 @@ package com.omnipaste.droidomni;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Logger;
+import com.google.android.gms.analytics.Tracker;
 import com.omnipaste.droidomni.prefs.GcmSenderId;
 import com.omnipaste.omniapi.prefs.ApiClientId;
 import com.omnipaste.omniapi.prefs.ApiClientToken;
@@ -22,6 +25,7 @@ import dagger.ObjectGraph;
 public class DroidOmniApplication extends Application {
   private static Context context;
   private static ObjectGraph objectGraph;
+  private Tracker tracker;
 
   @Inject @GcmSenderId
   public StringPreference gcmSenderId;
@@ -58,9 +62,19 @@ public class DroidOmniApplication extends Application {
   public ObjectGraph plus(List<Object> modules) {
     if (modules == null) {
       throw new IllegalArgumentException(
-          "You can't plus a null module, review your getModules() implementation");
+        "You can't plus a null module, review your getModules() implementation");
     }
     return objectGraph.plus(modules.toArray());
+  }
+
+  public synchronized Tracker getTracker() {
+    if (tracker == null) {
+      GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+      analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
+      tracker = analytics.newTracker(R.xml.app_tracker);
+    }
+
+    return tracker;
   }
 
   private void init() {
