@@ -17,7 +17,7 @@ import javax.inject.Singleton;
 
 @Singleton
 public class SmsMessageListener extends BroadcastReceiver implements Listener {
-  private final static String EXTRAS_KEY = "pdus";
+  public final static String EXTRAS_KEY = "pdus";
 
   private final Context context;
   private final ContactsRepository contactsRepository;
@@ -66,6 +66,7 @@ public class SmsMessageListener extends BroadcastReceiver implements Listener {
     }
 
     ContactDto contactDto = contactsRepository.findByPhoneNumber(fromAddress);
+
     smsMessages.post(new SmsMessageDto(deviceId)
       .setPhoneNumber(fromAddress)
       .setContactName(contactDto.getName())
