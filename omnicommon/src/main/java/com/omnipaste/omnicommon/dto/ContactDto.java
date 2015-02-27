@@ -5,7 +5,7 @@ import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
 public class ContactDto {
-  private Long id;
+  private String id;
   private Long contactId;
   private String deviceId;
   private String firstName;
@@ -15,12 +15,22 @@ public class ContactDto {
   private String image;
   private List<NumberDto> phoneNumbers;
 
-  public ContactDto(Long contactId) {
-    this.contactId = contactId;
+  public ContactDto() {
     this.phoneNumbers = new ArrayList<>();
   }
 
-  public ContactDto() {
+  public ContactDto(Long contactId) {
+    this();
+    this.contactId = contactId;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public ContactDto setId(String id) {
+    this.id = id;
+    return this;
   }
 
   public Long getContactId() {
@@ -84,5 +94,33 @@ public class ContactDto {
 
   public List<NumberDto> getPhoneNumbers() {
     return phoneNumbers;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof ContactDto)) {
+      return false;
+    }
+
+    ContactDto other = (ContactDto) o;
+
+    return this.getFirstName().equals(other.getFirstName()) &&
+      this.getLastName().equals(other.getLastName()) &&
+      this.getImage().equals(other.getImage()) &&
+      equalsPhoneNumbers(other);
+  }
+
+  private boolean equalsPhoneNumbers(ContactDto other) {
+    if (!(this.phoneNumbers.size() == other.phoneNumbers.size())) {
+      return false;
+    }
+
+    for(int index = 0; index < this.getPhoneNumbers().size(); index++) {
+      if(!this.getPhoneNumbers().get(index).equals(other.getPhoneNumbers().get(index))) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

@@ -20,7 +20,6 @@ import javax.inject.Singleton;
 
 import retrofit.RetrofitError;
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 
 @Singleton
@@ -93,13 +92,23 @@ public class SmsMessageListener extends BroadcastReceiver implements Listener {
             return result;
           }
         })
-        .subscribe(
-          new Action1<ContactDto>() {
-            @Override
-            public void call(ContactDto contactDto) {
-            }
+        .flatMap(new Func1<ContactDto, Observable<?>>() {
+          @Override public Observable<?> call(final ContactDto getContactDto) {
+            return contactsRepository
+              .find(getContactDto.getContactId())
+              .flatMap(new Func1<ContactDto, Observable<?>>() {
+                @Override public Observable<?> call(ContactDto localContactDto) {
+                  Observable<ContactDto> result = Observable.empty();
+                  if (!localContactDto.equals(getContactDto)) {
+                    result = contacts.update(localContactDto.setId(getContactDto.getId()));
+                  }
+
+                  return result;
+                }
+              });
           }
-        );
+        })
+        .subscribe();
     }
 
     smsMessages.post(smsMessageDto).subscribe();

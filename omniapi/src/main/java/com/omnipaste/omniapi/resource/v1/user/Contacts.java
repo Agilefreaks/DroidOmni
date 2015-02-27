@@ -15,6 +15,8 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.PUT;
+import retrofit.http.Path;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -29,6 +31,9 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
 
     @GET("/v1/user/contacts")
     Observable<ContactDto> get(@Header("Authorization") String token, @Query("contact_id") Long contactId);
+
+    @PUT("/v1/user/contacts/{id}")
+    Observable<ContactDto> update(@Header("Authorization") String token, @Path("id") String id, @Body ContactDto contact);
   }
 
   @Inject
@@ -51,5 +56,9 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
 
   public Observable<ContactDto> get(Long contactId) {
     return authorizationService.authorize(api.get(bearerAccessToken(), contactId));
+  }
+
+  public Observable<ContactDto> update(ContactDto contactDto) {
+    return authorizationService.authorize(api.update(bearerAccessToken(), contactDto.getId(), contactDto));
   }
 }
