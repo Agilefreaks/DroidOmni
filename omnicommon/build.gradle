@@ -48,8 +48,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'org.functionaljava:functionaljava:4.3'
     compile 'com.netflix.rxjava:rxjava-android:0.20.7'
-    compile 'com.madgag.spongycastle:core:1.51.0.0'
-    compile 'com.madgag.spongycastle:prov:1.51.0.0'
 
     androidTestCompile androidTest
+    testCompile unitTest
 }

@@ -1,5 +1,7 @@
 package com.omnipaste.phoneprovider;
 
+import android.content.Context;
+
 import com.omnipaste.omnicommon.Provider;
 import com.omnipaste.phoneprovider.listeners.PhoneStateListener;
 import com.omnipaste.phoneprovider.listeners.SmsMessageListener;
@@ -12,13 +14,16 @@ import rx.Observable;
 
 @Singleton
 public class PhoneListenerProvider implements Provider<Unit> {
-  private PhoneStateListener phoneStateListener;
-  private SmsMessageListener smsMessageListener;
+  private final Context context;
+  private final PhoneStateListener phoneStateListener;
+  private final SmsMessageListener smsMessageListener;
   private boolean subscribed = false;
 
   @Inject
-  public PhoneListenerProvider(PhoneStateListener phoneStateListener,
+  public PhoneListenerProvider(Context context,
+                               PhoneStateListener phoneStateListener,
                                SmsMessageListener smsMessageListener) {
+    this.context = context;
     this.phoneStateListener = phoneStateListener;
     this.smsMessageListener = smsMessageListener;
   }
@@ -26,8 +31,8 @@ public class PhoneListenerProvider implements Provider<Unit> {
   @Override
   public Observable<Unit> init(String deviceId) {
     if (!subscribed) {
-      phoneStateListener.start(deviceId);
-      smsMessageListener.start(deviceId);
+      phoneStateListener.start(context, deviceId);
+      smsMessageListener.start(context, deviceId);
       subscribed = true;
     }
 

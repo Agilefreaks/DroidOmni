@@ -5,37 +5,42 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.telephony.SmsMessage;
+import android.util.Log;
 
 import com.omnipaste.omniapi.resource.v1.SmsMessages;
+import com.omnipaste.omniapi.resource.v1.user.Contacts;
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.phoneprovider.ContactsRepository;
+import com.omnipaste.phoneprovider.interaction.CreateSmsMessage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class SmsMessageListener extends BroadcastReceiver implements Listener {
-  public final static String EXTRAS_KEY = "pdus";
-
-  private final Context context;
   private final ContactsRepository contactsRepository;
   private final SmsMessages smsMessages;
+  private final CreateSmsMessage createSmsMessage;
+  private final Contacts contacts;
   private String deviceId;
+  private Context context;
 
   @Inject
-  public SmsMessageListener(Context context,
-                            ContactsRepository contactsRepository,
-                            SmsMessages smsMessages) {
-    this.context = context;
+  public SmsMessageListener(ContactsRepository contactsRepository,
+                            SmsMessages smsMessages,
+                            CreateSmsMessage createSmsMessage,
+                            Contacts contacts) {
     this.contactsRepository = contactsRepository;
     this.smsMessages = smsMessages;
+    this.createSmsMessage = createSmsMessage;
+    this.contacts = contacts;
   }
 
   @Override
-  public void start(String deviceId) {
+  public void start(Context context, String deviceId) {
     this.deviceId = deviceId;
+    this.context = context;
 
     IntentFilter filter = new IntentFilter();
     filter.addAction("android.provider.Telephony.SMS_RECEIVED");
@@ -52,25 +57,20 @@ public class SmsMessageListener extends BroadcastReceiver implements Listener {
   @Override
   public void onReceive(Context context, Intent intent) {
     Bundle extras = intent.getExtras();
-    if (extras == null)
+    if (extras == null) {
       return;
-
-    StringBuilder message = new StringBuilder();
-    String fromAddress = "";
-    Object[] pdus = (Object[]) extras.get(EXTRAS_KEY);
-
-    for (Object pdu : pdus) {
-      SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdu);
-      message.append(smsMessage.getMessageBody());
-      fromAddress = smsMessage.getOriginatingAddress();
     }
 
-    ContactDto contactDto = contactsRepository.findByPhoneNumber(fromAddress);
+    SmsMessageDto smsMessageDto = createSmsMessage.with(extras, deviceId);
+    ContactDto contactDto = contactsRepository.findByPhoneNumber(smsMessageDto.getPhoneNumber());
 
-    smsMessages.post(new SmsMessageDto(deviceId)
-      .setPhoneNumber(fromAddress)
-      .setContactName(contactDto.getName())
-      .setContactId(contactDto.getContactId())
-      .setContent(message.toString())).subscribe();
+    if (contactDto != null) {
+      smsMessageDto
+        .setContactId(contactDto.getContactId())
+        .setContactName(contactDto.getName());
+      contacts.get(contactDto.getContactId()).subscribe();
+    }
+
+    smsMessages.post(smsMessageDto).subscribe();
   }
 }

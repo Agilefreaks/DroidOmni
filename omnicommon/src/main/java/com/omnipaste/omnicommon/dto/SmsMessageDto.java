@@ -40,12 +40,13 @@ public class SmsMessageDto implements Parcelable {
   };
 
   public SmsMessageDto() {
+    this.type = Type.INCOMING;
+    this.state = State.RECEIVED;
   }
 
   public SmsMessageDto(String deviceId) {
+    super();
     this.deviceId = deviceId;
-    this.type = Type.INCOMING;
-    this.state = State.RECEIVED;
   }
 
   public SmsMessageDto(Parcel in) {
@@ -146,8 +147,9 @@ public class SmsMessageDto implements Parcelable {
     return deviceId;
   }
 
-  public void setDeviceId(String deviceId) {
+  public SmsMessageDto setDeviceId(String deviceId) {
     this.deviceId = deviceId;
+    return this;
   }
 
   public Type getType() {

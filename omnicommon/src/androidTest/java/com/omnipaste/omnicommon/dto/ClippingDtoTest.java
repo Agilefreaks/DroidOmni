@@ -7,10 +7,10 @@ import static org.hamcrest.Matchers.is;
 
 public class ClippingDtoTest extends TestCase {
   public void testConstructorWithClippingDtoWillCloneCreateAnObjectWithSameProperties() throws Exception {
-    ClippingDto origin = new ClippingDto();
-    origin.setIdentifier("42");
+    ClippingDto clippingDto = new ClippingDto();
+    clippingDto.setDeviceId("42");
 
-    assertThat(new ClippingDto(origin).getIdentifier(), is("42"));
+    assertThat(new ClippingDto(clippingDto).getDeviceId(), is("42"));
   }
 
   public void testGetContentLengthWhenContentIsNotNullReturnsTheLength() throws Exception {

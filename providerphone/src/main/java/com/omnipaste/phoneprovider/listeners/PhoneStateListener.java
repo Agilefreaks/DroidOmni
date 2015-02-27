@@ -1,5 +1,6 @@
 package com.omnipaste.phoneprovider.listeners;
 
+import android.content.Context;
 import android.telephony.TelephonyManager;
 
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
@@ -28,7 +29,7 @@ public class PhoneStateListener extends android.telephony.PhoneStateListener imp
   }
 
   @Override
-  public void start(String deviceId) {
+  public void start(Context context, String deviceId) {
     this.deviceId = deviceId;
     telephonyManager.listen(this, android.telephony.PhoneStateListener.LISTEN_CALL_STATE);
   }

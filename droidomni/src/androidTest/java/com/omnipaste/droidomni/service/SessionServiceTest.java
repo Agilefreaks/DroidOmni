@@ -4,6 +4,7 @@ import android.test.InstrumentationTestCase;
 
 import com.omnipaste.omniapi.resource.v1.AuthorizationCodes;
 import com.omnipaste.omniapi.resource.v1.Token;
+import com.omnipaste.omniapi.resource.v1.user.Devices;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.dto.AuthorizationCodeDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
@@ -38,7 +39,7 @@ public class SessionServiceTest extends InstrumentationTestCase {
     mockApiAccessToken = mock(AccessTokenPreference.class);
     mockApiClientToken = mock(StringPreference.class);
 
-    subject = new SessionService(mockToken, mockAuthorizationCodes, mockApiAccessToken, mockApiClientToken);
+    subject = new SessionService(mockToken, mockAuthorizationCodes, mock(Devices.class), mock(StringPreference.class), mockApiAccessToken, mockApiClientToken);
   }
 
   public void testIsLoggedWillReturnFalseWithNoAccessToken() throws Exception {
