@@ -61,7 +61,24 @@ public class ContactsRepository {
     return contactDto;
   }
 
-  public Observable<ContactDto> find(final int skip) {
+  public Observable<ContactDto> find(Long contactId) {
+    String where = ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+    String[] whereParameters = new String[]{contactId.toString(), ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE};
+    return find(where, whereParameters);
+  }
+
+  public Observable<ContactDto> find(int skip) {
+    String where = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER + " = ?";
+    String[] whereParameters = new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, "1"};
+
+    return find(skip, where, whereParameters);
+  }
+
+  public Observable<ContactDto> find(String where, String[] whereParameters) {
+    return find(0, where, whereParameters);
+  }
+
+  public Observable<ContactDto> find(final int skip, final String where, final String[] whereParameters) {
     return Observable.create(new Observable.OnSubscribe<ContactDto>() {
       @Override
       public void call(Subscriber<? super ContactDto> subscriber) {
@@ -76,8 +93,6 @@ public class ContactsRepository {
           ContactsContract.CommonDataKinds.StructuredName.MIDDLE_NAME,
         };
 
-        String where = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.HAS_PHONE_NUMBER + " = ?";
-        String[] whereParameters = new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, "1"};
         Cursor data = resolver.query(ContactsContract.Data.CONTENT_URI, dataProjection, where, whereParameters, null);
 
         if (data != null && data.moveToPosition(skip)) {

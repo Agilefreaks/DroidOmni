@@ -16,7 +16,7 @@ public class CreateSmsMessage {
   public CreateSmsMessage() {
   }
 
-  public SmsMessageDto with(Bundle extras, String deviceId) {
+  public SmsMessageDto with(Bundle extras) {
     StringBuilder message = new StringBuilder();
     String fromAddress = "";
     Object[] pdus = (Object[]) extras.get(EXTRAS_KEY);
@@ -29,7 +29,6 @@ public class CreateSmsMessage {
 
     return new SmsMessageDto()
       .setPhoneNumber(fromAddress)
-      .setContent(message.toString())
-      .setDeviceId(deviceId);
+      .setContent(message.toString());
   }
 }

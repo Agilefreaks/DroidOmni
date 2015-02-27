@@ -9,7 +9,6 @@ import com.omnipaste.omnicommon.dto.ContactDto;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import fj.Unit;
 import fj.data.List;
 import retrofit.RestAdapter;
 import retrofit.http.Body;
@@ -23,7 +22,7 @@ import rx.Observable;
 public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
   protected interface ContactsApi {
     @POST("/v1/user/contacts.json")
-    Observable<Unit> create(@Header("Authorization") String token, @Body ContactDto contact);
+    Observable<ContactDto> create(@Header("Authorization") String token, @Body ContactDto contact);
 
     @POST("/v1/batch")
     Observable<Object[]> create(@Header("Authorization") String token, @Body BatchDto requests);
@@ -44,6 +43,10 @@ public class Contacts extends AuthorizationResource<Contacts.ContactsApi> {
 
   public Observable create(java.util.List<ContactDto> contacts) {
     return create(contacts.toArray(new ContactDto[contacts.size()]));
+  }
+
+  public Observable<ContactDto> create(ContactDto contactDto) {
+    return authorizationService.authorize(api.create(bearerAccessToken(), contactDto));
   }
 
   public Observable<ContactDto> get(Long contactId) {
