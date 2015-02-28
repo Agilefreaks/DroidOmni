@@ -42,11 +42,19 @@ public class PhoneStateListener extends android.telephony.PhoneStateListener imp
   @Override
   public void onCallStateChanged(int state, String incomingNumber) {
     super.onCallStateChanged(state, incomingNumber);
-
-    if (state == TelephonyManager.CALL_STATE_RINGING) {
-      ContactDto contactDto = contactsRepository.findByPhoneNumber(incomingNumber);
-      PhoneCallDto phoneCallDto = new PhoneCallDto(this.deviceId, incomingNumber, contactDto.getName(), contactDto.getContactId());
-      phoneCalls.create(phoneCallDto).subscribe();
+    if (state != TelephonyManager.CALL_STATE_RINGING) {
+      return;
     }
+
+    PhoneCallDto phoneCallDto = new PhoneCallDto().setDeviceId(deviceId);
+    final ContactDto contactDto = contactsRepository.findByPhoneNumber(incomingNumber);
+
+    if (contactDto != null) {
+      phoneCallDto
+        .setContactId(contactDto.getContactId())
+        .setContactName(contactDto.getName());
+    }
+
+    phoneCalls.create(phoneCallDto).subscribe();
   }
 }

@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.test.InstrumentationTestCase;
 
 import com.omnipaste.omniapi.resource.v1.SmsMessages;
-import com.omnipaste.omniapi.resource.v1.user.Contacts;
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
-import com.omnipaste.phoneprovider.ContactsRepository;
+import com.omnipaste.phoneprovider.interaction.ActivelyUpdateContact;
 import com.omnipaste.phoneprovider.interaction.CreateSmsMessage;
 
 import java.util.Random;
@@ -25,26 +24,23 @@ import static org.mockito.Mockito.when;
 public class SmsMessageListenerTest extends InstrumentationTestCase {
   private SmsMessageListener smsMessageListener;
   private Context mockContext;
-  private ContactsRepository mockContactRepository;
+  private ActivelyUpdateContact mockActivelyUpdateContact;
   private SmsMessages mockSmsMessages;
   private CreateSmsMessage mockCreateSmsMessage;
-  private Contacts mockContacts;
   private Intent intent;
 
   public void setUp() throws Exception {
     super.setUp();
 
     mockContext = mock(Context.class);
-    mockContactRepository = mock(ContactsRepository.class);
+    mockActivelyUpdateContact = mock(ActivelyUpdateContact.class);
     mockSmsMessages = mock(SmsMessages.class);
     mockCreateSmsMessage = mock(CreateSmsMessage.class);
-    mockContacts = mock(Contacts.class);
 
     smsMessageListener = new SmsMessageListener(
-      mockContactRepository,
       mockSmsMessages,
       mockCreateSmsMessage,
-      mockContacts);
+      mockActivelyUpdateContact);
   }
 
   public void testOnReceiveWhenExtrasIsNotNullWillCreateSmsMessageWithExtras() {
@@ -62,23 +58,7 @@ public class SmsMessageListenerTest extends InstrumentationTestCase {
 
     smsMessageListener.onReceive(mockContext, intent);
 
-    verify(mockContactRepository).findByPhoneNumber(phoneNumber);
-  }
-
-  public void testOnReceiveWhenContactIsNotNullWillGetTheContactFromTheApi() {
-    contextContactNotNull("132", 42L);
-
-    smsMessageListener.onReceive(mockContext, intent);
-
-    verify(mockContacts).get(42L);
-  }
-
-  public void testOnReceiveWhenContactIsNullWillNotCallGet() {
-    contextSmsMessage("123");
-
-    smsMessageListener.onReceive(mockContext, intent);
-
-    verify(mockContacts, never()).get(any(Long.class));
+    verify(mockActivelyUpdateContact).fromPhoneNumber(phoneNumber);
   }
 
   public void testOnReceiveWhenExtrasIsNotNullWillPostMessage() {
@@ -109,18 +89,9 @@ public class SmsMessageListenerTest extends InstrumentationTestCase {
 
     SmsMessageDto smsMessageDto = new SmsMessageDto().setPhoneNumber(phoneNumber);
     when(mockCreateSmsMessage.with(intent.getExtras())).thenReturn(smsMessageDto);
+    when(mockActivelyUpdateContact.fromPhoneNumber(any(String.class))).thenReturn(new ContactDto());
     when(mockSmsMessages.post(any(SmsMessageDto.class))).thenReturn(Observable.<SmsMessageDto>empty());
 
     return smsMessageDto;
-  }
-
-  private ContactDto contextContactNotNull(String phoneNumber, Long contactId) {
-    contextSmsMessage(phoneNumber);
-
-    ContactDto contactDto = new ContactDto().setContactId(contactId);
-    when(mockContactRepository.findByPhoneNumber(phoneNumber)).thenReturn(contactDto);
-    when(mockContacts.get(any(Long.class))).thenReturn(Observable.<ContactDto>empty());
-
-    return contactDto;
   }
 }

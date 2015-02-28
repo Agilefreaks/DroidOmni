@@ -34,17 +34,9 @@ public class PhoneCallDto implements Parcelable {
     }
   };
 
-  public PhoneCallDto(String deviceId, String number, String contactName, Long contactId, Type type, State state) {
-    this.deviceId = deviceId;
-    this.number = number;
-    this.contactName = contactName;
-    this.contactId = contactId;
-    this.type = type;
-    this.state = state;
-  }
-
-  public PhoneCallDto(String deviceId, String number, String name, Long contactId) {
-    this(deviceId, number, name, contactId, Type.INCOMING, State.STARTING);
+  public PhoneCallDto() {
+    type = Type.INCOMING;
+    state = State.STARTING;
   }
 
   public PhoneCallDto(Parcel in) {
@@ -75,8 +67,9 @@ public class PhoneCallDto implements Parcelable {
     return deviceId;
   }
 
-  public void setDeviceId(String deviceId) {
+  public PhoneCallDto setDeviceId(String deviceId) {
     this.deviceId = deviceId;
+    return this;
   }
 
   public String getNumber() {
@@ -99,8 +92,9 @@ public class PhoneCallDto implements Parcelable {
     return contactId;
   }
 
-  public void setContactId(Long contactId) {
+  public PhoneCallDto setContactId(Long contactId) {
     this.contactId = contactId;
+    return this;
   }
 
   public State getState() {
