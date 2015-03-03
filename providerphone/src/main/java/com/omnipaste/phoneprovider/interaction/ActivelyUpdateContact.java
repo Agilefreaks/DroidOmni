@@ -27,7 +27,7 @@ public class ActivelyUpdateContact {
 
   public ContactDto fromPhoneNumber(String phoneNumber) {
     final ContactDto contactDto = contactsRepository.findByPhoneNumber(phoneNumber);
-    if (contactDto == null) {
+    if (contactDto.getContactId() == null) {
       return new ContactDto();
     }
 

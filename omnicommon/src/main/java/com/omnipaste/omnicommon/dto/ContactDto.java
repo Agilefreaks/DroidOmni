@@ -96,6 +96,7 @@ public class ContactDto {
     return phoneNumbers;
   }
 
+  @SuppressWarnings("StringEquality")
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof ContactDto)) {
@@ -104,10 +105,15 @@ public class ContactDto {
 
     ContactDto other = (ContactDto) o;
 
-    return this.getFirstName().equals(other.getFirstName()) &&
-      this.getLastName().equals(other.getLastName()) &&
-      this.getImage().equals(other.getImage()) &&
+    return this.getFirstName() == other.getFirstName() &&
+      this.getLastName() == other.getLastName() &&
+      this.getImage() == other.getImage() &&
       equalsPhoneNumbers(other);
+  }
+
+  private boolean equalsLastName(ContactDto other) {
+    String otherLastName = other.getLastName();
+    return firstName != null && otherLastName != null && firstName.equals(otherLastName);
   }
 
   private boolean equalsPhoneNumbers(ContactDto other) {

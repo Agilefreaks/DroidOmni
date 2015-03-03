@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.hamcrest.CoreMatchers.isA;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -27,9 +27,10 @@ public class ActivelyUpdateContactTest {
   }
 
   @Test
-  public void fromPhoneNumberWhenThereIsContactInRepositoryReturnsNewContact() {
-    when(mockContactRepository.findByPhoneNumber("42")).thenReturn(null);
+  public void fromPhoneNumberWhenThereIsNoContactInRepositoryReturnsNewContact() {
+    ContactDto contactDto = new ContactDto();
+    when(mockContactRepository.findByPhoneNumber("42")).thenReturn(contactDto);
 
-    assertThat(activelyUpdateContact.fromPhoneNumber("42"), isA(ContactDto.class));
+    assertThat(activelyUpdateContact.fromPhoneNumber("42"), equalTo(contactDto));
   }
 }

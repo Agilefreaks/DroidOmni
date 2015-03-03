@@ -56,4 +56,19 @@ public class ContactDtoTest {
 
     assertThat(contactDto1, not(equalTo(contactDto2)));
   }
+
+  @Test
+  public void equalsFirstNameIsNullReturnsFalse() {
+    contactDto1.setFirstName(null);
+
+    assertThat(contactDto1, not(equalTo(contactDto2)));
+  }
+
+  @Test
+  public void equalsFirstNameIsNullOnBoth() {
+    contactDto1.setFirstName(null);
+    contactDto2.setFirstName(null);
+
+    assertThat(contactDto1, equalTo(contactDto2));
+  }
 }
