@@ -6,25 +6,25 @@ import android.telephony.TelephonyManager;
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
-import com.omnipaste.phoneprovider.ContactsRepository;
+import com.omnipaste.phoneprovider.interaction.ActivelyUpdateContact;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class PhoneStateListener extends android.telephony.PhoneStateListener implements Listener {
-  private TelephonyManager telephonyManager;
-  private ContactsRepository contactsRepository;
-  private PhoneCalls phoneCalls;
+  private final TelephonyManager telephonyManager;
+  private final ActivelyUpdateContact activelyUpdateContact;
+  private final PhoneCalls phoneCalls;
   private String deviceId;
 
   @Inject
   public PhoneStateListener(
     TelephonyManager telephonyManager,
-    ContactsRepository contactsRepository,
+    ActivelyUpdateContact activelyUpdateContact,
     PhoneCalls phoneCalls) {
     this.telephonyManager = telephonyManager;
-    this.contactsRepository = contactsRepository;
+    this.activelyUpdateContact = activelyUpdateContact;
     this.phoneCalls = phoneCalls;
   }
 
@@ -47,13 +47,11 @@ public class PhoneStateListener extends android.telephony.PhoneStateListener imp
     }
 
     PhoneCallDto phoneCallDto = new PhoneCallDto().setDeviceId(deviceId);
-    final ContactDto contactDto = contactsRepository.findByPhoneNumber(incomingNumber);
+    final ContactDto contactDto = activelyUpdateContact.fromPhoneNumber(incomingNumber);
 
-    if (contactDto != null) {
-      phoneCallDto
-        .setContactId(contactDto.getContactId())
-        .setContactName(contactDto.getName());
-    }
+    phoneCallDto
+      .setContactId(contactDto.getContactId())
+      .setContactName(contactDto.getName());
 
     phoneCalls.create(phoneCallDto).subscribe();
   }
