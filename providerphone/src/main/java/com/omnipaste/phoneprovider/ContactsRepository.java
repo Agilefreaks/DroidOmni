@@ -140,7 +140,8 @@ public class ContactsRepository {
   private void fetchPhone(ContentResolver resolver, ContactDto contact) {
     final String[] phoneProjection = new String[]{
       ContactsContract.CommonDataKinds.Phone.NUMBER,
-      ContactsContract.CommonDataKinds.Phone.TYPE
+      ContactsContract.CommonDataKinds.Phone.TYPE,
+      ContactsContract.CommonDataKinds.Phone.LABEL
     };
 
     String where = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -150,12 +151,14 @@ public class ContactsRepository {
     if (phone.moveToFirst()) {
       final int indexNumber = phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
       final int indexType = phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
+      final int indexLabel = phone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL);
 
       do {
-        final String number = phone.getString(indexNumber);
-        final int type = phone.getType(indexType);
+        String number = phone.getString(indexNumber);
+        int type = phone.getInt(indexType);
+        String label = phone.getString(indexLabel);
 
-        CharSequence phoneType = ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, "Custom");
+        CharSequence phoneType = ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), type, label);
         contact.addNumber(new NumberDto(number, phoneType.toString()));
       } while (phone.moveToNext());
     }
