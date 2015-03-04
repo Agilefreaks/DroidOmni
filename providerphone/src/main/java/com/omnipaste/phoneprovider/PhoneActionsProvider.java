@@ -27,10 +27,10 @@ public class PhoneActionsProvider implements Provider<Unit> {
   }
 
   @Override
-  public Observable<Unit> init(String identifier) {
-    sendSmsMessageRequested.init();
-    startPhoneCallRequested.init();
-    endPhoneCallRequested.init();
+  public Observable<Unit> init(String deviceId) {
+    sendSmsMessageRequested.init(deviceId);
+    startPhoneCallRequested.init(deviceId);
+    endPhoneCallRequested.init(deviceId);
 
     return Observable.empty();
   }

@@ -22,9 +22,9 @@ public class PhoneReceiversProvider implements Provider<Unit> {
   }
 
   @Override
-  public Observable<Unit> init(String identifier) {
-    phoneCallReceived.init();
-    smsMessageReceived.init();
+  public Observable<Unit> init(String deviceId) {
+    phoneCallReceived.init(deviceId);
+    smsMessageReceived.init(deviceId);
 
     return Observable.empty();
   }

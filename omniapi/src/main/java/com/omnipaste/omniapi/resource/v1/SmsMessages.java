@@ -10,6 +10,7 @@ import retrofit.RestAdapter;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
@@ -22,6 +23,9 @@ public class SmsMessages extends AuthorizationResource<SmsMessages.SmsMessagesAp
 
     @POST("/v1/sms_messages")
     Observable<SmsMessageDto> post(@Header("Authorization") String token, @Body SmsMessageDto smsMessage);
+
+    @PATCH("/v1/user/devices/{id}.json")
+    Observable<SmsMessageDto> patch(@Header("Authorization") String token, @Path("id") String id, @Body SmsMessageDto smsMessageDto);
   }
 
   @Inject
@@ -35,5 +39,9 @@ public class SmsMessages extends AuthorizationResource<SmsMessages.SmsMessagesAp
 
   public Observable<SmsMessageDto> post(SmsMessageDto smsMessage) {
     return authorizationService.authorize(api.post(bearerAccessToken(), smsMessage));
+  }
+
+  public Observable<SmsMessageDto> markAsSent(String deviceId, String id) {
+    return authorizationService.authorize(api.patch(bearerAccessToken(), id, new SmsMessageDto(deviceId).setState(SmsMessageDto.State.SENT)));
   }
 }

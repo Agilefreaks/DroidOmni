@@ -9,6 +9,7 @@ import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
 public class SmsMessageDto implements Parcelable {
+  private String id;
   private String phoneNumber;
   private String contactName;
   private Long contactId;
@@ -50,6 +51,7 @@ public class SmsMessageDto implements Parcelable {
   }
 
   public SmsMessageDto(Parcel in) {
+    setId(in.readString());
     setPhoneNumber(in.readString());
     setContactName(in.readString());
     setContactId(in.readLong());
@@ -68,6 +70,7 @@ public class SmsMessageDto implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel parcel, int flags) {
+    parcel.writeString(id);
     parcel.writeString(phoneNumber);
     parcel.writeString(contactName);
     parcel.writeLong(contactId);
@@ -77,6 +80,15 @@ public class SmsMessageDto implements Parcelable {
     parcel.writeStringList(contentList);
     parcel.writeString(state.toString());
     parcel.writeSerializable(createdAt);
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public SmsMessageDto setId(String id) {
+    this.id = id;
+    return this;
   }
 
   public String getPhoneNumber() {
@@ -164,7 +176,8 @@ public class SmsMessageDto implements Parcelable {
     return state;
   }
 
-  public void setState(State state) {
+  public SmsMessageDto setState(State state) {
     this.state = state;
+    return this;
   }
 }

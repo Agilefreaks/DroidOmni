@@ -11,11 +11,14 @@ public abstract class NotificationFilter {
   private final NotificationProvider notificationProvider;
   private Subscription subscription;
 
+  protected String deviceId;
+
   protected NotificationFilter(NotificationProvider notificationProvider) {
     this.notificationProvider = notificationProvider;
   }
 
-  public void init() {
+  public void init(String deviceId) {
+    this.deviceId = deviceId;
     if (subscription != null) {
       return;
     }
