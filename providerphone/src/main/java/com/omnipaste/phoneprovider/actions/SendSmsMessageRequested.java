@@ -84,6 +84,6 @@ public class SendSmsMessageRequested extends NotificationFilter {
   private void send(String id, String content, String phoneNumber) {
     ArrayList<String> msgTexts = smsManager.divideMessage(content);
     smsManager.sendMultipartTextMessage(phoneNumber, null, msgTexts, null, null);
-    smsMessages.markAsSent(deviceId, id);
+    smsMessages.markAsSent(deviceId, id).subscribe();
   }
 }

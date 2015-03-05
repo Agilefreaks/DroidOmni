@@ -24,7 +24,7 @@ public class SmsMessages extends AuthorizationResource<SmsMessages.SmsMessagesAp
     @POST("/v1/sms_messages")
     Observable<SmsMessageDto> post(@Header("Authorization") String token, @Body SmsMessageDto smsMessage);
 
-    @PATCH("/v1/user/devices/{id}.json")
+    @PATCH("/v1/sms_messages/{id}.json")
     Observable<SmsMessageDto> patch(@Header("Authorization") String token, @Path("id") String id, @Body SmsMessageDto smsMessageDto);
   }
 
@@ -42,6 +42,6 @@ public class SmsMessages extends AuthorizationResource<SmsMessages.SmsMessagesAp
   }
 
   public Observable<SmsMessageDto> markAsSent(String deviceId, String id) {
-    return authorizationService.authorize(api.patch(bearerAccessToken(), id, new SmsMessageDto(deviceId).setState(SmsMessageDto.State.SENT)));
+    return authorizationService.authorize(api.patch(bearerAccessToken(), id, new SmsMessageDto(deviceId).setType(SmsMessageDto.Type.OUTGOING).setState(SmsMessageDto.State.SENT)));
   }
 }

@@ -168,8 +168,9 @@ public class SmsMessageDto implements Parcelable {
     return type;
   }
 
-  public void setType(Type type) {
+  public SmsMessageDto setType(Type type) {
     this.type = type;
+    return this;
   }
 
   public State getState() {
