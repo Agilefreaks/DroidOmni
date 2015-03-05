@@ -2,6 +2,7 @@ package com.omnipaste.phoneprovider.actions;
 
 import android.telephony.TelephonyManager;
 
+import com.omnipaste.omniapi.resource.v1.PhoneCalls;
 import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.phoneprovider.NotificationFilter;
@@ -9,14 +10,20 @@ import com.omnipaste.phoneprovider.NotificationFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class EndPhoneCallRequested extends NotificationFilter {
   private TelephonyManager telephonyManager;
+  private PhoneCalls phoneCalls;
 
-  public EndPhoneCallRequested(NotificationProvider notificationProvider) {
+  @Inject
+  public EndPhoneCallRequested(NotificationProvider notificationProvider,
+                               PhoneCalls phoneCalls,
+                               TelephonyManager telephonyManager) {
     super(notificationProvider);
-  }
-
-  public void setTelephonyManager(TelephonyManager telephonyManager) {
+    this.phoneCalls = phoneCalls;
     this.telephonyManager = telephonyManager;
   }
 
@@ -36,6 +43,8 @@ public class EndPhoneCallRequested extends NotificationFilter {
       Class<?> telephonyServiceClass = telephonyService.getClass();
       Method endCall = telephonyServiceClass.getDeclaredMethod("endCall");
       endCall.invoke(telephonyService);
+
+      phoneCalls.markAsEnded(deviceId, notificationDto.getId()).subscribe();
     } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException ignore) {
     }
   }

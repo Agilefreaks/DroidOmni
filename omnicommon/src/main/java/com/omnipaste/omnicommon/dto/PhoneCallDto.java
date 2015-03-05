@@ -8,6 +8,7 @@ import java.util.Date;
 
 @SuppressWarnings("UnusedDeclaration")
 public class PhoneCallDto implements Parcelable {
+  private String id;
   private String deviceId;
   private String number;
   private String contactName;
@@ -39,6 +40,11 @@ public class PhoneCallDto implements Parcelable {
     state = State.STARTING;
   }
 
+  public PhoneCallDto(String deviceId) {
+    this();
+    this.deviceId = deviceId;
+  }
+
   public PhoneCallDto(Parcel in) {
     setDeviceId(in.readString());
     setNumber(in.readString());
@@ -55,12 +61,21 @@ public class PhoneCallDto implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel parcel, int flags) {
+    parcel.writeString(id);
     parcel.writeString(deviceId);
     parcel.writeString(number);
     parcel.writeString(contactName);
     parcel.writeLong(contactId);
     parcel.writeString(state.toString());
     parcel.writeSerializable(createdAt);
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getDeviceId() {
@@ -101,16 +116,18 @@ public class PhoneCallDto implements Parcelable {
     return state;
   }
 
-  public void setState(State state) {
+  public PhoneCallDto setState(State state) {
     this.state = state;
+    return this;
   }
 
   public Type getType() {
     return type;
   }
 
-  public void setType(Type type) {
+  public PhoneCallDto setType(Type type) {
     this.type = type;
+    return this;
   }
 
   public void setCreateAt(Date createdAt) {

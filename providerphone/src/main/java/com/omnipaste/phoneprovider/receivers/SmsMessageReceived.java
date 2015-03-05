@@ -5,16 +5,16 @@ import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.SmsMessageDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
+import javax.inject.Inject;
+
 import rx.functions.Action1;
 
 public class SmsMessageReceived extends BaseReceiver<SmsMessageDto> {
-  private SmsMessages smsMessages;
+  private final SmsMessages smsMessages;
 
-  public SmsMessageReceived(NotificationProvider notificationProvider) {
+  @Inject
+  public SmsMessageReceived(NotificationProvider notificationProvider, SmsMessages smsMessages) {
     super(notificationProvider);
-  }
-
-  public void setSmsMessages(SmsMessages smsMessages) {
     this.smsMessages = smsMessages;
   }
 

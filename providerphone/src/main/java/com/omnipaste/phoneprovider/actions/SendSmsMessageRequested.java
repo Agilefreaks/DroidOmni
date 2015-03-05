@@ -12,21 +12,22 @@ import com.omnipaste.phoneprovider.NotificationFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.functions.Action1;
 
+@Singleton
 public class SendSmsMessageRequested extends NotificationFilter {
-  private SmsMessages smsMessages;
-  private SmsManager smsManager;
+  private final SmsMessages smsMessages;
+  private final SmsManager smsManager;
 
-  public SendSmsMessageRequested(NotificationProvider notificationProvider) {
+  @Inject
+  public SendSmsMessageRequested(NotificationProvider notificationProvider,
+                                 SmsMessages smsMessages,
+                                 SmsManager smsManager) {
     super(notificationProvider);
-  }
-
-  public void setSmsMessages(SmsMessages smsMessages) {
     this.smsMessages = smsMessages;
-  }
-
-  public void setSmsManager(SmsManager smsManager) {
     this.smsManager = smsManager;
   }
 

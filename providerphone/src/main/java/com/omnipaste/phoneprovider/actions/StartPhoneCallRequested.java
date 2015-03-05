@@ -10,21 +10,22 @@ import com.omnipaste.omnicommon.dto.PhoneCallDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 import com.omnipaste.phoneprovider.NotificationFilter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.functions.Action1;
 
+@Singleton
 public class StartPhoneCallRequested extends NotificationFilter {
-  private Context context;
-  private PhoneCalls phoneCalls;
+  private final Context context;
+  private final PhoneCalls phoneCalls;
 
-  public StartPhoneCallRequested(NotificationProvider notificationProvider) {
+  @Inject
+  public StartPhoneCallRequested(NotificationProvider notificationProvider,
+                                 PhoneCalls phoneCalls,
+                                 Context context) {
     super(notificationProvider);
-  }
-
-  public void setPhoneCall(PhoneCalls phoneCalls) {
     this.phoneCalls = phoneCalls;
-  }
-
-  public void setContext(Context context) {
     this.context = context;
   }
 
@@ -48,5 +49,7 @@ public class StartPhoneCallRequested extends NotificationFilter {
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     intent.setData(Uri.parse("tel:" + phoneCallDto.getNumber()));
     context.startActivity(intent);
+
+    phoneCalls.markAsStarted(deviceId, phoneCallDto.getId()).subscribe();
   }
 }

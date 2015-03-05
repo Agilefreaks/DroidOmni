@@ -5,16 +5,18 @@ import com.omnipaste.omnicommon.dto.NotificationDto;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
 import com.omnipaste.omnicommon.providers.NotificationProvider;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.functions.Action1;
 
+@Singleton
 public class PhoneCallReceived extends BaseReceiver<PhoneCallDto> {
-  private PhoneCalls phoneCalls;
+  private final PhoneCalls phoneCalls;
 
-  public PhoneCallReceived(NotificationProvider notificationProvider) {
+  @Inject
+  public PhoneCallReceived(NotificationProvider notificationProvider, PhoneCalls phoneCalls) {
     super(notificationProvider);
-  }
-
-  public void setPhoneCalls(PhoneCalls phoneCalls) {
     this.phoneCalls = phoneCalls;
   }
 

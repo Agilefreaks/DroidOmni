@@ -10,6 +10,7 @@ import retrofit.RestAdapter;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
@@ -22,6 +23,9 @@ public class PhoneCalls extends AuthorizationResource<PhoneCalls.PhoneCallsApi> 
 
     @GET("/v1/phone_calls/{id}.json")
     public Observable<PhoneCallDto> get(@Header("Authorization") String token, @Path("id") String id);
+
+    @PATCH("/v1/phone_calls/{id}.json")
+    public Observable<PhoneCallDto> patch(@Header("Authorization") String token, @Path("id") String id, @Body PhoneCallDto phoneCallDto);
   }
 
   @Inject
@@ -35,5 +39,13 @@ public class PhoneCalls extends AuthorizationResource<PhoneCalls.PhoneCallsApi> 
 
   public Observable<PhoneCallDto> get(String id) {
     return authorizationService.authorize(api.get(bearerAccessToken(), id));
+  }
+
+  public Observable<PhoneCallDto> markAsStarted(String deviceId, String id) {
+    return authorizationService.authorize(api.patch(bearerAccessToken(), id, new PhoneCallDto(deviceId).setType(PhoneCallDto.Type.OUTGOING).setState(PhoneCallDto.State.STARTED)));
+  }
+
+  public Observable<PhoneCallDto> markAsEnded(String deviceId, String id) {
+    return authorizationService.authorize(api.patch(bearerAccessToken(), id, new PhoneCallDto(deviceId).setType(PhoneCallDto.Type.INCOMING).setState(PhoneCallDto.State.ENDED)));
   }
 }

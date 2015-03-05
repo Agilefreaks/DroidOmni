@@ -17,7 +17,7 @@ public abstract class NotificationFilter {
     this.notificationProvider = notificationProvider;
   }
 
-  public void init(String deviceId) {
+  public void init(final String deviceId) {
     this.deviceId = deviceId;
     if (subscription != null) {
       return;
