@@ -6,35 +6,38 @@ import android.test.InstrumentationTestCase;
 import com.omnipaste.omniapi.resource.v1.PhoneCalls;
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.omnicommon.dto.PhoneCallDto;
-import com.omnipaste.phoneprovider.ContactsRepository;
+import com.omnipaste.phoneprovider.interaction.ActivelyUpdateContact;
 
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import rx.Observable;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PhoneStateListenerTest extends InstrumentationTestCase {
   private PhoneStateListener phoneStateListener;
 
-  @Mock public ContactsRepository mockContactsRepository;
-  @Mock public PhoneCalls mockPhoneCalls;
-  @Mock public TelephonyManager mockTelephonyManager;
+  public ActivelyUpdateContact mockActivelyUpdateContact;
+  public PhoneCalls mockPhoneCalls;
+  public TelephonyManager mockTelephonyManager;
 
   public void setUp() throws Exception {
     super.setUp();
 
-    MockitoAnnotations.initMocks(this);
+    mockActivelyUpdateContact = mock(ActivelyUpdateContact.class);
+    mockPhoneCalls = mock(PhoneCalls.class);
+    mockTelephonyManager = mock(TelephonyManager.class);
 
     phoneStateListener = new PhoneStateListener(
       mockTelephonyManager,
-      mockContactsRepository,
+      mockActivelyUpdateContact,
       mockPhoneCalls);
   }
 
   public void testOnCallStateChanged() {
-    when(mockContactsRepository.findByPhoneNumber("123")).thenReturn(new ContactDto());
+    when(mockActivelyUpdateContact.fromPhoneNumber("42")).thenReturn(new ContactDto());
+    when(mockPhoneCalls.create(any(PhoneCallDto.class))).thenReturn(Observable.<PhoneCallDto>empty());
 
     phoneStateListener.onCallStateChanged(TelephonyManager.CALL_STATE_RINGING, "42");
 

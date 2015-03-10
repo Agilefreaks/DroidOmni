@@ -91,8 +91,9 @@ public class PhoneCallDto implements Parcelable {
     return number;
   }
 
-  public void setNumber(String number) {
+  public PhoneCallDto setNumber(String number) {
     this.number = number;
+    return this;
   }
 
   public String getContactName() {

@@ -50,6 +50,7 @@ public class PhoneStateListener extends android.telephony.PhoneStateListener imp
     final ContactDto contactDto = activelyUpdateContact.fromPhoneNumber(incomingNumber);
 
     phoneCallDto
+      .setNumber(incomingNumber)
       .setContactId(contactDto.getContactId())
       .setContactName(contactDto.getName());
 
