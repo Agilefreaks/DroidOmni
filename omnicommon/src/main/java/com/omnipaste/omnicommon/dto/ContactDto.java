@@ -2,6 +2,7 @@ package com.omnipaste.omnicommon.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("UnusedDeclaration")
 public class ContactDto {
@@ -105,9 +106,9 @@ public class ContactDto {
 
     ContactDto other = (ContactDto) o;
 
-    return this.getFirstName() == other.getFirstName() &&
-      this.getLastName() == other.getLastName() &&
-      this.getImage() == other.getImage() &&
+    return Objects.equals(this.getFirstName(), other.getFirstName()) &&
+      Objects.equals(this.getLastName(), other.getLastName()) &&
+      Objects.equals(this.getImage(), other.getImage()) &&
       equalsPhoneNumbers(other);
   }
 
