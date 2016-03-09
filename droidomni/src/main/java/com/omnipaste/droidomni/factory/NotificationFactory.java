@@ -15,12 +15,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class NotificationFactory {
+public class NotificationFactory  {
   public static final int NOTIFICATION_ID = 42;
   public static final int LARGE_TEXT = 128;
 
   private String appName;
   private SmartActionFactory smartActionFactory;
+
 
   @Inject
   public NotificationFactory(SmartActionFactory smartActionFactory) {
@@ -54,7 +55,7 @@ public class NotificationFactory {
     NotificationCompat.Builder builder =
         basicBuilder(context, clippingDto.getContent())
             .setWhen(0)
-            .setPriority(Notification.PRIORITY_MAX)
+            .setPriority(Notification.PRIORITY_MIN)
             .addAction(smartActionFactory.getAction(clippingDto))
             .addAction(smartActionFactory.getRemoveAction());
 
@@ -77,17 +78,18 @@ public class NotificationFactory {
         .setContentIntent(contentIntent);
   }
 
+
   @TargetApi(21)
-  public NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
+  public static NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      return builder.setVisibility(Notification.VISIBILITY_SECRET);
+      return builder.setVisibility(Notification.VISIBILITY_SECRET).setPriority(Notification.PRIORITY_MIN);
     }
 
     return builder;
   }
 
   @TargetApi(21)
-  public NotificationCompat.Builder setPublicVisibility(NotificationCompat.Builder builder) {
+  public static NotificationCompat.Builder setPublicVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return builder.setVisibility(Notification.VISIBILITY_PUBLIC);
     }
