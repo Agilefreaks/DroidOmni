@@ -5,7 +5,7 @@ import com.omnipaste.omniapi.resource.v1.Token;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 
-import org.apache.http.HttpStatus;
+import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -73,7 +73,7 @@ public class AuthorizationService {
           private boolean isUnauthorized(Throwable e) {
             return e instanceof RetrofitError &&
                 ((RetrofitError) e).getResponse() != null &&
-                ((RetrofitError) e).getResponse().getStatus() == HttpStatus.SC_UNAUTHORIZED;
+                ((RetrofitError) e).getResponse().getStatus() == HttpURLConnection.HTTP_UNAUTHORIZED;
           }
         });
       }

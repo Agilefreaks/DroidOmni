@@ -5,11 +5,11 @@ import com.omnipaste.omniapi.service.AuthorizationService;
 import com.omnipaste.omnicommon.dto.AccessTokenDto;
 import com.omnipaste.omnicommon.prefs.AccessTokenPreference;
 
-import org.apache.http.HttpStatus;
-import org.apache.http.conn.HttpHostConnectException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.HttpRetryException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit.RetrofitError;
@@ -74,7 +74,7 @@ public class AuthorizationServiceTest {
     PublishSubject<String> observable = PublishSubject.create();
     when(mockAccessToken.get()).thenReturn(new AccessTokenDto("token", "refresh"));
     subject.authorize(observable).subscribe(mockObserver);
-    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpStatus.SC_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
+    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpURLConnection.HTTP_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
 
     observable.onError(retrofitError);
 
@@ -86,7 +86,7 @@ public class AuthorizationServiceTest {
     PublishSubject<String> observable = PublishSubject.create();
     when(mockAccessToken.get()).thenReturn(new AccessTokenDto("token", null));
     subject.authorize(observable).subscribe(mockObserver);
-    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpStatus.SC_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
+    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpURLConnection.HTTP_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
 
     observable.onError(retrofitError);
 
@@ -98,7 +98,7 @@ public class AuthorizationServiceTest {
     PublishSubject<String> observable = PublishSubject.create();
     when(mockAccessToken.get()).thenReturn(new AccessTokenDto("token", ""));
     subject.authorize(observable).subscribe(mockObserver);
-    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpStatus.SC_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
+    RetrofitError retrofitError = RetrofitError.httpError("", new Response("", HttpURLConnection.HTTP_UNAUTHORIZED, "", new ArrayList<Header>(), null), null, null);
 
     observable.onError(retrofitError);
 
@@ -109,7 +109,7 @@ public class AuthorizationServiceTest {
   public void onErrorWhenErrorRetrofitErrorWillCallOnError() throws Exception {
     PublishSubject<String> observable = PublishSubject.create();
     subject.authorize(observable).subscribe(mockObserver);
-    RetrofitError retrofitError = RetrofitError.unexpectedError("", new HttpHostConnectException(null, null));
+    RetrofitError retrofitError = RetrofitError.unexpectedError("", new HttpRetryException(null, 0));
 
     observable.onError(retrofitError);
 

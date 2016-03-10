@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="InvalidPackage" severity="ignore"/>
+    <!-- Until https://code.google.com/p/android/issues/detail?id=194705 gets fixed -->
+    <issue id="ManifestResource" severity="ignore"/>
     <issue id="ValidFragment">
         <ignore regexp=".*_.java"/>
     </issue>

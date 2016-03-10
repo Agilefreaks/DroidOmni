@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.omnipaste.droidomni"
-        testInstrumentationRunner "com.omnipaste.droidomni.InstrumentationTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode Integer.parseInt(project.versionCode)
@@ -99,8 +99,8 @@ dependencies {
     compile project(':providerphone')
 
     compile 'com.google.android.gms:play-services-base:6.5.87'
-    compile 'com.android.support:recyclerview-v7:21.0.3'
-    compile 'com.android.support:cardview-v7:21.0.3'
+    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'com.android.support:cardview-v7:23.2.0'
     compile 'com.daimajia.swipelayout:library:1.1.8@aar'
     compile 'co.bugfreak:BugFreak:1.1.7'
 

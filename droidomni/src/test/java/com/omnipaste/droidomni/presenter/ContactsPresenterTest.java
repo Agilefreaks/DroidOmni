@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 import rx.subjects.PublishSubject;
@@ -32,10 +33,14 @@ public class ContactsPresenterTest {
   private ContactsPresenter contactsPresenter;
   private TestScheduler testScheduler;
 
-  @Mock public ContactsRepository mockContactsRepository;
-  @Mock public BooleanPreference mockContactsSynced;
-  @Mock public IntPreference mockContactsSyncIndex;
-  @Mock public Contacts mockContacts;
+  @Mock
+  public ContactsRepository mockContactsRepository;
+  @Mock
+  public BooleanPreference mockContactsSynced;
+  @Mock
+  public IntPreference mockContactsSyncIndex;
+  @Mock
+  public Contacts mockContacts;
 
   @Before
   public void context() {
@@ -128,6 +133,20 @@ public class ContactsPresenterTest {
     findSubject.onCompleted();
 
     verify(mockContacts).create(mockContactsOne);
+  }
+
+  @Test
+  public void should_test_the_test_schedulers() {
+    TestScheduler scheduler = new TestScheduler();
+    final List<Long> result = new ArrayList<>();
+    Observable.interval(1, TimeUnit.SECONDS, scheduler).take(5).subscribe(new Action1<Long>() {
+      @Override
+      public void call(Long aLong) {
+        result.add(aLong);
+      }
+    });
+    scheduler.advanceTimeBy(2, TimeUnit.SECONDS);
+    scheduler.advanceTimeBy(10, TimeUnit.SECONDS);
   }
 
   private List<ContactDto> mockContacts(int howMany) {

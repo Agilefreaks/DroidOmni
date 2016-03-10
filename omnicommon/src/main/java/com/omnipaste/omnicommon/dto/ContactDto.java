@@ -1,5 +1,7 @@
 package com.omnipaste.omnicommon.dto;
 
+import android.annotation.SuppressLint;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -97,6 +99,7 @@ public class ContactDto {
     return phoneNumbers;
   }
 
+  @SuppressLint("NewApi")
   @SuppressWarnings("StringEquality")
   @Override
   public boolean equals(Object o) {

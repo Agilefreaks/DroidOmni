@@ -81,7 +81,6 @@ public class ContactsPresenter extends Presenter<ContactsPresenter.View> impleme
           return !stopSync;
         }
       })
-      .subscribeOn(getScheduler())
       .observeOn(getObserveOnScheduler())
       .subscribe(
         new Action1<Object>() {

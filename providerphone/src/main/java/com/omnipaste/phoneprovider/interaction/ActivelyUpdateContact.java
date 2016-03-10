@@ -4,7 +4,7 @@ import com.omnipaste.omniapi.resource.v1.user.Contacts;
 import com.omnipaste.omnicommon.dto.ContactDto;
 import com.omnipaste.phoneprovider.ContactsRepository;
 
-import org.apache.http.HttpStatus;
+import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -73,6 +73,6 @@ public class ActivelyUpdateContact {
   private boolean isNotFound(Throwable throwable) {
     return throwable instanceof RetrofitError &&
       ((RetrofitError) throwable).getResponse() != null &&
-      ((RetrofitError) throwable).getResponse().getStatus() == HttpStatus.SC_NOT_FOUND;
+      ((RetrofitError) throwable).getResponse().getStatus() == HttpURLConnection.HTTP_NOT_FOUND;
   }
 }
