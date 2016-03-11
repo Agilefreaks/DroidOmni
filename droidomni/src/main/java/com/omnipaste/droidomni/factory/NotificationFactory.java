@@ -15,13 +15,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class NotificationFactory  {
+public class NotificationFactory {
   public static final int NOTIFICATION_ID = 42;
   public static final int LARGE_TEXT = 128;
 
   private String appName;
   private SmartActionFactory smartActionFactory;
-
 
   @Inject
   public NotificationFactory(SmartActionFactory smartActionFactory) {
@@ -31,14 +30,14 @@ public class NotificationFactory  {
   public Notification buildUserNotification(Context context, String appName, String text) {
     this.appName = appName;
     NotificationCompat.Builder builder = basicBuilder(context, text);
-    builder = setSecretVisibility(builder);
+    builder = setMinimumPriority(setSecretVisibility(builder));
 
     return builder.build();
   }
 
   public Notification buildSimpleNotification(Context context) {
     NotificationCompat.Builder builder = basicBuilder(context, "");
-    builder = setSecretVisibility(builder);
+    builder = setMinimumPriority(setSecretVisibility(builder));
 
     return builder.build();
   }
@@ -55,7 +54,6 @@ public class NotificationFactory  {
     NotificationCompat.Builder builder =
         basicBuilder(context, clippingDto.getContent())
             .setWhen(0)
-            .setPriority(Notification.PRIORITY_MIN)
             .addAction(smartActionFactory.getAction(clippingDto))
             .addAction(smartActionFactory.getRemoveAction());
 
@@ -82,7 +80,16 @@ public class NotificationFactory  {
   @TargetApi(21)
   public static NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      return builder.setVisibility(Notification.VISIBILITY_SECRET).setPriority(Notification.PRIORITY_MIN);
+      return builder.setVisibility(Notification.VISIBILITY_SECRET);
+    }
+
+    return builder;
+  }
+
+  @TargetApi(21)
+  public static NotificationCompat.Builder setMinimumPriority(NotificationCompat.Builder builder) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      return builder.setPriority(Notification.PRIORITY_MIN);
     }
 
     return builder;
