@@ -48,7 +48,6 @@ android {
             buildConfigField 'String', 'API_CLIENT_TOKEN', '"xXQQhOqPhuCXzkqd6k4MAeM+fTctERC0c9guLjhqzNjcGj9kE61DvJgl1wx67oYECmEtpoBuTfQ+3GoLdY7lww=="'
             buildConfigField 'String', 'BUGFREAK_TOKEN', '"520cca2628e18700b0000004"'
             buildConfigField 'String', 'GMC_SENDER_ID', '"930634995806"'
-            debuggable true
             applicationIdSuffix '.staging'
             versionNameSuffix '-staging'
             signingConfig signingConfigs.release
