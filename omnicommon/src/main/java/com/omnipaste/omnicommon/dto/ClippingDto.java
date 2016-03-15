@@ -69,8 +69,10 @@ public class ClippingDto implements Parcelable {
     return deviceId;
   }
 
-  public void setDeviceId(String device_id) {
+  public ClippingDto setDeviceId(String device_id) {
     this.deviceId = device_id;
+
+      return this;
   }
 
   public ClippingType getType() {
@@ -101,8 +103,10 @@ public class ClippingDto implements Parcelable {
     return createAt;
   }
 
-  public void setCreateAt(Date createAt) {
+  public ClippingDto setCreateAt(Date createAt) {
     this.createAt = createAt;
+
+    return this;
   }
 
   public ClippingProvider getClippingProvider() {

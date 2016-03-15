@@ -6,7 +6,7 @@
     <issue id="ValidFragment">
         <ignore regexp=".*_.java"/>
     </issue>
-
+    <issue id="ManifestResource" severity="ignore" />
     <issue id="CutPasteId">
         <ignore regexp=".*\_.java"/>
     </issue>

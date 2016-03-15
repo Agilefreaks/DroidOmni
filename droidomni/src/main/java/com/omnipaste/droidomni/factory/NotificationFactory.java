@@ -30,14 +30,14 @@ public class NotificationFactory {
   public Notification buildUserNotification(Context context, String appName, String text) {
     this.appName = appName;
     NotificationCompat.Builder builder = basicBuilder(context, text);
-    builder = setSecretVisibility(builder);
+    builder = setMinimumPriority(setSecretVisibility(builder));
 
     return builder.build();
   }
 
   public Notification buildSimpleNotification(Context context) {
     NotificationCompat.Builder builder = basicBuilder(context, "");
-    builder = setSecretVisibility(builder);
+    builder = setMinimumPriority(setSecretVisibility(builder));
 
     return builder.build();
   }
@@ -54,7 +54,6 @@ public class NotificationFactory {
     NotificationCompat.Builder builder =
         basicBuilder(context, clippingDto.getContent())
             .setWhen(0)
-            .setPriority(Notification.PRIORITY_MAX)
             .addAction(smartActionFactory.getAction(clippingDto))
             .addAction(smartActionFactory.getRemoveAction());
 
@@ -77,8 +76,9 @@ public class NotificationFactory {
         .setContentIntent(contentIntent);
   }
 
+
   @TargetApi(21)
-  public NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
+  public static NotificationCompat.Builder setSecretVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return builder.setVisibility(Notification.VISIBILITY_SECRET);
     }
@@ -87,7 +87,16 @@ public class NotificationFactory {
   }
 
   @TargetApi(21)
-  public NotificationCompat.Builder setPublicVisibility(NotificationCompat.Builder builder) {
+  public static NotificationCompat.Builder setMinimumPriority(NotificationCompat.Builder builder) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      return builder.setPriority(Notification.PRIORITY_MIN);
+    }
+
+    return builder;
+  }
+
+  @TargetApi(21)
+  public static NotificationCompat.Builder setPublicVisibility(NotificationCompat.Builder builder) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return builder.setVisibility(Notification.VISIBILITY_PUBLIC);
     }
