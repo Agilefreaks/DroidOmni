@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.omnipaste.droidomni"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.omnipaste.droidomni.InstrumentationTestRunner"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode Integer.parseInt(project.versionCode)
